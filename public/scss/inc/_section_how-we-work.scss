@@ -1,0 +1,27 @@
+.about-how-it-works {
+	.plans {
+		border: 1px solid #c1c1c1;
+		background: white;
+		padding: 40px 40px 30px;
+		height: 100%;
+		&:hover {
+			box-shadow: 0px 5px 20px 0px rgb(0 0 0 / 10%);
+			-webkit-box-shadow: 0px 5px 20px 0px rgb(0 0 0 / 10%);
+			-moz-box-shadow: 0px 5px 20px 0px rgb(0 0 0 / 10%);
+		}
+		.y-box {
+			width: 90px;
+			height: 90px;
+			font-size: 40px;
+			font-family: $primary-font;
+			margin-bottom: 40px;
+            background-color: $yellow;
+            text-align: center;
+            line-height: 90px;
+		}
+		h3 {
+			font-size: 22px;
+			margin-bottom: 8px;
+		}
+	}
+}

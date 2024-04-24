@@ -1,0 +1,199 @@
+form {
+    
+    .form-control:focus {
+        outline: 0;
+        box-shadow: none;
+        box-shadow: 0 0 0 0.25rem transparent;
+    }
+   
+    .nice-select,
+    input,
+    select {
+        height: 65px;
+        border-radius: 0 !important;
+        padding-left: 20px;
+        position: relative;
+        width: 100%;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        border-color: #c1c1c1;
+        font-weight: 800 !important;
+        @include placeholder() {
+            color: rgba($color: #000000, $alpha: .7) !important;
+            font-weight: normal !important;
+        }
+    }
+    textarea {
+        height: 180px;
+        padding-left: 20px !important;
+        padding-top: 20px !important;
+        font-size: 16px;
+        border-radius: 0 !important;
+        border-color: #c1c1c1;
+        font-weight: 800 !important;
+        @include placeholder() {
+            color: rgba($color: #000000, $alpha: .7) !important;
+            font-weight: normal !important;
+        }
+    }
+
+    .theme-btn:hover {
+        color: $black;
+    }
+
+    .nice-select .list {
+        width: 100%;
+    }
+    .nice-select:before {
+        content: "";
+        width: 65px;
+        height: 100%;
+        background: #f5f5f5;
+        position: absolute;
+        top: 0;
+        right: 0;
+        clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+    .nice-select:after {
+        border-bottom: 3px solid $black;
+        border-right: 3px solid $black;
+        height: 8px;
+        right: 25px;
+        width: 8px;
+    }
+
+    .dropzone {
+        background-color: #fafafa;
+        border: 1px solid #ced4da;        
+    }
+
+}
+
+.est-form {
+    > p {
+      margin-bottom: 20px;
+    }
+
+    .est-main {
+      margin-top: 30px;
+    }
+}
+
+.est-form {
+
+input,
+textarea {
+    background: #fafafa;
+    @include transition();
+    &:focus {
+    background: rgba($color: $yellow, $alpha: .15);
+    }
+}
+
+.checkk {
+    label {
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    font-family: $primary-font;
+    font-size: .9rem;
+    font-weight: 800;
+    letter-spacing: default;
+    cursor: pointer;
+    user-select: none;
+    @include transition();
+    &:hover { 
+        background-color: rgba($color: $grey, $alpha: .15);            
+    }
+    }
+
+    input {
+    display: none;
+    }
+}
+
+.custom-checkbox-privacy {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 18px;
+    input {
+    margin-top: 0;
+    }
+    label {
+    line-height: 1.3rem;
+    }
+
+}
+
+form .row {
+    margin-bottom: 28px;
+}
+
+> p {
+    margin-bottom: 38px;
+    line-height: 1.5rem;
+}
+
+label {
+    font-family: $primary-font;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #444;
+    width: 100%;
+}
+
+.checkk > p {
+    font-weight: 500;
+}
+
+.est-main {
+    .est-price {
+    background: black;
+
+    p {
+        color: white;
+        font-weight: bold;
+        line-height: 16px;
+        width: 100%;
+        margin-bottom: 6px;
+    }
+
+    span {
+        font-size: 46px;
+        font-weight: 700;
+        font-family: $primary-font;
+        line-height: 46px;
+        display: inline-flex;
+        color: $yellow;
+    }
+
+    padding: 30px 40px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    }
+
+    > p {
+    margin-bottom: 13px;
+    }
+
+    margin-top: 52px;
+}
+}
+
+body.light-d {
+
+    .nice-select,
+    input,
+    select,
+    textarea {
+         @include placeholder() {
+            color: rgba($color: #dbdbdb, $alpha: .7) !important;            
+        }
+    }
+
+}

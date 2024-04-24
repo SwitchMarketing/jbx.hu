@@ -1,0 +1,125 @@
+/*.core-features .accordion-item:first-child {
+    margin-bottom: 22px;
+}*/
+.core-features {
+	.space {
+		padding: 100px 0;
+	}
+	.shape {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		&:after {
+			display: none;
+		}
+		&:before {
+			content: "";
+			width: 100px;
+			height: calc(100% - 50px);
+			position: absolute;
+			top: 50%;
+			left: 120px;
+			transform: translateY(-50%) skew(-20deg, 0deg);
+			z-index: 1;
+            background-color: $yellow;
+			//display: none;
+		}		
+	}
+	button.accordion-button {
+		font-size: 20px;
+		color: $black !important;
+		height: 60px;
+		clip-path: polygon(0 0, 100% 0%, 93% 100%, 0% 100%);
+		padding: 0 25px;
+		font-weight: 900;
+        background-color: $yellow;
+		line-height: 1.5rem;
+		&:before {
+			content: "";
+			background: black;
+			width: 10px;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			right: 12px;
+			transform: skew(-21deg, 0deg);
+			transition-delay: 0.3s;
+		}
+		span {
+			font-family: $primary-font;
+			font-size: 16px;
+			font-weight: 900;
+			color: #444;
+			margin-right: 35px;
+		}
+	}
+	button.accordion-button.collapsed {
+		&:before {
+			right: 0;
+			background: white;
+		}
+		background: #f7f6f2;
+	}
+	.accordion-item {
+		&:not(:last-child) {
+			margin-bottom: 50px;
+		}
+		&:last-child {
+			margin-bottom: 30px;
+		}
+		&:not(:first-of-type) {
+			border-top: 0;
+		}
+		background-color: #fff;
+		border: 1px solid transparent;
+	}
+	.accordion-header {
+		margin-bottom: -30px;
+		margin-left: 20px;
+		width: 50%;
+	}
+	.accordion-button {
+		&::after {
+			display: none;
+		}
+		&:focus {
+			border-color: transparent;
+			box-shadow: 0 0 0 0.25rem transparent;
+		}
+		&:not(.collapsed) {
+			box-shadow: inset 0 -1px 0 transparent;
+		}
+	}
+	.accordion-body {
+		padding: 55px 35px 30px 35px;
+		border: 1px solid #c1c1c1;
+	}
+	.video {
+		clip-path: polygon(205px 0, 100% 0, 100% 100%, 0% 100%);
+		width: 50vw;
+		height: 100%;
+		position: relative;
+		figure {
+			width: 100%;
+			height: 100%;
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;				
+				object-position: center;
+			}
+		}
+		&:before {
+			content: "";
+			width: 180px;
+			height: calc(100% - 50px);
+			position: absolute;
+			top: 50%;
+			left: 150px;
+			transform: translateY(-50%) skew(-20deg, 0deg);
+			z-index: 0;
+            background-color: $yellow;
+			//display: none;
+		}
+	}
+}
