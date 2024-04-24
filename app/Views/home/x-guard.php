@@ -2,7 +2,7 @@
   <section class="gap cta-section" id="x-guard">
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-lg-5">
+        <div class="col-lg-5 mt-3 mt-lg-0">
           <div class="cta-data">
             <h3>Axelent X-Guard</h3>
             <h4>Biztonsági kerítés</h4>

@@ -2,7 +2,7 @@
   <section class="cta-section swap gap" id="x-tray">
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-lg-5">
+        <div class="col-lg-5 mt-3 mt-lg-0">
           <div class="cta-data">
             <h3>Axelent X-Tray</h3>
             <h4>Kábeltálca</h4>

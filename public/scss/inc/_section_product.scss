@@ -20,6 +20,9 @@
             &.subtitle {
                 font-size: 1.75rem;
             }
+            @include medium-sm() {
+                font-size: 30px;
+            }
         }
         p {
             font-size: 18px;

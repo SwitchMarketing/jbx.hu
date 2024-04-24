@@ -2,7 +2,7 @@
   <section class="cta-section gap">
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-lg-5">
+        <div class="col-lg-5 mt-3 mt-lg-0">
           <div class="cta-data">
             <h3>Ingatlan megoldások</h3>
             <p class="mt-4">
