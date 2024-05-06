@@ -17,11 +17,8 @@
               <figure>
                 <img class="author" src="<?php echo img_src('jbx-logo.svg') ?>" alt="Kapcsolat" loading="lazy">
               </figure>
-              <h3>Walimes Jonnie</h3>
-              <p>Director of Constro Company</p>
-              <figure>
-                <img src="<?php echo img_src('signature.png') ?>" alt="Signature Image" loading="lazy">
-              </figure>
+              <h3><?php echo config( 'Config\\AppConfig' )->companyName ?></h3>
+              <p>Mechanikai biztonsági megoldások, biztonsági kerítések, kábeltálcák, ütközésvédelem</p>
             </div>
           </div>
           <div class="info">
@@ -57,9 +54,9 @@
                 
               </li>
               <li>
-                <a class="tw" href="javascript:void(0)">
-                  <p>Twitter</p>
-                  <i class="fa-brands fa-twitter"></i>
+                <a class="in" href="javascript:void(0)">
+                  <p>Instagram</p>
+                  <i class="fa-brands fa-instagram"></i>
                 </a>
               </li>
             </ul>

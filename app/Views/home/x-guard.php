@@ -24,7 +24,7 @@
         <div class="col-lg-7">
           <div class="cta-data">
             <figure>
-              <img src="<?php echo img_src('x-guard.webp') ?>" alt="axelent x-guard biztonsagi kerítés" class="img-fluid" loading="lazy">
+              <img src="<?php echo img_src('x-guard-2.webp') ?>" alt="axelent x-guard biztonsagi kerítés" class="img-fluid" loading="lazy">
             </figure>
           </div>
         </div>

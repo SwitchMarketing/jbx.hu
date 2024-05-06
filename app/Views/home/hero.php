@@ -19,12 +19,12 @@
         <div class="s-item">
           <div class="s-first">
             <h1>Hivatalos forgalmazó</h1>
-            <p>Az Axelent ipari biztonsági, ütközésvédelmi és ingatlan termék kínálata, Magyarországon kizárólag nálunk.</p>
+            <p>Az Axelent ipari biztonsági, ütközésvédelmi és ingatlan termék kínálata, a magyarországi kizárólagos képviselettől.</p>
             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn btn-light">Ajánlatkérés <i class="fa-solid fa-angles-right"></i></a>
           </div>
           <div class="s-second">
             <figure>
-              <img src="<?php echo img_src('hivatalos-forgalmazo_1.webp') ?>" alt="hivatalos axelent forgalmazó" loading="lazy">
+              <img src="<?php echo img_src('hivatalos-forgalmazo_3.webp') ?>" alt="hivatalos axelent forgalmazó" loading="lazy">
             </figure>
           </div>
         </div>

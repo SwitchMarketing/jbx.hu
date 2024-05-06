@@ -6,7 +6,7 @@
         <div class="col-lg-7 col-md-6 col-sm-12">
             <div class="footer-col">
                 <img src="<?php echo img_src('jbx-logo-w.svg') ?>" alt="JBX" class="img-fluid logo mb-4" loading="lazy">
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Amet nobis hic iste officia exercitationem earum nam atque fugiat quam, minus vel accusantium eum maxime nemo eius quo, saepe dignissimos. Ullam?</p>
+                <p>A JBX Trade Kft. az Axelent kizárólagos magyarországi képviselete, amely azzal a céllal jött létre, hogy dedikált lokális támogatást, gyors, és gördülékeny beszerzést tudjon nyújtani - mindezt magyar nyelven.</p>
             </div>
         </div>
         <div class="col-lg-5 col-md-6 col-sm-12">
@@ -38,8 +38,7 @@
         <p>JBX Magyarország | With <i class="fa-solid fa-heart"></i> by <a href="https://switchmarketing.hu/" target="_blank"> switchmarketing.hu</a></p>
         <div class="social-medias">
             <a href="javascript:void(0)">Facebook</a>
-            <a href="javascript:void(0)">Twitter</a>
-            <a href="javascript:void(0)">Linkedin</a>
+            <a href="javascript:void(0)">Instagram</a>
         </div>
         </div>
     </div>

@@ -99,11 +99,17 @@
 .contact-form-2 .info ul.social-medias li:not(:last-child) {
     margin-bottom: 10px;
 }
-.contact-form-2 .info ul.social-medias li .tw:hover {
-    background: #5089cf;
+.contact-form-2 .info ul.social-medias li .in:hover {
+    background: $yellow;
+    p, i {
+        color: $black;
+    }
 }
 .contact-form-2 .info ul.social-medias li .fb:hover {
-    background: #4267B2;
+    background: $yellow;
+    p, i {
+        color: $black;
+    }
 }
 ul.social-medias {
     margin-top: 30px;

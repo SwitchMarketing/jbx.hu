@@ -17,7 +17,7 @@ class AppConfig extends BaseConfig
      * 
      * @var string
      */
-    public $companyName = 'JBX';
+    public $companyName = 'JBX Trade Kft.';
 
     
     /**
@@ -25,7 +25,7 @@ class AppConfig extends BaseConfig
      * 
      * @var string
      */
-    public $companyAddress = '1134 Budapest, Váci út 22-24';
+    public $companyAddress = '2040 Budaörs, Ébner György köz 4.';
 
     /**
      * companyTaxId
@@ -48,7 +48,7 @@ class AppConfig extends BaseConfig
      * 
      * @var string
      */
-    public $businessAddress = '1134 Budapest, Váci út 22-24';
+    public $businessAddress = '2040 Budaörs, Ébner György köz 4.';
 
     
     /**
@@ -87,7 +87,7 @@ class AppConfig extends BaseConfig
      *
      * @var string
      */
-    public $sitePhone = '+36-1-555-6666';
+    public $sitePhone = '+36 30 572 0752';
 
     /**
      * sitePhone2
