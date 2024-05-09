@@ -38,4 +38,35 @@ class Leads extends BaseResourceController
         }        
 
     }
+
+    /**
+     * index
+     *
+     * @return ResponseInterface
+     */
+    public function show($id = null)
+    {
+        
+        try {
+
+            if( !is_object($lead = $this->model->select('name, email, phone, message, created_at')->find($id)) )
+                throw new Exception('Nincs ilyen rekord!');
+            
+            $files = (new \App\Models\FileModel())->select('filename')->where('offer_id', $id)->findAll();
+
+            $lead->files = (count($files) > 0) ? $files : null;
+
+            $this->setData($lead);
+            $this->setSuccess(true);
+        }
+        catch(Exception $e) {
+            $this->setMessage($e->getMessage());
+        }
+        finally {
+
+            return $this->setResponse();
+
+        }        
+
+    }
 }

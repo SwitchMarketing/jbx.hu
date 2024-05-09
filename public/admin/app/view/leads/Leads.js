@@ -82,6 +82,6 @@ Ext.define('JBXAdmin.view.leads.Leads', {
     },
 
     listeners: {
-        //select: 'onItemSelected'
+        select: 'onItemSelected'
     }
 });

@@ -12,13 +12,7 @@ Ext.define('JBXAdmin.view.main.MainController', {
     },
 
     onConfirmLogout: function(sender) { 
-
         Ext.Msg.confirm('Kilépés', 'Biztosan kijelentkezel?', 'onLogout', this);
-
-    },
-
-    onItemSelected: function (sender, record) {
-        Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
     },
 
     onLogout: function (choice) {

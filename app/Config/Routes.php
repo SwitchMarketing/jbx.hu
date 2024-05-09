@@ -33,7 +33,7 @@ $routes->group('admin', static function ($routes) {
     $routes->resource('sessiondata', ['controller' =>'Admin\SessionData', 'only' => ['index']]);
     $routes->resource('login', ['controller' =>'Admin\Login', 'only' => ['create']]);
     $routes->resource('logout', ['controller' =>'Admin\Logout', 'only' => ['index']]);
-    $routes->resource('leads', ['controller' =>'Admin\Leads', 'only' => ['index'], 'filter' => 'loggedin']);
-
+    $routes->resource('leads', ['controller' =>'Admin\Leads', 'only' => ['index', 'show'], 'filter' => 'loggedin']);
+    $routes->resource('download', ['controller' =>'Admin\Download', 'only' => ['show'], 'filter' => 'loggedin']);
 });
 

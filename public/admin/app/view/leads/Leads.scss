@@ -5,3 +5,31 @@
 .bold {
     font-weight: 700;
 } 
+
+table.lead {
+
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    
+    tr {
+        td {
+
+            padding: 5px 3px;
+            border-bottom: 1px solid #525252;
+            vertical-align: top;
+
+            a {
+                color: #00bcd4;
+            }
+
+            &:first-child {
+                width: 20%;
+            }
+        }
+        td.text-right {
+            text-align: right;
+        }
+    }
+
+}
