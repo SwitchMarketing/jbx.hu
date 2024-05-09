@@ -13,7 +13,7 @@ class Login extends BaseResourceController
      *
      * @var string
      */
-    private $username = 'admin';
+    private $username = 'jbx';
 
         
     /**
@@ -21,7 +21,7 @@ class Login extends BaseResourceController
      *
      * @var string
      */
-    private $password = '123456';
+    private $password = 'jbx#654';
 
     
     /**
