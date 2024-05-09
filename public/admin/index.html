@@ -10,6 +10,78 @@
     <!-- The line below must be kept intact for Sencha Cmd to build your application -->
     <script id="microloader" data-app="671471b1-c45b-44d9-8555-ea0161df3883" type="text/javascript" src="bootstrap.js"></script>
 
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    
+        body {
+            background-color: rgba(0, 0, 0, .6);
+        }
+    
+        #splash {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: rgba(0,0,0,.7);
+            z-index: 999999;
+        }
+    
+        #splash .spinner {
+            width: 90px;
+            height: 90px;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -45px;
+            margin-left: -45px;
+            overflow: hidden;
+        }
+    
+        #splash .spinner span {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            color: #fed;
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 10px;
+            left: 0;
+            top: 0;
+            line-height: 84px;
+        }
+    
+        #splash .spinner:after {
+            content: " ";
+            display: block;
+            width: 64px;
+            height: 64px;
+            margin: 8px;
+            border-radius: 50%;
+            border: 2px solid #fed;
+            border-color: #fed transparent #fed transparent;
+            animation: lds-dual-ring 1.2s linear infinite;
+        }
+        @keyframes lds-dual-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    
+    </style>
 </head>
-<body></body>
+<body>
+    <body class="launching">
+        <div id="splash">
+          <div class="spinner"><span>Betöltés...</span></div>
+        </div>    
+      </body>
+</body>
 </html>

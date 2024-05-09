@@ -15,6 +15,59 @@ Ext.define('JBXAdmin.Application', {
         }
     },
 
+    init: function() {
+        this.splashScreen = Ext.get('splash');
+    },
+
+    /**
+     * 
+     * az app indítása
+     * 
+     */
+    launch: function () {
+
+		API.getSession().then((result) => {
+			if(result.success)
+			{
+				this.startApp();
+			}
+			else
+			{
+				this.showLogin();
+			}	
+		});        
+
+	},
+
+    /**
+	 * 
+	 * a bejelentkezási képernyő
+	 * 
+	 */
+	showLogin: function() {
+        
+		this.splashScreen.hide();
+        Ext.Viewport.add([{ xtype: 'login' }]);
+
+    },
+
+    /**
+	 * 
+	 * az alkalmazás indítása
+	 * 
+	 */
+	startApp: function () {
+
+		this.splashScreen.remove();
+			
+        Ext.Viewport.add (
+            Ext.create({
+                xtype: 'app-main'
+            })
+        );       
+
+    },
+
     onAppUpdate: function () {
         Ext.Msg.confirm('Application Update', 'This application has an update, reload?',
             function (choice) {

@@ -7,13 +7,23 @@ Ext.define('JBXAdmin.view.main.MainController', {
 
     alias: 'controller.main',
 
+    onReload : function () { 
+        this.fireEvent('reloadLeads');
+    },
+
+    onConfirmLogout: function(sender) { 
+
+        Ext.Msg.confirm('Kilépés', 'Biztosan kijelentkezel?', 'onLogout', this);
+
+    },
+
     onItemSelected: function (sender, record) {
         Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
     },
 
-    onConfirm: function (choice) {
+    onLogout: function (choice) {
         if (choice === 'yes') {
-            //
+            API.logout();
         }
     }
 });

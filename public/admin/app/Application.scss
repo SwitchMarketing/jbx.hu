@@ -6,3 +6,29 @@ $enable-font-awesome: dynamic(true);
 $dark-mode: dynamic(true);
 $base-color-name: "cyan";
 $accent-color-name: "orange";
+
+$yellow: #f2d22f;
+$black: #030303;
+$grey: #667478;
+$blue: #20313d;
+
+/* Color Theme Swatches in Hex */
+$theme-color-1-hex: #244673;
+$theme-color-2-hex: #4E74A6;
+$theme-color-3-hex: #0A2740;
+$theme-color-4-hex: #728EA6;
+$theme-color-5-hex: #F2BF80;
+
+/* Color Theme Swatches in RGBA */
+$theme-color-1-rgba: rgba(35, 69, 114, 1);
+$theme-color-2-rgba: rgba(77, 115, 165, 1);
+$theme-color-3-rgba: rgba(10, 38, 63, 1);
+$theme-color-4-rgba: rgba(114, 141, 165, 1);
+$theme-color-5-rgba: rgba(242, 191, 128, 1);
+
+/* Color Theme Swatches in HSLA */
+$theme-color-1-hsla: hsla(213, 52, 29, 1);
+$theme-color-2-hsla: hsla(213, 36, 47, 1);
+$theme-color-3-hsla: hsla(208, 72, 14, 1);
+$theme-color-4-hsla: hsla(208, 22, 54, 1);
+$theme-color-5-hsla: hsla(33, 81, 72, 1);

@@ -25,3 +25,15 @@ $routes->cli('/cron', 'Cron::index');
 
 /** Karbantartás */
 $routes->get('/karbantartas', 'Maintenance::index');
+
+
+/** Admin */
+$routes->group('admin', static function ($routes) {
+    
+    $routes->resource('sessiondata', ['controller' =>'Admin\SessionData', 'only' => ['index']]);
+    $routes->resource('login', ['controller' =>'Admin\Login', 'only' => ['create']]);
+    $routes->resource('logout', ['controller' =>'Admin\Logout', 'only' => ['index']]);
+    $routes->resource('leads', ['controller' =>'Admin\Leads', 'only' => ['index'], 'filter' => 'loggedin']);
+
+});
+

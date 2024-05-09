@@ -1,0 +1,24 @@
+.loginview {
+
+    $bg-login: $blue;
+
+
+    .x-formpanel-body-el {
+
+        background-color: $bg-login;
+
+        .x-container {
+
+            border: 1px solid $yellow;
+            border-radius: 5px;
+            background-color: $black;
+    
+            .x-title {
+                padding: 10px;
+            }
+    
+        }
+
+    }    
+
+}

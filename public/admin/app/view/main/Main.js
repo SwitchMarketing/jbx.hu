@@ -4,7 +4,8 @@
  * added to the Viewport container.
  */
 Ext.define('JBXAdmin.view.main.Main', {
-    extend: 'Ext.tab.Panel',
+    
+    extend: 'Ext.Panel',
     xtype: 'app-main',
 
     requires: [
@@ -12,45 +13,37 @@ Ext.define('JBXAdmin.view.main.Main', {
         'Ext.layout.Fit'
     ],
 
+    layout : 'fit',
+
     controller: 'main',
     viewModel: 'main',
 
-    defaults: {
-        tab: {
-            iconAlign: 'top'
-        }
-    },
-
-    tabBarPosition: 'bottom',
-
     items: [
-        // TODO - Replace the content of this view to suit the needs of your application.
         {
-            title: 'Home',
-            iconCls: 'x-fa fa-home',
-            layout: 'fit',
-            // The following grid shares a store with the classic version's grid as well!
-            items: [{
-                xtype: 'mainlist'
-            }]
-        },{
-            title: 'Users',
-            iconCls: 'x-fa fa-user',
-            bind: {
-                html: '{loremIpsum}'
-            }
-        },{
-            title: 'Groups',
-            iconCls: 'x-fa fa-users',
-            bind: {
-                html: '{loremIpsum}'
-            }
-        },{
-            title: 'Settings',
-            iconCls: 'x-fa fa-cog',
-            bind: {
-                html: '{loremIpsum}'
-            }
+            xtype : 'app-leads'
+        },
+        {
+            xtype   : 'toolbar',
+            docked  : 'bottom',
+            defaults    : {
+                iconAlign : 'left',
+                textAlign : 'right'
+            },
+            items   : [
+                {
+                    text    : ' Frissít',
+                    iconCls : 'x-fa fa-sync',
+                    handler : 'onReload'
+                },
+                {
+                    xtype   : 'spacer'
+                },
+                {
+                    text    : 'Kilépés',
+                    iconCls : 'x-fa fa-lock',
+                    handler : 'onConfirmLogout'
+                }
+            ]
         }
     ]
 });

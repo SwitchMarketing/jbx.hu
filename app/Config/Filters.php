@@ -25,6 +25,7 @@ class Filters extends BaseConfig
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
         'maintenance' 	=> \App\Filters\MaintenanceMode::class,
+        'loggedin'      => \App\Filters\UserLoggedIn::class
     ];
 
     /**
@@ -40,7 +41,7 @@ class Filters extends BaseConfig
             // 'invalidchars',
             'maintenance' => [
 				'except' => ['karbantartas']
-			],
+			]
         ],
         'after' => [
             'toolbar',
