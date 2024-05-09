@@ -20,7 +20,7 @@ class Leads extends BaseResourceController
         
         try {
 
-            $leads = $this->model->orderBy('created_at', 'desc')->findAll();
+            $leads = $this->model->select('id, name, email, phone, products, utm_source, created_at')->orderBy('created_at', 'desc')->findAll();
             $total = $this->model->countAllResults();
             
             $this->setData($leads);
@@ -49,7 +49,7 @@ class Leads extends BaseResourceController
         
         try {
 
-            if( !is_object($lead = $this->model->select('name, email, phone, message, created_at')->find($id)) )
+            if( !is_object($lead = $this->model->select('name, email, phone, message, utm_source, created_at')->find($id)) )
                 throw new Exception('Nincs ilyen rekord!');
             
             $files = (new \App\Models\FileModel())->select('filename')->where('offer_id', $id)->findAll();

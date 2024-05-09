@@ -46,6 +46,14 @@ Ext.define('JBXAdmin.view.leads.Leads', {
                     dataIndex: 'products'
                 },
                 { 
+                    text: 'Forrás',
+                    width : 100,
+                    dataIndex: 'utm_source',
+                    renderer : (val) => {
+                        return val || '-';
+                    }
+                },
+                { 
                     text: 'Létrehozva',
                     width : 150,
                     dataIndex: 'created_at'

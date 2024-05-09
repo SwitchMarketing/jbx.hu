@@ -74,6 +74,10 @@ Ext.define('JBXAdmin.view.login.LeadsController', {
                                     <td>${response.data.message}</td>
                                 </tr>
                                 <tr>
+                                    <td>Forrás</td>
+                                    <td>${response.data.utm_source || '-'}</td>
+                                </tr>
+                                <tr>
                                     <td>Dátum</td>
                                     <td>${response.data.created_at}</td>
                                 </tr>
