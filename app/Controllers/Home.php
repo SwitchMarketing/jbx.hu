@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Libraries\BuildPage;
 use Exception;
+use UtmCookie\UtmCookie;
 use App\Libraries\Mailer;
 
 class Home extends BaseController
@@ -27,6 +28,10 @@ class Home extends BaseController
 				'products' => $this->_products()
 			]
 		];
+
+		// UTM paraméterek mentése
+		UtmCookie::setLifetime(new \DateInterval('P3M'));
+		UtmCookie::init();
 
 		BuildPage::render('home', $data);
     }
@@ -84,11 +89,12 @@ class Home extends BaseController
 				
 				// az adatok mentése
 				$rec = [
-					'name' 		=> $post['name'],
-					'email' 	=> $post['email'] ?? '',
-					'phone' 	=> $post['phone'] ?? '',
-					'products' 	=> implode(', ', array_unique($post['products'])),
-                    'message' 	=> $post['message'] ?? '',                    
+					'name' 		 => $post['name'],
+					'email' 	 => $post['email'] ?? '',
+					'phone' 	 => $post['phone'] ?? '',
+					'products' 	 => implode(', ', array_unique($post['products'])),
+                    'message' 	 => $post['message'] ?? '',        
+					'utm_source' => UtmCookie::get('utm_source')            
 				];
 
 				$offer = new \App\Models\OfferRequestModel();

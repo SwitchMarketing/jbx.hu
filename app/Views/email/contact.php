@@ -5,3 +5,4 @@ Ajánlatkérés<br><br>
 <p>Telefon: <br><?php echo $phone ?></p>
 <p>Termékcsalád: <br><?php echo $products ?? '' ?></p>
 <p>Megjegyzés: <br><?php echo nl2br($message) ?></p>
+<p>Forrás: <br><?php echo $utm_source ?? '' ?></p>

@@ -18,6 +18,7 @@ class OfferRequestModel extends Model
         'phone',
         'products',
         'message',
+        'utm_source',
         'emailed_at'    
     ];
 
