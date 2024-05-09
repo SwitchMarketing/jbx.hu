@@ -20,7 +20,7 @@
         "ext-locale"
     ],
 
-    "locale": "hu",
+    "locale": "de",
 
     /**
      * The relative path to the application's markup file (html, jsp, asp, etc.).

@@ -69,11 +69,9 @@ Ext.define('JBXAdmin.Application', {
     },
 
     onAppUpdate: function () {
-        Ext.Msg.confirm('Application Update', 'This application has an update, reload?',
+        Ext.Msg.alert('Frissítés', 'Ez az alkalmazás frissítéssel rendelkezik',
             function (choice) {
-                if (choice === 'yes') {
-                    window.location.reload();
-                }
+                window.location.reload();
             }
         );
     }
