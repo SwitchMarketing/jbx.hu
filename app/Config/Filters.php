@@ -40,7 +40,7 @@ class Filters extends BaseConfig
             // 'csrf',
             // 'invalidchars',
             'maintenance' => [
-				'except' => ['karbantartas']
+				'except' => ['karbantartas', 'admin/*']
 			]
         ],
         'after' => [

@@ -10,6 +10,7 @@ Ext.define('JBXAdmin.view.main.Main', {
 
     requires: [
         'Ext.MessageBox',
+        'Ext.Toast',
         'Ext.layout.Fit'
     ],
 

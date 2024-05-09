@@ -1,4 +1,4 @@
-Ext.define("Ext.locale.de.grid.TreeGrouped", {
+Ext.define("Ext.locale.hu.grid.TreeGrouped", {
     override: "Ext.grid.TreeGrouped",
 
     config: {

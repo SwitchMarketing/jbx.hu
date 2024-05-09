@@ -210,6 +210,10 @@
             "path": "${framework.dir}/build/ext-modern-all-debug.js"
         },
         {
+            "path": "${framework.dir}/modern/locale/overrides/hu/ext-locale-hu.js",
+            "bundle": true
+        },
+        {
             "path": "app.js",
             "bundle": true
         }
