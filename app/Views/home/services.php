@@ -4,7 +4,7 @@
       <h2 class="mt-0">Axelent ipari gépbiztonsági megoldások</h2>
     </div>
     <div class="container">
-      <div class="row">
+      <div class="row justify-content-center">
         <div class="col-lg-4 col-md-6 col-sm-12 text-center">
           <div class="service-data">
             <div class="svg-icon d-flex-all">

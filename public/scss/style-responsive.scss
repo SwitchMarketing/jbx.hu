@@ -1260,6 +1260,9 @@ $border-color_1: white;
 				width: 80%;
 			}
 		}
+		.data {
+			margin-top: 30px;            
+        }
 	}
 	.blog-style-two {
 		.blog-item {
@@ -2252,6 +2255,7 @@ $border-color_1: white;
 		}
 		.shape {
 			margin-top: 30px;
+			height: 380px;
 			&:before {
 				display: none;
 			}
@@ -2277,7 +2281,7 @@ $border-color_1: white;
 			}
 		}
 		.about-data-right {
-			padding-top: 80px;
+			padding-top: 30px;
 			h2 {
 				font-size: 35px;
 				font-size: 35px;
@@ -2353,11 +2357,12 @@ $border-color_1: white;
 	.heading-style-2 {
 		margin-bottom: 30px;
 		font-size: 35px;
-		line-height: 45px;
+		line-height: 10px;
 		.data {
 			h2 {
 				font-size: 35px;
 				line-height: 45px;
+				margin-top: 15px;
 			}
 		}
 	}
@@ -3691,7 +3696,7 @@ $border-color_1: white;
 			}
 		}
 		font-size: 30px;
-		line-height: 40px;
+		line-height: 10px;
 	}
 	.what-we-build {
 		.wwb-ul {
@@ -4701,7 +4706,7 @@ $border-color_1: white;
 			}
 		}
 		font-size: 25px;
-		line-height: 35px;
+		line-height: 10px;
 	}
 	.client-review-slider {
 		.slider-data {
