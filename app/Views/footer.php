@@ -46,9 +46,11 @@
 </div>
 </footer>
 <!-- ./Footer -->
+<!--
 <button id="scrollTop" class="scrollTopStick">
     <i class="fa-solid fa-arrow-up"></i>
 </button>
+-->
 <?php echo $this->include('modals'); ?>
 <?php echo $js ?>
 </body>

@@ -130,6 +130,7 @@ var App = {
   },
 
   scrollTop: function () {
+
     window.onscroll = () => {
       var num = window.pageYOffset;
       if (num >= 160) {
@@ -395,7 +396,7 @@ jQuery(document).ready(function () {
   AOS.init({
     once: true,
   });
-  App.scrollTop();
+  // App.scrollTop();
   App.autoPlayYouTubeModal();
 });
 
