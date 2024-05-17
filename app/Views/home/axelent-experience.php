@@ -2,17 +2,7 @@
   <section class="about-style-one">
     <div class="container">
       <div class="row">
-        <div class="col-lg-6" >
-          <div class="about-data-left">
-            <figure>
-              <img src="<?php echo img_src('xperience1.webp') ?>" alt="Axelent Xperience" loading="lazy">
-            </figure>
-            <figure class="about-image">
-              <img src="<?php echo img_src('xperience2.webp') ?>" alt="Axelent Xperience" loading="lazy">
-            </figure>
-          </div>
-        </div>
-        <div class="col-lg-6" >
+        <div class="col-lg-6 order-lg-last mb-5 mb-lg-0" >
           <div class="about-data-right">
             <span>Termékeink testközelből</span>
             <h2>Axelent Xperience</h2>
@@ -22,6 +12,16 @@
             </div>
           </div>
         </div>
+        <div class="col-lg-6" >
+          <div class="about-data-left">
+            <figure>
+              <img src="<?php echo img_src('xperience1.webp') ?>" alt="Axelent Xperience" loading="lazy">
+            </figure>
+            <figure class="about-image">
+              <img src="<?php echo img_src('xperience2.webp') ?>" alt="Axelent Xperience" loading="lazy">
+            </figure>
+          </div>
+        </div>        
       </div>
     </div>
   </section>
