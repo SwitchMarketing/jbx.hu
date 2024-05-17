@@ -79,10 +79,11 @@ var App = {
   },
 
   toggleMobileMenu: function () {
-    $(".mobile-nav .menu-item-has-children").on("click", function (event) {
+    
+    /*$(".mobile-nav .menu-item-has-children").on("click", function (event) {
       $(this).toggleClass("active");
       event.stopPropagation();
-    });
+    });*/
 
     $("#mobile-menu").click(function () {
       $(this).toggleClass("open");
@@ -98,6 +99,15 @@ var App = {
       $("#mobile-nav").removeClass("open");
       $("#mobile-menu").removeClass("open");
     });
+
+    $(".mobile-nav li a").click(function () {
+      if( $(this).attr("href").indexOf("#") >= 0 )
+      {
+        $("#mobile-nav").removeClass("open");
+        $("#mobile-menu").removeClass("open");
+      }      
+    });
+    
   },
 
   stickyHeader: function () {
