@@ -325,6 +325,20 @@
 		opacity: 0;
 		visibility: hidden;
 	}
+
+	@include mobile() { 
+		.container {
+			padding: 0;
+			.header-logo {
+				margin-left: 10px;
+			}
+			.menu-start {
+				svg {
+					margin-right: 5px !important;
+				}				
+			}
+		}
+	}
 }
 
 
@@ -337,6 +351,7 @@
 	background-color: white;
 	padding: 50px 40px 15px;
 	z-index: 5;
+	//opacity: .5;
 	transition: 0.45s ease-in-out;
 	transform: translateX(-101%);
 	-webkit-transform: translateX(-101%);
@@ -490,8 +505,8 @@
 			background-image: url('../imgs/remove.svg');
 			background-repeat: no-repeat;
 			position: absolute;
-			top: 15px;
-			right: 20px;
+			top: 27px;
+			right: 5px;
 		}
 	}
 }
