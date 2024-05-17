@@ -45,6 +45,26 @@
                 z-index: -1;
                 background-color: $yellow;
             }
+            .video-play-btn {
+
+                background: rgba($color: $black, $alpha: .3);
+                border: 1px solid rgba($color: $yellow, $alpha: .5);
+                left: 50%;
+                width: 150px;
+                height: 150px;                
+                transform: translateY(-50%) translateX(-50%) skew(-20deg, 0deg);
+                svg {
+                    fill: white;
+                    @include transition();
+                }
+                &:hover {
+                    background: $black;
+                    border-color: $yellow;
+                    svg {
+                        fill: $yellow;                        
+                    }
+                }                
+            }
         }
     }
     
