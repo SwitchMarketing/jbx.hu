@@ -2,7 +2,10 @@
   <section class="gap about-how-it-works" id="hogyan-dolgozunk">
     <div class="heading">
       <figure>
-        <img src="<?php echo img_src('jbx-logo-black.svg') ?>" alt="Hogyan dolgozunk" loading="lazy">
+        <img src="<?php echo img_src('jbx-logo.svg') ?>" alt="Hogyan dolgozunk" loading="lazy">
+      </figure>
+      <figure>
+        <img src="<?php echo img_src('jbx-logo-w.svg') ?>" alt="Hogyan dolgozunk" loading="lazy">
       </figure>
       <span>Együttműködés</span>
       <h2>Hogyan dolgozunk</h2>

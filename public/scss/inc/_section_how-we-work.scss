@@ -1,4 +1,9 @@
 .about-how-it-works {
+	.heading {
+		figure:nth-child(2) {
+			display: none;
+		}		
+	}
 	.plans {
 		border: 1px solid #c1c1c1;
 		background: white;

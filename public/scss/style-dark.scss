@@ -628,6 +628,14 @@ body.light-d {
 			}
 			background-color: $background-color_1;
 		}
+		.heading {
+			figure:first-child {
+				display: none;
+			}
+			figure:nth-child(2) {
+				display: block;
+			}
+		}
 	}
 	.sidebar {
 		.box {
