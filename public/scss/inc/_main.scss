@@ -14,12 +14,12 @@ main {
     */
     
     @include mobile() {
-        margin-top: 0;
+        margin-top: 90px;
         min-height: auto;
     }
 
     @include medium-md() {
-        margin-top: 0;
+        margin-top: 90px;
         min-height: auto;
     }
 

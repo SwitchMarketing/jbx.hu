@@ -90,22 +90,7 @@
                     </li>
                 </ul>
                 <a href="JavaScript:void(0)" id="res-cross"></a>
-            </div>
-            <div class="mobile-nav desktop-menu">
-                <h2>We Build Building and Great Homes.</h2>
-                <p class="des">We successfully cope with tasks of varying complexity, provide long-term guarantees and regularly master new technologies.</p>
-                <figure>
-                    <img src="<?php echo img_src('desktop-menu-img.jpg') ?>" alt="Desktop Menu Image" loading="lazy">
-                </figure>
-                <h3>Get in touch</h3>
-                <p class="num">(+380) 50 318 47 07</p>
-                <p class="adrs">65 Allerton Street 901 N Pitt Str, Suite 170, VA 22314, USA</p>
-                <div class="social-medias">
-                    <a href="javascript:void(0)">Facebook</a>
-                    <a href="javascript:void(0)">Twitter</a>
-                    <a href="javascript:void(0)">Linkedin</a>
-                </div>
-            </div>
+            </div>            
         </div>
     </div>
 </header>

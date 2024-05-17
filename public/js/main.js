@@ -5,7 +5,7 @@ var App = {
   isLoading: false,
 
   init: function () {
-    this.stickyHeader();
+    //this.stickyHeader();
     this.heroSlider();
     this.toggleDarkMode();
     this.toggleMobileMenu();
