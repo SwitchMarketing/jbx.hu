@@ -56,6 +56,9 @@
     transform: translateX(-50%) skew(-23deg, 0deg);
     z-index: -1;
     background-color: $yellow;
+    @include mobile() {
+        width: 150px;
+    }
 }
 .our-goal .data {
 
@@ -94,14 +97,14 @@
         }
 
         @include medium-sm() {
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%) scale(80%);
+            left: -35px;
+            bottom: -35px;
+            transform: scale(80%);            
         }
 
         @include mobile() {
-            transform: translateX(-50%) scale(60%);
-            bottom: -20px;
+            transform: scale(60%);
+            //bottom: -30px;                      
         }
         
     }
