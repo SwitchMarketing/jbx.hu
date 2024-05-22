@@ -16,7 +16,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade popups" id="videoModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade popups" id="videoModal" tabindex="-1" aria-hidden="true" data-bs-keyboard="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
