@@ -26,7 +26,7 @@
                 <li>Széleskörű termék felhozatal</li>     
                 <li>DWG, DXF fájl import</li>                       
             </ul>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn mt-4">Regisztrálok  <i class="fa-solid fa-angles-right"></i></a>
+            <a href="https://www.axelent.com/safety-design/" class="theme-btn mt-4" target="_blank">Regisztrálok  <i class="fa-solid fa-angles-right"></i></a>
           </div>          
         </div>
       </div>

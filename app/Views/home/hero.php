@@ -7,7 +7,7 @@
         <div class="s-item">
           <div class="s-first">
             <h1>AXELENT ipari gépbiztonság</h1>
-            <p>Piacvezető mechanikai biztonsági megoldások, biztonsági kerítések, kábeltálcák, ütközésvédelmi és raktározási rendszerek minden ipari környezet számára.</p>
+            <p>Piacvezető mechanikai biztonsági megoldások, gépbiztonsági kerítések, kábeltálcák, ütközésvédelmi és raktározási rendszerek minden ipari környezet számára.</p>
             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn btn-light">Ajánlatkérés <i class="fa-solid fa-angles-right"></i></a>
           </div>
           <div class="s-second">

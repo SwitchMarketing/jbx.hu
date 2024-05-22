@@ -1,5 +1,5 @@
   <!-- Ingatlan megoldások -->
-  <section class="cta-section gap">
+  <section class="cta-section gap" id="ingatlan-megoldasok">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-5 mt-3 mt-lg-0">

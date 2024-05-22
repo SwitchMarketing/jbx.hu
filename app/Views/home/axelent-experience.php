@@ -8,7 +8,7 @@
             <h2>Axelent Xperience</h2>
             <div class="about-info">
               <p>Nézzen körül az Axelent Experience-ben, a digitális bemutatótermünkben. Ismerje meg biztonsági megoldásainkat a megfelelő környezetben. Fedezze fel termékeinket gyártási, tárolási, raktározási és termék kiadási felhasználások közben.</p>
-              <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn">Kipróbálom  <i class="fa-solid fa-angles-right"></i></a>
+              <a href="https://www.axelent.com/xperience/" class="theme-btn" target="_blank">Kipróbálom  <i class="fa-solid fa-angles-right"></i></a>
             </div>
           </div>
         </div>

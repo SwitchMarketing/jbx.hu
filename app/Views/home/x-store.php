@@ -5,15 +5,14 @@
         <div class="col-lg-5 mt-3 mt-lg-0">
           <div class="cta-data">
             <h3>Axelent X-Store</h3>
-            <h4>Raktározási rendszerek</h4>
-            <p class="mt-4">Az Axelent X-Store 2.0 a raktározási rendszerekre, tárolási megoldásokra specializálódott termékcsaládja. A cél itt is a már megszokott megközelítés volt: egy olyan megoldást nyújtani a felhasználóknak és tulajdonosoknak, amely könnyen, gyorsan telepíthető, variálható és biztonságosan hozzáférhető, miközben ugyanazt a minőséget képviseli, mint az ipari gépbiztonsági megoldásaink.</p>
-            <h3 class="mt-4 subtitle">Főbb jellemzői</h3>
+            <h4>Raktározási biztonsági rendszerek</h4>         
+            <p class="mt-4">Az Axelent több területen is fejlesztett biztonsági megoldásokat ipari raktározási/tárolási rendszerekhez. Többek között leesés védelmi megoldásokat a raktározott termékekhez, közlekedő területekre könnyen telepíthető korlát megoldásokat és komplett térelválasztó rendszereket akár felülről zárt kivitelben is.
+            Raktározási megoldásoknál is a megszokott megközelítés volt szem előtt:  könnyen, gyorsan telepíthető, variálható és biztonságosan hozzáférhető rendszereket kialakítani.</p>
+            <h3 class="mt-4 subtitle">Termékkategóriák</h3>
             <ul class="mt-3">
-              <li><i class="fa-solid fa-circle-dot"></i>Egyedi, moduláris felépítés</li>
-              <li><i class="fa-solid fa-circle-dot"></i>Gyors és egyszerű telepítés</li>
-              <li><i class="fa-solid fa-circle-dot"></i>Magas rugalmasság</li>
-              <li><i class="fa-solid fa-circle-dot"></i>Padló kímélő rögzítési megoldás</li>
-              <li><i class="fa-solid fa-circle-dot"></i>Integrálható az Axelent X-Guard rendszerrel</li>
+              <li><i class="fa-solid fa-circle-dot"></i>Safestore - leesés védelem raktározott termékekhez</li>
+              <li><i class="fa-solid fa-circle-dot"></i>X-Rail - leesés védelmi korlát megoldások</li>
+              <li><i class="fa-solid fa-circle-dot"></i>Axelent X-Store 2.0 - raktár-, és térelválasztás</li>
             </ul>
             <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn mt-4">Ajánlatkérés  <i class="fa-solid fa-angles-right"></i></a>
           </div>
@@ -21,7 +20,7 @@
         <div class="col-lg-7">
           <div class="cta-data">
             <figure>
-              <img src="<?php echo img_src('x-store.webp') ?>" alt="axelent x-store raktározási rendszerek" class="img-fluid" loading="lazy">
+              <img src="<?php echo img_src('x-store-section.webp') ?>" alt="axelent x-store raktározási rendszerek" class="img-fluid" loading="lazy">
               <a href="#" class="video-play-btn" data-bs-toggle="modal" data-tagVideo="https://www.youtube.com/embed/BoQyVMPJWxw" data-bs-target="#videoModal">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35" height="56" viewBox="0 0 35 56"> <defs> <clipPath id="clip-video_arrow"> <rect width="35" height="56"/> </clipPath> </defs> <g id="video_arrow" data-name="video arrow" clip-path="url(#clip-video_arrow)"> <path id="Shape_1" data-name="Shape 1" d="M1362,5000.8,1327,4972V5027Z" transform="translate(-1326.998 -4971.996)" fill="rgba(0,0,0,0)"/> <path id="Shape_1_-_Outline" data-name="Shape 1 - Outline" d="M1333,5015.017l19.29-14.437L1333,4984.7v30.313M1327,5027V4972l35,28.807Z" transform="translate(-1326.998 -4971.996)"/> </g> </svg>                  
                 </a>

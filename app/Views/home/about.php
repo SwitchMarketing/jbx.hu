@@ -17,10 +17,10 @@
           <div class="data p2">
             <h4>Amiért érdemes az Axelent termékeket választani</h4>
             <ul>
-              <li>Gyors szállítási határidő</li>
               <li>Gyorsan, egyszerűen telepíthető</li>
               <li>Könnyedén átalakítható, módosítható</li>
               <li>Okos megoldások, rugalmas kialakítás</li>              
+              <li>Gyors szállítási határidő</li>
             </ul>
           </div>
         </div>
