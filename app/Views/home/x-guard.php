@@ -5,7 +5,7 @@
         <div class="col-lg-5 mt-3 mt-lg-0">
           <div class="cta-data">
             <h3>Axelent X-Guard</h3>
-            <h4>Gépiztonsági kerítés</h4>
+            <h4>Gépbiztonsági kerítés</h4>
             <p class="mt-4">
               Legyen szó bármilyen ipari környezetről, a kollektív védelmi rendszerek megkerülhetetlenek. Az Axelent X-Guard gépbiztonsági kerítés rendszer egy moduláris elemekből álló, rövid idő alatt telepíthető és szükség esetén könnyen átalakítható, bővíthető megoldás. 
               A standardizált elemeknek köszönhetően hatékonyan, és rövid idő alatt tervezhető gépbiztonsági kerítés rendszer alakítható ki, mely modern és minőségi megjelenést biztosít a gyártóegység és az üzem számára.
