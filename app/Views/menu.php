@@ -22,10 +22,11 @@
                                         <li class="menu-item-has-children">
                                             <a href="javascript:void(0)">Termékek</a>
                                             <ul class="sub-menu">
-                                                <li><a href="#x-guard">X-Guard</a></li>
-                                                <li><a href="#x-tray">X-Tray</a></li>
-                                                <li><a href="#x-protect">X-Protect</a></li>
-                                                <li><a href="#x-store">X-Store</a></li>
+                                                <li><a href="#x-guard">Gépbiztonsági kerítés</a></li>
+                                                <li><a href="#x-tray">Kábeltálca megoldások</a></li>
+                                                <li><a href="#x-protect">Ütközésvédelem</a></li>
+                                                <li><a href="#x-store">Raktárbiztonsági megoldások</a></li>
+                                                <li><a href="#ingatlan-megoldasok">Ingatlan megoldások</a></li>
                                             </ul>
                                         </li>
                                         <li>
@@ -76,10 +77,11 @@
                     <li class="menu-item-has-children active">
                         <a href="javascript:void(0)">Termékek</a>
                         <ul class="sub-menu">
-                            <li><a href="#x-guard">X-Guard</a></li>
-                            <li><a href="#x-tray">X-Tray</a></li>
-                            <li><a href="#x-protect">X-Protect</a></li>
-                            <li><a href="#x-store">X-Store</a></li>
+                            <li><a href="#x-guard">Gépbiztonsági kerítés</a></li>
+                            <li><a href="#x-tray">Kábeltálca megoldások</a></li>
+                            <li><a href="#x-protect">Ütközésvédelem</a></li>
+                            <li><a href="#x-store">Raktárbiztonsági megoldások</a></li>
+                            <li><a href="#ingatlan-megoldasok">Ingatlan megoldások</a></li>
                         </ul>
                     </li>   
                     <li>
