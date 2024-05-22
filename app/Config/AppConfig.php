@@ -87,7 +87,7 @@ class AppConfig extends BaseConfig
      *
      * @var string
      */
-    public $sitePhone = '+36 30 572 0752';
+    public $sitePhone = '+36 70 559 1144';
 
     /**
      * sitePhone2
