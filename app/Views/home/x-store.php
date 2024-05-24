@@ -4,8 +4,7 @@
       <div class="row align-items-center">
         <div class="col-lg-5 mt-3 mt-lg-0">
           <div class="cta-data">
-            <h3>Axelent X-Store</h3>
-            <h4>Raktározási biztonsági rendszerek</h4>         
+            <h3>Raktárbiztonsági megoldások</h3>
             <p class="mt-4">Az Axelent több területen is fejlesztett biztonsági megoldásokat ipari raktározási/tárolási rendszerekhez. Többek között leesés védelmi megoldásokat a raktározott termékekhez, közlekedő területekre könnyen telepíthető korlát megoldásokat és komplett térelválasztó rendszereket akár felülről zárt kivitelben is.
             Raktározási megoldásoknál is a megszokott megközelítés volt szem előtt:  könnyen, gyorsan telepíthető, variálható és biztonságosan hozzáférhető rendszereket kialakítani.</p>
             <h3 class="mt-4 subtitle">Termékkategóriák</h3>
