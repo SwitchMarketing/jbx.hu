@@ -13,6 +13,9 @@
                                             <img src="<?php echo img_src('jbx-logo-w.svg') ?>" alt="<?php echo $title ?>" loading="lazy">
                                         </figure>
                                     </a>
+                                    <div class="badge">
+                                        <img src="<?php echo img_src('certified_retailer_2023.png') ?>" alt="Hivatalos Forgalmazó" loading="lazy" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Hivatalos Forgalmazó">
+                                    </div>
                                 </div>
                                 <div class="nav-bar">
                                     <ul>

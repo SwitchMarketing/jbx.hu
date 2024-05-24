@@ -47,7 +47,19 @@
 }
 .contact-form-2 .bio {
     padding: 30px 50px;
-    background-color: $yellow;
+    background-color: $yellow;    
+    figure {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        img {
+            &.certified {
+                height: 100%;
+                max-width: 100px;
+            }
+        }
+    }
 }
 .contact-form-2 .bio .data p {
     margin-bottom: 15px;

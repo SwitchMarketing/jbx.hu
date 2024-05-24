@@ -25,6 +25,16 @@
         margin-top: -7px;
         color: #b7b7b7;
       }
+
+      .badge {
+        img {
+          max-width: 150px;
+        }
+      }
+
+      @include mobile() {
+        text-align: center;
+      }
     }
   
     .footer-p-3 .footer-col p {
@@ -54,6 +64,18 @@
             &:hover {
                 color: $yellow;
             }                     
+        }
+
+        @include mobile() {
+          flex-direction: column;
+          align-items: center;
+          p {
+            margin-left: 0;            
+          }
+          svg {
+            transform: scale(1.5);
+            margin: 10px 0 15px;
+          }
         }
   
         &:not(:last-child) {

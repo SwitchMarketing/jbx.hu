@@ -18,7 +18,10 @@
         </div>
         <div class="s-item">
           <div class="s-first">
-            <h1>Hivatalos forgalmazó</h1>
+            <div class="badge mb-4 d-none d-lg-block">
+              <img src="<?php echo img_src('certified_retailer_2023.png') ?>" alt="Hivatalos Forgalmazó" title="Hivatalos Forgalmazó" loading="lazy">
+            </div>                          
+            <h1>Hivatalos forgalmazó</h1>            
             <p>Az Axelent ipari biztonsági, ütközésvédelmi és ingatlan termék kínálata, a magyarországi kizárólagos képviselettől.</p>
             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn btn-light">Ajánlatkérés <i class="fa-solid fa-angles-right"></i></a>
           </div>

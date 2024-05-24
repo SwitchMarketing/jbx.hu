@@ -16,9 +16,10 @@
             <div class="data">
               <figure>
                 <img class="author" src="<?php echo img_src('jbx-logo.svg') ?>" alt="Kapcsolat" loading="lazy">
+                <img src="<?php echo img_src('certified_retailer_2023.png') ?>" alt="Hivatalos Forgalmazó" title="Hivatalos Forgalmazó" loading="lazy" class="img-fluid certified" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Hivatalos Forgalmazó">
               </figure>
               <h3><?php echo config( 'Config\\AppConfig' )->companyName ?></h3>
-              <p>Mechanikai biztonsági megoldások, biztonsági kerítések, kábeltálcák, ütközésvédelem</p>
+              <p>Mechanikai biztonsági megoldások, biztonsági kerítések, kábeltálcák, ütközésvédelem</p>              
             </div>
           </div>
           <div class="info">

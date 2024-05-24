@@ -21,6 +21,11 @@
 .featured-slider-two .s-item .s-first {
     opacity: 0;
     width: 0;
+    .badge {        
+        img {
+            max-width: 150px;
+        }
+    }
 }
 .featured-slider-two .active .s-item .s-second {
     width: 47%;
