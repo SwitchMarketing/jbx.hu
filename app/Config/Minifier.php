@@ -139,12 +139,13 @@ class Minifier extends BaseMinifier
 
     public array $js = [
         'scripts.min.js' => [
-            'bootstrap.min.js',
+            'popper.min.js',
+            'bootstrap.min.js',            
             'jquery.min.js',
             'owl.carousel.min.js',
             'jquery.nice-select.js',
             'aos.js',
-            'dropzone_v6.min.js',
+            'dropzone_v6.min.js',            
             'main.min.js'
         ]
     ];

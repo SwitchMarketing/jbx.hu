@@ -408,6 +408,11 @@ jQuery(document).ready(function () {
   });
   // App.scrollTop();
   App.autoPlayYouTubeModal();
+
+  // enable tooltips
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
 });
 
 jQuery(window).on("load", function () {
