@@ -15,7 +15,8 @@
               <li><i class="fa-solid fa-circle-dot"></i>Csavarozás mentes szerelés</li>
               <li><i class="fa-solid fa-circle-dot"></i>Gyors telepítés, könnyű áthelyezhetőség</li>
               <li><i class="fa-solid fa-circle-dot"></i>Széleskörű méretválaszték</li>
-              <li><i class="fa-solid fa-circle-dot"></i>Számos rácspanel, ajtó- és zártípus</li>
+              <li><i class="fa-solid fa-circle-dot"></i>Számos panel, ajtó és zártípus</li>
+              <li><i class="fa-solid fa-circle-dot"></i>Többféle rács, illetve lemez kivitelben</li>
               <li><i class="fa-solid fa-circle-dot"></i>Integrálható kábeltálca rendszer</li>
             </ul>
             <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn mt-4">Ajánlatkérés  <i class="fa-solid fa-angles-right"></i></a>
