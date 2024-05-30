@@ -29,6 +29,11 @@ $routes->get('/sutikezeles', 'CookiePolicy::index');
 $routes->get('/impresszum', 'Impressum::index');
 
 /**
+ * Érintettségi tájékoztató oldal
+ */
+$routes->get('/erintettseg', 'LegalPages::exposure');
+
+/**
  * emailek kiküldése  
  */
 $routes->cli('/cron', 'Cron::index');

@@ -44,11 +44,14 @@
                 </div>
                 <ul class="nav legal mt-4 mb-0 flex-column flex-md-row text-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url('adatkezeles') ?>">Adatkezelési tájékoztató</a>
+                        <a class="nav-link" href="<?php echo base_url('adatkezeles') ?>">Adatkezelés</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('sutikezeles') ?>">Sütikezelés</a>
                     </li>                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo base_url('erintettseg') ?>">Érintettség</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('impresszum') ?>">Impresszum</a>
                     </li>                    
