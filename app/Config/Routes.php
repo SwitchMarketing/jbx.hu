@@ -19,6 +19,16 @@ $routes->get('/sikeres-kapcsolatfelvetel', 'Home::success');
 $routes->get('/adatkezeles', 'PrivacyPolicy::index');
 
 /**
+ * Sütikezelés
+ */
+$routes->get('/sutikezeles', 'CookiePolicy::index');
+
+/**
+ * Impresszum oldal
+ */
+$routes->get('/impresszum', 'Impressum::index');
+
+/**
  * emailek kiküldése  
  */
 $routes->cli('/cron', 'Cron::index');

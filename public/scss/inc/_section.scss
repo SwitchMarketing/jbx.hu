@@ -40,9 +40,14 @@ section {
 
     }
 
-    &.privacy-policy {
-        h1, h2, h3, h4 {
+    &.privacy-policy,
+    &.cookie-policy,
+    &.impressum {
+        h1, h2, h3, h4, h5 {
             margin-bottom: 1.4rem;
+        }
+        h3, h4, h5 {
+            margin-top: 1.8rem;
         }
         p {
             line-height: 1.4rem;
@@ -50,6 +55,25 @@ section {
         }
         p:not(:last-child) {
             margin-bottom: 1rem;
+        }
+        ul {    
+
+            margin-left: 2rem;
+
+            li {
+                list-style-type: disc !important;
+                line-height: 1.4rem;
+                margin-bottom: .8rem;
+            }            
+        }
+        table {
+            th, td {
+                p {
+                    margin-top: 0;
+                    margin-bottom: 0 !important;
+                    text-align: left;
+                }
+            }
         }
     }
     
@@ -66,5 +90,17 @@ body.light-d {
         &:nth-child(2n) {
             background-color: #171717;            
         }   
+
+        &.privacy-policy,
+        &.cookie-policy,
+        &.impressum {
+            h1, h2, h3, h4, h5, p, li {
+                color: white;
+            }            
+        }
+        a {
+            color: $yellow;
+        }
     }
+
 }

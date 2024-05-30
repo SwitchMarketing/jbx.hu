@@ -7,6 +7,21 @@
     .footer-p-2 {
       padding: 100px 0;
       background-color: $black;
+      ul.nav {
+        &.legal {
+          gap: 25px;
+          li {
+            a {
+              padding: 0;            
+              color: #b7b7b7;
+              font-weight: 500 !important;
+              &:hover {
+                color: $yellow;
+              }
+            }            
+          }
+        }
+      }
     }
   
     .footer-p-3 {

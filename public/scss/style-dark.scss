@@ -1106,6 +1106,19 @@ body.light-d {
 	.bio p {
 		color: $black;
 	}
+
+	table {
+		caption,
+		th,
+		td {
+			color: $color_1;
+		}
+	}
+
+	h4 {
+		color: $color_1;
+	}
+
 }
 .next-prev-projects {
 	li {

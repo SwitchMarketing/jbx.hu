@@ -19,6 +19,14 @@ class AppConfig extends BaseConfig
      */
     public $companyName = 'JBX Trade Kft.';
 
+
+    /**
+     * companyFullName
+     * 
+     * @var string
+     */
+    public $companyFullName = 'JBX Trade Korlátolt Felelősségű Társaság';
+    
     
     /**
      * companyAddress
