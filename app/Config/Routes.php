@@ -16,17 +16,17 @@ $routes->get('/sikeres-kapcsolatfelvetel', 'Home::success');
 /**
  * Adatkezelés oldal
  */
-$routes->get('/adatkezeles', 'PrivacyPolicy::index');
+$routes->get('/adatkezeles', 'LegalPages::privacy');
 
 /**
  * Sütikezelés
  */
-$routes->get('/sutikezeles', 'CookiePolicy::index');
+$routes->get('/sutikezeles', 'LegalPages::cookies');
 
 /**
  * Impresszum oldal
  */
-$routes->get('/impresszum', 'Impressum::index');
+$routes->get('/impresszum', 'LegalPages::impressum');
 
 /**
  * Érintettségi tájékoztató oldal
