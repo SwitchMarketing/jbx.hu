@@ -42,7 +42,7 @@
                         </li>
                     </ul>                
                 </div>
-                <ul class="nav legal mt-4 mb-0">
+                <ul class="nav legal mt-4 mb-0 flex-column flex-md-row text-center">
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('adatkezeles') ?>">Adatkezelési tájékoztató</a>
                     </li>
@@ -54,10 +54,6 @@
                     </li>                    
                 </ul>
             </div>                    
-        </div>
-        <div class="row">
-            <div class="col-12 mx-auto">                            
-            </div>
         </div>
     </div>
 </div>
