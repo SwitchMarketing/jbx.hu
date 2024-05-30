@@ -75,6 +75,12 @@ section {
                 }
             }
         }
+        @include mobile() {
+            h2 {
+                font-size: 2rem;
+                line-height: 2rem;
+            }
+        }
     }
     
     &:nth-child(2n) {

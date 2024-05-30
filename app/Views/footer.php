@@ -66,8 +66,8 @@
         <div class="footer-col">
             <p>JBX Magyarország | With <i class="fa-solid fa-heart"></i> by <a href="https://switchmarketing.hu/" target="_blank"> switchmarketing.hu</a></p>
             <div class="social-medias">
-                <a href="javascript:void(0)">Facebook</a>
-                <a href="javascript:void(0)">Instagram</a>
+                <a href="<?php echo config( 'Config\\AppConfig' )->socialLinkFacebook ?>" target="_blank">Facebook</a>
+                <a href="<?php echo config( 'Config\\AppConfig' )->socialLinkInstagram ?>" target="_blank">Instagram</a>
             </div>
         </div>
     </div>

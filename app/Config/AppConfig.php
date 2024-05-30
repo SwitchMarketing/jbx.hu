@@ -132,4 +132,25 @@ class AppConfig extends BaseConfig
      * @var string
      */
     public $defaultKeywords = '';
+
+    /**
+     * socialLinkFacebook
+     * 
+     * @var string
+     */
+    public $socialLinkFacebook = 'https://www.facebook.com/people/JBX-ipari-g%C3%A9pbiztons%C3%A1g/61560428935686/';
+
+    /**
+     * socialLinkInstagram
+     * 
+     * @var string
+     */
+    public $socialLinkInstagram = 'https://www.instagram.com/jbx.hu/';
+
+    /**
+     * socialLinkLinkedIn
+     * 
+     * @var string
+     */
+    public $socialLinkLinkedIn = '';
 }

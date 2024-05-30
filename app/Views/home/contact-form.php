@@ -48,14 +48,14 @@
             </ul>
             <ul class="social-medias">
               <li>
-                <a class="fb" href="javascript:void(0)">
+                <a class="fb" href="<?php echo config( 'Config\\AppConfig' )->socialLinkFacebook ?>" target="_blank">
                   <p>Facebook</p>
                   <i class="fa-brands fa-facebook"></i>
                 </a>
                 
               </li>
               <li>
-                <a class="in" href="javascript:void(0)">
+                <a class="in" href="<?php echo config( 'Config\\AppConfig' )->socialLinkInstagram ?>" target="_blank">
                   <p>Instagram</p>
                   <i class="fa-brands fa-instagram"></i>
                 </a>
