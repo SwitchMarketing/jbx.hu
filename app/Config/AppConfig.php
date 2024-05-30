@@ -10,7 +10,7 @@ class AppConfig extends BaseConfig
      *
      * @var int
      */
-    public $maintenanceMode = (ENVIRONMENT == 'production');
+    public $maintenanceMode = false;
 
     /**
      * companyName
