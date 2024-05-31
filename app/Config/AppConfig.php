@@ -152,5 +152,5 @@ class AppConfig extends BaseConfig
      * 
      * @var string
      */
-    public $socialLinkLinkedIn = '';
+    public $socialLinkLinkedIn = 'https://www.linkedin.com/company/jbx-hu';
 }

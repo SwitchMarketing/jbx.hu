@@ -60,6 +60,12 @@
                   <i class="fa-brands fa-instagram"></i>
                 </a>
               </li>
+              <li>
+                <a class="in" href="<?php echo config( 'Config\\AppConfig' )->socialLinkLinkedIn ?>" target="_blank">
+                  <p>LinkedIn</p>
+                  <i class="fa-brands fa-linkedin"></i>
+                </a>
+              </li>
             </ul>
           </div>
         </div>

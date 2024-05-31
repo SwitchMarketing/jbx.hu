@@ -68,6 +68,7 @@
             <div class="social-medias">
                 <a href="<?php echo config( 'Config\\AppConfig' )->socialLinkFacebook ?>" target="_blank">Facebook</a>
                 <a href="<?php echo config( 'Config\\AppConfig' )->socialLinkInstagram ?>" target="_blank">Instagram</a>
+                <a href="<?php echo config( 'Config\\AppConfig' )->socialLinkLinkedIn ?>" target="_blank">LinkedIn</a>
             </div>
         </div>
     </div>
