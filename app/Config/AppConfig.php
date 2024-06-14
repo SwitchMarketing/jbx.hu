@@ -93,7 +93,7 @@ class AppConfig extends BaseConfig
      *
      * @var string
      */
-    public $leadEmail = 'teszt@switchmarketing.hu';
+    public $leadEmail = 'info@jbx.hu';
 
 
     /**
