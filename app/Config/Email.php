@@ -28,22 +28,22 @@ class Email extends BaseConfig
     /**
      * SMTP Server Hostname
      */
-    public string $SMTPHost = 'mail.jbx.hu';
+    public string $SMTPHost = '185.51.188.76';
 
     /**
      * SMTP Username
      */
-    public string $SMTPUser = 'smtp@jbx.hu';
+    public string $SMTPUser = 'smtp@smtp.jbx.hu';
 
     /**
      * SMTP Password
      */
-    public string $SMTPPass = 'vT9[Yrp^j4$s';
+    public string $SMTPPass = '556.FGhtu-765';
 
     /**
      * SMTP Port
      */
-    public int $SMTPPort = 465;
+    public int $SMTPPort = 25;
 
     /**
      * SMTP Timeout (in seconds)

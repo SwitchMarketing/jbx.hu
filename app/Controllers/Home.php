@@ -132,6 +132,7 @@ class Home extends BaseController
 				// Mailer::contact($rec);   
 
 				//menjen egy köszönő email az ügyfélnek
+				// ! átmenetileg kikapcsolva, visszapattannak az emailek
 				if( !empty($rec['email']) )
 					Mailer::thankYou($post);
 

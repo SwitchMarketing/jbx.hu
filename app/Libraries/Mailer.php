@@ -40,12 +40,12 @@ class Mailer {
 
             $fromEmail = config( 'Config\\AppConfig' )->siteEmail;
             $fromName = config( 'Config\\AppConfig' )->siteName;
-            $email->setFrom($fromEmail, $fromName);
-
             $toEmail = config( 'Config\\AppConfig' )->leadEmail;
-            
+
+            $email->setFrom($fromEmail, $fromName);
             $email->setTo($toEmail);
-            if( ! isset($data['email']) )
+
+            if( isset($data['email']) )
                 $email->setReplyTo($data['email']);
             // $email->setBCC('durugya@gmail.com');
             $email->setSubject('Ajánlatkérés: '. $data['name']);
