@@ -25,18 +25,30 @@
                                         <li class="menu-item-has-children">
                                             <a href="javascript:void(0)">Termékek</a>
                                             <ul class="sub-menu">
-                                                <li><a href="#x-guard">Gépbiztonsági kerítés</a></li>
-                                                <li><a href="#x-tray">Kábeltálca megoldások</a></li>
-                                                <li><a href="#x-protect">Ütközésvédelem</a></li>
-                                                <li><a href="#x-store">Raktárbiztonsági megoldások</a></li>
-                                                <li><a href="#ingatlan-megoldasok">Ingatlan megoldások</a></li>
+                                                <li><a href="<?php echo base_url('gepbiztonsagi-kerites') ?>">Gépbiztonsági kerítés</a></li>
+                                                <li><a href="<?php echo base_url('kabeltalca-megoldasok') ?>">Kábeltálca megoldások</a></li>
+                                                <li><a href="<?php echo base_url('utkozesvedelem') ?>">Ütközésvédelem</a></li>
+                                                <li><a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>">Raktárbiztonsági megoldások</a></li>
+                                                <li><a href="<?php echo base_url('ingatlan-megoldasok') ?>">Ingatlan megoldások</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="javascript:void(0)">Eszközök</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="<?php echo base_url('#axelent-safety-design') ?>">AXELENT Safety Design</a></li>
+                                                <li><a href="<?php echo base_url('#snapperworks"') ?>">SnapperWorks</a></li>
+                                                <li><a href="<?php echo base_url('#axelent-xperience') ?>">Axelent Xperience</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="javascript:void(0)">Rólunk</a>
+                                            <ul class="sub-menu">
+                                                <li><a href="<?php echo base_url('#hogyan-dolgozunk') ?>">Hogyan dolgozunk</a></li>
+                                                <li><a href="<?php echo base_url('bemutatkozo') ?>">Bemutatkozó</a></li>
                                             </ul>
                                         </li>
                                         <li>
-                                            <a href="#hogyan-dolgozunk">Hogyan dolgozunk</a>
-                                        </li>
-                                        <li>
-                                            <a href="#kapcsolat">Kapcsolat</a>
+                                            <a href="<?php echo base_url('kapcsolat') ?>">Kapcsolat</a>
                                         </li>
                                     </ul>
 
