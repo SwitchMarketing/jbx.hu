@@ -165,7 +165,7 @@ var App = {
    *
    */
   showMask: function (callback) {
-    $("body").removeClass("page-loaded");
+    // $("body").removeClass("page-loaded");
     jQuery("#preloader").show(() => {
       if (callback) {
         callback();
@@ -179,7 +179,7 @@ var App = {
    *
    */
   hideMask: function () {
-    $("body").addClass("page-loaded");
+    // $("body").addClass("page-loaded");
     jQuery("#preloader").delay(350).fadeOut("slow");
   },
 

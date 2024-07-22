@@ -35,7 +35,7 @@
 <?php echo view('inc/gtm-body') ?>
 <?php echo view('inc/fbpixel-body') ?>
 <!-- Loader Start -->
-<div class="preloader"> 
+<div class="preloader" id="preloader"> 
     <figure>
       <img src="<?php echo img_src('jbx-logo-no-text.svg')?> " alt="<?php echo $title ?>"> 
     </figure>
