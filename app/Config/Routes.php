@@ -8,6 +8,15 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 /** 
+ * Termékek
+ */
+$routes->get('/gepbiztonsagi-kerites', 'Products::xguard');
+$routes->get('/kabeltalca-megoldasok', 'Products::xtray');
+$routes->get('/utkozesvedelem', 'Products::xprotect');
+$routes->get('/raktarbiztonsagi-megoldasok', 'Products::xstore');
+$routes->get('/ingatlan-megoldasok', 'Products::property');
+
+/** 
  * Bemutatkozó
  */
 $routes->get('/bemutatkozo', 'About::index');
