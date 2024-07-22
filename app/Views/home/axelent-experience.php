@@ -1,5 +1,5 @@
   <!-- Axelent Experience -->
-  <section class="about-style-one">
+  <section class="about-style-one" id="axelent-xperience">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 order-lg-last mb-5 mb-lg-0" >

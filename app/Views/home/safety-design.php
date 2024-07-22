@@ -1,5 +1,5 @@
   <!-- Safety design -->
-  <section class="gap our-goal">
+  <section class="gap our-goal" id="axelent-safety-design">
     <div class="heading">
       <figure>
         <img src="<?php echo img_src('logo-axelent.svg') ?>" alt="AXELENT Safety Design" loading="lazy">

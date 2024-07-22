@@ -1,5 +1,5 @@
   <!-- Snapper Works -->
-  <section class="core-features gap">
+  <section class="core-features gap" id="snapperworks">
     <div class="container">
       <div class="row">
         <div class="col-lg-6" >
