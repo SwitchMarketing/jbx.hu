@@ -1,0 +1,69 @@
+.page-header {
+    background: black;
+    padding-top: 215px;
+    position: relative;
+    z-index: 0;
+
+    .banner-details {
+        
+        padding-bottom: 75px;
+
+        h2 {
+            font-size: 60px;
+            color: white;
+        }
+
+        p {
+            color: #c1c1c1;
+            margin-top: 5px;
+        }
+    }
+
+    .breadcrums {
+        border-top: 1px solid #444;
+        padding: 30px 0 28px;
+
+        ul {
+            li {
+
+                display: inline-flex;
+                align-items: flex-end;
+                &:not(:last-child) {
+                    margin-right: 15px;
+                }
+
+                i, p, a {
+                    color: #c2c1c1;
+                }
+    
+                i {
+                    font-size: 20px;
+                }
+    
+                p {
+                    line-height: 13px;
+                    margin-left: 8px;
+                    border-bottom: 1px solid #717070;
+                }
+    
+                a {
+                    display: flex;
+                    align-items: flex-end;
+                }
+
+                &.current {
+                    p {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+
+    .parallax {
+        background-size: contain;
+        background-position: center right;
+        opacity: 0.2;
+        left: 13% !important;
+    }
+}
