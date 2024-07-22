@@ -7,6 +7,11 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 
+/** 
+ * Bemutatkozó
+ */
+$routes->get('/bemutatkozo', 'About::index');
+
 /**
  * Kapcsolat
  */
