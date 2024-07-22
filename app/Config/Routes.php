@@ -15,6 +15,7 @@ $routes->get('/bemutatkozo', 'About::index');
 /**
  * Kapcsolat
  */
+$routes->get('/kapcsolat', 'Contact::index');
 $routes->post('/kapcsolat', 'Home::submit');
 $routes->get('/sikeres-kapcsolatfelvetel', 'Home::success');
 
