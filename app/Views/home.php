@@ -12,8 +12,8 @@ echo $this->include('home/property-solutions');
 echo $this->include('home/safety-design');
 echo $this->include('home/snapper-works');
 echo $this->include('home/axelent-experience');
-echo $this->include('home/how-we-work');
-echo $this->include('home/contact-form');
+echo $this->include('shared/how-we-work');
+echo $this->include('shared/contact-form');
 ?>
 </div>
 </main>
