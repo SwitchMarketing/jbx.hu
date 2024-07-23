@@ -144,6 +144,7 @@ class Minifier extends BaseMinifier
             'jquery.min.js',
             'owl.carousel.min.js',
             'jquery.nice-select.js',
+            'jquery.fancybox.min.js',
             'aos.js',
             'dropzone_v6.min.js',            
             'main.min.js'
@@ -167,6 +168,7 @@ class Minifier extends BaseMinifier
             'owl.carousel.min.css',
             'owl.theme.default.min.css',
             'nice-select.css',
+            'jquery.fancybox.min.css',
             'aos.css',            
             'dropzone.min.css',
             'style.min.css',

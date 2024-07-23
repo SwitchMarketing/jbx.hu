@@ -105,6 +105,28 @@
       z-index: 99;
     }
 
+    &.product {
+
+        .s-item {
+            .s-first {
+                h1 {
+                    font-size: 4rem;
+                }
+                p {
+                    font-size: 2rem;
+                }
+                @include mobile { 
+                  h1 {
+                    font-size: 2.4rem;
+                  }
+                  p {
+                    font-size: 1.6rem;
+                  }
+                }
+            }
+        }
+
+    }
   }
   
   .parallax {

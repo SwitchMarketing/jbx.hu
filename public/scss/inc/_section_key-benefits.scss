@@ -1,0 +1,31 @@
+.key-benefits .data {
+    h2 {
+      font-size: 50px;
+      margin-bottom: 15px;
+    }
+  
+    figure {
+      width: 91%;
+      @include mobile { 
+        width: 100%;
+      }
+    }
+  
+    ul li {
+      i {
+        color: #47d562;
+        font-size: 20px;
+        margin-right: 25px;
+        line-height: 30px;
+      }
+  
+      display: flex;
+      padding-bottom: 20px;
+      padding-top: 23px;
+  
+      &:not(:last-child) {
+        border-bottom: 1px solid #cfcfcf;
+      }
+    }
+  }
+  
