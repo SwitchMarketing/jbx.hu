@@ -1013,11 +1013,12 @@ $border-color_1: white;
 	.service-style-two {
 		.service-two-box {
 			.service-two-icon {
+				position: static;
 				&:before {
 					left: -10px;
 				}
-				width: 95px;
-				height: 110px;
+				//width: 95px;
+				height: 60px;
 			}
 			padding: 30px 30px 0;
 		}

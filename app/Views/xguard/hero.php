@@ -1,7 +1,6 @@
   <!-- Hero -->
   <section class="featured-slider-two product">
     <div class="parallax" style="background-image: url(<?php echo img_src('pattern-4.png') ?>);"></div>
-    <div class="f-2-s-nav"></div>
     <div class="container">
       <div class="row f-2-slider owl-carousel">
         <div class="s-item">

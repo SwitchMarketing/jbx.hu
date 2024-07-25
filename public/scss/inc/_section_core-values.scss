@@ -52,6 +52,37 @@
           }
         }
       }
+
+      ul {
+        padding-left: 25px;
+        li {
+        
+          padding: 0;
+          border: none;
+          line-height: 1.6rem;
+          position: relative;
+          &:before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border: 2px solid #444;
+            background: white;
+            position: absolute;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 100%;
+          }
+          &:not(:last-child) {
+            margin-bottom: .2rem;
+          }
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+      
+
     }
   
     flex-wrap: wrap;

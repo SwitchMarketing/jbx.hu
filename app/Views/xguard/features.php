@@ -1,87 +1,70 @@
-  <!-- Service Style Two Start -->
+  <!-- Features -->
   <section class="gap service-style-two">
     <div class="heading">
-      <figure>
-        <img src="<?php echo img_src('logo-axelent.svg') ?>" alt="AXELENT Safety Design" loading="lazy">
-      </figure>
-      <span>What We Provide</span>
-      <h2>Exclusive Services</h2>
+      <h2>Moduláris és gyors telepítés</h2>
     </div>
     <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-6">
+          <p class="fs-5 text-justify">A modularitás és a jól átgondolt tervezés tette az X-Guard gépbiztonsági rendszert a piacon a legkeresettebbé. Az okos kattintós rögzítésünknek köszönhetően az Axelent gépbiztonsági kerítéseit rendkívül gyorsan és könnyen lehet telepíteni, szétszerelni, áthelyezni vagy bővíteni, ahogy szükséges.</p>
+        </div>
+      </div>
       <div class="row g-0">
         <div class="col-lg-4 col-md-6 col-sm-12" >
           <div class="service-two-box">
-            <h3><a href="service-detail.html">Construction</a></h3>
-            <p>Designing and Building The Most Beautiful Custom Homes.</p>
+            <h3>Felhasználóbarát</h3>
+            <p>Könnyű és gyors telepítés egyszerű telepítési útmutatóval</p>
             <div class="service-two-icon d-flex-all justify-content-start">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="116" height="116" viewBox="0 0 116 116"> <defs> <clipPath id="fsdggdfgdfgdfgd"> <rect width="116" height="116"/> </clipPath> </defs> <g id="_2sdfs" data-name="2" clip-path="url(#fsdggdfgdfgdfgd)"> <path id="Path_1sdfsdf" data-name="Path 1" d="M962.133,586.78h-6V508.9H933.257v16.942h-6V502.9h34.877Z" transform="translate(-898 -473)"/> <path id="Path_2werf3" data-name="Path 2" d="M962.133,558.519h-6V508.9H933.257v16.942h-6V502.9h34.877Z" transform="translate(-909 -445)"/> <path id="Path_sfsdf3" data-name="Path 3" d="M955.065,526.613h-6V509.966H933.257v5.549h-6V503.966h27.809Z" transform="translate(-880.123 -491)"/> <path id="Path_11dfsdf" data-name="Path 11" d="M6,6v5H27V6H6M0,0H33V17H0Z" transform="translate(7 86)"/> <path id="Path_12dsfdsfsdf" data-name="Path 12" d="M6,6v5H27V6H6M0,0H33V17H0Z" transform="translate(7 97)"/> <path id="Path_4edfse4" data-name="Path 4" d="M938.936,547.84h-11.1v-6h11.1Z" transform="translate(-898 -472)"/> <path id="Path_5sdgdsf" data-name="Path 5" d="M940.039,547.84h-12.2v-6h12.2Z" transform="translate(604.889 -926.548) rotate(90)"/> <path id="Path_6dfsdfs" data-name="Path 6" d="M1008.949,588.066H902.667a3,3,0,0,1,0-6h106.281a3,3,0,0,1,0,6Z" transform="translate(-898 -473)"/> <path id="Path_7sdfsadf" data-name="Path 7" d="M958.614,547.84H927.839v-6h30.774Z" transform="translate(627.889 -846.548) rotate(90)"/> <path id="Path_8ertet" data-name="Path 8" d="M958.614,547.84H927.839v-6h30.774Z" transform="translate(639.889 -846.548) rotate(90)"/> <path id="Path_13dfsdfsdfsdf" data-name="Path 13" d="M6,6V39H33V6H6M0,0H39V45H0Z" transform="translate(69 70)"/> <path id="Path_1asdasd4" data-name="Path 14" d="M30.844,14.28h0l-6-.086a8.5,8.5,0,0,0-16.977-.243l-6-.086a14.5,14.5,0,0,1,28.985.414Z" transform="translate(72.154 58)"/> <path id="Path_15rter" data-name="Path 15" d="M.7,23.855V0h28V14.261l-5.419-2.684V7H6.116V18.837L.7,23.853Z" transform="translate(68.303 41)"/> </g> </svg>
-              <a href="service-detail.html">
-                <i class="fa-solid fa-arrow-up-long"></i>
-              </a>
             </div>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12" >
           <div class="service-two-box">
-            <h3><a href="service-detail.html">Project Development</a></h3>
-            <p>Designing and Building The Most Beautiful Custom Homes.</p>
+            <h3>Egyedi, gyors rögzítés</h3>
+            <p>Minimális telepítési idő az Axelent egyedi gyors rögzítéseinek köszönhetően</p>
             <div class="service-two-icon d-flex-all justify-content-start">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="173" height="173" viewBox="0 0 173 173"> <defs> <clipPath id="clip-Building"> <rect width="173" height="173"/> </clipPath> </defs> <g id="Building" clip-path="url(#clip-Building)"> <path id="Path_28" data-name="Path 28" d="M6,6V64.7H66V6H6M0,0H72V70.7H0Z" transform="translate(9 100)"/> <path id="Path_29" data-name="Path 29" d="M6,6l-.01,81.467H44V6H6M0,0H50V93.467H-.011Z" transform="translate(116 77)"/> <path id="Patdddh_11" data-name="Path 11" d="M912.732,628.652h-13.98a3,3,0,0,1,0-6h13.98a3,3,0,0,1,0,6Z" transform="translate(-812.095 -563.456)"/> <path id="Pdfdath_12" data-name="Path 12" d="M997.636,627.945a3,3,0,0,1-3-3V502.137H949.32v33.292a3,3,0,0,1-6,0V496.137h57.316V624.945A3,3,0,0,1,997.636,627.945Z" transform="translate(-897 -458)"/> <path id="Path_1bb4" data-name="Path 14" d="M903.234,628.652a3.1,3.1,0,0,1-3.109-3,2.909,2.909,0,0,1,2.891-3h.219a3,3,0,0,1,0,6Z" transform="translate(-853.771 -537)"/> <path id="Path_1t5" data-name="Path 15" d="M912.732,628.652h-13.98a3,3,0,0,1,0-6h13.98a3,3,0,0,1,0,6Z" transform="translate(-812.095 -545.456)"/> <path id="Path_16" data-name="Path 16" d="M912.732,628.652h-13.98a3,3,0,0,1,0-6h13.98a3,3,0,0,1,0,6Z" transform="translate(-812.095 -527.456)"/> <path id="Path_17" data-name="Path 17" d="M912.732,628.652h-13.98a3,3,0,0,1,0-6h13.98a3,3,0,0,1,0,6Z" transform="translate(-812.095 -509.456)"/> <path id="Path_18" data-name="Path 18" d="M912.732,628.652h-13.98a3,3,0,0,1,0-6h13.98a3,3,0,0,1,0,6Z" transform="translate(-812.095 -491.456)"/> <path id="Path_19" data-name="Path 19" d="M912.732,628.652h-13.98a3,3,0,0,1,0-6h13.98a3,3,0,0,1,0,6Z" transform="translate(-812.095 -473.456)"/> <path id="Path_2dfg3" data-name="Path 23" d="M1039.879,539.4a3,3,0,0,1-3-3V494.406l-50.222-27.523v30.648a3,3,0,0,1-6,0V461.818a3,3,0,0,1,4.442-2.631L1041.321,490a3,3,0,0,1,1.558,2.631V536.4A3,3,0,0,1,1039.879,539.4Z" transform="translate(-897 -458)"/> <path id="Path_25" data-name="Path 25" d="M910.753,631.658H902.64a3,3,0,0,1,0-6h8.112a3,3,0,0,1,0,6Z" transform="translate(743.598 -862.059) rotate(90)"/> <path id="Path_27" data-name="Path 27" d="M910.753,631.658H902.64a3,3,0,0,1,0-6h8.112a3,3,0,0,1,0,6Z" transform="translate(743.598 -842.059) rotate(90)"/> <g id="Group_1" data-name="Group 1" transform="translate(-896 -458)"> <path id="Rectangle_8" data-name="Rectangle 8" d="M5,5v8h7V5H5M0,0H17V18H0Z" transform="translate(946 597)"/> <path id="Rectangle_9" data-name="Rectangle 9" d="M5,5v8h7V5H5M0,0H17V18H0Z" transform="translate(920 597)"/> <path id="Rectangle_10" data-name="Rectangle 10" d="M5,5v8h7V5H5M0,0H17V18H0Z" transform="translate(946 572)"/> <path id="Rectangle_11" data-name="Rectangle 11" d="M5,5v8h7V5H5M0,0H17V18H0Z" transform="translate(920 572)"/> </g> <path id="Path_20" data-name="Path 20" d="M925.1,628.652h-22.08a3,3,0,0,1,0-6H925.1a3,3,0,0,1,0,6Z" transform="translate(-762.534 -490)"/> <path id="Path_21" data-name="Path 21" d="M925.1,628.652h-22.08a3,3,0,0,1,0-6H925.1a3,3,0,0,1,0,6Z" transform="translate(-762.534 -508)"/> <path id="Path_22" data-name="Path 22" d="M925.1,628.652h-22.08a3,3,0,0,1,0-6H925.1a3,3,0,0,1,0,6Z" transform="translate(-762.534 -526)"/> <path id="Pathfffd_24" data-name="Path 24" d="M910.753,631.658H902.64a3,3,0,0,1,0-6h8.112a3,3,0,0,1,0,6Z" transform="translate(757.598 -862.059) rotate(90)"/> <path id="Path_26" data-name="Path 26" d="M910.753,631.658H902.64a3,3,0,0,1,0-6h8.112a3,3,0,0,1,0,6Z" transform="translate(757.598 -842.059) rotate(90)"/> <path id="Pathasf_1" data-name="Path 1" d="M1063.582,628.652H898.752a3,3,0,0,1,0-6h164.829a3,3,0,0,1,0,6Z" transform="translate(-894.577 -458)"/> <path id="Pddath_2" data-name="Path 2" d="M916.332,628.652H903.016a3,3,0,0,1,0-6h13.316a3,3,0,0,1,0,6Z" transform="translate(-753.771 -472)"/> <path id="Path_yy13" data-name="Path 13" d="M903.234,628.652a3.1,3.1,0,0,1-3.109-3,2.909,2.909,0,0,1,2.891-3h.219a3,3,0,0,1,0,6Z" transform="translate(-769.771 -472)"/> </g> </svg>
-              <a href="service-detail.html">
-                <i class="fa-solid fa-arrow-up-long"></i>
-              </a>
             </div>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12" >
           <div class="service-two-box">
-            <h3><a href="service-detail.html">Interior Design</a></h3>
-            <p>Designing and Building The Most Beautiful Custom Homes.</p>
+            <h3>Minimális karbantartás</h3>
+            <p>Hosszú távon költséghatékony megoldás</p>
             <div class="service-two-icon d-flex-all justify-content-start">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="161" height="151" viewBox="0 0 161 151"> <defs> <clipPath id="clip-Construction"> <rect width="161" height="151"/> </clipPath> </defs> <g id="Construction" clip-path="url(#clip-Construction)"> <path id="Path_1sdf" data-name="Path 1" d="M999.3,642.592h-30.3V517.57h30.3Zm-24.3-6h18.3V523.57h-18.3Z" transform="translate(-850.384 -516.331)"/> <path id="Path_2sdf" data-name="Path 2" d="M974.406,596.242a3,3,0,0,1-2.093-5.149l20.04-19.52-22.088-22.088a3,3,0,0,1,.026-4.268l22.1-21.576-22.165-22.957a3,3,0,0,1,.131-4.3l18.552-17.006H949.3a3,3,0,0,1,0-6h47.321a3,3,0,0,1,2.027,5.211l-21.968,20.137,22.1,22.888a3,3,0,0,1-.063,4.231L976.654,547.39l22.09,22.091a3,3,0,0,1-.028,4.27L976.5,595.391A2.991,2.991,0,0,1,974.406,596.242Z" transform="translate(-851 -472)"/> <path id="Pafdggth_3" data-name="Path 3" d="M971.809,490.636H888.132a3,3,0,0,1-3-3v-11.4a3,3,0,0,1,3-3h35.491a3,3,0,0,1,0,6H891.132v5.4h80.677a3,3,0,0,1,0,6Z" transform="translate(-851 -472)"/> <path id="Path_dfgdf4" data-name="Path 4" d="M888.518,490.636a3.171,3.171,0,0,1-3.193-3,2.841,2.841,0,0,1,2.807-3h.387a3,3,0,0,1,0,6Z" transform="translate(-802.335 -483.397)"/> <path id="Patsdfh_5" data-name="Path 5" d="M930.99,532.743H872.168a3,3,0,0,1-3-3V516.088a3,3,0,0,1,3-3h25.711V497.181a3,3,0,0,1,6,0v15.907H930.99a3,3,0,0,1,3,3v13.655A3,3,0,0,1,930.99,532.743Zm-55.821-6H927.99v-7.655H903.33a3.009,3.009,0,0,0-2.451,0H875.168Z" transform="translate(-851 -472)"/> <path id="Patgdfh_6" data-name="Path 6" d="M888.518,490.636a3.171,3.171,0,0,1-3.193-3,2.841,2.841,0,0,1,2.807-3h.387a3,3,0,0,1,0,6Z" transform="translate(-830.335 -378.397)"/> <path id="Path_dd7" data-name="Path 7" d="M1010.279,620.239h-51.8l-.03-2.97c-.141-13.924-.162-16.028.521-16.985a14.758,14.758,0,0,1,12.607-8.067h25.936a13.7,13.7,0,0,1,12.428,8.289c.576,1.041.545,3.5.375,16.771Zm-45.857-6h39.93c.053-5.12.073-10.062.026-11.492a7.581,7.581,0,0,0-6.835-4.53H971.6a8.783,8.783,0,0,0-7.2,4.649C964.35,604.769,964.391,610.625,964.422,614.239Z" transform="translate(-851 -472)"/> <path id="Padfgth_8" data-name="Path 8" d="M888.518,490.636H848.48a3,3,0,0,1,0-6h40.038a3,3,0,0,1,0,6Z" transform="translate(-843.335 -378.397)"/> <path id="Pdfgath_9" data-name="Path 9" d="M899.008,490.636H848.481a3,3,0,0,1,0-6h50.528a3,3,0,0,1,0,6Z" transform="translate(514.801 -754.26) rotate(90)"/> <path id="Pathsdf_10" data-name="Path 10" d="M899.008,490.636H848.481a3,3,0,0,1,0-6h50.528a3,3,0,0,1,0,6Z" transform="translate(560.801 -754.26) rotate(90)"/> <path id="Patsfsfsfdh_11" data-name="Path 11" d="M899.008,490.636H848.481a3,3,0,0,1,0-6h50.528a3,3,0,0,1,0,6Z" transform="translate(581.801 -754.26) rotate(90)"/> <path id="Patfgfh_12" data-name="Path 12" d="M899.008,490.636H848.481a3,3,0,0,1,0-6h50.528a3,3,0,0,1,0,6Z" transform="translate(492.801 -754.26) rotate(90)"/> <path id="Path_1sdf3" data-name="Path 13" d="M937.5,490.636H848.481a3,3,0,0,1,0-6H937.5a3,3,0,0,1,0,6Z" transform="translate(-843.335 -358.397)"/> <path id="Patbbh_14" data-name="Path 14" d="M937.5,490.636H848.481a3,3,0,0,1,0-6H937.5a3,3,0,0,1,0,6Z" transform="translate(-843.335 -342.397)"/> <path id="Path_15t" data-name="Path 15" d="M937.5,490.636H848.481a3,3,0,0,1-1.2-5.75l43.683-19.039a3,3,0,0,1,2.36-.016l45.336,19.039a3,3,0,0,1-1.162,5.766Zm-74.627-6h59.736L892.185,471.86Z" transform="translate(-843.335 -394.397)"/> </g> </svg>
-              <a href="service-detail.html">
-                <i class="fa-solid fa-arrow-up-long"></i>
-              </a>
             </div>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12" >
           <div class="service-two-box">
-            <h3><a href="service-detail.html">Welding & Laser</a></h3>
-            <p>Designing and Building The Most Beautiful Custom Homes.</p>
+            <h3>Kombinálható más Axelent megoldásokkal</h3>
+            <p>A gépbiztonsági kerítések integrálhatók mind az Axelent ütközésvédelemmel, mind a kábelcsatornákkal</p>
             <div class="service-two-icon d-flex-all justify-content-start">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="124" viewBox="0 0 124 124"> <defs> <clipPath id="clip-_3sfd"> <rect width="124" height="124"/> </clipPath> </defs> <g id="_3" data-name="3" clip-path="url(#clip-_3sfd)"> <path id="Path_1sfsdfdfssdfdfa2" data-name="Path 12" d="M6,6v6h6V6H6M0,0H18V18H0Z" transform="translate(62 92)"/> <path id="Path_1sssssrrre3" data-name="Path 13" d="M6,6v6h6V6H6M0,0H18V18H0Z" transform="translate(87 92)"/> <path id="Pathsdf_2a" data-name="Path 2" d="M923.524,596.275l-6-.044.823-112.883c.026-1.27.352-5.368,3.474-6.45,3.207-1.111,5.755,1.989,6.593,3.008,1.577,1.966,3.189,5.346,5.421,10.025l2.269,4.7,3.121.536a3,3,0,0,1,2.04,1.373l6.448,10.374a3,3,0,0,1,.452,1.584v9.777a7.291,7.291,0,0,1-2.383,5.048,7.96,7.96,0,0,1-6.136,1.781q-.11-.009-.218-.025c-1.337-.065-9.227-.032-15.385.013Zm9.322-77.242a67.572,67.572,0,0,1,7.265.225l.011-.14c1.691.135,1.985-.461,2.051-1.062l-.007-8.7-5.285-8.5-3.314-.57a3,3,0,0,1-2.182-1.628l-2.965-6.136c-1.657-3.474-3.023-6.338-4.081-8l-.252,34.568C927.7,519.054,930.566,519.033,932.846,519.033Z" transform="translate(-898 -476)"/> <path id="Path_11dssfffsdfsdfs" data-name="Path 11" d="M7,6A1,1,0,0,0,6,7v5a1,1,0,0,0,1,1H19V6H7M7,0H25V19H7a7,7,0,0,1-7-7V7A7,7,0,0,1,7,0Z" transform="translate(1 18)"/> <path id="Path_dfdsfsdfg3" data-name="Path 3" d="M975.336,513.474c-8.576,0-18.918-.011-31.413-.024l.006-6c18.308.019,64.943.056,70.308.011a3.191,3.191,0,0,0,1-.581c-.419.315-2.209-.994-3.825-1.764l-7.772-4.415h-83.12v-6h84.706l8.955,5.1c1.977.924,7.03,3.766,6.86,7.909-.1,2.44-1.832,4.308-5.146,5.551l-.165-.441C1012.663,513.357,1003.684,513.474,975.336,513.474Z" transform="translate(-898 -476)"/> <path id="Padfgdtsdfsdfh_4" data-name="Path 4" d="M934.914,596.734h-6V523.564h6Z" transform="translate(-898 -476.104)"/> <path id="Path_ffsdf5" data-name="Path 5" d="M953.2,594.209h-6V543.794h18.363V555.9h6.363V525.089h6V561.9H959.562V549.794H953.2Z" transform="translate(-898 -476)"/> <path id="Path_assfsdfdf6" data-name="Path 6" d="M977.926,594.209h-6V549.794h-6.363V561.9H947.2V531.385h6V555.9h6.363V543.794h18.363Z" transform="translate(-861 -476)"/> <path id="Path_fsdff7" data-name="Path 7" d="M959.726,545.967h-6V532.214h6Z" transform="translate(-898 -476.828)"/> <path id="Padtdh_10" data-name="Path 10" d="M959.726,540.874h-6v-8.66h6Z" transform="translate(619.27 -885.918) rotate(90)"/> <path id="Patsdfgdfh_ads8" data-name="Path 8" d="M959.726,540.874h-6v-8.66h6Z" transform="translate(-849 -470.735)"/> <path id="Path_rtysstr9" data-name="Path 9" d="M959.726,553.851h-6V532.214h6Z" transform="translate(-849 -497.731)"/> <path id="Patdshgg_1" data-name="Path 1" d="M1019.052,598.678H902.542a3,3,0,0,1,0-6h116.51a3,3,0,0,1,0,6Z" transform="translate(-899.094 -476)"/> </g> </svg>
-              <a href="service-detail.html">
-                <i class="fa-solid fa-arrow-up-long"></i>
-              </a>
             </div>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12" >
           <div class="service-two-box">
-            <h3><a href="service-detail.html">Architecture</a></h3>
-            <p>Designing and Building The Most Beautiful Custom Homes.</p>
+            <h3>Rugalmas és moduláris</h3>
+            <p>Panelek és oszlopok sokféle szélességben és magasságban elérhetők</p>
             <div class="service-two-icon d-flex-all justify-content-start">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="91" height="111" viewBox="0 0 91 111"> <defs> <clipPath id="clip-_1"> <rect width="91" height="111"/> </clipPath> </defs> <g id="_1" data-name="1" clip-path="url(#clip-_1)"> <path id="Pdath_1" data-name="Path 1" d="M1002.528,576.449h-6V495.111l-70.187.605-.052-6,76.239-.657Z" transform="translate(-913 -488)"/> <path id="Path_5sd" data-name="Path 5" d="M969.511,597.925a6.793,6.793,0,0,1-2.412-.474l-3.485-1.844c-1.236.653-2.905,1.53-3.361,1.747-3.22.98-5.016.169-6.035-.654-2.312-1.869-2.207-5.009-2.162-5.62l-.008-4.413a3,3,0,0,1,6,0V591.3c.335.3,4.153-1.732,4.156-1.734a3,3,0,0,1,2.824,0l3.931,2.1a3.787,3.787,0,0,1-.053-.68l.106-5.614a3,3,0,1,1,6,.125l-.112,5.357c.046.452.179,4.192-2.378,6.1A4.989,4.989,0,0,1,969.511,597.925Z" transform="translate(-913 -488)"/> <path id="Pasdafth_6" data-name="Path 6" d="M6,6V81H71V6H6M0,0H77V87H0Z" transform="translate(2 12)"/> <path id="Pasdfth_2" data-name="Path 2" d="M969.019,522.225h-33.5v-6h33.5Z" transform="translate(-912 -488)"/> <path id="Patfdgh_3" data-name="Path 3" d="M990.119,522.225h-54.6v-6h54.6Z" transform="translate(-922.099 -477)"/> <path id="Patsdfh_4" data-name="Path 4" d="M974.334,522.225H935.517v-6h38.817Z" transform="translate(-922.55 -466)"/> <path id="Path_sa7" data-name="Path 7" d="M16.5,6A10.5,10.5,0,1,0,27,16.5,10.512,10.512,0,0,0,16.5,6m0-6A16.5,16.5,0,1,1,0,16.5,16.5,16.5,0,0,1,16.5,0Z" transform="translate(35 66)"/> </g> </svg>
-              <a href="service-detail.html">
-                <i class="fa-solid fa-arrow-up-long"></i>
-              </a>
             </div>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12" >
           <div class="service-two-box">
-            <h3><a href="service-detail.html">Welding & Laser</a></h3>
-            <p>Designing and Building The Most Beautiful Custom Homes.</p>
+            <h3>Moduláris ajtó megoldások</h3>
+            <p>Könnyedén integrálhatók a gépbiztonsági kerítésekhez</p>
             <div class="service-two-icon d-flex-all justify-content-start">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="124" viewBox="0 0 124 124"> <defs> <clipPath id="fgsfssss"> <rect width="124" height="124"/> </clipPath> </defs> <g id="_3r" data-name="3" clip-path="url(#fgsfssss)"> <path id="Path_1sdsddsffa2" data-name="Path 12" d="M6,6v6h6V6H6M0,0H18V18H0Z" transform="translate(62 92)"/> <path id="Path_1rrsdfre3" data-name="Path 13" d="M6,6v6h6V6H6M0,0H18V18H0Z" transform="translate(87 92)"/> <path id="Patsdfsh_2a" data-name="Path 2" d="M923.524,596.275l-6-.044.823-112.883c.026-1.27.352-5.368,3.474-6.45,3.207-1.111,5.755,1.989,6.593,3.008,1.577,1.966,3.189,5.346,5.421,10.025l2.269,4.7,3.121.536a3,3,0,0,1,2.04,1.373l6.448,10.374a3,3,0,0,1,.452,1.584v9.777a7.291,7.291,0,0,1-2.383,5.048,7.96,7.96,0,0,1-6.136,1.781q-.11-.009-.218-.025c-1.337-.065-9.227-.032-15.385.013Zm9.322-77.242a67.572,67.572,0,0,1,7.265.225l.011-.14c1.691.135,1.985-.461,2.051-1.062l-.007-8.7-5.285-8.5-3.314-.57a3,3,0,0,1-2.182-1.628l-2.965-6.136c-1.657-3.474-3.023-6.338-4.081-8l-.252,34.568C927.7,519.054,930.566,519.033,932.846,519.033Z" transform="translate(-898 -476)"/> <path id="Path_1sdf1dsdfsfsdfs" data-name="Path 11" d="M7,6A1,1,0,0,0,6,7v5a1,1,0,0,0,1,1H19V6H7M7,0H25V19H7a7,7,0,0,1-7-7V7A7,7,0,0,1,7,0Z" transform="translate(1 18)"/> <path id="Pathsdfs_dfg3" data-name="Path 3" d="M975.336,513.474c-8.576,0-18.918-.011-31.413-.024l.006-6c18.308.019,64.943.056,70.308.011a3.191,3.191,0,0,0,1-.581c-.419.315-2.209-.994-3.825-1.764l-7.772-4.415h-83.12v-6h84.706l8.955,5.1c1.977.924,7.03,3.766,6.86,7.909-.1,2.44-1.832,4.308-5.146,5.551l-.165-.441C1012.663,513.357,1003.684,513.474,975.336,513.474Z" transform="translate(-898 -476)"/> <path id="Padfgdsdfth_4" data-name="Path 4" d="M934.914,596.734h-6V523.564h6Z" transform="translate(-898 -476.104)"/> <path id="Pathdfs_ff5" data-name="Path 5" d="M953.2,594.209h-6V543.794h18.363V555.9h6.363V525.089h6V561.9H959.562V549.794H953.2Z" transform="translate(-898 -476)"/> <path id="Path_asdfsdf6" data-name="Path 6" d="M977.926,594.209h-6V549.794h-6.363V561.9H947.2V531.385h6V555.9h6.363V543.794h18.363Z" transform="translate(-861 -476)"/> <path id="Pathsd_ff7" data-name="Path 7" d="M959.726,545.967h-6V532.214h6Z" transform="translate(-898 -476.828)"/> <path id="Patdsh_10" data-name="Path 10" d="M959.726,540.874h-6v-8.66h6Z" transform="translate(619.27 -885.918) rotate(90)"/> <path id="Patsdfdsdagdfh_8" data-name="Path 8" d="M959.726,540.874h-6v-8.66h6Z" transform="translate(-849 -470.735)"/> <path id="Path_rtdsytr9" data-name="Path 9" d="M959.726,553.851h-6V532.214h6Z" transform="translate(-849 -497.731)"/> <path id="Padthgg_1" data-name="Path 1" d="M1019.052,598.678H902.542a3,3,0,0,1,0-6h116.51a3,3,0,0,1,0,6Z" transform="translate(-899.094 -476)"/> </g> </svg>
-              <a href="service-detail.html">
-                <i class="fa-solid fa-arrow-up-long"></i>
-              </a>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!-- Service Style Two End -->
+  <!-- ./Features -->

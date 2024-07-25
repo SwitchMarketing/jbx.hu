@@ -81,8 +81,9 @@
   }*/
   .service-style-two .service-two-box {
     border: 1px solid #c1c1c1;
-    padding: 40px 40px 0;
+    padding: 40px 40px 100px 40px;
     position: relative;
+    height: 100%;
   
     &:before {
       content: "";
@@ -105,10 +106,16 @@
       height: 100%;
     }
   
-    h3 a {
+    h3 {
       font-size: 26px;
-      margin-bottom: 8px;
-      color: black;
+        margin-bottom: 8px;
+        color: black;
+        font-weight: 700;
+      a {
+        font-size: 26px;
+        margin-bottom: 8px;
+        color: black;
+      }
     }
   
     p {
@@ -125,8 +132,10 @@
   
       width: 105px;
       height: 125px;
-      position: relative;
-  
+      position: absolute;
+      left: 40px;
+      bottom: 0;
+
       &:before {
         content: "";
         position: absolute;
@@ -152,7 +161,7 @@
         z-index: 1;
       }
   
-      a i {
+      span i {
         color: black;
       }
     }
@@ -165,11 +174,11 @@
   
       opacity: 1;
       visibility: visible;
-  
+      /*
       svg {
         opacity: 0;
       }
-  
+      */
       &:before {
         background: transparent;
       }

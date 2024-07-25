@@ -8,7 +8,7 @@ section {
     }
 
     &.light-bg-color {
-        background-color: #f7f6f2;
+        background-color: #f8f6ee;
     }
 
     &.success,
@@ -84,7 +84,7 @@ section {
     }
     
     &:nth-child(2n) {
-        background-color: #f7f6f2;
+        background-color: #f5f3ef;
         /*@include mobile() {
             background-color: transparent;
         }*/
