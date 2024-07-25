@@ -36,6 +36,19 @@
     }
   
     position: relative;
+
+    figure {
+      width: 100%;
+      height: 580px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      @include mobile { 
+        height: 420px;
+      }
+    }
   
     figure:before {
       content: "";
