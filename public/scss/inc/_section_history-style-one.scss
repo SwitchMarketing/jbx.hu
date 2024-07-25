@@ -1,0 +1,74 @@
+.history-style-one .history-data {
+    a {
+      width: 95px;
+      height: 95px;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      bottom: 45px;
+      left: 50px;
+  
+      i {
+        font-size: 30px;
+        transform: rotate(45deg);
+        color: #000;
+      }
+  
+      &:hover i {
+        transform: rotate(45deg) translate(0px, -5px);
+      }
+    }
+  
+    .details {
+      h3 {
+        font-size: 35px;
+        color: white;
+        margin-bottom: 25px;
+      }
+  
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 55px 50px 45px 50px;
+      height: 100%;
+    }
+  
+    position: relative;
+  
+    figure:before {
+      content: "";
+      background: black;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.5;
+    }
+  
+    .details {
+      p {
+        color: #ddd;
+        transform: translateY(10px);
+        opacity: 0;
+        visibility: hidden;
+      }
+  
+      a {
+        transform: translateY(10px);
+        opacity: 0;
+        visibility: hidden;
+      }
+  
+      &:hover {
+        p, a {
+          transform: translateY(0);
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+  }
+  
