@@ -1,14 +1,13 @@
   <!-- Features -->
   <section class="gap service-style-two">
     <div class="heading">
-      <h2>Moduláris és gyors telepítés</h2>
+      <figure>
+        <img src="<?php echo img_src('logo-axelent.svg') ?>" alt="Bemutatkozik az Axelent">
+      </figure>
+      <span>Ipari biztonsági kerítés</span>
+      <h2>Különleges jellemzői</h2>
     </div>
     <div class="container">
-      <div class="row justify-content-center mb-5">
-        <div class="col-lg-6">
-          <p class="fs-5 text-justify">A modularitás és a jól átgondolt tervezés tette az X-Guard gépbiztonsági rendszert a piacon a legkeresettebbé. Az okos kattintós rögzítésünknek köszönhetően az Axelent gépbiztonsági kerítéseit rendkívül gyorsan és könnyen lehet telepíteni, szétszerelni, áthelyezni vagy bővíteni, ahogy szükséges.</p>
-        </div>
-      </div>
       <div class="row g-0">
         <div class="col-lg-4 col-md-6 col-sm-12" >
           <div class="service-two-box">
