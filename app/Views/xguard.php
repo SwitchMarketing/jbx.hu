@@ -3,6 +3,7 @@
 <?php
 echo $this->include('xguard/hero');
 echo $this->include('xguard/about');
+echo $this->include('xguard/modular');
 echo $this->include('xguard/features');
 echo $this->include('xguard/types');
 echo $this->include('xguard/video');
