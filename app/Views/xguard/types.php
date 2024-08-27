@@ -4,7 +4,7 @@
           <figure>
               <img src="<?php echo img_src('logo-axelent.svg') ?>" alt="AXELENT Safety Design" loading="lazy">
           </figure>
-          <span>X-Guard</span>
+          <span>X-Guard - Hálós Panelek</span>
           <h2>Biztonsági kerítés típusok</h2>
       </div>
       <div class="container">
@@ -18,19 +18,20 @@
                             <li>50x20 mm rácsméret</li>
                             <li>22000 mm magas elemek</li>
                             <li>6 féle szélességű panellel</li>
+                            <li>oszloponként 4 padló rögzítési pont</li>
                             <li>120 mm biztonsági távolság</li>
                           </ul>
                       </div>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo placeholder('540x300') ?>" alt="Core Values Image 1">
+                              <img class="w-100" src="<?php echo placeholder('540x350') ?>" alt="Core Values Image 1">
                           </figure>
                       </div>
                   </li>
                   <li>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo placeholder('540x300') ?>" alt="Core Values Image 1">
+                              <img class="w-100" src="<?php echo placeholder('540x350') ?>" alt="Core Values Image 1">
                           </figure>
                       </div>
                       <div class="data">
@@ -40,6 +41,7 @@
                             <li>50x30 mm rácsméret</li>
                             <li>5 féle magasság</li>
                             <li>13 különböző szélességű panel</li>
+                            <li>oszloponként 2 padló rögzítési pont</li>
                             <li>200 mm biztonsági távolság</li>
                           </ul>
                       </div>
@@ -52,12 +54,13 @@
                             <li>50x30 mm rácsméret</li>
                             <li>3 féle magasság</li>
                             <li>13 különböző szélességű panel</li>
+                            <li>oszloponként 2 padló rögzítési pont</li>
                             <li>200 mm biztonsági távolság</li>
                           </ul>
                       </div>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo placeholder('540x300') ?>" alt="Core Values Image 1">
+                              <img class="w-100" src="<?php echo placeholder('540x350') ?>" alt="Core Values Image 1">
                           </figure>
                       </div>
                   </li>
