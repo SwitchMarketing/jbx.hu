@@ -7,6 +7,7 @@ echo $this->include('xprotect/features');
 echo $this->include('xprotect/types');
 echo $this->include('xprotect/plastic');
 echo $this->include('xprotect/extensible');
+echo $this->include('shared/exclusive');
 echo $this->include('shared/products');
 echo $this->include('shared/how-we-work');
 echo $this->include('shared/contact-form');
