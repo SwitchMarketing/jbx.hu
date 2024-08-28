@@ -1,5 +1,4 @@
 <main>
 <?php echo view('shared/page-header', ['title' => 'Bemutatkozó']); ?>
-<div class="sections">
-</div>
+<?php echo view('about/history') ?>
 </main>

@@ -10,6 +10,7 @@ var App = {
     this.toggleDarkMode();
     this.toggleMobileMenu();
     this.dropzoneUpload();
+    this.timeLine();
 
     // Nice Select
     if ($("select")[0]) {
@@ -157,6 +158,24 @@ var App = {
         behavior: "smooth",
       });
     });
+  },
+
+  /**
+   * 
+   * timeline scrolling
+   * 
+   */
+  timeLine: function() {
+
+    window.onscroll = function() {
+        var num = window.pageYOffset;
+        $('#timeline').waypoint(function() {
+            $(".fill").css("height", num);
+        }, {
+            offset: '100%'
+        });        
+    }
+
   },
 
   /**
