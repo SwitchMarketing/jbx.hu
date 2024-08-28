@@ -3,6 +3,13 @@
       // font-size: 50px;
       margin-bottom: 15px;
     }
+
+    p {
+      margin-bottom: 1rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   
     figure {
       width: 91%;

@@ -12,9 +12,17 @@
         width: 50%;
       }
   
-      .data h3 {
-        font-size: 34px;
-        margin-bottom: 20px;
+      .data {
+        h3 {
+          font-size: 34px;
+          margin-bottom: 20px;
+        }   
+        p {
+          margin-bottom: 1rem;
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }     
       }
   
       &:nth-child(odd) .data p {
