@@ -18,7 +18,7 @@
             <div class="details">
               <h3>X-Guard</h3>
               <p>Az Axelent X-Guard gépbiztonsági kerítés rendszer egy moduláris elemekből álló, rövid idő alatt telepíthető és szükség esetén könnyen átalakítható, bővíthető megoldás.</p>
-              <a href="#">
+              <a href="<?php echo base_url('gepbiztonsagi-kerites') ?>">
                 <i class="fa-solid fa-arrow-up-long"></i>
               </a>
             </div>
@@ -33,7 +33,7 @@
             <div class="details">
               <h3>Wire Tray</h3>
               <p>Az Axelent rozsdamentes kábeltálca rendszer egyedülálló módon kínál teljes körű kábelezési megoldást.</p>
-              <a href="#">
+              <a href="<?php echo base_url('kabeltalca-megoldasok') ?>">
                 <i class="fa-solid fa-arrow-up-long"></i>
               </a>
             </div>
@@ -48,7 +48,7 @@
             <div class="details">
               <h3>X-Protect</h3>
               <p>Moduláris ütközésvédelem, amely a piacon egyedülálló módon rendelkezik könnyű összeszerelhetőséggel, valódi rugalmassággal, és a meglévő rendszerekkel történő integrációjával.</p>
-              <a href="#">
+              <a href="<?php echo base_url('utkozesvedelem') ?>">
                 <i class="fa-solid fa-arrow-up-long"></i>
               </a>
             </div>
@@ -63,7 +63,7 @@
             <div class="details">
               <h3>Raktárbiztonsági megoldások</h3>
               <p>Többek között leesés védelmi megoldásokat a raktározott termékekhez, közlekedő területekre könnyen telepíthető korlát megoldásokat és komplett térelválasztó rendszereket akár felülről zárt kivitelben is.</p>
-              <a href="#">
+              <a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>">
                 <i class="fa-solid fa-arrow-up-long"></i>
               </a>
             </div>
@@ -78,7 +78,7 @@
             <div class="details">
               <h3>Ingatlan megoldások</h3>
               <p>Moduláris alagsori és tetőtéri tároló rendszerek, kül- és beltéri kerékpártárolók az Axelent-től.</p>
-              <a href="#">
+              <a href="<?php echo base_url('ingatlan-megoldasok') ?>">
                 <i class="fa-solid fa-arrow-up-long"></i>
               </a>
             </div>
