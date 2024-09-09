@@ -12,7 +12,7 @@
             <div class="col-lg-6 mt-4 mt-lg-0">
                 <div class="data">
                     <div class="heading px-0 mb-4">
-                        <h2 class="text-start mb-0 with-image"><img src="<?php echo img_src('logo-axelent.svg') ?>" alt="AXELENT" loading="lazy"> SAFESTORE</h2>
+                        <h2 class="text-start mb-0 with-image"><img src="<?php echo img_src('logo-axelent.svg') ?>" alt="AXELENT" loading="lazy"> SafeStore</h2>
                         <h3 class="text-start fs-4">Leesés védelem raktározott termékekhez</h3>
                     </div>
 

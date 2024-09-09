@@ -12,7 +12,7 @@
             <div class="col-lg-6 mt-4 mt-lg-0">
                 <div class="data">
                     <div class="heading px-0 mb-4">
-                        <h2 class="text-start mb-0 with-image"><img src="<?php echo img_src('logo-axelent.svg') ?>" alt="AXELENT" loading="lazy"> X-STORE 2.0</h2>
+                        <h2 class="text-start mb-0 with-image"><img src="<?php echo img_src('logo-axelent.svg') ?>" alt="AXELENT" loading="lazy"> X-Store 2.0</h2>
                         <h3 class="text-start fs-4">Raktár- és térelválasztás</h3>
                     </div>
                     <p class="mb-4">Dedikált megoldásunk elzárandó területekre. Az X-Store 2.0 könnyen összeállítható, és bővíthető, zárható helyiség kialakításra lett tervezve, különböző zármegoldásokkal, és akár menyezettel.</p>
