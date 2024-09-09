@@ -20,4 +20,24 @@
         color: #fff;
       }
     }
+  @include medium-md() {
+    text-align: center;
+    .footer-first { 
+      justify-content: center;
+    }
+    .footer-logo {   
+      margin-bottom: 1rem !important;   
+      a {
+        height: auto !important;
+        img {
+          max-height: 45px;
+          width: auto;
+        }                
+      }                
+    }
+    a.theme-btn {
+      margin-left: -30px;
+    }
+
   }
+}
