@@ -21,6 +21,23 @@
     width: 56%;
     margin-left: auto;
     margin-right: auto;
+    &.with-image { 
+        display: flex;
+        width: auto;
+        align-items: center;
+        gap: 10px;
+        white-space: nowrap;
+        img {
+            height: 37px;
+        }
+        @include medium-sm() {
+            flex-direction: column;
+            align-items: flex-start;
+            img {
+                height: 25px;
+            }
+        }
+    }
 }
 .heading h2,
 .heading.heading-style-3 h2 span {
