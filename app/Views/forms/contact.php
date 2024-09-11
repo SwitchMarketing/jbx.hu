@@ -7,7 +7,7 @@
         <input type="email" name="email" class="form-control" id="contactEmail" placeholder="Email cím">
     </div>
     <div class="row g-0">
-        <input type="tel" name="phone" class="form-control" id="contactPhone" placeholder="Telefonszám">
+        <input type="tel" name="phone_number" class="form-control" id="contactPhone" placeholder="Telefonszám">
     </div>
     <?php if( isset($products) ): ?>
     <!-- Termékek -->

@@ -69,7 +69,7 @@ class Home extends BaseController
 				$errors = [];
 
 				// név vagy email cím ellenőrzése
-				if(empty($post['email']) && empty($post['phone'])) {
+				if(empty($post['email']) && empty($post['phone_number'])) {
 					$errors['emailphone'] = 'Az <span>email cím</span> vagy <span>telefonszám</span> megadása kötelező';
 				}
 
@@ -91,7 +91,7 @@ class Home extends BaseController
 				$rec = [
 					'name' 		 => $post['name'],
 					'email' 	 => $post['email'] ?? '',
-					'phone' 	 => $post['phone'] ?? '',
+					'phone' 	 => $post['phone_number'] ?? '',
 					'products' 	 => implode(', ', array_unique($post['products'])),
                     'message' 	 => $post['message'] ?? '',        
 					'utm_source' => UtmCookie::get('utm_source')            
@@ -208,7 +208,7 @@ class Home extends BaseController
 				'rules'  => 'permit_empty'				
 			],
 
-			'phone' => [
+			'phone_number' => [
 				'label'  => 'telefonszám',
 				'rules'  => 'permit_empty'				
 			],
