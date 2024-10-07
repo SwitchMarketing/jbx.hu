@@ -8,6 +8,9 @@ echo $this->include('xstore/xrail');
 echo $this->include('xstore/xstore');
 echo $this->include('shared/exclusive');
 echo $this->include('xstore/solutions');
+echo $this->include('shared/products');
+echo $this->include('shared/how-we-work');
+echo $this->include('shared/contact-form');
 ?>
 </div>
 </main>
