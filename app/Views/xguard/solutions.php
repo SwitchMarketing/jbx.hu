@@ -10,7 +10,7 @@
                <h4 class="mb-5 text-center fw-normal">A folyamatos ipari fejlődésekre odafigyelve az utóbbi időben készült pár újabb gépbiztonsági megoldásunk. </h4>     
             </div>
          </div>
-          <div class="row gx-lg-5">
+          <div class="row justify-content-center gx-lg-5">
              <div class="col-lg-6 mb-4 mb-lg-5">
                 <div class="card h-100">
                     <img src="<?php echo placeholder('800x600') ?>" class="card-img-top" alt="">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
              </div>
-             <div class="col-lg-6 mb-4 mb-lg-0">
+             <div class="col-lg-6 mb-4 mb-lg-5">
                 <div class="card h-100">
                     <img src="<?php echo placeholder('800x600') ?>" class="card-img-top" alt="">
                     <div class="card-body p-lg-5">
@@ -38,12 +38,21 @@
                     </div>
                 </div>
              </div>
-             <div class="col-lg-6">
+             <div class="col-lg-6 mb-4 mb-lg-5">
                 <div class="card h-100">
                     <img src="<?php echo placeholder('800x600') ?>" class="card-img-top" alt="">
                     <div class="card-body p-lg-5">
                         <h5 class="card-title">X-Guard - Kiegészítők</h5>
                         <p class="card-text">Az X-Guard termékcsalád széles körű kiegészítőket kínál, amelyek növelik a gépbiztonsági rendszerek hatékonyságát és rugalmasságát. A click-fit rögzítők gyors és egyszerű telepítést tesznek lehetővé, míg a vágókészlet precíz méretre szabást biztosít a helyszínen. Az automata ajtóbehúzók növelik a biztonságot és kényelmet. A rugalmas kábelvezető láncok a tolóajtókhoz ideálisak, és az élvédők, rúgólapok, valamint egyéb kiegészítők tovább növelik a rendszerek funkcionalitását. Az X-Guard termékek és kiegészítők átfogó megoldásokat kínálnak az ipari környezetek biztonságának javítására.</p>
+                    </div>
+                </div>
+             </div>
+             <div class="col-lg-6">
+                <div class="card h-100">
+                    <img src="<?php echo placeholder('800x600') ?>" class="card-img-top" alt="">
+                    <div class="card-body p-lg-5">
+                        <h5 class="card-title">X-Guard - Zár típusok</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut culpa odio rem animi eos quo vel, ea vitae impedit, asperiores quaerat sint, reiciendis assumenda ipsa! Quos itaque eum iusto tenetur.</p>
                     </div>
                 </div>
              </div>

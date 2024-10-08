@@ -48,7 +48,7 @@
                   </li>
                   <li>
                       <div class="data">
-                      <h3>Light</h3>
+                      <h3>Lite</h3>
                           <p>Könnyű ipari biztonsági rácspanel rendszer</p>
                           <ul class="mt-3">
                             <li>50x30 mm rácsméret</li>

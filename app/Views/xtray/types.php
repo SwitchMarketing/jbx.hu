@@ -11,7 +11,7 @@
                     <img src="<?php echo placeholder('600x400') ?>" class="card-img-top" alt="">
                     <div class="card-body p-lg-4">
                         <h5 class="card-title">U-Tray</h5>
-                        <p class="card-text">ndard kábeltálcánk, a legszélesebb felhasználási módokra, 30mm és 110 mm közötti tálca magasságokkal, a legszélesebb kínálatban.</p>
+                        <p class="card-text">Standard kábeltálcánk, a legszélesebb felhasználási módokra, 30mm és 110 mm közötti tálca magasságokkal, a legszélesebb kínálatban.</p>
                     </div>
                 </div>
              </div>
