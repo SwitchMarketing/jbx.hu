@@ -1,0 +1,52 @@
+.certifications {
+    background-color: #232222;
+    padding: 30px 0;        
+
+    color: #e1e1e1;
+
+    div {
+        p {
+            color: #e1e1e1;
+        }
+        &.icon {
+            i {
+                color: $yellow;
+                font-size: 4rem;
+            }            
+        }        
+    }
+
+    ul {
+        display: flex;
+        gap: 26px;
+        li {
+            position: relative;
+            &:after {
+                position: absolute;
+                content: '/';
+                right: -14px;
+                color: $yellow;
+            }
+            &:last-child:after {
+                content: '';
+            }
+        }
+        @include medium-sm() {
+            flex-direction: column;
+            gap: 0;
+            li {
+                padding-left: 14px;
+                &:after {
+                    content: '•';
+                    right: auto;
+                    left: 0;
+                    top: -1px;
+                }
+                &:last-child:after {
+                    content: '•';
+                }
+            }
+        }
+    }
+    
+}

@@ -17,8 +17,15 @@
         width: 100%;
       }
     }
+
+    ul.list {
+      margin-left: 18px;
+      li {
+        list-style-type: disc;
+      }      
+    }
   
-    ul li {
+    ul:not(.list) li {
       i {
         color: #47d562;
         font-size: 20px;

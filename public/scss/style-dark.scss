@@ -536,6 +536,9 @@ body.light-d {
 		h2 {
 			color: $color_1;
 		}
+		h3 {
+			color: $color_1;
+		}
 		span {
 			color: $color_3;
 		}
@@ -689,6 +692,12 @@ body.light-d {
 			&:hover {
 				color: $color_1;
 			}
+		}
+		h3 {
+			color: $color_1;
+		}
+		ul, li {
+			color: $color_1;
 		}
 	}
 	.box {
