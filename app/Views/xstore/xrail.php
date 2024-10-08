@@ -5,7 +5,7 @@
             <div class="col-lg-6">
                 <div class="data">
                     <figure>
-                        <img class="w-100" src="<?php echo placeholder('580x650') ?>" alt="About key Benefits">
+                        <img class="w-100" src="<?php echo placeholder('580x750') ?>" alt="About key Benefits">
                     </figure>
                 </div>
             </div>
@@ -15,19 +15,31 @@
                         <h2 class="text-start mb-0 with-image"><img src="<?php echo img_src('logo-axelent.svg') ?>" alt="AXELENT" loading="lazy"> X-Rail</h2>
                         <h3 class="text-start fs-4">Leesés védelmi korlát megoldások</h3>
                     </div>
-                    <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos minus, dicta temporibus dolores adipisci quo quas eaque iste sunt doloremque saepe odit obcaecati commodi qui earum nobis perspiciatis ut repudiandae?</p>
-                    <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos minus, dicta temporibus dolores adipisci quo quas eaque iste sunt doloremque saepe odit obcaecati commodi qui earum nobis perspiciatis ut repudiandae?</p>
+                    <p class="mb-4">Az esésvédelem alkalmazása létfontosságú, különösen akkor, ha a dolgozók egy méternél nagyobb magasságban dolgoznak. Az ilyen védelmi intézkedések különösen fontosak olyan helyzetekben, ahol veszélyes eszközök vagy anyagok találhatók az alsóbb szinten, illetve ha magas a leesés kockázata.</p>
+                    <p class="mb-4">Az Axelent leesés védelmi rendszere sokoldalú és könnyen telepíthető - így különböző munkakörnyezetekben tudja biztosítani a dolgozók biztonságát.</p>
                     
                     <h3 class="mb-3">X-Rail Jellemzői:</h3>
                     <ul>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>1100mm és 2200mm szélességben</p>
+                            <p>1400 és 2300 mm magasságban</p>
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>Háromféle magasságban</p>
-                        </li>                                                
+                            <p>Gyors rögzítéses 120mm-es Kickplate</p>
+                        </li>
+                        <li class="py-2">
+                            <i class="fa-solid fa-check"></i>
+                            <p>1000 és 1500 mm-es korlát opciók</p>
+                        </li>
+                        <li class="py-2">
+                            <i class="fa-solid fa-check"></i>
+                            <p>Hálós, plexi és lemez burkolattal is elérhető</p>
+                        </li>
+                        <li class="py-2">
+                            <i class="fa-solid fa-check"></i>
+                            <p>X-Guard rendszerrel kompatibilis</p>
+                        </li>                                                                       
                     </ul>
                 </div>
             </div>
