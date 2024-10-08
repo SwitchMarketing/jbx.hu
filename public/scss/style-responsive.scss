@@ -176,23 +176,7 @@ $border-color_1: white;
 			}
 		}
 	}
-	.renovation {
-		.reno-data {
-			&:before {
-				width: 200px;
-				right: 0%;
-			}
-			p {
-				width: 55%;
-			}
-		}
-		&:before {
-			width: 300px;
-		}
-		&:after {
-			width: 300px;
-		}
-	}
+	
 	.featured-slider-two {
 		.s-item {
 			.s-first {
@@ -613,11 +597,7 @@ $border-color_1: white;
 			}
 		}
 	}
-	.renovation {
-		&:after {
-			right: -25%;
-		}
-	}
+	
 	.desktop-nav {
 		.nav-bar {
 			.extras {
@@ -1331,19 +1311,7 @@ $border-color_1: white;
 			}
 		}
 	}
-	.renovation {
-		.reno-data {
-			p {
-				width: 75%;
-			}
-			h3 {
-				line-height: 60px;
-			}
-			h2 {
-				font-size: 80px;
-			}
-		}
-	}
+	
 	.core-features {
 		button.accordion-button {
 			&:before {
@@ -2205,30 +2173,7 @@ $border-color_1: white;
 			margin-top: 100px;
 		}
 	}
-	.renovation {
-		.bbtn {
-			>figure {
-				img {
-					width: 20% !important;
-				}
-			}
-		}
-		.reno-data {
-			h2 {
-				font-size: 70px;
-			}
-			h3 {
-				font-size: 35px;
-				line-height: 55px;
-			}
-			&:before {
-				right: -20%;
-			}
-		}
-		&:after {
-			right: -50%;
-		}
-	}
+	
 	.core-features {
 		button.accordion-button {
 			&:before {
@@ -2812,36 +2757,7 @@ $border-color_1: white;
 			width: 100%;
 		}
 	}
-	.renovation {
-		.reno-data {
-			&:before {
-				display: none;
-				right: -45%;
-			}
-			h2 {
-				margin-bottom: 10px;
-			}
-			p {
-				width: 85%;
-				font-size: 18px;
-				line-height: 30px;
-			}
-		}
-		&:before {
-			left: -20%;
-		}
-		.bbtn {
-			>figure {
-				img {
-					width: 25% !important;
-				}
-			}
-			margin-top: 30px;
-		}
-		&:after {
-			right: -85%;
-		}
-	}
+	
 	.client-review-slider {
 		.slider-data {
 			p {
@@ -3375,27 +3291,7 @@ $border-color_1: white;
 			}
 		}
 	}
-	.renovation {
-		.reno-data {
-			h2 {
-				font-size: 60px;
-				line-height: 70px;
-			}
-			h3 {
-				font-size: 30px;
-				line-height: 45px;
-			}
-			p {
-				width: 100%;
-			}
-		}
-		&:before {
-			left: -35%;
-		}
-		&:after {
-			right: -110%;
-		}
-	}
+	
 	.team-style-one {
 		.owl-item.open.active {
 			width: 8% !important;
@@ -4120,41 +4016,7 @@ $border-color_1: white;
 			height: 595px;
 		}
 	}
-	.renovation {
-		.bbtn {
-			margin-top: 20px;
-			>figure {
-				img {
-					width: 35% !important;
-				}
-			}
-			a {
-				i {
-					font-size: 20px;
-				}
-			}
-		}
-		.reno-data {
-			p {
-				font-size: 16px;
-				line-height: 26px;
-			}
-			h2 {
-				font-size: 45px;
-				line-height: 55px;
-			}
-			h3 {
-				font-size: 25px;
-				line-height: 35px;
-			}
-		}
-		&:before {
-			left: -50%;
-		}
-		&:after {
-			right: -140%;
-		}
-	}
+	
 	.client-review-slider {
 		.slider-data {
 			p {
@@ -4599,14 +4461,7 @@ $border-color_1: white;
 			}
 		}
 	}
-	.renovation {
-		&:before {
-			display: none;
-		}
-		&:after {
-			display: none;
-		}
-	}
+	
 	button.scrollTopStick {
 		i {
 			font-size: 11px;
@@ -4870,14 +4725,7 @@ $border-color_1: white;
 			}
 		}
 	}
-	.renovation {
-		.reno-data {
-			h3 {
-				font-size: 22px;
-				line-height: 32px;
-			}
-		}
-	}
+	
 	.team-style-one {
 		.owl-item.open.active {
 			width: 7% !important;

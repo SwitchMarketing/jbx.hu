@@ -1,5 +1,4 @@
 .renovation {
-    padding-top: 80px;
     overflow: hidden;
   
     .parallax:before {
@@ -29,10 +28,40 @@
     }
   
     &:after {
-      right: -17%;
+      right: -20%;
     }
   
+    .container { 
+      position: relative;
+      &:before {
+        content: "";
+        width: 250px;
+        height: 100%;
+        position: absolute;
+        right: -12%;
+        top: 50%;
+        transform: translateY(-50%) skew(-20deg, 0deg);
+        z-index: 1;
+        background-color: $yellow;
+      }
+      @include medium-md() {
+        &:before {
+          right: -30%;
+        }
+        
+      }
+      @include mobile() {
+        &:before {
+          display: none;
+        }
+        
+      }
+    }
+
     .reno-data {
+
+      position: relative;
+
       h2, h3, p {
         color: white;
       }
@@ -43,30 +72,32 @@
       }
   
       h2 {
-        font-size: 5rem;        
-      }
-  
-      text-align: center;
-      position: relative;
+        font-size: 4.6rem;        
+      }      
   
       p {
-        font-size: 20px;
+        font-size: 1.1rem;
         line-height: 1.8rem;
-        width: 41%;
+        //width: 41%;
         margin: auto;
         text-align: left;
+      } 
+      
+      @include mobile() {
+        h3 {
+          font-size: 1.8rem;
+          line-height: 1.8rem;
+        }
+    
+        h2 {
+          font-size: 2.6rem;        
+        }  
+        p {
+          font-size: 1rem;
+          line-height: 1.2rem;          
+        } 
       }
-  
-      &:before {
-        content: "";
-        width: 250px;
-        height: 510px;
-        position: absolute;
-        right: -15%;
-        top: 50%;
-        transform: translateY(-50%) skew(-20deg, 0deg);
-        z-index: -1;
-      }
+      
     }
   
     .bbtn {
