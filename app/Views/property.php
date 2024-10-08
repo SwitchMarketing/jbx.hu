@@ -11,6 +11,8 @@ echo $this->include('property/storage-poles');
 echo $this->include('property/storage-wall');
 echo $this->include('property/other-storage');
 echo $this->include('shared/exclusive');
+echo $this->include('property/two-storey-storage');
+echo $this->include('property/service-station');
 echo $this->include('shared/products');
 echo $this->include('shared/how-we-work');
 echo $this->include('shared/contact-form');
