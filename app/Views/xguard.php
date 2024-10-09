@@ -8,11 +8,9 @@ echo $this->include('xguard/solutions');
 echo $this->include('xguard/xtray');
 echo $this->include('xguard/modular');
 echo $this->include('xguard/features');
-
 // echo $this->include('xguard/video');
 // echo $this->include('xguard/accessories');
-
-echo $this->include('xguard/gallery');
+// echo $this->include('xguard/gallery');
 echo $this->include('shared/exclusive');
 echo $this->include('shared/products');
 echo $this->include('shared/how-we-work');
