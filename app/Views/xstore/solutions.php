@@ -11,7 +11,7 @@
         <div class="col-lg-6" >
           <div class="data">
             <figure class="goal-img">
-              <img src="<?php echo placeholder('550x310') ?>" alt="Megoldások automatizált raktáraknak" loading="lazy">
+              <img src="<?php echo img_src('x-store/megoldasok-automatizalt-raktar.webp') ?>" alt="Megoldások automatizált raktáraknak" loading="lazy">
             </figure>            
           </div>
         </div>

@@ -11,7 +11,7 @@
           </div>
           <div class="s-second">
             <figure>
-              <img src="<?php echo placeholder('1900x1000') ?>" alt="raktárbiztonsági megoldások" loading="lazy">
+              <img src="<?php echo img_src('x-store/banner-1.webp') ?>" alt="raktárbiztonsági megoldások" loading="lazy">
             </figure>
           </div>
         </div>
