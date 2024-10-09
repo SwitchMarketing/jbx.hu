@@ -5,7 +5,7 @@
             <div class="col-lg-6">
                 <div class="data">
                     <figure>
-                        <img class="w-100" src="<?php echo placeholder('580x640') ?>" alt="About key Benefits">
+                        <img class="w-100" src="<?php echo img_src('x-guard/kabeltalca.webp') ?>" alt="Kábeltálca megoldások">
                     </figure>
                 </div>
             </div>

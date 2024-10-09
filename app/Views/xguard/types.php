@@ -24,14 +24,14 @@
                       </div>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo placeholder('540x350') ?>" alt="Core Values Image 1">
+                              <img class="w-100" src="<?php echo img_src('x-guard/premium.webp') ?>" alt="Premium">
                           </figure>
                       </div>
                   </li>
                   <li>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo placeholder('540x350') ?>" alt="Core Values Image 1">
+                              <img class="w-100" src="<?php echo img_src('x-guard/classic.webp') ?>" alt="Classic">
                           </figure>
                       </div>
                       <div class="data">
@@ -60,7 +60,7 @@
                       </div>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo placeholder('540x350') ?>" alt="Core Values Image 1">
+                              <img class="w-100" src="<?php echo img_src('x-guard/lite.webp') ?>" alt="Lite">
                           </figure>
                       </div>
                   </li>

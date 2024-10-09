@@ -14,10 +14,10 @@
         <div class="col-lg-6">
           <div class="about-data-left">
             <figure>
-              <img src="<?php echo placeholder('360x480') ?>" alt="X-guard" loading="lazy">
+              <img src="<?php echo img_src('x-guard/1.webp') ?>" alt="X-guard" loading="lazy">
             </figure>
             <figure class="about-image">
-              <img src="<?php echo placeholder('300x400') ?>" alt="Axelent Xperience" loading="lazy">
+              <img src="<?php echo img_src('x-guard/2.webp') ?>" alt="X-Guard" loading="lazy">
             </figure>
           </div>
         </div>        
