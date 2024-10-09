@@ -459,6 +459,7 @@ body.light-d {
 	.service-style-two {
 		.service-two-box {
 			h3 {
+				color: $color_1;
 				a {
 					color: $color_1;
 				}
@@ -472,6 +473,9 @@ body.light-d {
 				}
 			}
 			&:hover {
+				h3 {
+					color: $black;
+				}
 				.service-two-icon {
 					&:before {
 						background-color: $background-color_3;
@@ -1138,4 +1142,15 @@ body.light-d {
 			background-color: $background-color_5;
 		}
 	}
+}
+
+.solutions {
+
+	.card {
+		background-color: $black;
+		.card-title {
+			color: $color_1;
+		}
+	}
+
 }
