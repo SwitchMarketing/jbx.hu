@@ -5,7 +5,7 @@
             <div class="col-lg-6">
                 <div class="data">
                     <figure>
-                        <img class="w-100" src="<?php echo placeholder('580x880') ?>" alt="About key Benefits">
+                        <img class="w-100" src="<?php echo img_src('ingatlan/lemezes_tarolo.webp') ?>" alt="Lemezes oldalfallal szerelt tároló">
                     </figure>
                 </div>
             </div>

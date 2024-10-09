@@ -5,7 +5,7 @@
             <div class="col-lg-6 order-lg-last">
                 <div class="data">
                     <figure>
-                        <img class="w-100" src="<?php echo placeholder('580x740') ?>" alt="About key Benefits">
+                        <img class="w-100" src="<?php echo img_src('ingatlan/szervizallomas.webp') ?>" alt="Kerékpár szervizállomás">
                     </figure>
                 </div>
             </div>

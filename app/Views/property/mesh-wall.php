@@ -5,7 +5,7 @@
             <div class="col-lg-6 order-lg-last">
                 <div class="data d-flex justify-content-lg-end">
                     <figure>
-                        <img class="w-100" src="<?php echo placeholder('580x750') ?>" alt="About key Benefits">
+                        <img class="w-100" src="<?php echo img_src('ingatlan/halos_tarolo.webp') ?>" alt="Hálós fallal ellátott tároló">
                     </figure>
                 </div>
             </div>
