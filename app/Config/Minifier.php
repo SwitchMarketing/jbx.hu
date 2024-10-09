@@ -148,7 +148,7 @@ class Minifier extends BaseMinifier
             'jquery.fancybox.min.js',
             'aos.js',
             'dropzone_v6.min.js',            
-            'odometer.js',
+            // 'odometer.js',
             'main.min.js'
         ]
     ];
@@ -173,7 +173,7 @@ class Minifier extends BaseMinifier
             'jquery.fancybox.min.css',
             'aos.css',            
             'dropzone.min.css',
-            'odometer.min.css',
+            // 'odometer.min.css',
             'style.min.css',
             'style-dark.min.css',
             'style-responsive.min.css'

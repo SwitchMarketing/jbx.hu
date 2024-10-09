@@ -144,6 +144,12 @@
           animation: $args;
 }
 
+@mixin xl {
+  @media (min-width: 1400px) {
+    @content;
+  }
+}
+
 // Medium Layout: 1280px 
 @mixin medium-xl {
   @media (min-width: 992px) {
