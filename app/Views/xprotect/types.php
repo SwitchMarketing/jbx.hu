@@ -19,14 +19,14 @@
                       </div>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo placeholder('540x350') ?>" alt="Core Values Image 1">
+                              <img class="w-100" src="<?php echo img_src('x-protect/utkozesvedok.webp') ?>" alt="Ütközésvédők">
                           </figure>
                       </div>
                   </li>
                   <li>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo placeholder('540x350') ?>" alt="Core Values Image 1">
+                              <img class="w-100" src="<?php echo img_src('x-protect/gyalogosvedo-korlatok.webp') ?>" alt="Gyalogosvédő korlátok">
                           </figure>
                       </div>
                       <div class="data">
@@ -45,14 +45,14 @@
                       </div>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo placeholder('540x350') ?>" alt="Core Values Image 1">
+                              <img class="w-100" src="<?php echo img_src('x-protect/padlovedo.webp') ?>" alt="Padlóvédő">
                           </figure>
                       </div>
                   </li>
                   <li>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo placeholder('540x350') ?>" alt="Core Values Image 1">
+                              <img class="w-100" src="<?php echo img_src('x-protect/utkozesvedo-oszlop.webp') ?>" alt="Ütközésvédő oszlop">
                           </figure>
                       </div>
                       <div class="data">

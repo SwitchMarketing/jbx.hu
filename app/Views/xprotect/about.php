@@ -13,10 +13,10 @@
         <div class="col-lg-6">
           <div class="about-data-left">
             <figure>
-              <img src="<?php echo placeholder('360x480') ?>" alt="X-protect" loading="lazy">
+              <img src="<?php echo img_src('x-protect/1.webp') ?>" alt="X-protect" loading="lazy">
             </figure>
             <figure class="about-image">
-              <img src="<?php echo placeholder('300x400') ?>" alt="X-protect" loading="lazy">
+              <img src="<?php echo img_src('x-protect/2.webp') ?>" alt="X-protect" loading="lazy">
             </figure>
           </div>
         </div>        
