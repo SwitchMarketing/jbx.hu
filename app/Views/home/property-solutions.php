@@ -17,7 +17,7 @@
               <li><i class="fa-solid fa-circle-dot"></i>Kétszintes, egyedi kerékpár tároló</li>
               <li><i class="fa-solid fa-circle-dot"></i>Kerékpár szervíz állomás</li>
             </ul>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn mt-4">Ajánlatkérés  <i class="fa-solid fa-angles-right"></i></a>
+            <a href="<?php echo base_url('ingatlan-megoldasok') ?>" class="theme-btn mt-4">Bővebben  <i class="fa-solid fa-angles-right"></i></a>
           </div>
         </div>
         <div class="col-lg-7">

@@ -18,7 +18,7 @@
               <li><i class="fa-solid fa-circle-dot"></i>Padló károsodás mentes ütközés elnyelés</li>
               <li><i class="fa-solid fa-circle-dot"></i>Integrálható az Axelent X-Guard rendszerrel</li>
             </ul>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn mt-4">Ajánlatkérés  <i class="fa-solid fa-angles-right"></i></a>
+            <a href="<?php echo base_url('utkozesvedelem') ?>" class="theme-btn mt-4">Bővebben  <i class="fa-solid fa-angles-right"></i></a>
           </div>
         </div>
         <div class="col-lg-7">

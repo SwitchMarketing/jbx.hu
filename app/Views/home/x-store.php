@@ -13,7 +13,7 @@
               <li><i class="fa-solid fa-circle-dot"></i>X-Rail - leesés védelmi korlát megoldások</li>
               <li><i class="fa-solid fa-circle-dot"></i>Axelent X-Store 2.0 - raktár-, és térelválasztás</li>
             </ul>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn mt-4">Ajánlatkérés  <i class="fa-solid fa-angles-right"></i></a>
+            <a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>" class="theme-btn mt-4">Bővebben  <i class="fa-solid fa-angles-right"></i></a>
           </div>
         </div>
         <div class="col-lg-7">

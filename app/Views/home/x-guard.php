@@ -19,7 +19,7 @@
               <li><i class="fa-solid fa-circle-dot"></i>Többféle rács, illetve lemez kivitelben</li>
               <li><i class="fa-solid fa-circle-dot"></i>Integrálható kábeltálca rendszer</li>
             </ul>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn mt-4">Ajánlatkérés  <i class="fa-solid fa-angles-right"></i></a>
+            <a href="<?php echo base_url('gepbiztonsagi-kerites') ?>" class="theme-btn mt-4">Bővebben  <i class="fa-solid fa-angles-right"></i></a>
           </div>
         </div>
         <div class="col-lg-7">

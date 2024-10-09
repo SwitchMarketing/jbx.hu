@@ -18,7 +18,7 @@
               <li><i class="fa-solid fa-circle-dot"></i>A legerősebb gyors csatlakozás</li>
               <li><i class="fa-solid fa-circle-dot"></i>Megfelel a legmagasabb követelményeknek</li>
             </ul>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn mt-4">Ajánlatkérés  <i class="fa-solid fa-angles-right"></i></a>
+            <a href="<?php echo base_url('kabeltalca-megoldasok') ?>" class="theme-btn mt-4">Bővebben  <i class="fa-solid fa-angles-right"></i></a>
           </div>
         </div>
         <div class="col-lg-7" >
