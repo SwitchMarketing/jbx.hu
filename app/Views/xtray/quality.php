@@ -5,7 +5,7 @@
             <div class="col-lg-6">
                 <div class="data">
                     <figure>
-                        <img class="w-100" src="<?php echo placeholder('580x400') ?>" alt="About key Benefits">
+                        <img class="w-100" src="<?php echo img_src('x-tray/minosegbiztositas.webp') ?>" alt="Minőségbiztosítás">
                     </figure>
                 </div>
             </div>

@@ -12,10 +12,10 @@
         <div class="col-lg-6">
           <div class="about-data-left">
             <figure>
-              <img src="<?php echo placeholder('360x480') ?>" alt="Wire tray" loading="lazy">
+              <img src="<?php echo img_src('x-tray/1.webp') ?>" alt="Wire tray" loading="lazy">
             </figure>
             <figure class="about-image">
-              <img src="<?php echo placeholder('300x400') ?>" alt="Wire tray" loading="lazy">
+              <img src="<?php echo img_src('x-guard/2.webp') ?>" alt="Wire tray" loading="lazy">
             </figure>
           </div>
         </div>        
