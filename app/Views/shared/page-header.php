@@ -8,23 +8,6 @@
           <p><?php echo $caption ?? '' ?></p>
         </div>
       </div>
-    </div>
-    <div class="breadcrums">
-      <div class="container">
-        <div class="row">
-          <ul>
-            <li>
-              <a href="<?php echo base_url() ?>">
-                <i class="fa-solid fa-house"></i>
-                <p>Főoldal</p>
-              </a>
-            </li>
-            <li class="current">
-              <p><?php echo $title ?? '' ?></p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    </div>    
   </section>
   <!-- ./Page Header -->
