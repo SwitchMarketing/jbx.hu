@@ -42,8 +42,13 @@
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
+                            <p>Könnyen újrahasznosítható, mivel az alkatrészek különálló fém és műanyag elemekből állnak</p>
+                        </li>                        
+                        <li class="py-2">
+                            <i class="fa-solid fa-check"></i>
                             <p>Könnyebb összeszerelés</p>
                         </li>
+                        
                     </ul>
                 </div>
             </div>
