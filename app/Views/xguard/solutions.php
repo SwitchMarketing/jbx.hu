@@ -52,7 +52,7 @@
                     <img src="<?php echo placeholder('800x600') ?>" class="card-img-top" alt="">
                     <div class="card-body p-lg-5">
                         <h5 class="card-title">X-Guard - Zár típusok</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut culpa odio rem animi eos quo vel, ea vitae impedit, asperiores quaerat sint, reiciendis assumenda ipsa! Quos itaque eum iusto tenetur.</p>
+                        <p class="card-text">X-Guard rendszereinkhez egyedileg fejlesztett zármegoldásokkal rendelkezünk, amelyeket bármilyen kombinációban lehet alkalmazni a kerítésrendszereinkkel. Kínálatunkban elérhetőek az egyszerű, de tartós lakattartó konzoloktól kezdve, az egyedi és testre-szabható X-Lock zárszerkezeteken át egészen a vezérelhető Euchner MGB zárakig minden megoldásunk.</p>                        
                     </div>
                 </div>
              </div>
