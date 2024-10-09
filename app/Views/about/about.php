@@ -11,7 +11,7 @@
           <h3>Magas szakértelem biztonsági témakörben!</h3>
         </div>
         <div class="col-lg-5">
-          <img class="w-100" src="<?php echo placeholder('580x600') ?>" alt="About key Benefits">
+          <img class="w-100" src="<?php echo img_src('bemutatkozas/te-biztonsagod-mi-kuldetesunk.webp') ?>" alt="About key Benefits">
         </div>            
       </div>
     </div>

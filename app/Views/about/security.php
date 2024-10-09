@@ -1,6 +1,6 @@
 <!-- Security -->
 <section class="gap renovation">
-    <div class="parallax" style="background-image: url(<?php echo placeholder('1930x800') ?>);"></div>
+    <div class="parallax" style="background-image: url(<?php echo img_src('bemutatkozas/axelent-biztonsag-fenntarthatoan.webp') ?>);"></div>
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-xl-6">

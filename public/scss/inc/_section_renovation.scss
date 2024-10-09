@@ -1,15 +1,20 @@
 .renovation {
     overflow: hidden;
   
-    .parallax:before {
-      content: "";
-      background: black;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0.7;
+    .parallax {
+
+      z-index: 1;
+      &::before {
+        content: "";
+        background: black;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.7;
+      }
+
     }
   
     &:before, &:after {
@@ -19,7 +24,7 @@
       position: absolute;
       bottom: 0;
       transform: translateX(-50%) skew(-20deg, 0deg);
-      z-index: 0;
+      z-index: 1;
       opacity: 0.3;
     }
   
@@ -33,6 +38,7 @@
   
     .container { 
       position: relative;
+      z-index: 3;
       &:before {
         content: "";
         width: 250px;
