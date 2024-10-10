@@ -1135,6 +1135,17 @@ body.light-d {
 		color: $color_1;
 	}
 
+	.solutions {
+
+		.card {
+			background-color: $black;
+			.card-title {
+				color: $color_1;
+			}
+		}
+	
+	}
+
 }
 .next-prev-projects {
 	li {
@@ -1142,15 +1153,4 @@ body.light-d {
 			background-color: $background-color_5;
 		}
 	}
-}
-
-.solutions {
-
-	.card {
-		background-color: $black;
-		.card-title {
-			color: $color_1;
-		}
-	}
-
 }
