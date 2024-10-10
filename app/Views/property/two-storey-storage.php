@@ -2,8 +2,8 @@
 <section class="gap key-benefits">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6">
-                <div class="data">
+            <div class="col-lg-6 order-lg-last">
+                <div class="data d-lg-flex justify-content-end">
                     <figure>
                         <img class="w-100" src="<?php echo img_src('ingatlan/ketszintes-tarolo.webp') ?>" alt="Kétszintes tároló">
                     </figure>
