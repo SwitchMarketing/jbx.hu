@@ -11,6 +11,7 @@ var App = {
     this.toggleMobileMenu();
     this.dropzoneUpload();
     this.timeLine();    
+    this.hideCTAButton();
 
     // Nice Select
     if ($("select")[0]) {
@@ -433,6 +434,49 @@ var App = {
       });
     });
 
+  },
+
+  setCTAButtonPosition: function() {
+
+    if( $('a#btn-bottom-cta').length > 0 ) { 
+      
+      let windowWidth = $(window).width();
+      let pos = 40;
+      
+      if( windowWidth > 768 )
+      {
+        let footerContainerWidth = $('footer .container').outerWidth();
+        pos = (windowWidth - footerContainerWidth) / 2;              
+      }
+       
+      $('a#btn-bottom-cta').css({
+        right: pos + 'px'
+      });
+
+    }
+
+  },
+
+  hideCTAButton : function() {    
+
+    if ('IntersectionObserver' in window) {
+        
+      const buttonToHide = document.querySelector('a.btn-bottom-cta');
+
+      const hideWhenBoxInView = new IntersectionObserver((entries) => {
+        if (entries[0].intersectionRatio <= 0) { 
+          buttonToHide.classList.add("visible");          
+        } else {
+          buttonToHide.classList.remove("visible");          
+        }
+      });
+      
+      if(document.getElementById('contact_form'))
+        hideWhenBoxInView.observe(document.getElementById('contact_form'));
+      else
+        buttonToHide.classList.add("visible");
+
+    }
   }
 
 };
@@ -454,4 +498,13 @@ jQuery(document).ready(function () {
 jQuery(window).on("load", function () {
   App.hideMask();
   //App.contactModal.show();
+});
+
+jQuery(window).on("load", function () {
+  App.hideMask();
+  //App.contactModal.show();
+});
+
+$(window).on('DOMContentLoaded load resize', function() {
+  App.setCTAButtonPosition();
 });

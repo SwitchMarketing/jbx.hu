@@ -76,11 +76,7 @@
     </div>
 </footer>
 <!-- ./Footer -->
-<!--
-<button id="scrollTop" class="scrollTopStick">
-    <i class="fa-solid fa-arrow-up"></i>
-</button>
--->
+<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn btn-bottom-cta hidden" id="btn-bottom-cta"><span>Ajánlatkérés</span> <i class="fa-solid fa-envelope"></i></a>
 <?php echo $this->include('modals'); ?>
 <?php echo $js ?>
 </body>
