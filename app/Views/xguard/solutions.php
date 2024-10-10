@@ -13,15 +13,6 @@
           <div class="row justify-content-center gx-lg-5">
              <div class="col-lg-6 mb-4 mb-lg-5">
                 <div class="card h-100">
-                    <img src="<?php echo img_src('x-guard/contour.webp') ?>" class="card-img-top" alt="Contour">
-                    <div class="card-body p-lg-5">
-                        <h5 class="card-title">X-Guard - CONTOUR</h5>
-                        <p class="card-text">Az X-Guard Contour hálós panel lekerekített sarkokkal rendelkezik, így nemcsak a szűk helyek tökéletes megoldása, hanem elegáns dizájnjával is kitűnik. Ezek a panelek négy különböző magasságban és 90°-os szögben érhetők el. A lekerekített panelek az X-Guard termékcsalád részei, és más X-Guard komponensekkel is kombinálhatók.</p>
-                    </div>
-                </div>
-             </div>
-             <div class="col-lg-6 mb-4 mb-lg-5">
-                <div class="card h-100">
                     <img src="<?php echo img_src('x-guard/lemez-es-muanyag.webp') ?>" class="card-img-top" alt="Lemez és műanyag">
                     <div class="card-body p-lg-5">
                         <h5 class="card-title">X-Guard - LEMEZ ÉS MŰANYAG</h5>
