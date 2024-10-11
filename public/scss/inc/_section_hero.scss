@@ -25,10 +25,12 @@
       opacity: 0;
       width: 0;
       .badge {        
+        margin-bottom: 10px;
         img {
-            max-width: 150px;
+            max-width: 60px;
+            height: auto;
         }
-        }
+      }
     }
   
     .active .s-item .s-second {
