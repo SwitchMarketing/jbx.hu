@@ -5,6 +5,7 @@ echo $this->include('xtray/hero');
 echo $this->include('xtray/about');
 echo $this->include('xtray/features');
 echo $this->include('xtray/types');
+echo $this->include('xtray/accessories');
 echo $this->include('xtray/specs');
 echo $this->include('xtray/setup');
 echo $this->include('xtray/quality');
