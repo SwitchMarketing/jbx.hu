@@ -4,6 +4,7 @@
 echo $this->include('xguard/hero');
 echo $this->include('xguard/about');
 echo $this->include('xguard/types');
+echo $this->include('shared/pdfs');
 echo $this->include('xguard/solutions');
 echo $this->include('xguard/xtray');
 echo $this->include('xguard/modular');

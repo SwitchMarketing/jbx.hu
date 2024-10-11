@@ -20,8 +20,24 @@ class Products extends BaseController
 			'header' => [
 				'title'	  => page_title('Axelent X-Guard - Gépbiztonsági kerítés'),		
 				'section' => 'product'		
+			],
+			'body' => [ 
+				'pdfs' => [
+					[
+                        'url'   => 'dummy.pdf',
+                        'label' => 'X-Guard Brossúra'
+                    ],
+					[
+                        'url'   => 'dummy.pdf',
+                        'label' => 'X-Guard Brossúra'
+                    ],
+					[
+                        'url'   => 'dummy.pdf',
+                        'label' => 'X-Guard Brossúra'
+                    ]
+				]
 			]
-            ];
+        ];
 
 		BuildPage::render('xguard', $data);
     }
@@ -41,7 +57,7 @@ class Products extends BaseController
 				'title'	  => page_title('Axelent Wire Tray - Kábeltálca megoldások'),		
 				'section' => 'product'		
 			]
-            ];
+        ];
 
 		BuildPage::render('xtray', $data);
     }
@@ -81,7 +97,7 @@ class Products extends BaseController
 				'title'	  => page_title('Raktárbiztonsági megoldások'),		
 				'section' => 'product'		
 			]
-            ];
+        ];
 
 		BuildPage::render('xstore', $data);
     }
