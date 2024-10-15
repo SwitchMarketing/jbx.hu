@@ -469,7 +469,10 @@ body.light-d {
 					background-color: $background-color_2;
 				}
 				svg {
-					fill: white;
+					fill: white !important;
+					path {
+						stroke: white !important;
+					}
 				}
 			}
 			&:hover {
@@ -479,6 +482,12 @@ body.light-d {
 				.service-two-icon {
 					&:before {
 						background-color: $background-color_3;
+					}
+					svg {
+						fill: $black !important;
+						path {
+							stroke: $black !important;
+						}
 					}
 				}
 			}

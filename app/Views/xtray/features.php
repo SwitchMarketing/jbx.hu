@@ -14,36 +14,37 @@
             <h3>Kábeltálcák minden helyzetre</h3>
             <p>Kábelkezelő rendszerünk úgy lett kialakítva, hogy szinte bármilyen projekt feltételeinek megfeleljen</p>
             <div class="service-two-icon d-flex-all justify-content-start">
-            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-<g>
-	<g>
+<svg enable-background="new 0 0 512 512" version="1.1" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+
+	
 		
-			<line style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" x1="85" y1="497" x2="165" y2="497"/>
-		<g>
-			<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;&#9;&#9;M337,124.333L337,124.333c0,22.091-17.909,40-40,40l0,0c-22.091,0-40-17.909-40-40v0c0-22.091,17.909-40,40-40l0,0&#10;&#9;&#9;&#9;&#9;C319.091,84.333,337,102.242,337,124.333z"/>
-		</g>
-		<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;&#9;M377,55L377,55c0,22.091-17.909,40-40,40h0c-22.091,0-40-17.909-40-40v0c0-22.091,17.909-40,40-40l0,0&#10;&#9;&#9;&#9;C359.091,15,377,32.909,377,55z"/>
-		<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;&#9;M457,55L457,55c0,22.091-17.909,40-40,40h0c-22.091,0-40-17.909-40-40v0c0-22.091,17.909-40,40-40l0,0&#10;&#9;&#9;&#9;C439.091,15,457,32.909,457,55z"/>
-		<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;&#9;M377,193.667L377,193.667c0-22.091-17.909-40-40-40h0c-22.091,0-40,17.909-40,40l0,0c0,22.091,17.909,40,40,40h0&#10;&#9;&#9;&#9;C359.091,233.667,377,215.758,377,193.667z"/>
-		<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;&#9;M457,193.667L457,193.667c0-22.091-17.909-40-40-40h0c-22.091,0-40,17.909-40,40v0c0,22.091,17.909,40,40,40l0,0&#10;&#9;&#9;&#9;C439.091,233.667,457,215.758,457,193.667z"/>
-		<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;&#9;M497,124.333L497,124.333c0,22.091-17.909,40-40,40h0c-22.091,0-40-17.909-40-40v0c0-22.091,17.909-40,40-40h0&#10;&#9;&#9;&#9;C479.091,84.333,497,102.242,497,124.333z"/>
-		<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;&#9;M417,124.333L417,124.333c0,22.091-17.909,40-40,40h0c-22.091,0-40-17.909-40-40v0c0-22.091,17.909-40,40-40h0&#10;&#9;&#9;&#9;C399.091,84.333,417,102.242,417,124.333z"/>
+			<line x1="85" x2="165" y1="497" y2="497" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+		
+			<path d="m337 124.33v0c0 22.091-17.909 40-40 40v0c-22.091 0-40-17.909-40-40v0c0-22.091 17.909-40 40-40v0c22.091 0 40 17.909 40 40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+		
+		<path d="m377 55v0c0 22.091-17.909 40-40 40h0c-22.091 0-40-17.909-40-40v0c0-22.091 17.909-40 40-40v0c22.091 0 40 17.909 40 40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+		<path d="m457 55v0c0 22.091-17.909 40-40 40h0c-22.091 0-40-17.909-40-40v0c0-22.091 17.909-40 40-40v0c22.091 0 40 17.909 40 40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+		<path d="m377 193.67v0c0-22.091-17.909-40-40-40h0c-22.091 0-40 17.909-40 40v0c0 22.091 17.909 40 40 40h0c22.091 0 40-17.909 40-40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+		<path d="m457 193.67v0c0-22.091-17.909-40-40-40h0c-22.091 0-40 17.909-40 40v0c0 22.091 17.909 40 40 40v0c22.091 0 40-17.909 40-40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+		<path d="m497 124.33v0c0 22.091-17.909 40-40 40h0c-22.091 0-40-17.909-40-40v0c0-22.091 17.909-40 40-40h0c22.091 0 40 17.909 40 40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+		<path d="m417 124.33v0c0 22.091-17.909 40-40 40h0c-22.091 0-40-17.909-40-40v0c0-22.091 17.909-40 40-40h0c22.091 0 40 17.909 40 40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+	
+	
+		<path d="m337 124.33v0c0 22.091-17.909 40-40 40v0c-22.091 0-40-17.909-40-40v0c0-22.091 17.909-40 40-40v0c22.091 0 40 17.909 40 40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+	
+	<path d="m377 55v0c0 22.091-17.909 40-40 40h0c-22.091 0-40-17.909-40-40v0c0-22.091 17.909-40 40-40v0c22.091 0 40 17.909 40 40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+	<path d="m457 55v0c0 22.091-17.909 40-40 40h0c-22.091 0-40-17.909-40-40v0c0-22.091 17.909-40 40-40v0c22.091 0 40 17.909 40 40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+	<path d="m377 193.67v0c0-22.091-17.909-40-40-40h0c-22.091 0-40 17.909-40 40v0c0 22.091 17.909 40 40 40h0c22.091 0 40-17.909 40-40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+	<path d="m457 193.67v0c0-22.091-17.909-40-40-40h0c-22.091 0-40 17.909-40 40v0c0 22.091 17.909 40 40 40v0c22.091 0 40-17.909 40-40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+	<path d="m497 124.33v0c0 22.091-17.909 40-40 40h0c-22.091 0-40-17.909-40-40v0c0-22.091 17.909-40 40-40h0c22.091 0 40 17.909 40 40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+	<path d="m417 124.33v0c0 22.091-17.909 40-40 40h0c-22.091 0-40-17.909-40-40v0c0-22.091 17.909-40 40-40h0c22.091 0 40 17.909 40 40z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30"/>
+	<g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30">
+		<path d="m297 164.33h-22c-60.751 0-110 49.249-110 110v222.67h70v-223.33c0-22.091 17.909-40 40-40h142"/>
+		<path d="m417 15h-142c-143.59 0-260 116.41-260 260v222h70v-222.67c0-104.93 85.066-190 190-190h22"/>
 	</g>
-	<g>
-		<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;&#9;M337,124.333L337,124.333c0,22.091-17.909,40-40,40l0,0c-22.091,0-40-17.909-40-40v0c0-22.091,17.909-40,40-40l0,0&#10;&#9;&#9;&#9;C319.091,84.333,337,102.242,337,124.333z"/>
-	</g>
-	<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;M377,55L377,55c0,22.091-17.909,40-40,40h0c-22.091,0-40-17.909-40-40v0c0-22.091,17.909-40,40-40l0,0&#10;&#9;&#9;C359.091,15,377,32.909,377,55z"/>
-	<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;M457,55L457,55c0,22.091-17.909,40-40,40h0c-22.091,0-40-17.909-40-40v0c0-22.091,17.909-40,40-40l0,0&#10;&#9;&#9;C439.091,15,457,32.909,457,55z"/>
-	<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;M377,193.667L377,193.667c0-22.091-17.909-40-40-40h0c-22.091,0-40,17.909-40,40l0,0c0,22.091,17.909,40,40,40h0&#10;&#9;&#9;C359.091,233.667,377,215.758,377,193.667z"/>
-	<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;M457,193.667L457,193.667c0-22.091-17.909-40-40-40h0c-22.091,0-40,17.909-40,40v0c0,22.091,17.909,40,40,40l0,0&#10;&#9;&#9;C439.091,233.667,457,215.758,457,193.667z"/>
-	<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;M497,124.333L497,124.333c0,22.091-17.909,40-40,40h0c-22.091,0-40-17.909-40-40v0c0-22.091,17.909-40,40-40h0&#10;&#9;&#9;C479.091,84.333,497,102.242,497,124.333z"/>
-	<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;M417,124.333L417,124.333c0,22.091-17.909,40-40,40h0c-22.091,0-40-17.909-40-40v0c0-22.091,17.909-40,40-40h0&#10;&#9;&#9;C399.091,84.333,417,102.242,417,124.333z"/>
-	<g>
-		<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;&#9;M297,164.333h-22c-60.751,0-110,49.249-110,110V497h70V273.666c0-22.091,17.909-40,40-40h142"/>
-		<path style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" d="&#10;&#9;&#9;&#9;M417,15H275C131.406,15,15,131.406,15,275v222h70V274.333c0-104.934,85.066-190,190-190h22"/>
-	</g>
-</g>
+
 </svg>
+
             </div>
           </div>
         </div>
