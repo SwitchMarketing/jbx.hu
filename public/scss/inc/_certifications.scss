@@ -18,35 +18,26 @@
 
     ul {
         display: flex;
-        gap: 26px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 20px;
         li {
             position: relative;
-            &:after {
-                position: absolute;
-                content: '/';
-                right: -14px;
-                color: $yellow;
-            }
-            &:last-child:after {
-                content: '';
+            img {
+                max-width: 120px;
             }
         }
         @include medium-sm() {
-            flex-direction: column;
-            gap: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
             li {
-                padding-left: 14px;
-                &:after {
-                    content: '•';
-                    right: auto;
-                    left: 0;
-                    top: -1px;
-                }
-                &:last-child:after {
-                    content: '•';
+                img {
+                    max-width: none;
+                    width: 100%;
                 }
             }
         }
+        
     }
     
 }
