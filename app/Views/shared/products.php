@@ -62,7 +62,7 @@
             </figure>
             <div class="details">
               <h3>Raktárbiztonsági megoldások</h3>
-              <p>Többek között leesés védelmi megoldásokat a raktározott termékekhez, közlekedő területekre könnyen telepíthető korlát megoldásokat és komplett térelválasztó rendszereket akár felülről zárt kivitelben is.</p>
+              <p>Többek között leesésvédelmi megoldásokat a raktározott termékekhez, közlekedő területekre könnyen telepíthető korlát megoldásokat és komplett térelválasztó rendszereket akár felülről zárt kivitelben is.</p>
               <a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>">
                 <i class="fa-solid fa-arrow-up-long"></i>
               </a>

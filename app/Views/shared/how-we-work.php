@@ -41,7 +41,7 @@
               3.
             </div>
             <h3>Ajánlatkészítés</h3>
-            <p>Pontos, és naprakész ajánlatot készítünk.</p>
+            <p>Pontos és naprakész ajánlatot készítünk.</p>
           </div>
         </div>
       </div>

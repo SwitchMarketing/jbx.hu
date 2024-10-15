@@ -17,7 +17,7 @@
               <span class="odometer" data-count="5" data-status="yes">5</span> 
               <i>termékkategória</i>
             </div>
-            <h4>gépbiztonsági kerítésektől az ingtlan tárolásig</h4>
+            <h4>gépbiztonsági kerítésektől az ingatlan tárolásig</h4>
           </div>
         </div>        
         <div class="col-xl-4" >

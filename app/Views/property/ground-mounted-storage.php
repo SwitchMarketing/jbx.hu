@@ -28,7 +28,7 @@
                     <img src="<?php echo img_src('ingatlan/bike_up_classic_45.webp') ?>" class="card-img-top" alt="Bike Up Classic 45">
                     <div class="card-body p-lg-4">
                         <h5 class="card-title">Bike-Up Classic Angle 45°</h5>
-                        <p class="card-text">2-től 5 kerékpár tárolására, kisebb és nagyobb biciklikhez egyaránt illeszkedik.. Az állvány 45 fokos szögben van megdöntve.</p>
+                        <p class="card-text">2-től 5 kerékpár tárolására, kisebb és nagyobb biciklikhez egyaránt illeszkedik. Az állvány 45 fokos szögben van megdöntve.</p>
                     </div>
                 </div>
              </div>

@@ -195,7 +195,7 @@
               </svg>
             </div>
             <h3><a href="#">Végfelhasználóknak</a></h3>
-            <p>Teljeskörű szolgáltatásainkkal segítünk üzemek, gyártósorok és ingatlan üzemeltetők számára, a tervezésben, a beszerzésben és igény szerint a kivitelezésben.</p>
+            <p>Teljes körű szolgáltatásainkkal segítünk üzemek, gyártósorok és ingatlan üzemeltetők számára a tervezésben, a beszerzésben és igény szerint a kivitelezésben.</p>
           </div>
         </div>
       </div>

@@ -13,10 +13,10 @@
                 <div class="data">
                     <div class="heading px-0 mb-4">
                         <h2 class="text-start mb-0 with-image"><img src="<?php echo img_src('logo-axelent.svg') ?>" alt="AXELENT" loading="lazy"> X-Rail</h2>
-                        <h3 class="text-start fs-4">Leesés védelmi korlát megoldások</h3>
+                        <h3 class="text-start fs-4">Leesésvédelmi korlát megoldások</h3>
                     </div>
                     <p class="mb-4">Az esésvédelem alkalmazása létfontosságú, különösen akkor, ha a dolgozók egy méternél nagyobb magasságban dolgoznak. Az ilyen védelmi intézkedések különösen fontosak olyan helyzetekben, ahol veszélyes eszközök vagy anyagok találhatók az alsóbb szinten, illetve ha magas a leesés kockázata.</p>
-                    <p class="mb-4">Az Axelent leesés védelmi rendszere sokoldalú és könnyen telepíthető - így különböző munkakörnyezetekben tudja biztosítani a dolgozók biztonságát.</p>
+                    <p class="mb-4">Az Axelent leesésvédelmi rendszere sokoldalú és könnyen telepíthető - így különböző munkakörnyezetekben tudja biztosítani a dolgozók biztonságát.</p>
                     
                     <h3 class="mb-3">X-Rail Jellemzői:</h3>
                     <ul>

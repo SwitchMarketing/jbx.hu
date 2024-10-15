@@ -1,7 +1,7 @@
   <!-- Bike storage -->
   <section class="gap solutions">
       <div class="heading">
-          <h2 class="mb-3">Kerékpár tároló megoldások</h2>
+          <h2 class="mb-3">Kerékpártároló megoldások</h2>
       </div>      
       <div class="container">
          <div class="row justify-content-center">

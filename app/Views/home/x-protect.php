@@ -15,7 +15,7 @@
               <li><i class="fa-solid fa-circle-dot"></i>Egyedi, moduláris felépítés</li>
               <li><i class="fa-solid fa-circle-dot"></i>Gyors és egyszerű telepítés</li>
               <li><i class="fa-solid fa-circle-dot"></i>Magas rugalmasság</li>
-              <li><i class="fa-solid fa-circle-dot"></i>Padló károsodás mentes ütközés elnyelés</li>
+              <li><i class="fa-solid fa-circle-dot"></i>Padlókárosodás-mentes ütközés elnyelés</li>
               <li><i class="fa-solid fa-circle-dot"></i>Integrálható az Axelent X-Guard rendszerrel</li>
             </ul>
             <a href="<?php echo base_url('utkozesvedelem') ?>" class="theme-btn mt-4">Bővebben  <i class="fa-solid fa-angles-right"></i></a>

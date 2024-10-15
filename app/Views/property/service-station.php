@@ -33,7 +33,7 @@
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>Strapabíró, vastag acél váz, melynek köszönhetően a szervízállomás ellenáll a különböző időjárási körülményeknek.</p>
+                            <p>Strapabíró, vastag acél váz, melynek köszönhetően a szervizállomás ellenáll a különböző időjárási körülményeknek.</p>
                         </li>
                     </ul>                    
                 </div>

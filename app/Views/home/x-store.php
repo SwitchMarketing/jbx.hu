@@ -5,12 +5,12 @@
         <div class="col-lg-5 mt-3 mt-lg-0">
           <div class="cta-data">
             <h3>Raktárbiztonsági megoldások</h3>
-            <p class="mt-4">Az Axelent több területen is fejlesztett biztonsági megoldásokat ipari raktározási/tárolási rendszerekhez. Többek között leesés védelmi megoldásokat a raktározott termékekhez, közlekedő területekre könnyen telepíthető korlát megoldásokat és komplett térelválasztó rendszereket akár felülről zárt kivitelben is.
+            <p class="mt-4">Az Axelent több területen is fejlesztett biztonsági megoldásokat ipari raktározási/tárolási rendszerekhez. Többek között leesésvédelmi megoldásokat a raktározott termékekhez, közlekedő területekre könnyen telepíthető korlát megoldásokat és komplett térelválasztó rendszereket akár felülről zárt kivitelben is.
             Raktározási megoldásoknál is a megszokott megközelítés volt szem előtt:  könnyen, gyorsan telepíthető, variálható és biztonságosan hozzáférhető rendszereket kialakítani.</p>
             <h3 class="mt-4 subtitle">Termékkategóriák</h3>
             <ul class="mt-3">
-              <li><i class="fa-solid fa-circle-dot"></i>Safestore - leesés védelem raktározott termékekhez</li>
-              <li><i class="fa-solid fa-circle-dot"></i>X-Rail - leesés védelmi korlát megoldások</li>
+              <li><i class="fa-solid fa-circle-dot"></i>Safestore - leesésvédelem raktározott termékekhez</li>
+              <li><i class="fa-solid fa-circle-dot"></i>X-Rail - leesésvédelmi korlát megoldások</li>
               <li><i class="fa-solid fa-circle-dot"></i>Axelent X-Store 2.0 - raktár-, és térelválasztás</li>
             </ul>
             <a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>" class="theme-btn mt-4">Bővebben  <i class="fa-solid fa-angles-right"></i></a>

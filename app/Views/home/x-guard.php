@@ -12,9 +12,9 @@
             </p>
             <h3 class="mt-4 subtitle">Főbb jellemzői</h3>
             <ul class="mt-3">
-              <li><i class="fa-solid fa-circle-dot"></i>Csavarozás mentes szerelés</li>
+              <li><i class="fa-solid fa-circle-dot"></i>Csavarozásmentes szerelés</li>
               <li><i class="fa-solid fa-circle-dot"></i>Gyors telepítés, könnyű áthelyezhetőség</li>
-              <li><i class="fa-solid fa-circle-dot"></i>Széleskörű méretválaszték</li>
+              <li><i class="fa-solid fa-circle-dot"></i>Széles körű méretválaszték</li>
               <li><i class="fa-solid fa-circle-dot"></i>Számos panel, ajtó és zártípus</li>
               <li><i class="fa-solid fa-circle-dot"></i>Többféle rács, illetve lemez kivitelben</li>
               <li><i class="fa-solid fa-circle-dot"></i>Integrálható kábeltálca rendszer</li>

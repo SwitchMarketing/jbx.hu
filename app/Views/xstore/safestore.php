@@ -13,7 +13,7 @@
                 <div class="data">
                     <div class="heading px-0 mb-4">
                         <h2 class="text-start mb-0 with-image"><img src="<?php echo img_src('logo-axelent.svg') ?>" alt="AXELENT" loading="lazy"> SafeStore</h2>
-                        <h3 class="text-start fs-4">Leesés védelem raktározott termékekhez</h3>
+                        <h3 class="text-start fs-4">Leesésvédelem raktározott termékekhez</h3>
                     </div>
 
                     <p class="mb-4">A SafeStore polcrendszerre történő rögzítésével megakadályozható, hogy egy raklap vagy áru leessen és sérüléseket vagy akár kárt okozzon. A SafeStore-t ma már minden típusú raktárban használják, a kis kézi működtetésű raktártól a teljesen automatizált központokig. </p>

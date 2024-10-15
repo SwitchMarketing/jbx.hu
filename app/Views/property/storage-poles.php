@@ -28,7 +28,7 @@
                     <img src="<?php echo img_src('ingatlan/bike_up_nimbus_small_tarolo.webp') ?>" class="card-img-top" alt="Bike_up Nimbus Small">
                     <div class="card-body p-lg-4">
                         <h5 class="card-title">Bike-Up Nimbus Small</h5>
-                        <p class="card-text">Stílusos kialakítás, kerékpártartó oszlop kerékpárom rögzítéséhez.</p>
+                        <p class="card-text">Stílusos kialakítás, kerékpártartó oszlop kerékpárok rögzítéséhez.</p>
                     </div>
                 </div>
              </div>

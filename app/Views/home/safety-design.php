@@ -23,7 +23,7 @@
                 <li>Ingyenesen elérhető</li>
                 <li>Intuitív kezelhetőség</li>
                 <li>2D és 3D megtekintési módok</li>
-                <li>Széleskörű termék felhozatal</li>     
+                <li>Széles körű termék felhozatal</li>     
                 <li>DWG, DXF fájl import</li>                       
             </ul>
             <a href="https://www.axelent.com/safety-design/" class="theme-btn mt-4" target="_blank">Regisztrálok  <i class="fa-solid fa-angles-right"></i></a>

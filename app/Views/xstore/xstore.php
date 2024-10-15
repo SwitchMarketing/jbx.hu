@@ -29,7 +29,7 @@
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>Széleskörű alkalmazásra tervezett padlócsatlakozás</p>
+                            <p>Széles körű alkalmazásra tervezett padlócsatlakozás</p>
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
@@ -37,7 +37,7 @@
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>Menyezeti megoldással bármilyen magasságig, akár 6 m szélességben</p>
+                            <p>Mennyezeti megoldással bármilyen magasságig, akár 6 m szélességben</p>
                         </li>
                     </ul>
                 </div>

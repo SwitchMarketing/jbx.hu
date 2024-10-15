@@ -6,7 +6,7 @@
                 <div class="col-lg-6 col-sm-12">
                     <div class="footer-col">
                         <img src="<?php echo img_src('jbx-logo-w.svg') ?>" alt="JBX" class="img-fluid logo mb-4" loading="lazy">
-                        <p>A JBX Trade Kft. az Axelent kizárólagos magyarországi képviselete, amely azzal a céllal jött létre, hogy dedikált lokális támogatást, gyors, és gördülékeny beszerzést tudjon nyújtani - mindezt magyar nyelven.</p>
+                        <p>A JBX Trade Kft. az Axelent kizárólagos magyarországi képviselete, amely azzal a céllal jött létre, hogy dedikált lokális támogatást, gyors és gördülékeny beszerzést tudjon nyújtani - mindezt magyar nyelven.</p>
                         <div class="badge mt-4">
                             <img src="<?php echo img_src('certified_retailer_2023.png') ?>" alt="Hivatalos Forgalmazó" title="Hivatalos Forgalmazó" loading="lazy" class="img-fluid" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Hivatalos Forgalmazó">
                         </div>

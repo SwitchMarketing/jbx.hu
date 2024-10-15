@@ -8,7 +8,7 @@
         <div class="estimated-price popup">
           <div class="est-form">
             <h3>Ajánlatkérés</h3>
-            <p class="mt-3">Egyeztessünk az igényekről, vagy egy helyszíni felmérésről, de ha már kész tervek vannak, küldd el számunkra és készítünk egy pontos, naprakész ajánlatunkat.</p>
+            <p class="mt-3">Egyeztessünk az igényekről, vagy egy helyszíni felmérésről, de ha már kész tervek vannak, küldje el számunkra és készítünk egy pontos, naprakész ajánlatot.</p>
             <?php echo $this->include('forms/contact-modal') ?>
           </div>
         </div>

@@ -47,7 +47,7 @@
                     <img src="<?php echo img_src('x-tray/flat-tray.webp') ?>" class="card-img-top" alt="Flat Tray">
                     <div class="card-body p-lg-4">
                         <h5 class="card-title">Flat Tray</h5>
-                        <p class="card-text">Sík kábeltálca megoldás amely igényelhető egyedi szélességben és hosszúságban is, viszont hosszabb szállítási idővel.</p>
+                        <p class="card-text">Sík kábeltálca megoldás, amely igényelhető egyedi szélességben és hosszúságban is, viszont hosszabb szállítási idővel.</p>
                     </div>
                 </div>
              </div>

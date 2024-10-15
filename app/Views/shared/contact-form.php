@@ -5,7 +5,7 @@
           <div class="data">
             <span>Ingyenes árajánlat</span>
             <h2>Kapcsolat</h2>
-            <p>Egyeztessünk az igényekről, vagy egy helyszíni felmérésről, de ha már kész tervek vannak, küldd el számunkra és készítünk egy pontos, naprakész ajánlatunkat.</p>
+            <p>Egyeztessünk az igényekről, vagy egy helyszíni felmérésről, de ha már kész tervek vannak, küldje el számunkra és készítünk egy pontos, naprakész ajánlatot.</p>
             <div class="est-form">
             <?php echo $this->include('forms/contact') ?>
             </div>

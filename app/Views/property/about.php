@@ -7,7 +7,7 @@
             <h2 class="mb-3">Ingatlan megoldások</h2>
             <h3>Tárolás szakértelemmel és hozzáértő segítséggel az Axelent-től.</h3> 
             <p class="mt-3">Ingatlan tárolási megoldásunk elérhető hálós és lemezes változatban is és akár tetővel is ellátható. </p>
-            <p class="mt-3">Kerékpár tárolási megoldásainknál a cél, hogy a lehető legjobban használjuk ki a teret - így született meg az innovatív, kétszintes kerékpártárolónk is. </p>
+            <p class="mt-3">Kerékpártárolási megoldásainknál a cél, hogy a lehető legjobban használjuk ki a teret - így született meg az innovatív, kétszintes kerékpártárolónk is. </p>
             <p class="mt-5"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn">Ajánlatkérés <i class="fa-solid fa-angles-right"></i></a></p>
           </div>
         </div>
