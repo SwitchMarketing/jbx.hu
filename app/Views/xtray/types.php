@@ -17,7 +17,7 @@
              </div>
              <div class="col-lg-4 mb-4 mb-lg-5">
                 <div class="card h-100">
-                    <img src="<?php echo img_src('x-tray/z-tray.webp') ?>" class="card-img-top" alt="Z-Tray">
+                    <img src="<?php echo img_src('x-tray/z-tray-uj.webp') ?>" class="card-img-top" alt="Z-Tray">
                     <div class="card-body p-lg-4">
                         <h5 class="card-title">Z-Tray</h5>
                         <p class="card-text">Zárt kábeltálca megoldásunk, ahol nincs szükség a kábelek rögzítésére, így elkerülhető az egyéb anyagok használata. Szigorú szabályozásoknak megfelelő helyiségekbe ideális, pl. élelmiszerekkel, gyógyszerekkel foglalkozó üzemekbe.</p>

@@ -5,7 +5,7 @@
             <div class="col-lg-6">
                 <div class="data">
                     <figure>
-                        <img class="w-100" src="<?php echo img_src('x-tray/minosegbiztositas.webp') ?>" alt="Minőségbiztosítás">
+                        <img class="w-100" src="<?php echo img_src('x-tray/axelent-minosegbiztositas-badge-ekkel.webp') ?>" alt="Minőségbiztosítás">
                     </figure>
                 </div>
             </div>
