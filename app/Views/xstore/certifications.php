@@ -3,10 +3,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-10 d-lg-flex align-items-start">
                 <div class="icon pt-2 text-center text-lg-start mb-4 mb-lg-0">    
-                    <i class="fas fa-umbrella"></i>
+                    <img src="<?php echo img_src('safety.webp') ?>" alt="Raktárbiztonság" class="img-fluid">
                 </div>
-                <div class="ms-lg-5">
-                    <p class="mb-2 text-justify">Az X-Rail rendszer megbízhatósága tesztelve lett különböző padlótípusokon: beton; 38 mm vastag MDF lap, acél I-gerendára helyezve; rácsos padló, acél I-gerenda fölé szerelve.</p>
+                <div class="ms-lg-5 my-auto">
+                    <p class="mb-3 text-justify">Az X-Rail rendszer megbízhatósága tesztelve lett különböző padlótípusokon: beton; 38 mm vastag MDF lap, acél I-gerendára helyezve; rácsos padló, acél I-gerenda fölé szerelve.</p>
                     <p class="mb-2">Rendszerünk megszerezte az alábbi szabványoknak való megfelelést:</p>
                     <ul>
                         <li>DIN EN ISO 14122-3: 2016</li>
