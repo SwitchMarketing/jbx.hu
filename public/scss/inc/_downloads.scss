@@ -29,6 +29,7 @@
             font-weight: 100;
             font-size: 1.2rem;
             position: relative;
+            white-space: nowrap;
     
             i {
               color: $yellow;
@@ -63,10 +64,14 @@
     @include tablet() {
         ul {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px 20px;
             li {
-                font-size: 1rem;
+                font-size: 1.1rem;
+                i {
+                    font-size: 1.1rem;
+                    margin-right: 8px;
+                }
                 &:after {
                     display: none;
                 }

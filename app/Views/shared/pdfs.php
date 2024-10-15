@@ -7,7 +7,7 @@
             </figure>
         </div>
         <div>
-            <h3 class="mb-4 mb-lg-2">Letöltések</h3>
+            <h3 class="mb-4 mb-md-2">Letöltések</h3>
             <ul>
                 <?php foreach($pdfs as $pdf): ?>
                 <li><a href="<?php echo base_url('pdf/' . $pdf['url']) ?>" target="_blank"><i class="fas fa-download"></i> <?php echo $pdf['label'] ?></a></li>
