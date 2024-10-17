@@ -60,7 +60,7 @@
                       </div>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo img_src('x-guard/lite.webp') ?>" alt="Lite">
+                              <img class="w-100" src="<?php echo img_src('x-guard/lite-uj.webp') ?>" alt="Lite">
                           </figure>
                       </div>
                   </li>
