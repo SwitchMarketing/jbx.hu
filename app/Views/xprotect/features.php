@@ -29,11 +29,11 @@
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>Magas rugalmasság és energia elnyelés, az oszlopok fémmagjának köszönhetően</p>
+                            <p>Magas rugalmasság és energia elnyelés (integrált acél energiaelnyelő rendszerrel)</p>
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>Innovatív, padlókímélő rögzítő rendszer (Innovatív rögzítőrendszer, amely kíméletes a padlóhoz, így kis átmérőjű, sekély rögzítők is használhatók.)</p>
+                            <p>Innovatív, padlókímélő rögzítő rendszer (Innovatív rögzítőrendszer, amely ütközés esetén kíméletes a padlóhoz)</p>
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
