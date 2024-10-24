@@ -22,6 +22,7 @@ class Products extends BaseController
 				'section' => 'product'		
 			],
 			'body' => [ 
+				'types' => $this->xGuardTypes(),
 				'pdfs' => [
 					[
                         'url'   => 'dummy.pdf',
@@ -121,4 +122,136 @@ class Products extends BaseController
 
 		BuildPage::render('property', $data);
     }
+
+	/**
+	 * xGuardTypes
+	 *
+	 * @return object
+	 */
+	private function xGuardTypes() {
+
+		return (object) [
+
+			'legend' => [
+				'title' => '',
+				'description' => '',
+				'rows' => [
+					'Rácsméret',
+					'Biztonsági távolság',
+					'Padló rögzítési pontok (oszloponként)',
+					'Szélességi panel változatok',
+					'Magassági verziók',
+					'Panel keret / profil méret',
+					'Oszlop profil lemez vastagság'
+				]
+			],
+			'lite' => [
+				'title' => 'Lite',
+				'description' => 'Könnyűipari biztonsági rácspanel rendszer',
+				'img' => img_src('x-guard/lite-uj.webp'),
+				'rows' => [
+					[
+						'label' => 'Rácsméret',
+						'value' => '50x30 mm'
+					],
+					[
+						'label' => 'Biztonsági távolság',
+						'value' => '200 mm'
+					],
+					[
+						'label' => 'Padló rögzítési pontok (oszloponként)',
+						'value' => '2'
+					],
+					[
+						'label' => 'Szélességi panel változatok',
+						'value' => '13'
+					],
+					[
+						'label' => 'Magassági verziók',
+						'value' => '3'
+					],
+					[
+						'label' => 'Panel keret / profil méret',
+						'value' => 'függőleges 19x19mm, vízszintes 15x15mm'
+					],
+					[
+						'label' => 'Oszlop profil lemez vastagság',
+						'value' => '-'
+					]
+				]
+			],
+			'classic' => [
+				'title' => 'Classic',
+				'description' => 'Széleskörűen használható, rugalmasan alakítható ipari biztonsági kerítés',
+				'img' => img_src('x-guard/classic.webp'),
+				'rows' => [
+					[
+						'label' => 'Rácsméret',
+						'value' => '50x30 mm'
+					],
+					[
+						'label' => 'Biztonsági távolság',
+						'value' => '200 mm'
+					],
+					[
+						'label' => 'Padló rögzítési pontok (oszloponként)',
+						'value' => '2'
+					],
+					[
+						'label' => 'Szélességi panel változatok',
+						'value' => '3'
+					],
+					[
+						'label' => 'Magassági verziók',
+						'value' => '5'
+					],
+					[
+						'label' => 'Panel keret / profil méret',
+						'value' => 'függőleges 30x20mm, vízszintes 25x15mm'
+					],
+					[
+						'label' => 'Oszlop profil lemez vastagság',
+						'value' => '-'
+					]
+				]
+			],
+			'premium' => [
+				'title' => 'Premium',
+				'description' => 'Robotkarok és gyorsan mozgó elemekhez ideális megoldás, ahol számít a kis alapterület',
+				'img' => img_src('x-guard/premium.webp'),
+				'rows' => [
+					[
+						'label' => 'Rácsméret',
+						'value' => '50x20 mm'
+					],
+					[
+						'label' => 'Biztonsági távolság',
+						'value' => '120 mm'
+					],
+					[
+						'label' => 'Padló rögzítési pontok (oszloponként)',
+						'value' => '4'
+					],
+					[
+						'label' => 'Szélességi panel változatok',
+						'value' => '6'
+					],
+					[
+						'label' => 'Magassági verziók',
+						'value' => '2'
+					],
+					[
+						'label' => 'Panel keret / profil méret',
+						'value' => 'függőleges 30x20mm, vízszintes 25x15mm'
+					],
+					[
+						'label' => 'Oszlop profil lemez vastagság',
+						'value' => '-'
+					]
+				]
+			]
+
+		];
+
+	}
 }

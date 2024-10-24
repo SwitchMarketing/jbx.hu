@@ -1,0 +1,115 @@
+.types-grid {
+    
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 20px;
+
+    &--col {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        @include transition();
+        &::after {
+            position: absolute;
+            content: '';
+            width: 1px;
+            height: 100%;
+            right: -10px;
+            background-color: #adadad;
+        }
+        &:last-child::after {
+            display: none;
+        }
+        &:hover:not(.types-grid--legend) {
+            background-color: rgba($color: $yellow, $alpha: 1.0);
+            cursor: pointer;
+        }
+    }
+
+    &--row {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: $black;
+        font-size: 1.05rem;
+        &.title {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        &.description,
+        &.image {
+            display: none;
+        }
+        .label {
+            display: none;
+        }
+        @include medium-sm() {
+            font-size: 1rem;
+            line-height: 1.1rem;
+        }
+    }
+
+    &--legend {
+        .types-grid--row {
+            justify-content: flex-start;
+            text-align: left;
+            white-space: nowrap;
+        }
+    }
+
+    @include mobile() {
+        display: flex;
+        flex-direction: column;
+        &--legend {
+            display: none;
+        }
+        &--col {
+            &::after {
+                display: none;
+            }
+            &:hover:not(.types-grid--legend) {
+                background-color: inherit;
+                cursor: default;
+            }
+        }
+        &--row {
+            height: auto;
+            align-items: flex-start;
+            text-align: left;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            &:not(.title, .description, .image) {
+                border-bottom: 1px solid #adadad;
+                padding: 1px 0 5px 0;
+            }
+            span {
+                &:last-child {
+                    text-align: right;
+                }
+            }
+            &.description,
+            &.image,
+            .label {
+                display: block;
+            }
+        }
+    }
+}
+
+body.light-d {
+    .types-grid {
+        &--col {
+            &:hover:not(.types-grid--legend) {
+                .types-grid--row {
+                    color: $black;
+                }
+            }
+        }
+        &--row {
+            color: #fff;
+        }
+    }
+}
