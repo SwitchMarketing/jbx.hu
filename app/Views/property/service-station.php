@@ -13,7 +13,7 @@
                 <div class="data">
                     <div class="heading px-0">
                         <h2 class="text-start w-100">Kerékpár szervizállomás</h2>
-                        <h3 class="text-start mb-4">Elsősorban közterületi alkalmazásra!</h3>
+                        <h3 class="text-start mb-4">Elsősorban közterületi alkalmazásra</h3>
                     </div>
                     <p class="mb-3">A talajhoz csavarozható, vastag acél házzal fedett kerékpár szervizállomás, ami szerszámokkal és kerékpár pumpával van felszerelve, illeszkedve többféle szelep mérethez.</p>
                     <p class="mb-4">Elérhető S, L és XL méretben is. </p>
@@ -29,7 +29,7 @@
                         </li>                        
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>Több szivattyú adapter, több szelep mérethez.</p>
+                            <p>Szivattyú adapterek különböző szelep méretekhez.</p>
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>

@@ -15,7 +15,7 @@
                         <h2 class="text-start w-100">Kétszintes, egyedi kerékpártároló</h2>
                         <h3 class="text-start mb-4">Duplázza meg a tárolási kapacitást egyedi kétszintes kerékpártárolónk segítségével!</h3>
                     </div>
-                    <p class="mb-4">A kétszintes kerékpártároló 8-féle kialakításban kapható, attól függően, hogy mennyi biciklit szeretnénk rajtuk tárolni. 4-től, egészen 16 helyesre kibővített tároló létesítésére van lehetőség. </p>
+                    <p class="mb-4">A kétszintes kerékpártároló 8-féle kialakításban kapható, attól függően, hogy mennyi biciklit szeretnénk rajtuk tárolni. 4-től, egészen 16 férőhelyesre kibővített tároló létesítésére van lehetőség.</p>
                     <h3 class="mb-3">Választható termékek:</h3>
                     <ul class="mb-4">
                         <li class="py-2">

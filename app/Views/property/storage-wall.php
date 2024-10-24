@@ -1,7 +1,7 @@
   <!-- Storage wall -->
   <section class="gap solutions">
       <div class="heading">
-          <h2 class="mb-3">Kerékpártároló fal</h2>
+          <h2 class="mb-3">Fali megoldások</h2>
       </div>      
       <div class="container">
           <div class="row gx-lg-5 mt-5 justify-content-center">

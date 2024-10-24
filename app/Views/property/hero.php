@@ -7,7 +7,7 @@
           <div class="s-first">
             <div class="badge"><img src="<?php echo img_src('axelentx.svg') ?>" alt="Axelent" width="50" height="50"></div>
             <h1>Ingatlan megoldások</h1>
-            <p>Hálós és lemezes tárolók, kerékpártárolási megoldások</p>
+            <p>Rácsos és lemezes tárolók, kerékpártárolási megoldások</p>
             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn btn-light">Ajánlatkérés <i class="fa-solid fa-angles-right"></i></a>
           </div>
           <div class="s-second">
