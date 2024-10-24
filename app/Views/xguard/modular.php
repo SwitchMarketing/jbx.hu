@@ -14,7 +14,7 @@
                     <div class="heading mb-4">
                         <h2 class="text-start w-100">Moduláris és gyors telepítés</h2>
                     </div>
-                    <p>A modularitás és a jól átgondolt tervezés tette az X-Guard gépbiztonsági rendszert a piacon a legkeresettebbé. Az okos kattintós rögzítésünknek köszönhetően az Axelent gépbiztonsági kerítéseit rendkívül gyorsan és könnyen lehet telepíteni, szétszerelni, áthelyezni vagy bővíteni, ahogy szükséges.</p>
+                    <p>A modularitás és a jól átgondolt tervezés tette az X-Guard gépbiztonsági rendszert a piacon a legkeresettebbé. Az okos bepattintható rögzítésünknek köszönhetően az Axelent gépbiztonsági kerítéseit rendkívül gyorsan és könnyen lehet telepíteni, szétszerelni, áthelyezni vagy bővíteni, ahogy szükséges.</p>
                 </div>
             </div>
         </div>
