@@ -16,7 +16,7 @@
                           <p>Robotkarok és gyorsan mozgó elemekhez ideális megoldás, ahol számít a kis alapterület</p>
                           <ul class="mt-3">
                             <li>50x20 mm rácsméret</li>
-                            <li>22000 mm magas elemek</li>
+                            <li>2 féle magasság</li>
                             <li>6 féle szélességű panellel</li>
                             <li>oszloponként 4 padló rögzítési pont</li>
                             <li>120 mm biztonsági távolság</li>
