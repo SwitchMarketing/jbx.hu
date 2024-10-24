@@ -17,7 +17,8 @@
         </div>
         <div class="col-lg-6" >
           <div class="data">
-            <p>Az automatizált raktárakhoz igazított különböző panelrendszerek kombinációjából állnak, amelyek változatos módon kombinálhatóak, hogy megfeleljenek mindenfajta logisztikai és anyagmozgatási igényeknek.</p>
+            <p class="mb-3">Az automatizált raktárakhoz igazított különböző panelrendszerek kombinációjából állnak, amelyek változatos módon kombinálhatóak, hogy megfeleljenek mindenfajta logisztikai és anyagmozgatási igényeknek.</p>
+            <p>Tekintse meg <a href="<?php echo base_url('gepbiztonsagi-kerites') ?>">X-Guard rácsos termékkínálatunkat</a> - melyek szinén alkalmasok a hasonló automatizált ipari környezetek számára.</p>
             <a href="#" class="theme-btn mt-4" target="_blank">Ajánlatkérés  <i class="fa-solid fa-angles-right"></i></a>
           </div>          
         </div>

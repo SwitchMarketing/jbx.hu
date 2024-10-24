@@ -39,11 +39,7 @@
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>Alapszín: RAL 9011 (fekete)</p>
-                        </li>
-                        <li class="py-2">
-                            <i class="fa-solid fa-check"></i>
-                            <p>Igény esetén egyedi színben is</p>
+                            <p>Alapszín: RAL 9011 (fekete); igény esetén egyedi színben is</p>
                         </li>                        
                     </ul>
                 </div>

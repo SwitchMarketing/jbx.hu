@@ -5,7 +5,7 @@
             <div class="col-lg-6">
                 <div class="data">
                     <figure>
-                        <img class="w-100" src="<?php echo img_src('x-store/shelfstore.webp') ?>" alt="ShelfStore">
+                        <img class="w-100" src="<?php echo img_src('x-store/shelfstore-v2.webp') ?>" alt="ShelfStore">
                     </figure>
                 </div>
             </div>
@@ -13,9 +13,9 @@
                 <div class="data">
                     <div class="heading px-0 mb-4">
                         <h2 class="text-start mb-0 with-image"><img src="<?php echo img_src('logo-axelent.svg') ?>" alt="AXELENT" loading="lazy"> ShelfStore</h2>
-                        <h3 class="text-start fs-4">Vízszintes hálós polc</h3>
+                        <h3 class="text-start fs-4">Rácsos tároló felület polcrendszerhez</h3>
                     </div>
-                    <p class="mb-4">Stabil, praktikus megoldás, amely ugyanúgy alkalmas raklap nélküli kis tételek tárolására, mint a raklapos raktározásra és tárolásra. A hálós polcrendszer további előnye,  a fény- és víz átengedési képesség, ami gyakran követelmény bizonyos tűzoltó rendszerek esetén.</p>
+                    <p class="mb-4">Stabil, praktikus megoldás, amely ugyanúgy alkalmas raklap nélküli kis tételek tárolására, mint a raklapos raktározásra és tárolásra. A rácsos polcelemek további előnyei, a fény- és víz átengedési képesség, ami gyakran követelmény bizonyos tűzoltó rendszerek esetén.</p>
                     
                     <h3 class="mb-3">ShelfStore Jellemzői:</h3>
                     <ul>
