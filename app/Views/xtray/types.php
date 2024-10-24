@@ -29,7 +29,7 @@
                     <img src="<?php echo img_src('x-tray/c-tray.webp') ?>" class="card-img-top" alt="C-Tray">
                     <div class="card-body p-lg-4">
                         <h5 class="card-title">X-Tray C</h5>
-                        <p class="card-text">C alakú kábeltálca</p>
+                        <p class="card-text">Az X-Tray U-hoz képest magasabb védelmet biztosít a kábelek számára.</p>
                     </div>
                 </div>
              </div>
@@ -38,7 +38,7 @@
                     <img src="<?php echo img_src('x-tray/g-tray.webp') ?>" class="card-img-top" alt="G-Tray">
                     <div class="card-body p-lg-4">
                         <h5 class="card-title">X-Tray G</h5>
-                        <p class="card-text">G alakú kábeltálca</p>
+                        <p class="card-text">Függőlegesen és vízszintesen rögzíthető hozzá a kábel.</p>
                     </div>
                 </div>
              </div>
