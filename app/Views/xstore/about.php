@@ -6,8 +6,8 @@
           <div class="about-data-right ps-lg-4 pt-4">
             <h2 class="mb-3">Biztonsági megoldások</h2>
             <h3>Ipari raktározási / tárolási rendszerekhez</h3> 
-            <p class="mt-3">Raktározási megoldásoknál is a megszokott megközelítés volt szem előtt: könnyen, gyorsan telepíthető, variálható és biztonságosan hozzáférhető rendszereket kialakítani.</p>
-            <p class="mt-3">Többek között leesésvédelmi megoldásokat a raktározott termékekhez, közlekedő területekre könnyen telepíthető korlát megoldásokat és komplett térelválasztó rendszereket akár felülről zárt kivitelben is.</p>
+            <p class="mt-3">A raktározási megoldások tervezésénél a fő szempont az volt, hogy a rendszerek könnyen és gyorsan telepíthetők, variálhatók és biztonságosan hozzáférhetők legyenek.</p>
+            <p class="mt-3"> Ide tartoznak a raktározott termékek leesésvédelmi megoldásai, a közlekedő területekre könnyen telepíthető korlátok, valamint a teljesen zárt kivitelű térelválasztó rendszerek is.</p>
             <p class="mt-5"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn">Ajánlatkérés <i class="fa-solid fa-angles-right"></i></a></p>
           </div>
         </div>
