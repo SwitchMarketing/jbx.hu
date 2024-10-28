@@ -20,7 +20,7 @@
         <?php foreach($products as $p): ?>
             <div class="form-group col-md-6">
                 <div class="custom-control custom-radio">
-                    <input type="checkbox" name="products[]" value="<?php echo $p->value ?>" id="productModal<?php echo $p->id ?>" class="custom-control-input">
+                    <input type="checkbox" name="products[]" value="<?php echo $p->value ?>" id="productModal<?php echo $p->id ?>" class="custom-control-input" <?php echo ($p->selected) ? 'checked' : '' ?>>
                     <label class="custom-control-label" for="productModal<?php echo $p->id ?>"><?php echo $p->label ?></label>
                 </div>
             </div>

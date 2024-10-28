@@ -25,7 +25,7 @@ class Home extends BaseController
 				'section' => 'home'		
 			],
 			'body'	=> [
-				'products' => $this->_products()
+				'products' => product_options()
 			]
 		];
 
@@ -266,41 +266,4 @@ class Home extends BaseController
 		BuildPage::render('page404', $data);
     }
 	
-	/**
-	 * _products
-	 *
-	 * termékek
-	 * 
-	 * @return array
-	 */
-	private function _products(): array
-	{
-		return [
-			(object) [
-				'id' => 1,
-				'value' => 'X-Guard',
-				'label' => 'X-Guard | gépbiztonsági megoldások'
-			],
-			(object) [
-				'id' => 2,
-				'value' => 'X-Tray',
-				'label' => 'X-Tray | kábelvezető megoldások'
-			],
-			(object) [
-				'id' => 3,
-				'value' => 'X-Protect',
-				'label' => 'X-Protect | ipari ütközésvédelem'
-			],
-			(object) [
-				'id' => 4,
-				'value' => 'X-Store',
-				'label' => 'X-Store | raktározási megoldások'
-			],
-			(object) [
-				'id' => 5,
-				'value' => 'Ingatlan',
-				'label' => 'Ingatlan megoldások'
-			]
-		];
-	}
 }

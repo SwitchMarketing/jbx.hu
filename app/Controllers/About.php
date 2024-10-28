@@ -20,8 +20,11 @@ class About extends BaseController
 			'header' => [
 				'title'	  => page_title('Bemutatkozó'),		
 				'section' => 'about'		
+			],
+			'body'	=> [
+				'products' => product_options()
 			]
-            ];
+        ];
 
 		BuildPage::render('about', $data);
     }

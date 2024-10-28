@@ -23,6 +23,7 @@ class Products extends BaseController
 			],
 			'body' => [ 
 				'types' => $this->xGuardTypes(),
+				'products' => product_options(1),
 				'pdfs' => [
 					[
                         'url'   => 'Axelent_X-Guard_catalog.pdf',
@@ -55,6 +56,7 @@ class Products extends BaseController
 				'section' => 'product'		
 			],
 			'body' => [ 
+				'products' => product_options(2),
 				'pdfs' => [
 					[
                         'url'   => 'Axelent_Wire_Tray.pdf',
@@ -87,6 +89,7 @@ class Products extends BaseController
 				'section' => 'product'		
 			],
 			'body' => [ 
+				'products' => product_options(3),
 				'pdfs' => [
 					[
                         'url'   => 'Axelent_X-Protect_catalog.pdf',
@@ -123,6 +126,7 @@ class Products extends BaseController
 				'section' => 'product'		
 			],
 			'body' => [ 
+				'products' => product_options(4),
 				'pdfs' => [
 					[
                         'url'   => 'Axelent_X-Store.pdf',
@@ -159,6 +163,7 @@ class Products extends BaseController
 				'section' => 'product'		
 			],
 			'body' => [ 
+				'products' => product_options(5),
 				'pdfs' => [
 					[
                         'url'   => 'Axelent_BikeRacks.pdf',

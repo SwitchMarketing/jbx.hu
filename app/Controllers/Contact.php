@@ -20,8 +20,11 @@ class Contact extends BaseController
 			'header' => [
 				'title'	  => page_title('Kapcsolat'),		
 				'section' => 'contact'		
+			],
+			'body'	=> [
+				'products' => product_options()
 			]
-            ];
+        ];
 
 		BuildPage::render('contact', $data);
     }

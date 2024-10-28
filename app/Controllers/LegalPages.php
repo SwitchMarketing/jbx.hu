@@ -20,6 +20,9 @@ class LegalPages extends BaseController
 			'header' => [
 				'title'	  => page_title('Adatkezelés'),		
 				'section' => 'home'		
+			],
+			'body'	=> [
+				'products' => product_options()
 			]
 		];
 
@@ -39,6 +42,9 @@ class LegalPages extends BaseController
 			'header' => [
 				'title'	  => page_title('Sütikezelés'),		
 				'section' => 'cookies'		
+			],
+			'body'	=> [
+				'products' => product_options()
 			]
 		];
 
@@ -58,6 +64,9 @@ class LegalPages extends BaseController
 			'header' => [
 				'title'	  => page_title('Érintettségi tájékoztató'),		
 				'section' => 'exposure'		
+			],
+			'body'	=> [
+				'products' => product_options()
 			]
 		];
 
@@ -77,6 +86,9 @@ class LegalPages extends BaseController
 			'header' => [
 				'title'	  => page_title('Impresszum'),		
 				'section' => 'impressum'		
+			],
+			'body'	=> [
+				'products' => product_options()
 			]
 		];
 
