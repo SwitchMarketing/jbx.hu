@@ -29,7 +29,7 @@
                         </li>                        
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>Szivattyú adapterek különböző szelep méretekhez.</p>
+                            <p>Többféle adapterrel a különböző kerékpár szelepekhez.</p>
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
