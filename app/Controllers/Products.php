@@ -25,16 +25,12 @@ class Products extends BaseController
 				'types' => $this->xGuardTypes(),
 				'pdfs' => [
 					[
-                        'url'   => 'dummy.pdf',
-                        'label' => 'X-Guard Brossúra'
+                        'url'   => 'Axelent_X-Guard_catalog.pdf',
+                        'label' => 'Axelent X-Guard - Gépbiztonsági kerítés'
                     ],
 					[
-                        'url'   => 'dummy.pdf',
-                        'label' => 'X-Guard Brossúra'
-                    ],
-					[
-                        'url'   => 'dummy.pdf',
-                        'label' => 'X-Guard Brossúra'
+                        'url'   => 'Axelent.pdf',
+                        'label' => 'Axelent - Ipari gépbiztonság'
                     ]
 				]
 			]
@@ -57,6 +53,18 @@ class Products extends BaseController
 			'header' => [
 				'title'	  => page_title('Axelent Wire Tray - Kábeltálca megoldások'),		
 				'section' => 'product'		
+			],
+			'body' => [ 
+				'pdfs' => [
+					[
+                        'url'   => 'Axelent_Wire_Tray.pdf',
+                        'label' => 'Axelent Wire Tray - Kábeltálca rendszerek'
+                    ],
+					[
+                        'url'   => 'Axelent.pdf',
+                        'label' => 'Axelent - Ipari gépbiztonság'
+                    ]
+				]
 			]
         ];
 
@@ -77,8 +85,24 @@ class Products extends BaseController
 			'header' => [
 				'title'	  => page_title('Axelent X-Protect - Ütközésvédelem'),		
 				'section' => 'product'		
+			],
+			'body' => [ 
+				'pdfs' => [
+					[
+                        'url'   => 'Axelent_X-Protect_catalog.pdf',
+                        'label' => 'Axelent X-Protect - Ütközésvédelem'
+                    ],
+					[
+                        'url'   => 'Axelent_X-Protect_sales.pdf',
+                        'label' => 'Axelent X-Protect Rugalmas Ütkozésvédők'
+                    ],
+					[
+                        'url'   => 'Axelent.pdf',
+                        'label' => 'Axelent - Ipari gépbiztonság'
+                    ]
+				]
 			]
-            ];
+        ];
 
 		BuildPage::render('xprotect', $data);
     }
@@ -97,6 +121,22 @@ class Products extends BaseController
 			'header' => [
 				'title'	  => page_title('Raktárbiztonsági megoldások'),		
 				'section' => 'product'		
+			],
+			'body' => [ 
+				'pdfs' => [
+					[
+                        'url'   => 'Axelent_X-Store.pdf',
+                        'label' => 'Axelent X-Store - Raktárelválasztó megoldások'
+                    ],
+					[
+                        'url'   => 'Axelent_X-Rail_fall_protection.pdf',
+                        'label' => 'Axelent X-Rail - Leesésvédelmi megoldások'
+                    ],
+					[
+                        'url'   => 'Axelent.pdf',
+                        'label' => 'Axelent - Ipari gépbiztonság'
+                    ]
+				]
 			]
         ];
 
@@ -117,8 +157,24 @@ class Products extends BaseController
 			'header' => [
 				'title'	  => page_title('Ingatlan megoldások'),		
 				'section' => 'product'		
+			],
+			'body' => [ 
+				'pdfs' => [
+					[
+                        'url'   => 'Axelent_BikeRacks.pdf',
+                        'label' => 'Axelent - Kerékpártárolási megoldások'
+                    ],
+					[
+                        'url'   => 'Axelent_Storerooms.pdf',
+                        'label' => 'Axelent - Rácsos és lemezes tárolók'
+                    ],
+					[
+                        'url'   => 'Axelent.pdf',
+                        'label' => 'Axelent - Ipari gépbiztonság'
+                    ]
+				]
 			]
-            ];
+        ];
 
 		BuildPage::render('property', $data);
     }

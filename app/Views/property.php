@@ -6,6 +6,7 @@ echo $this->include('property/about');
 echo $this->include('property/mesh-wall');
 echo $this->include('property/plate-wall');
 echo $this->include('property/two-storey-storage');
+echo $this->include('shared/pdfs');
 echo $this->include('property/bike-storage');
 echo $this->include('property/ground-mounted-storage');
 echo $this->include('property/storage-poles');
