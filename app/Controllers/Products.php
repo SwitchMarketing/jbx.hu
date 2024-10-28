@@ -139,10 +139,10 @@ class Products extends BaseController
 					'Rácsméret',
 					'Biztonsági távolság',
 					'Padló rögzítési pontok (oszloponként)',
-					'Szélességi panel változatok',
-					'Magassági verziók',
+					'Panel szélesség változatok',
+					'Kerítés magasság változatok',
 					'Panel keret / profil méret',
-					'Oszlop profil lemez vastagság'
+					'Oszlop méretei'
 				]
 			],
 			'lite' => [
@@ -163,20 +163,20 @@ class Products extends BaseController
 						'value' => '2'
 					],
 					[
-						'label' => 'Szélességi panel változatok',
+						'label' => 'Panel szélesség változatok',
 						'value' => '13'
 					],
 					[
-						'label' => 'Magassági verziók',
+						'label' => 'Kerítés magasság változatok',
 						'value' => '3'
 					],
 					[
 						'label' => 'Panel keret / profil méret',
-						'value' => 'függőleges 19x19mm, vízszintes 15x15mm'
+						'value' => 'függőleges 19x19 mm, vízszintes 15x15 mm'
 					],
 					[
-						'label' => 'Oszlop profil lemez vastagság',
-						'value' => '-'
+						'label' => 'Oszlop méretei',
+						'value' => '50 x 50 x 1 mm'
 					]
 				]
 			],
@@ -198,20 +198,20 @@ class Products extends BaseController
 						'value' => '2'
 					],
 					[
-						'label' => 'Szélességi panel változatok',
-						'value' => '3'
+						'label' => 'Panel szélesség változatok',
+						'value' => '13'
 					],
 					[
-						'label' => 'Magassági verziók',
+						'label' => 'Kerítés magasság változatok',
 						'value' => '5'
 					],
 					[
 						'label' => 'Panel keret / profil méret',
-						'value' => 'függőleges 30x20mm, vízszintes 25x15mm'
+						'value' => 'függőleges 30x20 mm, vízszintes 25x15 mm'
 					],
 					[
-						'label' => 'Oszlop profil lemez vastagság',
-						'value' => '-'
+						'label' => 'Oszlop méretei',
+						'value' => '50 x 50 x 1,5 mm'
 					]
 				]
 			],
@@ -233,20 +233,20 @@ class Products extends BaseController
 						'value' => '4'
 					],
 					[
-						'label' => 'Szélességi panel változatok',
+						'label' => 'Panel szélesség változatok',
 						'value' => '6'
 					],
 					[
-						'label' => 'Magassági verziók',
+						'label' => 'Kerítés magasság változatok',
 						'value' => '2'
 					],
 					[
 						'label' => 'Panel keret / profil méret',
-						'value' => 'függőleges 30x20mm, vízszintes 25x15mm'
+						'value' => 'függőleges 30x20 mm, vízszintes 25x15 mm'
 					],
 					[
-						'label' => 'Oszlop profil lemez vastagság',
-						'value' => '-'
+						'label' => 'Oszlop méretei',
+						'value' => '70 x 70 x 2 mm'
 					]
 				]
 			]
