@@ -7,6 +7,7 @@ echo $this->include('xtray/quality');
 echo $this->include('xtray/features');
 echo $this->include('xtray/types');
 echo $this->include('xtray/accessories');
+echo $this->include('xtray/xrack');
 echo $this->include('xtray/specs');
 echo $this->include('xtray/setup');
 echo $this->include('shared/exclusive');
