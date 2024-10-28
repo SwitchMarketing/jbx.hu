@@ -13,6 +13,7 @@ echo $this->include('shared/exclusive');
 echo $this->include('home/safety-design');
 echo $this->include('home/snapper-works');
 echo $this->include('home/axelent-experience');
+echo $this->include('home/safety-book');
 echo $this->include('shared/how-we-work');
 echo $this->include('shared/contact-form');
 ?>
