@@ -14,7 +14,7 @@
                     <div class="heading mb-4">
                         <h2 class="text-start w-100">Minőségbiztosítás</h2>
                     </div>
-                    <p>A Wire Tray termékcsalád megfelel az kábeltálcákra vonatkozó IEC 61537 szabvány legmagasabb követelményeinek, valamint az SS-EN ISO 12944-2 korróziós osztályozások minden egyes típusára létezik bevonatunk.</p>
+                    <p>A Wire Tray termékcsalád megfelel a kábeltálcákra vonatkozó IEC 61537 szabvány legmagasabb követelményeinek, valamint az SS-EN ISO 12944-2 korróziós osztályozások minden egyes típusára létezik bevonatunk.</p>
                     <p>Ezen kívül termékünk megkapta a legmagasabb ide vonatkozó tűzbiztonsági besorolást, az E90-et.</p>
                     <p>Végül pedig, az UL tanúsítványunknak köszönhetően termékeink rendelkeznek NEMA jóváhagyással is.</p>
                 </div>

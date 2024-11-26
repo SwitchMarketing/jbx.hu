@@ -11,7 +11,7 @@
                     <img src="<?php echo img_src('x-tray/u-tray.webp') ?>" class="card-img-top" alt="U-Tray">
                     <div class="card-body p-lg-4">
                         <h5 class="card-title">X-Tray U</h5>
-                        <p class="card-text">Standard kábeltálcánk, a legszélesebb felhasználási módokra, 30mm és 110 mm közötti tálca magasságokkal, a legszélesebb kínálatban.</p>
+                        <p class="card-text">Standard kábeltálcánk, a legszélesebb felhasználási módokra, 30 mm és 110 mm közötti tálca magasságokkal, a legszélesebb kínálatban.</p>
                     </div>
                 </div>
              </div>
@@ -56,7 +56,7 @@
                     <img src="<?php echo img_src('x-tray/mini-tray.webp') ?>" class="card-img-top" alt="X-Tray Mini">
                     <div class="card-body p-lg-4">
                         <h5 class="card-title">X-Tray Mini</h5>
-                        <p class="card-text">A kisebb, egyszerűbb kábelezési megoldásokra dedikált, keskeny kábeltálca megoldás, maximum 30mm-es kábel elvezetésére. Az X-Tray Mini könnyen integrálható az Axelent X-Guard gépvédő rendszereivel.</p>
+                        <p class="card-text">A kisebb, egyszerűbb kábelezési megoldásokra dedikált, keskeny kábeltálca megoldás, maximum 30 mm-es kábel elvezetésére. Az X-Tray Mini könnyen integrálható az Axelent X-Guard gépvédő rendszereivel.</p>
                     </div>
                 </div>
              </div>

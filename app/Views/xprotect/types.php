@@ -31,10 +31,10 @@
                       </div>
                       <div class="data">
                         <h3>Gyalogosvédő korlátok és kapu</h3>
-                        <p>A legfontosabb ipari biztonsági eszközök közé tartoznak, mivel elsősorban az embereket védig meg járművektől és egyéb munkahelyi veszélyektől.</p>
-                        <p>X-Protect megoldásunk magas-szintű ütéselnyelő csillapítással rendelkezik, és korlát kialakításunk szélesebb oszloptávolságot tesz lehetővé, a költséghatékonyságot szem előtt tartva.</p>
+                        <p>A legfontosabb ipari biztonsági eszközök közé tartoznak, mivel elsősorban az embereket védik meg járművektől és egyéb munkahelyi veszélyektől.</p>
+                        <p>X-Protect megoldásunk magas szintű ütéselnyelő csillapítással rendelkezik, és korlát kialakításunk szélesebb oszloptávolságot tesz lehetővé, a költséghatékonyságot szem előtt tartva.</p>
                         <p>Az X-Protect moduláris kialakítása egyedülállóvá teszi a rendszert, lehetővé téve a gyalogos, ütközésvédő és padlóvédő korlátok kombinációját, bármilyen helyzetre, konfigurációra.</p>
-                        <p>A korlátrendszerhez tartozó univerzális kapu önzáró mechanikával rendelkezik, és 690 mm - 1210 mm között állítható szélességű</p>
+                        <p>A korlátrendszerhez tartozó univerzális kapu önzáró mechanikával rendelkezik, és 690 mm - 1210 mm között állítható szélességű.</p>
                       </div>
                   </li>
                   <li>
@@ -56,7 +56,7 @@
                           </figure>
                       </div>
                       <div class="data">
-                        <h3>Ütközésvédő Oszlopok</h3>
+                        <h3>Ütközésvédő oszlopok</h3>
                         <p>Az X-Protect oszlopok kiválóan alkalmasak szerkezetek és berendezések védelmére.</p>
                         <p>A fekete-sárga színű oszlopok felhívják a figyelmet, és útmutatóként szolgálnak a közlekedési útvonalakon.</p>
                         <p>Az oszlopok könnyen telepíthetők, és erős fém magjuk eloszlatja az ütközési energiát, megvédve ezzel a padlót és a berendezéseket. Ideális megoldás kapuvédőnek.</p> 

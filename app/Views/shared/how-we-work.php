@@ -23,7 +23,7 @@
               1.
             </div>
             <h3>Kapcsolatfelvétel</h3>
-            <p>Előzetesen egyeztetünk az igényekről, vagy fogadjuk a kész Safety Design, vagy Snapper Works termék listát.</p>
+            <p>Előzetesen egyeztetünk az igényekről, vagy fogadjuk a kész Safety Design, vagy SnapperWorks termék listát.</p>
           </div>
         </div>
         <div class="col-md-4 col-sm-12 mt-3 mt-lg-0">

@@ -23,7 +23,7 @@
                     <ul>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>1100mm és 2200mm szélességben</p>
+                            <p>1100 mm és 2200 mm szélességben</p>
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
@@ -31,7 +31,7 @@
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>Rácskiosztási méretek: 60x50mm, 50x30mm és 25x25mm</p>
+                            <p>Rácskiosztási méretek: 60x50 mm, 50x30 mm és 25x25 mm</p>
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>

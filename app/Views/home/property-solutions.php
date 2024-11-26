@@ -15,7 +15,7 @@
               <li><i class="fa-solid fa-circle-dot"></i>Lemezes oldalfallal szerelt tároló</li>
               <li><i class="fa-solid fa-circle-dot"></i>Padló-, illetve fali kerékpártámasz</li>
               <li><i class="fa-solid fa-circle-dot"></i>Kétszintes, egyedi kerékpártároló</li>
-              <li><i class="fa-solid fa-circle-dot"></i>Kerékpárszervíz állomás</li>
+              <li><i class="fa-solid fa-circle-dot"></i>Kerékpár szervizállomás</li>
             </ul>
             <a href="<?php echo base_url('ingatlan-megoldasok') ?>" class="theme-btn mt-4">Bővebben  <i class="fa-solid fa-angles-right"></i></a>
           </div>

@@ -1,4 +1,4 @@
-  <!-- Snapper Works -->
+  <!-- SnapperWorks -->
   <section class="core-features gap" id="snapperworks">
     <div class="container">
       <div class="row">
@@ -81,4 +81,4 @@
       </div>
     </div>
   </section>
-  <!-- ./Snapper Works -->
+  <!-- ./SnapperWorks -->

@@ -18,7 +18,7 @@
         </div>
         <div class="col-lg-6" >
           <div class="data">
-            <p>Könnyen kezelhető, ingyenes online program a biztonsági megoldások tervezésére és a pontos termék igények összeállítására. Az Axelent Safety Design alkalmas gépbiztonsági, raktár biztonsági, és gyalogos védelmi megoldások gyors, átlátható és rugalmas tervezésére.</p>
+            <p>Könnyen kezelhető, ingyenes online program a biztonsági megoldások tervezésére és a pontos termék igények összeállítására. Az Axelent Safety Design alkalmas gépbiztonsági, raktárbiztonsági, és gyalogos védelmi megoldások gyors, átlátható és rugalmas tervezésére.</p>
             <ul class="mt-4">
                 <li>Ingyenesen elérhető</li>
                 <li>Intuitív kezelhetőség</li>

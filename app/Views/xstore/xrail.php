@@ -26,7 +26,7 @@
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>
-                            <p>Gyors rögzítéses 120mm-es Kickplate</p>
+                            <p>Gyors rögzítéses 120 mm-es Kickplate</p>
                         </li>
                         <li class="py-2">
                             <i class="fa-solid fa-check"></i>

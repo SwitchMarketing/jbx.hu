@@ -31,7 +31,7 @@ function product_options(int $selected = 0) : array {
         (object) [
             'id' => 4,
             'value' => 'X-Store',
-            'label' => 'X-Store | Rektárbiztonság',
+            'label' => 'X-Store | Raktárbiztonság',
             'selected' => ($selected == 4)
         ],
         (object) [
