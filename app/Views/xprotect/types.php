@@ -52,7 +52,7 @@
                   <li>
                       <div class="image">
                           <figure>
-                              <img class="w-100" src="<?php echo img_src('x-protect/utkozesvedo-oszlop.webp') ?>" alt="Ütközésvédő oszlop">
+                              <img class="w-100" src="<?php echo img_src('x-protect/bollard.webp') ?>" alt="Ütközésvédő oszlop">
                           </figure>
                       </div>
                       <div class="data">
@@ -61,6 +61,17 @@
                         <p>A fekete-sárga színű oszlopok felhívják a figyelmet, és útmutatóként szolgálnak a közlekedési útvonalakon.</p>
                         <p>Az oszlopok könnyen telepíthetők, és erős fém magjuk eloszlatja az ütközési energiát, megvédve ezzel a padlót és a berendezéseket. Ideális megoldás kapuvédőnek.</p> 
                       </div>                      
+                  </li>
+                  <li>
+                      <div class="data">
+                        <h3>Oszlopvédők</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores obcaecati harum laudantium quisquam earum deserunt, corporis quos? Tempore culpa voluptatibus quasi deserunt. Saepe alias temporibus, totam incidunt quibusdam ab a?</p>
+                      </div>
+                      <div class="image">
+                          <figure>
+                              <img class="w-100" src="<?php echo img_src('x-protect/oszlopvedo.webp') ?>" alt="Oszlopvédő">
+                          </figure>
+                      </div>
                   </li>
               </ul>
           </div>
