@@ -12,7 +12,7 @@
         <div class="col-lg-4 col-md-6 col-sm-12" >
           <div class="service-two-box">
             <h3>Felhasználóbarát</h3>
-            <p>Könnyű és gyors telepítés egyszerű telepítési útmutatóval</p>
+            <p>Könnyű és gyors telepítés egyszerű telepítési útmutatókkal, összeszerelési videókkal</p>
             <div class="service-two-icon d-flex-all justify-content-start">
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512.923 512.923" style="enable-background:new 0 0 512.923 512.923;" xml:space="preserve">
 <g>
