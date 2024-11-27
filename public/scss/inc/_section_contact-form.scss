@@ -126,3 +126,18 @@
 ul.social-medias {
     margin-top: 30px;
 }
+
+ul.dotted {
+    li {
+        margin-left: 18px;
+        list-style-type: disc;
+    }
+}
+
+body.light-d {
+    ul.dotted {
+        li {
+            color: white;
+        }
+    }
+}

@@ -43,6 +43,7 @@
                                     <ul class="sub-menu">
                                         <li><a href="<?php echo base_url('#hogyan-dolgozunk') ?>">Hogyan dolgozunk</a></li>
                                         <li><a href="<?php echo base_url('bemutatkozo') ?>">Bemutatkozó</a></li>
+                                        <li><a href="<?php echo base_url('minosegbiztositasi-nyilatkozat') ?>">Minőségpolitikai nyilatkozat</a></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -113,6 +114,7 @@
                         <ul class="sub-menu">
                             <li><a href="<?php echo base_url('#hogyan-dolgozunk') ?>">Hogyan dolgozunk</a></li>
                             <li><a href="<?php echo base_url('bemutatkozo') ?>">Bemutatkozó</a></li>
+                            <li><a href="<?php echo base_url('minosegbiztositasi-nyilatkozat') ?>">Minőségpolitikai nyilatkozat</a></li>
                         </ul>
                     </li>
                     <li>

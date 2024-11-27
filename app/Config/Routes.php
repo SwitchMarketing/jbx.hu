@@ -21,6 +21,11 @@ $routes->get('/ingatlan-megoldasok', 'Products::property');
  */
 $routes->get('/bemutatkozo', 'About::index');
 
+/** 
+ * Minőségbiztosítás
+ */
+$routes->get('/minosegbiztositasi-nyilatkozat', 'QualityPolicy::index');
+
 /**
  * Kapcsolat
  */
