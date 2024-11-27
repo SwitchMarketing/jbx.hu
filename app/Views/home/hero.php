@@ -6,9 +6,14 @@
       <div class="row f-2-slider owl-carousel">
         <div class="s-item">
           <div class="s-first">
-            <div class="badge"><img src="<?php echo img_src('axelentx.svg') ?>" alt="Axelent" width="50" height="50"></div>
+            <div class="badge">
+              <img src="<?php echo img_src('axelentx.svg') ?>" alt="Axelent" width="50" height="50">
+            </div>
             <h1>Axelent ipari gépbiztonság</h1>
             <p>Piacvezető mechanikai biztonsági megoldások, gépbiztonsági kerítések, kábeltálcák, ütközésvédelmi és raktározási rendszerek minden ipari környezet számára.</p>
+            <div class="badge iso">
+              <img src="<?php echo img_src('iso_sgs_ukas.webp') ?>" alt="ISO" width="150">
+            </div>
             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn btn-light">Ajánlatkérés <i class="fa-solid fa-angles-right"></i></a>
           </div>
           <div class="s-second">
