@@ -16,7 +16,7 @@
              </div>
              <div class="col-lg-6 mb-4 mb-lg-5">
                 <div class="card h-100">
-                    <img src="<?php echo img_src('ingatlan/bike_up_classic.webp') ?>" class="card-img-top" alt="Bike Up Classic">
+                    <img src="<?php echo img_src('ingatlan/bike_up_classic-1.webp') ?>" class="card-img-top" alt="Bike Up Classic">
                     <div class="card-body p-lg-4">
                         <h5 class="card-title">Bike Up Classic</h5>
                         <p class="card-text">2-5 kerékpár tárolására, kisebb és nagyobb kerkékpárokhoz egyaránt illeszkedik. Termék különlegessége, hogy kialakításának köszönhetően a biciklik több szinten parkoltathatóak.</p>

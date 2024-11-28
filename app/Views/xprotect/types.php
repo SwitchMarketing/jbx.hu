@@ -65,7 +65,10 @@
                   <li>
                       <div class="data">
                         <h3>Oszlopvédők</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores obcaecati harum laudantium quisquam earum deserunt, corporis quos? Tempore culpa voluptatibus quasi deserunt. Saepe alias temporibus, totam incidunt quibusdam ab a?</p>
+                        <p>Az X-Protect oszlopvédők hatékony ütközésvédelmet nyújtanak oszlopok számára ipari környezetekben.</p>
+                        <p>Az innovatív kialakítású légcsatornák hatékonyan csillapítják az ütközési erőket, megóvva a szerkezetet a károsodástól.</p>
+                        <p>A moduláris elemekből álló oszlopvédők könnyen telepíthetők, szoros illeszkedéssel helytakarékos megoldások az oszlopok körül.</p>
+                        <p>Mint minden rendszerünk, ez is gyorsan módosítható, javítható vagy cserélhető - szinte korlátlan testreszabhatósági lehetőséggel.</p>
                       </div>
                       <div class="image">
                           <figure>
