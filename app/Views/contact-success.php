@@ -6,7 +6,7 @@
                 <div class="alert alert-default text-center">
                     <p class="fs-1"><i class="far fa-smile"></i></p>
                     <h2 class="my-4 fs-1">Köszönjük!</h2>
-                    <h4 class="fw-normal">Ajánlatkérésedet sikeresen rögzítettük.<br> Munkatársunk hamarosan keresni fog.</h4>
+                    <h4 class="fw-normal">Ajánlatkérését sikeresen rögzítettük.<br> Munkatársunk hamarosan keresni fogja Önt.</h4>
                     <a href="<?php echo base_url() ?>" class="theme-btn mt-4">Vissza a főoldalra  <i class="fa-solid fa-home"></i></a>                    
                 </div>
             </div>
