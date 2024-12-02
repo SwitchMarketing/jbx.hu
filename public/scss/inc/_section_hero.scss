@@ -38,8 +38,11 @@
             max-width: 150px;
             height: auto;
             margin-left: -13px;
+            @include mobile() {
+              max-width: 120px;
+            }
           }
-        }
+        }        
       }
     }
   
@@ -58,6 +61,16 @@
           color: white;
           span {
             white-space: nowrap;
+          }
+          &.with-logo {
+            .badge { 
+              margin: 10px 20px 0 0;
+              padding: 0; 
+              @include medium-sm() {
+                margin: 0 0 10px 0;
+                display: block;
+              }              
+            }
           }
         }
   
