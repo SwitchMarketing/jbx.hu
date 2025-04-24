@@ -8,7 +8,7 @@
                 <a href="#" class="theme-btn">Add to Cart <i class="fa-solid fa-bag-shopping"></i></a>
             </div>
             <div class="data">
-                <h3><a href="#">Fosroc Galvafroid - 400ml</a></h3>
+                <h3><a href="<?php echo base_url('termekek/fosroc') ?>">Fosroc Galvafroid - 400ml</a></h3>
                 <div class="price-range">
                     <span>$18.60</span> - <span>$58.50</span>
                 </div>

@@ -57,6 +57,7 @@ $routes->get('/erintettseg', 'LegalPages::exposure');
  * Shop
  */
 $routes->get('/termekek', 'ShopProducts::index');
+$routes->get('/termekek/(:segment)', 'ShopProducts::product/$1');
 
 /**
  * emailek kiküldése  

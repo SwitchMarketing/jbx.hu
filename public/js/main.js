@@ -10,8 +10,11 @@ var App = {
     this.toggleDarkMode();
     this.toggleMobileMenu();
     this.dropzoneUpload();
-    this.timeLine();    
+    this.timeLine();
     this.hideCTAButton();
+
+    this.nzoomimg();
+    this.pdGallery();
 
     // Nice Select
     if ($("select")[0]) {
@@ -81,7 +84,6 @@ var App = {
   },
 
   toggleMobileMenu: function () {
-    
     /*$(".mobile-nav .menu-item-has-children").on("click", function (event) {
       $(this).toggleClass("active");
       event.stopPropagation();
@@ -103,13 +105,11 @@ var App = {
     });
 
     $(".mobile-nav li a").click(function () {
-      if( $(this).attr("href").indexOf("#") >= 0 )
-      {
+      if ($(this).attr("href").indexOf("#") >= 0) {
         $("#mobile-nav").removeClass("open");
         $("#mobile-menu").removeClass("open");
-      }      
+      }
     });
-    
   },
 
   stickyHeader: function () {
@@ -142,7 +142,6 @@ var App = {
   },
 
   scrollTop: function () {
-
     window.onscroll = () => {
       var num = window.pageYOffset;
       if (num >= 160) {
@@ -162,21 +161,22 @@ var App = {
   },
 
   /**
-   * 
+   *
    * timeline scrolling
-   * 
+   *
    */
-  timeLine: function() {
-
-    window.onscroll = function() {
-        var num = window.pageYOffset;
-        $('#timeline').waypoint(function() {
-            $(".fill").css("height", num);
-        }, {
-            offset: '100%'
-        });        
-    }
-
+  timeLine: function () {
+    window.onscroll = function () {
+      var num = window.pageYOffset;
+      $("#timeline").waypoint(
+        function () {
+          $(".fill").css("height", num);
+        },
+        {
+          offset: "100%",
+        }
+      );
+    };
   },
 
   /**
@@ -204,23 +204,23 @@ var App = {
   },
 
   /**
-   * 
+   *
    * hibaüzenet
-   * 
-   * @param {*} form 
-   * @param {*} message 
+   *
+   * @param {*} form
+   * @param {*} message
    */
-  showError: function (form, message) { 
+  showError: function (form, message) {
     jQuery(".messages", form).html(message);
   },
 
   /**
-   * 
+   *
    * hibaüzenet törlése
-   * 
+   *
    */
-  clearError : function() {
-    jQuery(".messages", form).html('');
+  clearError: function () {
+    jQuery(".messages", form).html("");
   },
 
   /**
@@ -278,7 +278,6 @@ var App = {
         } else {
           form[0].reset();
           const title = json.title || "SIKER";
-          
         }
       },
       error: (xhr, ajaxOptions, thrownError) => {
@@ -294,23 +293,19 @@ var App = {
    *
    */
   dropzoneUpload: function () {
-    
     const forms = document.querySelectorAll("form");
-    forms.forEach(form => {      
+    forms.forEach((form) => {
       this.initDropzone(form);
     });
-    
   },
 
-  
   /**
-   * 
+   *
    * init dropzone
-   * 
-   * @param {*} form 
+   *
+   * @param {*} form
    */
-  initDropzone: function (form) { 
-
+  initDropzone: function (form) {
     Dropzone.autoDiscover = false;
 
     form = jQuery(form);
@@ -326,7 +321,7 @@ var App = {
       maxFiles: maxFiles,
       acceptedFiles: ".jpeg,.jpg,.png,.webp,.heic,.heif,.pdf",
       addRemoveLinks: true,
-      dictDefaultMessage: $('div.dropzone', form).data("title"),
+      dictDefaultMessage: $("div.dropzone", form).data("title"),
       dictFallbackMessage:
         "A böngésződ nem támogatja a \"drag'n'drop\" fájlfeltöltést.",
       dictFallbackText:
@@ -343,7 +338,6 @@ var App = {
 
       // The setting up of the dropzone
       init: function () {
-
         var myDropzone = this;
 
         // First change the button to actually tell Dropzone to process the queue.
@@ -359,7 +353,10 @@ var App = {
 
         this.on("maxfilesexceeded", function (file) {
           this.removeFile(file);
-          me.showError(form, `<div class="alert alert-danger">Maximum ${maxFiles} fájl tölthető fel!</div>`);          
+          me.showError(
+            form,
+            `<div class="alert alert-danger">Maximum ${maxFiles} fájl tölthető fel!</div>`
+          );
         });
         this.on("sending", (file, xhr, formData) => {
           $("input, textarea", form).each((idx, el) => {
@@ -386,7 +383,7 @@ var App = {
             window.location = response.redirect;
           } else {
             form[0].reset();
-            const title = response.title || "SIKER";            
+            const title = response.title || "SIKER";
           }
         });
         this.on("errormultiple", (files, response) => {
@@ -399,84 +396,136 @@ var App = {
             $(file.previewElement).removeClass("dz-error");
             $(file.previewElement).removeClass("dz-complete");
           });
-          me.showError(form, (typeof response == "object" ? response.message : response));                    
+          me.showError(
+            form,
+            typeof response == "object" ? response.message : response
+          );
         });
       },
     });
-
   },
 
-  autoPlayYouTubeModal: function() {
-    var triggerOpen = $("body").find('[data-tagVideo]');
-    triggerOpen.click(function() {
+  autoPlayYouTubeModal: function () {
+    var triggerOpen = $("body").find("[data-tagVideo]");
+    triggerOpen.click(function () {
       var theModal = $(this).data("bs-target"),
         videoSRC = $(this).attr("data-tagVideo"),
         videoSRCauto = videoSRC + "?autoplay=1&rel=0";
-      $(theModal + ' iframe').attr('src', videoSRCauto);
-      $(theModal + ' button.btn-close').click(function() {
-        $(theModal + ' iframe').attr('src', videoSRC);
+      $(theModal + " iframe").attr("src", videoSRCauto);
+      $(theModal + " button.btn-close").click(function () {
+        $(theModal + " iframe").attr("src", videoSRC);
       });
     });
   },
 
-  counter: function() {
-
+  counter: function () {
     $(document).scroll(function () {
-      $('.odometer').each(function () {
-        var parent_section_postion = $(this).closest('section').position();
+      $(".odometer").each(function () {
+        var parent_section_postion = $(this).closest("section").position();
         var parent_section_top = parent_section_postion.top;
-        if ($(document).scrollTop() > parent_section_top - ($(window).height() - 200) ) {          
-          if ($(this).data('status') == 'yes') {
-            $(this).html($(this).data('count'));
-            $(this).data('status', 'no');
+        if (
+          $(document).scrollTop() >
+          parent_section_top - ($(window).height() - 200)
+        ) {
+          if ($(this).data("status") == "yes") {
+            $(this).html($(this).data("count"));
+            $(this).data("status", "no");
           }
         }
       });
     });
-
   },
 
-  setCTAButtonPosition: function() {
-
-    if( $('a#btn-bottom-cta').length > 0 ) { 
-      
+  setCTAButtonPosition: function () {
+    if ($("a#btn-bottom-cta").length > 0) {
       let windowWidth = $(window).width();
       let pos = 40;
-      
-      if( windowWidth > 768 )
-      {
-        let footerContainerWidth = $('footer .container').outerWidth();
-        pos = (windowWidth - footerContainerWidth) / 2;              
+
+      if (windowWidth > 768) {
+        let footerContainerWidth = $("footer .container").outerWidth();
+        pos = (windowWidth - footerContainerWidth) / 2;
       }
-       
-      $('a#btn-bottom-cta').css({
-        right: pos + 'px'
+
+      $("a#btn-bottom-cta").css({
+        right: pos + "px",
       });
-
     }
-
   },
 
-  hideCTAButton : function() {    
-
-    if ('IntersectionObserver' in window) {
-        
-      const buttonToHide = document.querySelector('a.btn-bottom-cta');
+  hideCTAButton: function () {
+    if ("IntersectionObserver" in window) {
+      const buttonToHide = document.querySelector("a.btn-bottom-cta");
 
       const hideWhenBoxInView = new IntersectionObserver((entries) => {
-        if (entries[0].intersectionRatio <= 0) { 
-          buttonToHide.classList.add("visible");          
+        if (entries[0].intersectionRatio <= 0) {
+          buttonToHide.classList.add("visible");
         } else {
-          buttonToHide.classList.remove("visible");          
+          buttonToHide.classList.remove("visible");
         }
       });
-      
-      if(document.getElementById('contact_form'))
-        hideWhenBoxInView.observe(document.getElementById('contact_form'));
-      else
-        buttonToHide.classList.add("visible");
 
+      if (document.getElementById("contact_form"))
+        hideWhenBoxInView.observe(document.getElementById("contact_form"));
+      else buttonToHide.classList.add("visible");
     }
+  },
+
+  nzoomimg: function () {
+    let t = document.getElementById("NZoomImg"),
+      e =
+        t.getAttribute("data-NZoomscale") <= 0
+          ? 1
+          : t.getAttribute("data-NZoomscale"),
+      s = t.clientWidth,
+      o = t.clientHeight;
+    $("#NZoomImg").replaceWith(
+      '<div id="NZoomContainer">' + t.outerHTML + "</div>"
+    );
+    let i = $("#NZoomContainer"),
+      n = $("#NZoomImg");
+    i.css("width", s + "px"),
+      i.css("height", o + "px"),
+      i.mousemove(function (t) {
+        let e = $(this).offset(),
+          i =
+            ((t.pageX - e.left) / s) * 100 <= 100
+              ? ((t.pageX - e.left) / s) * 100
+              : 100,
+          c =
+            ((t.pageY - e.top) / o) * 100 <= 100
+              ? ((t.pageY - e.top) / o) * 100
+              : 100;
+        n.css("transform-origin", i + "% " + c + "%");
+      }),
+      i
+        .mouseenter(function () {
+          n.css("cursor", "crosshair"),
+            n.css("width", s + "px"),
+            n.css("height", o + "px"),
+            n.css("transition", "0.2s"),
+            n.css("transform", "scale(" + e + ")");
+        })
+        .mouseleave(function () {
+          n.css("transition", "0.2s"), n.css("transform", "scale(1)");
+        });
+  },
+
+  pdGallery : function() {
+
+    $('.li-pd-imgs').on('click', function() {
+
+      var img_src = "";
+
+      $('.li-pd-imgs.nav-active').removeClass('nav-active');
+
+      $(this).addClass('nav-active');
+
+      img_src = $(this).find('img').attr('src');
+
+      $('#NZoomContainer').children('img').attr('src', img_src);
+
+    });
+
   }
 
 };
@@ -490,9 +539,12 @@ jQuery(document).ready(function () {
   App.autoPlayYouTubeModal();
   // App.counter();
   // enable tooltips
-  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-
+  const tooltipTriggerList = document.querySelectorAll(
+    '[data-bs-toggle="tooltip"]'
+  );
+  const tooltipList = [...tooltipTriggerList].map(
+    (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+  );
 });
 
 jQuery(window).on("load", function () {
@@ -505,6 +557,6 @@ jQuery(window).on("load", function () {
   //App.contactModal.show();
 });
 
-$(window).on('DOMContentLoaded load resize', function() {
+$(window).on("DOMContentLoaded load resize", function () {
   App.setCTAButtonPosition();
 });
