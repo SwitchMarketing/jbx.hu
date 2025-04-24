@@ -471,13 +471,16 @@ var App = {
   },
 
   nzoomimg: function () {
-    let t = document.getElementById("NZoomImg"),
-      e =
-        t.getAttribute("data-NZoomscale") <= 0
-          ? 1
-          : t.getAttribute("data-NZoomscale"),
-      s = t.clientWidth,
-      o = t.clientHeight;
+    
+    let t = document.getElementById("NZoomImg");
+
+    if(!t) return false;
+    
+    let e = t.getAttribute("data-NZoomscale") <= 0 ? 1 : t.getAttribute("data-NZoomscale"),
+        s = t.clientWidth,
+        o = t.clientHeight;
+
+
     $("#NZoomImg").replaceWith(
       '<div id="NZoomContainer">' + t.outerHTML + "</div>"
     );

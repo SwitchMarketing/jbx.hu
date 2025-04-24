@@ -54,7 +54,12 @@ $routes->get('/impresszum', 'LegalPages::impressum');
 $routes->get('/erintettseg', 'LegalPages::exposure');
 
 /**
- * Shop
+ * Shop belépés / regisztráció
+ */
+$routes->get('/belepes', 'ShopLoginRegister::index');
+
+/**
+ * Shop termékek
  */
 $routes->get('/termekek', 'ShopProducts::index');
 $routes->get('/termekek/(:segment)', 'ShopProducts::product/$1');
