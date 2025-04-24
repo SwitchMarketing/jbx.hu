@@ -8,6 +8,29 @@
           <p><?php echo $caption ?? '' ?></p>
         </div>
       </div>
-    </div>    
+    </div>
+    <?php if( isset($breadcrumbs) ): ?>    
+    <div class="breadcrums">
+      <div class="container">
+        <div class="row">
+          <ul>
+            <li>
+              <a href="<?php echo base_url() ?>">
+                <i class="fa-solid fa-house"></i>
+                <p>Főoldal</p>
+              </a>
+            </li>
+            <?php foreach($breadcrumbs as $bc): ?>
+            <li class="current">
+              <a href="<?php echo $bc->url ?>">
+                <p><?php echo $bc->title ?></p>
+              </a>
+            </li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <?php endif; ?>
   </section>
   <!-- ./Page Header -->

@@ -54,6 +54,11 @@ $routes->get('/impresszum', 'LegalPages::impressum');
 $routes->get('/erintettseg', 'LegalPages::exposure');
 
 /**
+ * Shop
+ */
+$routes->get('/termekek', 'ShopProducts::index');
+
+/**
  * emailek kiküldése  
  */
 $routes->cli('/cron', 'Cron::index');

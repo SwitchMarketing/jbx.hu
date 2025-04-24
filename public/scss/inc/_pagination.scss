@@ -1,0 +1,54 @@
+.builty-pagination {
+    .pagination {
+      justify-content: center;
+    }
+  
+    margin-top: 50px;
+  
+    ul.pagination li {
+      a {
+        font-size: 16px;
+        font-weight: bold;
+        color: #303030;
+        font-family: $primary-font;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 26px;
+        border-radius: 0 !important;
+        border: 1px solid #c1c1c1;
+      }
+  
+      &:first-child a, &:last-child a {
+        padding: 0 21px;
+        background: black;
+        color: white;
+      }
+  
+      &:first-child a:hover, &:last-child a:hover {
+        color: black;
+      }
+  
+      &:first-child a, &:last-child a {
+        border-color: black;
+      }
+  
+      &:first-child {
+        margin-right: 25px;
+      }
+  
+      &:last-child {
+        margin-left: 25px;
+      }
+  
+      a i {
+        font-size: 15px;
+      }
+  
+      &.space a {
+        cursor: not-allowed;
+      }
+    }
+  }
+  
