@@ -72,3 +72,5 @@ $routes->group('admin', static function ($routes) {
     $routes->resource('download', ['controller' =>'Admin\Download', 'only' => ['show'], 'filter' => 'loggedin']);
 });
 
+/** UNAS */
+$routes->get('/unas', 'UnasTest::index');

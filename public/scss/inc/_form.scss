@@ -93,25 +93,25 @@ textarea {
 
 .checkk {
     label {
-    height: 65px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid;
-    font-family: $primary-font;
-    font-size: .9rem;
-    font-weight: 800;
-    letter-spacing: default;
-    cursor: pointer;
-    user-select: none;
-    @include transition();
-    &:hover { 
-        background-color: rgba($color: $grey, $alpha: .15);            
-    }
+        height: 65px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid;
+        font-family: $primary-font;
+        font-size: .9rem;
+        font-weight: 800;
+        letter-spacing: default;
+        cursor: pointer;
+        user-select: none;
+        @include transition();
+        &:hover { 
+            background-color: rgba($color: $grey, $alpha: .15);            
+        }
     }
 
     input {
-    display: none;
+        display: none;
     }
 }
 
