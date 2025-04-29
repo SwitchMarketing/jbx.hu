@@ -65,6 +65,12 @@ $routes->get('/termekek', 'ShopProducts::index');
 $routes->get('/termekek/(:segment)', 'ShopProducts::product/$1');
 
 /**
+ * Shop kosár
+ */
+$routes->get('/kosar', 'ShopCart::index');
+
+
+/**
  * emailek kiküldése  
  */
 $routes->cli('/cron', 'Cron::index');
