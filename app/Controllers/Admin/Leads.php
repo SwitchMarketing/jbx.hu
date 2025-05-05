@@ -20,7 +20,15 @@ class Leads extends BaseResourceController
         
         try {
 
-            $leads = $this->model->select('id, name, email, phone, products, utm_source, created_at')->orderBy('created_at', 'desc')->findAll();
+            $leads = $this->model->select('
+                id, 
+                name, 
+                email, 
+                phone, 
+                products, 
+                utm_source, 
+                LENGTH(message) as message_length,
+                created_at')->orderBy('created_at', 'desc')->findAll();
             $total = $this->model->countAllResults();
             
             $this->setData($leads);

@@ -54,6 +54,16 @@ Ext.define('JBXAdmin.view.leads.Leads', {
                     }
                 },
                 { 
+                    text: 'Megj.',
+                    width : 80,
+                    dataIndex: 'message_length',
+                    align : 'center',
+                    sortable : false,
+                    renderer : (val) => {
+                        return val;
+                    }
+                },
+                { 
                     text: 'Létrehozva',
                     width : 150,
                     dataIndex: 'created_at'
