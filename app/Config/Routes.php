@@ -69,6 +69,11 @@ $routes->get('/termekek/(:segment)', 'ShopProducts::product/$1');
  */
 $routes->get('/kosar', 'ShopCart::index');
 
+/**
+ * Shop pénztár
+ */
+$routes->get('/penztar', 'ShopCheckout::index');
+
 
 /**
  * emailek kiküldése  

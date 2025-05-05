@@ -529,6 +529,17 @@ var App = {
 
     });
 
+  },
+
+  toggleDeliveryAddr: function(checkbox) {
+
+    // check if checkbox is checked
+    if ($(checkbox).is(':checked')) {
+      $('div#deliveryAddr').removeClass('d-none');
+    } else {
+      $('div#deliveryAddr').addClass('d-none');
+    }    
+
   }
 
 };

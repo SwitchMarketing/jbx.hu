@@ -96,7 +96,6 @@
 }
 
 $color_1: #444;
-$font-family_1: 'Poppins';
 
 .detail-page {
 	p {
@@ -114,13 +113,13 @@ $font-family_1: 'Poppins';
 		font-size: 22px;
 		color: $color_1;
 		font-weight: bold;
-		font-family: $font-family_1;
+		font-family: $primary-font;
 	}
 	.include {
 		li {
 			font-size: 16px;
 			color: $color_1;
-			font-family: $font-family_1;
+			font-family: $primary-font;
 			margin-bottom: 18px;
 			font-weight: 600;
 			i {
