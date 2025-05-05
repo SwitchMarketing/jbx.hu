@@ -32,11 +32,29 @@ class Cron extends Controller
                 $files = (new \App\Models\FileModel())->where('offer_id', $offer->id)->findAll();
                 $offer->files = $files;
                 CLI::showProgress($currStep++, $total);
-                if( Mailer::contact((array)$offer) )
+
+                // ha a megjegyzés hossza nagyobb mint 20 karakter
+                // kiküldjük az emailt ha nem akkor csak mentjük a kiküldés időpontját
+                if( strlen($offer->message) > 20 )
+                {
+                    
+                    if( Mailer::contact((array)$offer) ) {
+                        (new \App\Models\OfferRequestModel())->save([
+                            'id' => $offer->id,
+                            'emailed_at' => date('Y-m-d H:i:s')
+                        ]);
+                    }                    
+
+                } 
+                else {
+
                     (new \App\Models\OfferRequestModel())->save([
                         'id' => $offer->id,
                         'emailed_at' => date('Y-m-d H:i:s')
                     ]);
+
+                }
+                                    
                 //sleep(1);
             }
 

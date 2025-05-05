@@ -131,9 +131,9 @@ class Home extends BaseController
 				// * Háttérben megy a feltöltés, így ezt most nem kell
 				// Mailer::contact($rec);   
 
-				//menjen egy köszönő email az ügyfélnek
-				// ! átmenetileg kikapcsolva, visszapattannak az emailek
-				if( !empty($rec['email']) )
+				// menjen egy köszönő email az ügyfélnek
+				// ha meg van adva email cím és a megjegyzés mező hosszabb mint 20 karakter
+				if( !empty($rec['email']) && strlen($rec['message']) > 20 )
 					Mailer::thankYou($post);
 
 				//munkamanet változó és átirányítás a köszönő oldalra
