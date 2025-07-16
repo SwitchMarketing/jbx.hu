@@ -57,7 +57,7 @@ class Unas {
         <Params>
             <ApiKey>'.getenv('UNAS_API_KEY').'</ApiKey>
             <WebshopInfo>true</WebshopInfo>
-        </Params>';
+        </Params>';        
 
         return self::request('login', $request);
     }
@@ -87,14 +87,22 @@ class Unas {
     {
         $request = '<?xml version="1.0" encoding="UTF-8" ?>
         <Params>    
-            <LimitNum>100</LimitNum>
+            <LimitNum>1000</LimitNum>
             <ContentType>normal</ContentType>              
         </Params>';
 
         return self::request('getProduct', $request, $token);
 
     }
-
+    
+    /**
+     * request
+     *
+     * @param  mixed $path
+     * @param  mixed $request
+     * @param  mixed $token
+     * @return void
+     */
     private static function request($path, $request, $token = null)
     {
 
@@ -109,10 +117,11 @@ class Unas {
 
             if($token) {
                 $payload['headers']['Authorization'] = "Bearer {$token}";
-            }
+            }            
 
-            $response = self::client()->request('POST', $path, $payload);
-
+            $response = self::client()->request('POST', $path, $payload);     
+            
+            
             if( ! ($response->getStatusCode() == 200) )
                 throw new Exception($response->getBody()->error->message);
             

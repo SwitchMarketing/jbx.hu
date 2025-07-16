@@ -80,13 +80,15 @@ $routes->get('/penztar', 'ShopCheckout::index');
  */
 $routes->cli('/cron', 'Cron::index');
 
-/** Karbantartás */
-$routes->get('/karbantartas', 'Maintenance::index');
 
+/** UNAS */
+$routes->get('/unas', 'UnasTest::index');
+
+/** Cron UNAS - Kategóriák és termékek szinkronizálása */
+$routes->cli('/unas/categories', 'CronUnas::categories');
 
 /** Admin */
-$routes->group('admin', static function ($routes) {
-    
+$routes->group('admin', static function ($routes) {    
     $routes->resource('sessiondata', ['controller' =>'Admin\SessionData', 'only' => ['index']]);
     $routes->resource('login', ['controller' =>'Admin\Login', 'only' => ['create']]);
     $routes->resource('logout', ['controller' =>'Admin\Logout', 'only' => ['index']]);
@@ -94,5 +96,5 @@ $routes->group('admin', static function ($routes) {
     $routes->resource('download', ['controller' =>'Admin\Download', 'only' => ['show'], 'filter' => 'loggedin']);
 });
 
-/** UNAS */
-$routes->get('/unas', 'UnasTest::index');
+/** Karbantartás */
+$routes->get('/karbantartas', 'Maintenance::index');
