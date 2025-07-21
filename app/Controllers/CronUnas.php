@@ -63,7 +63,7 @@ class CronUnas extends Controller
         // ellenőrizzük a bejelentkezést
         if( !$this->token || !$this->expires )
         {
-            CLI::error('UNAS login failed. Please check your credentials.');
+            CLI::error('UNAS belépés sikertelen. Kérjük, ellenőrizze a hitelesítő adatait.');
             return;
         }       
         
@@ -74,8 +74,7 @@ class CronUnas extends Controller
         CLI::write('Kategóriák lekérése az UNAS API-tól...', 'green');
         $categories = Unas::categories($this->token);
 
-        // a kategóriák XML-ből tömbbé alakítása
-        // ha az XML objektum, akkor konvertáljuk tömbbé
+        // a kategóriák feldolgozása
         if( is_array($categories) )
         {
             // ha a kategóriák tömb, akkor végigmegyünk rajta
@@ -113,25 +112,150 @@ class CronUnas extends Controller
                 } 
                 else
                 {
-                    CLI::error('No categories found to save.');
+                    CLI::error('Nincsenek kategóriák a mentéshez.');
                     return;
                 }
             }
             else
             {
-                CLI::error('No categories found.');
+                CLI::error('Nincsenek kategóriák.');
                 return;
             }
         }        
         else
         {
-            CLI::error('Error fetching categories: ' . $categories, 'red');
+            CLI::error('Hiba a kategóriák lekérésekor: ' . $categories, 'red');
             return;
         }
 
         CLI::write('Kategóriák sikeresen lekérve.', 'green');
     }
 
+    /**
+     * products
+     *
+     * a termékek lekérése
+     * 
+     * @return void
+     */
+    public function products()
+    {
+        // ellenőrizzük a bejelentkezést
+        if( !$this->token || !$this->expires )
+        {
+            CLI::error('UNAS belépés sikertelen. Kérjük, ellenőrizze a hitelesítő adatait.');
+            return;
+        }       
+        
+        // ide gyűjtjük az adatokat
+        $records = [];
+
+        // simple xml object
+        CLI::write('Termékek lekérése az UNAS API-tól...', 'green');
+        $products = Unas::products($this->token);
+
+        // a termékek feldolgozása
+        if( is_array($products) )
+        {
+            // ha a termékek tömb, akkor végigmegyünk rajta
+            if(isset($products['Product']))
+            {
+                foreach($products['Product'] as $product)
+                {
+
+                    // a termék adatok kiírása                
+                    $rec = [
+                        'product_id' => $product['Id'],
+                        'sku' => $product['Sku']                    
+                    ];
+
+                    // ha van kategória, akkor hozzáadjuk
+                    $rec['category_id'] = null;
+                    if( isset($product['Categories']) && isset($product['Categories']['Category']) )
+                    {   
+                        // ha a kategóriák tömb, akkor végigmegyünk rajta
+                        foreach($product['Categories']['Category'] as $category)
+                        {
+                            // ha a kategória típusa 'base', akkor hozzáadjuk
+                            if($category['Type'] == 'base') {
+                                $rec['category_id'] = $category['Id'];
+                            }
+                        }
+                    }                  
+                    
+                    // termék neve
+                    $rec['name'] = $product['Name'] ?? null;
+
+                    // kereső szavak
+                    $rec['slug'] = strtolower($product['SefUrl'] ?? url_title(convert_accented_characters($product['Name']), '-', false));
+
+                    // mennyiségi egység
+                    $rec['unit'] = $product['Unit'] ?? null;
+
+                    // leírás
+                    $rec['description'] = null;
+                    if( isset($product['Description']) && isset($product['Description']['Short']) ) 
+                    {
+                        $rec['description'] = $product['Description']['Short'] ?? null;
+                    }
+                    
+                    // params
+                    $rec['params'] = null;
+                    if( isset($product['Params']) && isset($product['Params']['Param']) )
+                    {
+                        $rec['params'] = json_encode($product['Params']['Param']);
+                    }   
+
+                    // types
+                    $rec['types'] = null;
+                    if( isset($product['Types']) )
+                    {
+                        $rec['types'] = json_encode($product['Types']);
+                    }
+
+                    // prices
+                    $rec['prices'] = null;
+                    if( isset($product['Prices']) )
+                    {
+                        $rec['prices'] = json_encode($product['Prices']);
+                    }
+
+                    $records[] = $rec;    
+                    
+                }
+                
+                // a termékek mentése az adatbázisba
+                CLI::write('Termékek mentése az adatbázisba...', 'green');
+                if( count($records) > 0 )
+                {
+                    $productModel = new \App\Models\ProductModel();
+                    // töröljük a meglévő termékeket
+                    $productModel->truncate(); 
+                    // nullázzuk az auto increment értéket
+                    // SQLite esetén szükséges, hogy az auto increment érték ne növekedjen
+                    $productModel->query("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='product'");
+                    // a termékek tömeges mentése
+                    $productModel->insertBatch($records);
+
+                    CLI::write('Termékek sikeresen mentve.', 'green');
+                    return;               
+                }
+            }
+            else
+            {
+                CLI::error('Nincsenek termékek.');
+                return;
+            }
+        }        
+        else
+        {
+            CLI::error('Hiba a termékek lekérésekor: ' . $products, 'red');
+            return;
+        }
+
+        CLI::write('Termékek sikeresen lekérve.', 'green');
+
+    }
         
     /**
      * checkLogin

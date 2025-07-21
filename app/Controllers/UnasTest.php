@@ -19,49 +19,100 @@ class UnasTest extends BaseController
     public function index()
     {        
 
-        $this->checkLogin();
+        die('Unas API tesztelése');
 
-        $token = $this->session->get('Token');
+        helper(['text', 'url']);
+
+        
+        $token = 'cc14cb3ff317b2d1a15c27e084aeab988b4a8871';
 
         echo '<pre>';
         
         // ide gyűjtjük az adatokat
         $records = [];
 
-        // simple xml object
-        $categories_xml = Unas::categories($token);
+        // 
+        $products = Unas::products($token);
 
-        // a kategóriák XML-ből tömbbé alakítása
+        // var_dump($products);
+        // die();
+
+        // a termékek XML-ből tömbbé alakítása
         // ha az XML objektum, akkor konvertáljuk tömbbé
-        if( is_object($categories_xml) )
+        if( is_array($products) && isset($products['Product']) )
         {
-            $categories = json_decode(json_encode($categories_xml), true);
-
-            print_r($categories);
-            // ha a kategóriák tömb, akkor végigmegyünk rajta
-
-            // a kategóriák kiírása
-            if(isset($categories['Category']))
+            // print_r($products);
+            // ha a termékek tömb, akkor végigmegyünk rajta
+            foreach($products['Product'] as $product)
             {
-                foreach($categories['Category'] as $category)
+
+                // a termék adatok kiírása                
+                $rec = [
+                    'product_id' => $product['Id'],
+                    'sku' => $product['Sku']                    
+                ];
+
+                // ha van kategória, akkor hozzáadjuk
+                $rec['category_id'] = null;
+                if( isset($product['Categories']) && isset($product['Categories']['Category']) )
+                {   
+                    // ha a kategóriák tömb, akkor végigmegyünk rajta
+                    foreach($product['Categories']['Category'] as $category)
+                    {
+                        // ha a kategória típusa 'base', akkor hozzáadjuk
+                        if($category['Type'] == 'base') {
+                            $rec['category_id'] = $category['Id'];
+                        }
+                    }
+                }                  
+                
+                // termék neve
+                $rec['name'] = $product['Name'] ?? null;
+
+                // kereső szavak
+                $rec['slug'] = strtolower($product['SefUrl'] ?? url_title(convert_accented_characters($product['Name']), '-', false));
+
+                // mennyiségi egység
+                $rec['unit'] = $product['Unit'] ?? null;
+
+                // leírás
+                $rec['description'] = null;
+                if( isset($product['Description']) && isset($product['Description']['Short']) ) 
                 {
-                    $record = [
-                        'unas_id' => $category['Id'],
-                        'name' => $category['Name'],
-                        'parent_id' => $category['Parent']['Id'] ?? 0,
-                        'order' => $category['Order'] ?? 0
-                    ];
-                    $records[] = $record;                    
+                    $rec['description'] = $product['Description']['Short'] ?? null;
                 }
+                
+                // params
+                $rec['params'] = null;
+                if( isset($product['Params']) && isset($product['Params']['Param']) )
+                {
+                    $rec['params'] = json_encode($product['Params']['Param']);
+                }   
+
+                // types
+                $rec['types'] = null;
+                if( isset($product['Types']) )
+                {
+                    $rec['types'] = json_encode($product['Types']);
+                }
+
+                // prices
+                $rec['prices'] = null;
+                if( isset($product['Prices']) )
+                {
+                    $rec['prices'] = json_encode($product['Prices']);
+                }
+
+                $records[] = $rec;
+
             }
-            else
-            {
-                echo 'No categories found.';
-            }
+
+            print_r($records);
+           
         }        
         else
         {
-            echo 'Error fetching categories: ' . $categories_xml;
+            echo 'Error fetching categories: ' . print_r($products, true);
         }
 
         // a kategóriák kiírása
@@ -73,30 +124,4 @@ class UnasTest extends BaseController
         
     }
 
-
-    private function checkLogin() {
-
-        if( !$this->session->get('Token') || !$this->session->get('Expire') )
-            return $this->unasLogin();
-
-        $dt = \DateTime::createFromFormat("Y.m.d H:i:s", $this->session->get('Expire'));
-        if($dt->getTimestamp() < time())
-            return $this->unasLogin();
-
-        return true;        
-    }
-
-    private function unasLogin() {
-
-        if( is_object($result = Unas::login()) )
-        {
-            $this->session->set([
-                'Token' => (string) $result->{'Token'},
-                'Expire' => (string) $result->{'Expire'}
-            ]);
-            return true;
-        }
-        return false;
-
-    }
 }
