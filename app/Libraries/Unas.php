@@ -59,7 +59,7 @@ class Unas {
             <WebshopInfo>true</WebshopInfo>
         </Params>';        
 
-        return self::request('login', $request);
+        return self::_get_resource('login', $request);
     }
     
     /**
@@ -67,14 +67,14 @@ class Unas {
      *
      * @return mixed
      */
-    public static function categories($token)
+    public static function categories($token, bool $cache = true)
     {
         $request = '<?xml version="1.0" encoding="UTF-8" ?>
         <Params>            
             <ContentType>minimal</ContentType>            
         </Params>';
 
-        return self::request('getCategory', $request, $token);
+        return self::getResource('getCategory', $request, $token, $cache);
 
     }
 
@@ -83,7 +83,7 @@ class Unas {
      *
      * @return mixed
      */
-    public static function products($token)
+    public static function products($token, bool $cache = true)
     {
         $request = '<?xml version="1.0" encoding="UTF-8" ?>
         <Params>    
@@ -91,8 +91,30 @@ class Unas {
             <ContentType>normal</ContentType>              
         </Params>';
 
-        return self::request('getProduct', $request, $token);
+        return self::getResource('getProduct', $request, $token, $cache);
 
+    }
+
+    /**
+     * getResource
+     *
+     * @param  mixed $path
+     * @param  mixed $query
+     * @param  mixed $cache
+     * @param  mixed $cache_as
+     * @return mixed
+     */
+    public static function getResource($path, $request, $token = null, bool $cache = true)
+    {
+
+        if( !$cache ) return self::_get_resource($path, $request, $token);
+
+        if (! $item = cache($path)) {
+            $item = self::_get_resource($path, $request, $token);
+            cache()->save($path, $item, self::$ttl);
+        }
+        
+        return $item;
     }
     
     /**
@@ -103,7 +125,7 @@ class Unas {
      * @param  mixed $token
      * @return void
      */
-    private static function request($path, $request, $token = null)
+    private static function _get_resource($path, $request, $token = null)
     {
 
         try {
@@ -120,12 +142,17 @@ class Unas {
             }            
 
             $response = self::client()->request('POST', $path, $payload);     
-            
-            
+
+            // print_r($response);
+                        
             if( ! ($response->getStatusCode() == 200) )
                 throw new Exception($response->getBody()->error->message);
             
-            return simplexml_load_string($response->getBody(), null, LIBXML_NOCDATA);
+            
+            // XML válasz feldolgozása, JSON konvertálása
+            // és visszaadása tömbként
+            $xml = simplexml_load_string($response->getBody(), null, LIBXML_NOCDATA);
+            return json_decode(json_encode($xml), true);
 
         } catch (Exception $e) {
             self::$error = $e->getMessage();
@@ -140,7 +167,7 @@ class Unas {
      */
     public static function getError()
     {
-        return self::$error;
+        return self::$error ?? 'Unknown error occurred.';
     }
 
 } 
