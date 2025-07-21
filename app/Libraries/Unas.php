@@ -88,7 +88,7 @@ class Unas {
         $request = '<?xml version="1.0" encoding="UTF-8" ?>
         <Params>    
             <LimitNum>1000</LimitNum>
-            <ContentType>normal</ContentType>              
+            <ContentType>full</ContentType>              
         </Params>';
 
         return self::getResource('getProduct', $request, $token, $cache);
