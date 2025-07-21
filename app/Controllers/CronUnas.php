@@ -72,13 +72,12 @@ class CronUnas extends Controller
 
         // simple xml object
         CLI::write('Kategóriák lekérése az UNAS API-tól...', 'green');
-        $categories_xml = Unas::categories($this->token);
+        $categories = Unas::categories($this->token);
 
         // a kategóriák XML-ből tömbbé alakítása
         // ha az XML objektum, akkor konvertáljuk tömbbé
-        if( is_object($categories_xml) )
+        if( is_array($categories) )
         {
-            $categories = json_decode(json_encode($categories_xml), true);
             // ha a kategóriák tömb, akkor végigmegyünk rajta
             if(isset($categories['Category']))
             {
@@ -126,7 +125,7 @@ class CronUnas extends Controller
         }        
         else
         {
-            CLI::error('Error fetching categories: ' . $categories_xml);
+            CLI::error('Error fetching categories: ' . $categories, 'red');
             return;
         }
 
@@ -171,18 +170,19 @@ class CronUnas extends Controller
      * @return void
      */
     private function unasLogin() {        
+        
 
-        if( is_object($result = Unas::login()) )
+        if( is_array($result = Unas::login()) )
         {
-           
+            
             // bejelentkezés sikeres, token és lejárat beállítása
             $loginModel = new \App\Models\UnasLoginModel();
             $loginModel->insert([
-                'token' => (string) $result->{'Token'},
-                'expires' => (string) $result->{'Expire'}
+                'token' => (string) $result['Token'],
+                'expires' => (string) $result['Expire']
             ]);
-            $this->token = (string) $result->{'Token'};
-            $this->expires = (string) $result->{'Expire'};
+            $this->token = (string) $result['Token'];
+            $this->expires = (string) $result['Expire'];
             return true;
         } else {
             CLI::error(Unas::getError(), 'red');            
