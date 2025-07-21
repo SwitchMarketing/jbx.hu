@@ -86,6 +86,7 @@ $routes->get('/unas', 'UnasTest::index');
 
 /** Cron UNAS - Kategóriák és termékek szinkronizálása */
 $routes->cli('/unas/categories', 'CronUnas::categories');
+$routes->cli('/unas/products', 'CronUnas::products');
 
 /** Admin */
 $routes->group('admin', static function ($routes) {    
