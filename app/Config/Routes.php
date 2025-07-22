@@ -82,11 +82,12 @@ $routes->cli('/cron', 'Cron::index');
 
 
 /** UNAS */
-$routes->get('/unas', 'UnasTest::index');
+// $routes->get('/unas', 'UnasTest::index');
 
 /** Cron UNAS - Kategóriák és termékek szinkronizálása */
 $routes->cli('/unas/categories', 'CronUnas::categories');
 $routes->cli('/unas/products', 'CronUnas::products');
+$routes->cli('/unas/images', 'CronUnas::images');
 
 /** Admin */
 $routes->group('admin', static function ($routes) {    

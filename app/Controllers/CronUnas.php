@@ -44,7 +44,7 @@ class CronUnas extends Controller
             exit(1);
         }
 
-        helper(['text', 'url']);
+        helper(['text', 'url', 'filesystem']);
 
         $this->checkLogin();
         
@@ -239,6 +239,141 @@ class CronUnas extends Controller
 
                     CLI::write('Termékek sikeresen mentve.', 'green');
                     return;               
+                }
+            }
+            else
+            {
+                CLI::error('Nincsenek termékek.');
+                return;
+            }
+        }        
+        else
+        {
+            CLI::error('Hiba a termékek lekérésekor: ' . $products, 'red');
+            return;
+        }
+
+        CLI::write('Termékek sikeresen lekérve.', 'green');
+
+    }
+
+    /**
+     * images
+     *
+     * a termékek képeinek lekérése
+     * 
+     * @return void
+     */
+    public function images()
+    {
+        // ellenőrizzük a bejelentkezést
+        if( !$this->token || !$this->expires )
+        {
+            CLI::error('UNAS belépés sikertelen. Kérjük, ellenőrizze a hitelesítő adatait.');
+            return;
+        }       
+        
+        // ide gyűjtjük az adatokat
+        $records = [];
+
+        // products array
+        CLI::write('Termékek lekérése az UNAS API-tól...', 'green');
+        $products = Unas::products($this->token);
+
+        // a termékek feldolgozása
+        if( is_array($products) )
+        {
+            // ha a termékek tömb, akkor végigmegyünk rajta
+            if(isset($products['Product']))
+            {
+                CLI::write('Termék képek lekérése az UNAS API-tól...', 'green');
+                foreach($products['Product'] as $product)
+                {                    
+                    if( isset($product['Images']) && is_array($product['Images']) && count($product['Images']) )
+                    {                        
+                        foreach($product['Images'] as $k => $v)
+                        {
+
+                            if($k == 'Image') 
+                            {
+                                // ha az Image kulcs, akkor ez egy kép tömb
+                                $image = $v;
+
+                                if(isset($image[0]) && is_array($image[0]))
+                                {
+                                    foreach($image as $img)
+                                    {
+                                        // ha tömb, akkor végigmegyünk rajta
+                                        if($img['Type'] == 'base')
+                                        {
+                                            $rec = [
+                                                'product_id' => $product['Id'],
+                                                'filename' => $img['Filename'],
+                                                'url' => $img['Url']['Medium'],
+                                                'alt' => $img['Alt']
+                                            ];
+                                            $records[] = $rec;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if($image['Type'] == 'base')
+                                    {
+                                        $rec = [
+                                            'product_id' => $product['Id'],
+                                            'filename' => $image['Filename'],
+                                            'url' => $image['Url']['Medium'],
+                                            'alt' => $image['Alt']
+                                        ];
+                                        $records[] = $rec;
+                                    }  
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // mennyi kép van összesen
+                CLI::write('Képek száma: ' . count($records), 'green');
+
+                // a képek letöltése helyi mappába
+                if( count($records) > 0 )
+                {
+                    $downloadedImages = 0;
+                    $imageBasePath = FCPATH . 'imgs/products/';
+
+                    CLI::write('Képek letöltése...', 'green');
+                    foreach($records as $k => $record)
+                    {
+                        $imageUrl = $record['url'];
+                        unset($record['url']); // eltávolítjuk a 'url' kulcsot, mert nem szükséges a mentéshez
+
+                        $fileInfo = pathinfo($imageUrl);
+                        $fileName =  $fileInfo['basename'];
+
+                        $records[$k]['filename'] = $fileName; // frissítjük a filename-t a letöltött fájl nevével
+
+                        $imagePath = $imageBasePath . $fileName;
+                        if( !file_exists($imagePath) )
+                        {
+                            CLI::write('Kép letöltése: ' . $imageUrl, 'green');
+                            write_file($imagePath, file_get_contents($imageUrl));  
+                            $downloadedImages++;                          
+                        }                        
+                    }
+                    CLI::write('Képek letöltve: ' . $downloadedImages, 'green');
+
+                    // a képek mentése az adatbázisba
+                    CLI::write('Képek mentése az adatbázisba...', 'green');
+                    $imageModel = new \App\Models\ImageModel();
+                    // töröljük a meglévő képeket
+                    $imageModel->truncate(); 
+                    // nullázzuk az auto increment értéket
+                    // SQLite esetén szükséges, hogy az auto increment érték ne növekedjen
+                    $imageModel->query("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='images'");
+                    // a képek tömeges mentése
+                    $imageModel->insertBatch($records); 
                 }
             }
             else
