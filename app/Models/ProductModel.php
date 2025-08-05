@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\BaseModel;
+use CodeIgniter\Database\SQLite3\Builder;
 
-class ProductModel extends Model
+class ProductModel extends BaseModel
 {
     protected $DBGroup          = 'shop';
     protected $table            = 'products';
@@ -51,4 +52,47 @@ class ProductModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    /**
+     * initialize
+     *
+     * @return void
+     */
+    public function initialize()
+    {        
+        $this->extraFields = [
+            'category_name' => 'categories.name',
+            'category_slug' => 'categories.slug',
+            'image'         => 'images.filename'
+        ];
+        $this->_setDefaultFields();
+    }
+
+    /**
+     * _setSelect
+     *
+     * @param  mixed $builder
+     * @return Builder
+     */
+    protected function _setSelect($builder):Builder
+    {
+         //columns
+         $columns = $this->displayFields ?? $this->table.'.*';
+
+         $columns = implode(',', array_map(
+             function ($v, $k) {
+                return $v.' AS '.$k;
+             },
+             $columns,
+             array_keys($columns)
+         ));       
+                  
+         $builder->select($columns, false)
+                ->join('categories', $this->table.'.category_id = categories.unas_id')
+                ->join('(
+                    SELECT product_id, filename FROM images GROUP BY product_id
+                ) AS images', $this->table.'.product_id = images.product_id', 'left');
+
+         return $builder;
+    } 
 }
