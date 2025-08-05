@@ -3,15 +3,22 @@
         <div class="main-data">
             <div class="btn-hover">
                 <figure>
-                    <img src="https://placehold.co/355x290" alt="Product Image 1">
+                    <?php if (isset($item->image) && $item->image): ?>
+                        <img src="<?php echo base_url('imgs/products/'.$item->image); ?>" alt="<?php echo $item->name; ?>">
+                    <?php else: ?>
+                        <img src="https://placehold.co/355x290" alt="Product Image">
+                    <?php endif; ?>                    
                 </figure>
                 <a href="#" class="theme-btn">Add to Cart <i class="fa-solid fa-bag-shopping"></i></a>
             </div>
             <div class="data">
-                <h3><a href="<?php echo base_url('termekek/fosroc') ?>">Fosroc Galvafroid - 400ml</a></h3>
-                <div class="price-range">
-                    <span>$18.60</span> - <span>$58.50</span>
+                <h3><a href="<?php echo base_url('termekek/'.$item->category_slug.'/'.$item->slug) ?>"><?php echo $item->name; ?></a></h3>
+                <div class="sku">
+                    <span>#<?php echo $item->sku; ?></span>
                 </div>
+                <div class="price-range">
+                    <span></span>
+                </div>                
             </div>
         </div>
     </div>
