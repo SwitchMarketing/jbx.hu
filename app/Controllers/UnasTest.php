@@ -19,9 +19,9 @@ class UnasTest extends BaseController
     public function index()
     {        
 
-        die('Unas API tesztelése...');
+        // die('Unas API tesztelése...');
         
-        $token = 'cc14cb3ff317b2d1a15c27e084aeab988b4a8871';
+        $token = 'bbdbde36d5a03b4c9bb6daaf3bf05abf98ed2095';
 
         echo '<pre>';
         
@@ -30,6 +30,12 @@ class UnasTest extends BaseController
 
         // 
         $products = Unas::products($token);
+
+        print_r($products);
+        
+        die();
+
+
 
         if( is_array($products) && isset($products['Product']) )
         {

@@ -15,11 +15,18 @@ class CategoryRouteCache
 
         $routes = [];
 
+        // kategóriák
         foreach ($categories as $cat) {
             $slugPath = self::getSlugPath($cat, $categories);
             $routePath = trim($slugPath, '/');
-
             $routes[] = "\$routes->get('termekek/$routePath', 'ShopProducts::index/$cat->unas_id');";
+        }
+
+        // kategóriák termékoldalai
+        foreach ($categories as $cat) {
+            $slugPath = self::getSlugPath($cat, $categories);
+            $routePath = trim($slugPath, '/');
+            $routes[] = "\$routes->get('termekek/$routePath/(:any)', 'ShopProducts::product/$1');";
         }
 
         $phpCode = "<?php\n\n// AUTO-GENERATED CATEGORY ROUTES\n";

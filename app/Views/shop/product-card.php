@@ -9,12 +9,12 @@
                         <img src="https://placehold.co/355x290" alt="Product Image">
                     <?php endif; ?>                    
                 </figure>
-                <a href="#" class="theme-btn">Add to Cart <i class="fa-solid fa-bag-shopping"></i></a>
+                <a href="<?php echo base_url('termekek/'.$item->category_path.'/'.$item->slug) ?>" class="theme-btn">Termékinfó <i class="fa-solid fa-arrow-right"></i></a>
             </div>
             <div class="data">
-                <h3><a href="<?php echo base_url('termekek/'.$item->category_slug.'/'.$item->slug) ?>"><?php echo $item->name; ?></a></h3>
+                <h3><a href="<?php echo base_url('termekek/'.$item->category_path.'/'.$item->slug) ?>"><?php echo $item->name; ?></a></h3>
                 <div class="sku">
-                    <span>#<?php echo $item->sku; ?></span>
+                    <span>SKU: <?php echo $item->sku; ?></span>
                 </div>
                 <div class="price-range">
                     <span></span>

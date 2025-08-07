@@ -13,6 +13,8 @@ var App = {
     this.timeLine();
     this.hideCTAButton();
 
+    this.categoryTree();
+
     this.nzoomimg();
     this.pdGallery();
 
@@ -540,8 +542,25 @@ var App = {
       $('div#deliveryAddr').addClass('d-none');
     }    
 
-  }
+  },
 
+  categoryTree: function () {
+
+    if($('.shop-categories').length > 0) {
+      
+      $('.shop-categories li.has-children > a').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).parent().toggleClass('collapsed');
+        $(this).parent().toggleClass('expanded');
+      }); 
+
+      // find active li elements with class 'active' and expand parents
+      $('.shop-categories li.active').parents('li.has-children').removeClass('collapsed').addClass('expanded');
+
+    }
+  }
+   
 };
 
 jQuery(document).ready(function () {
@@ -569,6 +588,7 @@ jQuery(window).on("load", function () {
 jQuery(window).on("load", function () {
   App.hideMask();
   //App.contactModal.show();
+  
 });
 
 $(window).on("DOMContentLoaded load resize", function () {

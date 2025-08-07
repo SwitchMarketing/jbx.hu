@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Libraries\BuildPage;
 
+use App\Models\CategoryTreeModel;
 use App\Models\ProductModel;
 
 class ShopProducts extends BaseController
@@ -15,7 +16,7 @@ class ShopProducts extends BaseController
 	 *
 	 * @return void
 	 */
-	public function index()
+	public function index($categoryId = null)
     {
 
 		// termékek lekérése
@@ -32,10 +33,22 @@ class ShopProducts extends BaseController
 		$model = model(ProductModel::class);
 
 		// a termékek lekérése
-		$items = $model->findAll($limit, $start);
+		if ($categoryId) {
 
-		// az összes termék lekérése
-		$total = $model->countAllResults(false);
+			// a kategórának vannak al-kategóriái, így a kategória összes termékét lekérjük
+			$descendantIds = \App\Helpers\CategoryHelper::getDescendantIds($categoryId);
+
+			// a kategória termékeinek lekérése
+			$items = $model->whereIn('category_id', $descendantIds)->findAll($limit, $start);
+			// a kategória termékeinek számának lekérése
+			$total = $model->whereIn('category_id', $descendantIds)->countAllResults(false);
+			
+		} else {
+			// ha nincs kategória ID, akkor az összes terméket lekérjük
+			$items = $model->findAll($limit, $start);
+			// az összes termék lekérése
+			$total = $model->countAllResults(false);
+		}
 
 		// a lapozó
 		$pager = service('pager');
@@ -46,25 +59,43 @@ class ShopProducts extends BaseController
 			'links' => $pager->makeLinks($page, $limit, $total, 'shop')
         ];
 
-		
+		// kategória fa lekérése
+		$treeModel = new CategoryTreeModel();
+        $categories = $treeModel->getAllOrdered();
+
+		// a fategóriaképzés
+        $tree = $this->buildTree($categories);
+
+		// breadcrumbs
+		$breadcrumbs = [
+			(object) [
+                'title' => 'Termékek',
+                'url'   => base_url('termekek')
+            ]
+		];
+		if ($categoryId) {
+			// ha van kategória ID, akkor a kategória trail lekérése
+			$trail = \App\Helpers\BreadcrumbsHelper::getCategoryTrail($categoryId);
+			if(!empty($trail)) {
+				// a breadcrumbs tömbbe hozzáadjuk a kategória neveket és URL-eket
+				foreach($trail as $cat) {
+					$breadcrumbs[] = (object) [
+						'title' => $cat->name,
+						'url'   => base_url('termekek/' . $cat->path)
+					];
+				}
+			}
+		}
+        
 		$data = [
 			'header' => [
 				'title'	  => page_title('Termékek'),		
 				'section' => 'shop'		
 			],
 			'body'	=> [
-
-                'breadcrumbs' => [
-
-                    (object) [
-                        'title' => 'Termékek',
-                        'url'   => base_url('termekek')
-                    ]
-
-				],
-
-				'shop' => $shop							
-
+                'breadcrumbs' => $breadcrumbs,
+				'shop' => $shop,
+				'tree' => $this->renderTree($tree, $categoryId)
             ]
         ];
 
@@ -108,6 +139,71 @@ class ShopProducts extends BaseController
 
 		BuildPage::render('shop-product', $data);
 
+    }
+	
+	/**
+	 * buildTree
+	 *
+	 * @param  mixed $elements
+	 * @param  mixed $parentId
+	 * @return void
+	 */
+	private function buildTree($elements, $parentId = null)
+    {
+        $branch = [];
+
+        foreach ($elements as $element) {
+            if ($element->parent_id == $parentId) {
+                $children = $this->buildTree($elements, $element->unas_id);
+                if ($children) {
+                    $element->children = $children;
+                }
+                $branch[] = $element;
+            }
+        }
+
+        return $branch;
+    }
+    
+    /**
+     * renderTree
+     *
+     * @param  mixed $categories
+     * @return void
+     */
+    private function renderTree($categories, $activeCategory = null)
+    {
+		
+		// kezdő HTML lista
+        $html = "<ul>";
+
+        foreach ($categories as $cat) {
+			
+			$cls = '';
+			
+			if (isset($cat->children)) {
+				$cls .= ' has-children collapsed';
+			}
+			
+			if ($activeCategory && $cat->unas_id == $activeCategory) {
+				$cls .= ' active';
+			}
+
+			if ($cls) {
+				$cls = " class='" . esc($cls) . "'";
+			}
+
+			// kategória link
+            $html .= "<li$cls><a href='/termekek/" . esc($cat->path) . "'>" . esc($cat->name) . "</a>";
+            if (isset($cat->children)) {
+                $html .= $this->renderTree($cat->children, $activeCategory);
+            }
+            $html .= "</li>";
+        }
+
+        $html .= "</ul>";
+
+        return $html;
     }
 
 }

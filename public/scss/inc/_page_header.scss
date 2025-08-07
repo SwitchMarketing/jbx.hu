@@ -66,4 +66,11 @@
         opacity: 0.2;
         left: 13% !important;
     }
+
+    &.shop {
+        padding-top: 0;
+        .parallax {
+            background-size: cover;            
+        }
+    }   
 }

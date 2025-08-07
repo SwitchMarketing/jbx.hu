@@ -12,7 +12,7 @@ class CategoryTreeModel extends Model
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'object';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
         'unas_id',
@@ -59,8 +59,8 @@ class CategoryTreeModel extends Model
 
         // Clear the existing tree
         $this->db->table($this->table)->truncate();
-        
-        $sql = "WITH RECURSIVE category_tree_cte(unas_id, name, parent_id, [order], slug, depth, path) AS (
+
+        $sql = "WITH RECURSIVE category_tree_cte(unas_id, name, parent_id, [order], slug, depth, path, pathIds) AS (
                             SELECT 
                                 unas_id,
                                 name,
@@ -68,7 +68,8 @@ class CategoryTreeModel extends Model
                                 [order],
                                 slug,
                                 0 AS depth,
-                                slug AS path
+                                slug AS path,
+                                unas_id AS pathIds
                             FROM categories
                             WHERE parent_id = 0
 
@@ -81,15 +82,29 @@ class CategoryTreeModel extends Model
                                 c.[order],
                                 c.slug,
                                 ct.depth + 1,
-                                ct.path || '/' || c.slug AS path
+                                ct.path || '/' || c.slug AS path,
+                                ct.pathIds || '/' || c.unas_id AS pathIds
                             FROM categories c
                             JOIN category_tree_cte ct ON c.parent_id = ct.unas_id
                         )
-                        INSERT INTO category_tree (unas_id, name, slug, parent_id, [order], depth, path)
-                        SELECT unas_id, name, slug, parent_id, [order], depth, path
+                        INSERT INTO category_tree (unas_id, name, slug, parent_id, [order], depth, path, pathIds)
+                        SELECT unas_id, name, slug, parent_id, [order], depth, path, pathIds
                         FROM category_tree_cte;";
 
         return $this->db->query($sql);
 
+    }
+    
+    /**
+     * getAllOrdered
+     *
+     * @return array
+     */
+    public function getAllOrdered()
+    {
+        return $this->orderBy('depth', 'asc')
+                    ->orderBy('parent_id', 'asc')
+                    ->orderBy('order', 'asc')
+                    ->findAll();
     }
 }

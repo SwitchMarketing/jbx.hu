@@ -63,6 +63,7 @@ class ProductModel extends BaseModel
         $this->extraFields = [
             'category_name' => 'categories.name',
             'category_slug' => 'categories.slug',
+            'category_path' => 'categories.path',
             'image'         => 'images.filename'
         ];
         $this->_setDefaultFields();
@@ -88,7 +89,7 @@ class ProductModel extends BaseModel
          ));       
                   
          $builder->select($columns, false)
-                ->join('categories', $this->table.'.category_id = categories.unas_id')
+                ->join('category_tree as categories', $this->table.'.category_id = categories.unas_id')
                 ->join('(
                     SELECT product_id, filename FROM images GROUP BY product_id
                 ) AS images', $this->table.'.product_id = images.product_id', 'left');
