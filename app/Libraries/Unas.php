@@ -87,7 +87,7 @@ class Unas {
     {
         $request = '<?xml version="1.0" encoding="UTF-8" ?>
         <Params>    
-            <LimitNum>1000</LimitNum>
+            <LimitNum>2000</LimitNum>
             <ContentType>full</ContentType>              
         </Params>';
 
