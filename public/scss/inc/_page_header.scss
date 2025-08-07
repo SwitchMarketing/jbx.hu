@@ -24,12 +24,29 @@
         padding: 30px 0 28px;
 
         ul {
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 5px 15px;
+
             li {
 
                 display: inline-flex;
-                align-items: flex-end;
+                align-items: center;
+                position: relative;
                 &:not(:last-child) {
                     margin-right: 15px;
+                    &:after {
+                        position: absolute;
+                        font-family: "Font Awesome 5 Free"; 
+                        font-weight: 900;
+                        content: '\f0da';
+                        right: -18px;
+                        top: -1px;
+                        color: #c2c1c1;
+                    }
                 }
 
                 i, p, a {
@@ -40,20 +57,37 @@
                     font-size: 20px;
                 }
     
-                p {
-                    line-height: 13px;
-                    margin-left: 8px;
-                    border-bottom: 1px solid #717070;
-                }
-    
                 a {
                     display: flex;
-                    align-items: flex-end;
+                    align-items: center;
+                    gap: 10px;
                 }
 
                 &.current {
                     p {
                         font-weight: bold;
+                    }
+                }
+            }
+        }
+
+        @include mobile() {
+            padding: 15px 0 15px;
+
+            ul {
+                li {
+                    i {
+                        font-size: .8rem;
+                    }
+    
+                    p {
+                        font-size: 14px;
+                        line-height: 16px;
+                        margin-left: 5px;
+                    }
+    
+                    a {
+                        font-size: 14px;
                     }
                 }
             }

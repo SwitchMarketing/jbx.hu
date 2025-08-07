@@ -8,14 +8,13 @@
           <ul>
             <li>
               <a href="<?php echo base_url() ?>">
-                <i class="fa-solid fa-house"></i>
-                <p>Főoldal</p>
+                <i class="fa-solid fa-house"></i> Főoldal
               </a>
             </li>
             <?php foreach($breadcrumbs as $bc): ?>
-            <li class="current">
+            <li>
               <a href="<?php echo $bc->url ?>">
-                <p><?php echo $bc->title ?></p>
+                <?php echo $bc->title ?>
               </a>
             </li>
             <?php endforeach; ?>
