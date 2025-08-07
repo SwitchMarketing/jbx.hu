@@ -59,6 +59,15 @@ $routes->get('/erintettseg', 'LegalPages::exposure');
 $routes->get('/belepes', 'ShopLoginRegister::index');
 
 /**
+ * Shop kategóriák
+ * Dinamikus kategória útvonalak betöltése cache-ből
+ */
+$categoryRouteCache = WRITEPATH . 'cache/category_routes.php';
+if (file_exists($categoryRouteCache)) {
+    require $categoryRouteCache;
+}
+
+/**
  * Shop termékek
  */
 $routes->get('/termekek', 'ShopProducts::index');
@@ -82,7 +91,7 @@ $routes->cli('/cron', 'Cron::index');
 
 
 /** UNAS */
-// $routes->get('/unas', 'UnasTest::index');
+$routes->get('/unas', 'UnasTest::index');
 
 /** Cron UNAS - Kategóriák és termékek szinkronizálása */
 $routes->cli('/unas/categories', 'CronUnas::categories');
