@@ -164,7 +164,9 @@ class UnasImport
                     // a termék adatok kiírása                
                     $rec = [
                         'product_id' => $product['Id'],
-                        'sku' => $product['Sku']                    
+                        'sku' => $product['Sku'],
+                        'state' => $product['State'] ?? null,
+                        'inquire' => $product['Inquire'] ?? null
                     ];
 
                     // ha van kategória, akkor hozzáadjuk

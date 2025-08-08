@@ -24,7 +24,9 @@ class ProductModel extends BaseModel
         'description',
         'params',
         'types',
-        'prices'
+        'prices',
+        'inquire',
+        'state'
     ];
 
     protected bool $allowEmptyInserts = false;
