@@ -1,5 +1,5 @@
 <main>
-<?php echo view('shared/shop-header'); ?>
+<?php echo view('shared/page-header', ['class' => 'product-grid']); ?>
 <div class="sections">
 
   <section class="gap shop-style-one">

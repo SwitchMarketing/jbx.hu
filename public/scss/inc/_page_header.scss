@@ -101,10 +101,24 @@
         left: 13% !important;
     }
 
-    &.shop {
-        padding-top: 0;
+    &.product-grid {
+        padding-top: 0;        
         .parallax {
             background-size: cover;            
         }
-    }   
+        .banner-details {
+            display: none;
+        }
+    }  
+    
+    &.product-details {
+        padding-top: 75px;
+        .banner-details {
+            h2 {
+                font-size: 3rem;
+                line-height: 2.8rem;
+                color: white;
+            }
+        }
+    }
 }

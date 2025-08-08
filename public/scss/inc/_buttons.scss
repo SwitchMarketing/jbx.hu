@@ -185,12 +185,19 @@ button.scrollTopStick.active {
 	}
 }
 
-body.light-d {
+body {
 
-	.theme-btn {
-		&:hover {
-			color: #fff;			
+	&.light-d {
+		.theme-btn {
+			&:hover {
+				color: #fff;			
+			}
+		}
+	}	
+
+	&.shop {
+		#btn-bottom-cta {
+			display: none;
 		}
 	}
-
 }

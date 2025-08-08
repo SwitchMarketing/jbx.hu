@@ -595,14 +595,15 @@ body.light-d {
 	}
 	.shop-style-one {
 		.product {
-			.price-range {
+			.price-range,
+			.sku {
 				span {
-					color: $color_1;
+					color: $color_3;
 				}
 			}
 			h3 {
 				a {
-					color: $color_3;
+					color: $yellow;
 				}
 			}
 			background-color: $background-color_1;
@@ -761,7 +762,8 @@ body.light-d {
 		}
 	}
 	ul.pd-price {
-		li.pd-sale-price {
+		li.pd-sale-price,
+		li.pd-regular-price {
 			color: $color_1;
 			span {
 				color: $color_1;

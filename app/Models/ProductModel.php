@@ -51,7 +51,7 @@ class ProductModel extends BaseModel
     protected $beforeUpdate   = [];
     protected $afterUpdate    = [];
     protected $beforeFind     = [];
-    protected $afterFind      = [];
+    protected $afterFind      = ['getProductImages'];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
@@ -98,4 +98,21 @@ class ProductModel extends BaseModel
 
          return $builder;
     } 
+
+        
+    /**
+     * getProductImages
+     *
+     * @param  mixed $data
+     * @return array
+     */
+    protected function getProductImages(array $data): array
+    {
+        if (isset($data['data']) && is_object($data['data'])) {
+            $images = new \App\Models\ImageModel();
+            $data['data']->images = $images->where('product_id', $data['data']->product_id)->findAll();            
+        }
+
+        return $data;
+    }
 }

@@ -15,9 +15,6 @@
                 <h3><a href="<?php echo base_url('termekek/'.$item->category_path.'/'.$item->slug) ?>"><?php echo $item->name; ?></a></h3>
                 <div class="sku">
                     <span>SKU: <?php echo $item->sku; ?></span>
-                </div>
-                <div class="price-range">
-                    <span></span>
                 </div>                
             </div>
         </div>

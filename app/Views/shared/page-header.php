@@ -1,9 +1,9 @@
   <!-- Page Header -->
-  <section class="page-header">
+  <section class="page-header <?php echo esc($class ?? ''); ?>">
     <div class="parallax" style="background-image: url(<?php echo img_src('pattern-3.png') ?>);"></div>
     <div class="container">
       <div class="row">
-        <div class="banner-details">
+        <div class="col-lg-8 banner-details">
           <h2><?php echo $title ?? '' ?></h2>
           <p><?php echo $caption ?? '' ?></p>
         </div>

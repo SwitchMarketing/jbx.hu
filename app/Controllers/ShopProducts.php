@@ -110,29 +110,51 @@ class ShopProducts extends BaseController
 	 *
 	 * @return void
 	 */
-	public function product($id = null)
+	public function product(...$params)
     {
+
+		$slug = end($params);
+
+		// termék lekérése slug alapján
+		$model = model(ProductModel::class);
+		$product = $model->where('slug', $slug)->first();
+
+		// ha nincs termék, akkor 404-es hiba
+		if (!$product) {
+			throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+		}
+
+		// breadcrumbs
+		$breadcrumbs = [
+			(object) [
+                'title' => 'Termékek',
+                'url'   => base_url('termekek')
+            ]
+		];
+		if ($product->category_id) {
+			// ha van kategória ID, akkor a kategória trail lekérése
+			$trail = \App\Helpers\BreadcrumbsHelper::getCategoryTrail($product->category_id);
+			if(!empty($trail)) {
+				// a breadcrumbs tömbbe hozzáadjuk a kategória neveket és URL-eket
+				foreach($trail as $cat) {
+					$breadcrumbs[] = (object) [
+						'title' => $cat->name,
+						'url'   => base_url('termekek/' . $cat->path)
+					];
+				}
+			}
+		}
 
 		$data = [
 			'header' => [
-				'title'	  => page_title('Fosroc - Termékek'),		
+				'title'	  => page_title($product->name),		
 				'section' => 'shop'		
 			],
 			'body'	=> [
 
-                'breadcrumbs' => [
+                'breadcrumbs' => $breadcrumbs,
 
-                    (object) [
-                        'title' => 'Termékek',
-                        'url'   => base_url('termekek')
-					],
-
-					(object) [
-                        'title' => 'Fosroc Galvafroid - 400ml',
-                        'url'   => base_url('termekek/fosroc')
-                    ]
-
-                ]
+				'product' => $product
 
             ]
         ];
