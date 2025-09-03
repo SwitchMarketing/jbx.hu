@@ -8,7 +8,7 @@ echo $this->include('home/x-guard');
 echo $this->include('home/x-tray');
 echo $this->include('home/x-protect');
 echo $this->include('home/x-store');
-echo $this->include('home/property-solutions');
+// echo $this->include('home/property-solutions');
 echo $this->include('shared/exclusive');
 echo $this->include('home/safety-design');
 echo $this->include('home/snapper-works');
