@@ -157,6 +157,9 @@ class Products extends BaseController
 	public function property()
     {
 
+		// ezt az oldalt 404-re kell állítani
+		throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+
 		$data = [
 			'header' => [
 				'title'	  => page_title('Ingatlan megoldások'),		
