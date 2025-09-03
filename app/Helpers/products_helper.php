@@ -34,12 +34,14 @@ function product_options(int $selected = 0) : array {
             'label' => 'X-Store | Raktárbiztonság',
             'selected' => ($selected == 4)
         ],
+        /*
         (object) [
             'id' => 5,
             'value' => 'Ingatlan',
             'label' => 'Ingatlan megoldások',
             'selected' => ($selected == 5)
         ]
+        */
     ];
 }
 
