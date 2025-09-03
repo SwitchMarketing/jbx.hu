@@ -33,7 +33,7 @@
                             </tr>
                         </tbody>
                     </table>                                       
-                    <p>A jelen érintetti tájékoztató célja, hogy mind a fenti weboldal látogatóinak, valamint az Adatkezelő által nyújtott különféle szolgáltatások (pl: gépbiztonsági értékesítés, kábeltálca megoldások, ütközésvédelem, raktárbiztonsági megoldások, ingatlan megoldások; bútor, háztartási áru, fémáru ügynöki nagykereskedelem) igénybevevőinek (a továbbiakban: érintettek) számára biztosítsa a szolgáltatások igénybevétele során, illetve azt megelőzően az őket megillető jogokat.</p>
+                    <p>A jelen érintetti tájékoztató célja, hogy mind a fenti weboldal látogatóinak, valamint az Adatkezelő által nyújtott különféle szolgáltatások (pl: gépbiztonsági értékesítés, kábeltálca megoldások, ütközésvédelem, raktárbiztonsági megoldások; bútor, háztartási áru, fémáru ügynöki nagykereskedelem) igénybevevőinek (a továbbiakban: érintettek) számára biztosítsa a szolgáltatások igénybevétele során, illetve azt megelőzően az őket megillető jogokat.</p>
                     <h4>2. Érintetti jogok</h4>                    
                     <p>A fenti weboldal látogatása, valamint az Adatkezelő által nyújtott különböző, 1. pontban felsorolt szolgáltatások során az érintetteket az alábbi jogosultságok illetik meg:</p>                    
                     <p>Érintetteknek minősül mindenki, aki a fenti Adatkezelő üzemeltetésében lévő honlap látogatója, illetve felhasználója, valamint aki az Adatkezelő által nyújtott felsorolt szolgáltatások iránt érdeklődik, illetve azt igénybe veszi.</p>                    
