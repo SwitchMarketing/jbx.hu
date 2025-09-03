@@ -27,7 +27,6 @@
                                         <li><a href="<?php echo base_url('kabeltalca-megoldasok') ?>">Kábeltálca megoldások</a></li>
                                         <li><a href="<?php echo base_url('utkozesvedelem') ?>">Ütközésvédelem</a></li>
                                         <li><a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>">Raktárbiztonsági megoldások</a></li>
-                                        <li><a href="<?php echo base_url('ingatlan-megoldasok') ?>">Ingatlan megoldások</a></li>
                                     </ul>
                                 </li>
                                 <li class="menu-item-has-children">
@@ -98,7 +97,6 @@
                             <li><a href="<?php echo base_url('kabeltalca-megoldasok') ?>">Kábeltálca megoldások</a></li>
                             <li><a href="<?php echo base_url('utkozesvedelem') ?>">Ütközésvédelem</a></li>
                             <li><a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>">Raktárbiztonsági megoldások</a></li>
-                            <li><a href="<?php echo base_url('ingatlan-megoldasok') ?>">Ingatlan megoldások</a></li>
                         </ul>
                     </li>
                     <li class="menu-item-has-children active">
