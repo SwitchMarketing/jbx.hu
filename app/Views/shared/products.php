@@ -10,7 +10,7 @@
     <div class="container">
       <div class="row justify-content-center">
         
-        <div class="col-lg-4 col-md-6 col-sm-12 mt-4" >
+        <div class="col-lg-6 col-md-6 col-sm-12 mt-4" >
           <div class="history-data">
             <figure>
               <img class="w-100" src="<?php echo img_src('x-guard-3.webp') ?>" alt="X-Guard">
@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 col-sm-12 mt-4" >
+        <div class="col-lg-6 col-md-6 col-sm-12 mt-4" >
           <div class="history-data">
             <figure>
               <img class="w-100" src="<?php echo img_src('x-tray-wire.webp') ?>" alt="Wire Tray">
@@ -40,7 +40,7 @@
           </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 col-sm-12 mt-4" >
+        <div class="col-lg-6 col-md-6 col-sm-12 mt-4" >
           <div class="history-data">
             <figure>
               <img class="w-100" src="<?php echo img_src('x_protect.webp') ?>" alt="X-Protect">
@@ -55,7 +55,7 @@
           </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 col-sm-12 mt-4" >
+        <div class="col-lg-6 col-md-6 col-sm-12 mt-4" >
           <div class="history-data">
             <figure>
               <img class="w-100" src="<?php echo img_src('x-store-section.webp') ?>" alt="Raktárbiztonsági megoldások">
@@ -64,21 +64,6 @@
               <h3>Raktárbiztonsági megoldások</h3>
               <p>Többek között leesésvédelmi megoldásokat a raktározott termékekhez, közlekedő területekre könnyen telepíthető korlát megoldásokat és komplett térelválasztó rendszereket akár felülről zárt kivitelben is.</p>
               <a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>">
-                <i class="fa-solid fa-arrow-up-long"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 col-sm-12 mt-4" >
-          <div class="history-data">
-            <figure>
-              <img class="w-100" src="<?php echo img_src('ingatlan-megoldasok.webp') ?>" alt="Ingatlan megoldások">
-            </figure>
-            <div class="details">
-              <h3>Ingatlan megoldások</h3>
-              <p>Moduláris alagsori és tetőtéri tároló rendszerek, kül- és beltéri kerékpártárolók az Axelent-től.</p>
-              <a href="<?php echo base_url('ingatlan-megoldasok') ?>">
                 <i class="fa-solid fa-arrow-up-long"></i>
               </a>
             </div>
