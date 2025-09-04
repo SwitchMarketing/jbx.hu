@@ -19,7 +19,7 @@ class UnasTest extends BaseController
     public function index()
     {        
 
-        // die('Unas API tesztelése...');
+        die('Unas API tesztelése...');
         
         $token = 'fb96306e9db3ce09436e9a4bceddac5938dd7ea8';
 
