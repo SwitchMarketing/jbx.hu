@@ -146,7 +146,7 @@
               </svg>
             </div>
             <h3><a href="#">Kivitelezőknek</a></h3>
-            <p>X-Protect és Ingatlan megoldásainkkal tudunk szolgálni raktárak és tároló helyiségek kialakításában, valamint kerékpártárolók elhelyezésében.</p>
+            <p>X-Protect megoldásainkkal tudunk szolgálni raktárak és tároló helyiségek kialakításában.</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 text-center">
@@ -195,7 +195,7 @@
               </svg>
             </div>
             <h3><a href="#">Végfelhasználóknak</a></h3>
-            <p>Teljes körű szolgáltatásainkkal segítünk üzemek, gyártósorok és ingatlan üzemeltetők számára a tervezésben, a beszerzésben és igény szerint a kivitelezésben.</p>
+            <p>Teljes körű szolgáltatásainkkal segítünk üzemek és gyártósorok számára a tervezésben, a beszerzésben és igény szerint a kivitelezésben.</p>
           </div>
         </div>
       </div>

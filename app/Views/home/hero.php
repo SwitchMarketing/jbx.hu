@@ -27,7 +27,7 @@
               <img src="<?php echo img_src('certified_retailer_2023.png') ?>" alt="Hivatalos Forgalmazó" title="Hivatalos Forgalmazó" loading="lazy">
             </div>                          
             <h1>Hivatalos forgalmazó</h1>            
-            <p>Az Axelent ipari biztonsági, ütközésvédelmi és ingatlan termék kínálata, a magyarországi kizárólagos képviselettől.</p>
+            <p>Az Axelent ipari biztonsági és ütközésvédelmi termék kínálata, a magyarországi kizárólagos képviselettől.</p>
             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#contactModal" class="theme-btn btn-light">Ajánlatkérés <i class="fa-solid fa-angles-right"></i></a>
           </div>
           <div class="s-second">
