@@ -83,6 +83,17 @@ $routes->get('/kosar', 'ShopCart::index');
  */
 $routes->get('/penztar', 'ShopCheckout::index');
 
+/** Blog */
+$routes->get('/blog', 'Blog::index');
+
+/**
+ * Blog aloldalak
+ * Dinamikus blog aloldalak betöltése cache-ből
+ */
+$blogRouteCache = WRITEPATH . 'cache/blog_routes.php';
+if (file_exists($blogRouteCache)) {
+    require $blogRouteCache;
+}
 
 /**
  * emailek kiküldése  
@@ -92,11 +103,6 @@ $routes->cli('/cron', 'Cron::index');
 
 /** UNAS */
 $routes->get('/unas', 'UnasTest::index');
-
-/** Cron UNAS - Kategóriák és termékek szinkronizálása */
-$routes->cli('/unas/categories', 'CronUnas::categories');
-$routes->cli('/unas/products', 'CronUnas::products');
-$routes->cli('/unas/images', 'CronUnas::images');
 
 /** Admin */
 $routes->group('admin', static function ($routes) {    

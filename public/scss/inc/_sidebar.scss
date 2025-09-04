@@ -1,0 +1,138 @@
+.sidebar .box {
+  h3 {
+    font-size: 1.3rem;
+    color: #000;
+    border-bottom: 1px solid #efefef;
+    position: relative;
+    line-height: 1.6rem;
+    padding-bottom: 10px;
+
+    &:before {
+      content: "";
+      width: 85px;
+      height: 4px;
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+    }
+  }
+
+  border: 1px solid #c1c1c1;
+  box-shadow: 5px 8px 0px 0px #04040405;
+  -webkit-box-shadow: 5px 8px 0px 0px #04040405;
+  -moz-box-shadow: 5px 8px 0px 0px #04040405;
+  margin-bottom: 20px;
+  padding: 20px 30px 17px 30px;
+
+  ul li {
+    padding: 10px 0;
+  }
+
+  &.recent-posts ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    p {
+      color: #000;
+      width: 80%;
+      margin: 0;
+    }
+  }
+
+  ul li:not(:last-child) {
+    border-bottom: 1px solid #e7e7e7;
+  }
+
+  &.recent-posts ul li {
+
+    p {
+      a {
+        color: #000;
+        font-size: 1rem;
+      }
+      line-height: 1.2rem;
+    }
+
+    > a {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 100px;
+
+      i {
+        font-size: 11px;
+        color: black;
+        transform: rotate(45deg);
+      }
+
+      &:hover i {
+        transform: rotate(45deg) translate(0px, -3px);
+      }
+    }
+  }
+
+  ul {
+    margin-top: 10px;
+  }
+
+  &.recent-cmnts {
+    h4 {
+      font-size: 16px;
+      color: #000;
+      font-weight: bold;
+      font-family: "Poppins";
+      margin-bottom: 5px;
+    }
+
+    ul {
+      li {
+        padding: 15px 0 10px;
+
+        p {
+          text-decoration: underline;
+          text-decoration-color: #bcbcbc;
+          margin: 0;
+        }
+      }
+
+      margin-top: 13px;
+    }
+  }
+
+  &.categories {
+    ul {
+      margin-top: 15px;
+
+      li {
+        padding: 15px 0 10px;
+
+        p {
+          line-height: 16px;
+          margin: 0;
+        }
+      }
+    }
+
+    padding: 20px 40px 30px 40px;
+  }
+}
+
+body.light-d {
+    .sidebar .box {
+       
+        &.recent-posts ul li { 
+            p {
+                a {
+                    color: #fff !important;
+                    &:hover {
+                        color: #000 !important;
+                    }
+                }
+            }
+        }
+       
+    }
+}
