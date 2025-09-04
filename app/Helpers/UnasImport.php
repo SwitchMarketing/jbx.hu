@@ -402,6 +402,97 @@ class UnasImport
     }
 
 
+    public static function blog()
+    {
+        
+        // bejelentkezés ellenőrzése
+        self::checkLogin();
+
+        // ellenőrizzük a bejelentkezést
+        if( !self::$token || !self::$expires )
+        {
+            throw new \Exception('UNAS belépés sikertelen. Kérjük, ellenőrizze a hitelesítő adatait.');
+        }
+
+        // ide gyűjtjük az adatokat
+        $records = [];
+
+        // simple xml object
+        CLI::write('➡️ Blogbejegyzések lekérése az UNAS API-tól...');
+        $blog = Unas::blog(self::$token);
+
+        // a blog bejegyzések feldolgozása
+        if( is_array($blog) )
+        {
+
+            // helper függvények meghívása
+            helper(['text', 'url']);
+
+            // ha a blog tömb, akkor végigmegyünk rajta
+            if(isset($blog['PageContent']))
+            {
+                foreach($blog['PageContent'] as $post)
+                {
+                    $record = [
+                        'id' => $post['Id'],
+                        'title' => $post['Title'],
+                        'slug' => url_title(convert_accented_characters($post['Title']), '-', true),
+                        'published' => $post['Published'] ?? '',
+                    ];
+
+                    if(isset($post['BlogContent']) && is_array($post['BlogContent']))
+                    {
+                        $record['content'] = $post['BlogContent']['Text'] ?? '';
+                        $record['excerpt'] = $post['BlogContent']['Lead'] ?? '';
+                    } 
+                    if(isset($post['Image']) && is_array($post['Image']))
+                    {
+                        $record['image'] = $post['Image']['Lead'] ?? '';
+                    }
+                    if(isset($post['Dates']) && isset($post['Dates']['Publication']))
+                    {
+                        $dt = \DateTime::createFromFormat("Y.m.d H:i", $post['Dates']['Publication']);
+                        if($dt)
+                        {
+                            $record['published_at'] = $dt->format('Y-m-d H:i:s');
+                        }                        
+                    }
+                    $records[] = $record;
+                }
+
+                // a blog bejegyzések mentése az adatbázisba
+                CLI::write('➡️ Blogbejegyzések mentése az adatbázisba...');
+                if( count($records) > 0 )
+                {
+                    $blogModel = new \App\Models\BlogModel();
+                    // töröljük a meglévő blog bejegyzéseket
+                    $blogModel->truncate(); 
+                    // nullázzuk az auto increment értéket
+                    // SQLite esetén szükséges, hogy az auto increment érték ne növekedjen
+                    $blogModel->query("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='blog'");
+                    // a blog bejegyzések tömeges mentése
+                    $blogModel->insertBatch($records);   
+                    
+                    return true;
+
+                } 
+                else
+                {
+                    throw new \Exception('Nincsenek blog bejegyzések az UNAS API-ban.');
+                }
+            }
+            else
+            {
+                throw new \Exception('Nincsenek kategóriák az UNAS API-ban.');
+            }   
+        }        
+        else
+        {
+            throw new \Exception('Hiba történt a kategóriák lekérésekor: ' . Unas::getError());
+        }
+
+    }
+
     /**
      * checkLogin
      * 

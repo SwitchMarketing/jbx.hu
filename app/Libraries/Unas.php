@@ -96,6 +96,22 @@ class Unas {
     }
 
     /**
+     * blog
+     *
+     * @return mixed
+     */
+    public static function blog($token, bool $cache = true)
+    {
+        $request = '<?xml version="1.0" encoding="UTF-8" ?>
+        <Params>    
+            <Type>blog</Type>                
+        </Params>';
+
+        return self::getResource('getPageContent', $request, $token, $cache);
+
+    }
+
+    /**
      * getResource
      *
      * @param  mixed $path

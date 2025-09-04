@@ -21,7 +21,7 @@ class UnasTest extends BaseController
 
         // die('Unas API tesztelése...');
         
-        $token = 'bbdbde36d5a03b4c9bb6daaf3bf05abf98ed2095';
+        $token = 'fb96306e9db3ce09436e9a4bceddac5938dd7ea8';
 
         echo '<pre>';
         
@@ -29,79 +29,11 @@ class UnasTest extends BaseController
         $records = [];
 
         // 
-        $products = Unas::products($token);
+        $blog = Unas::blog($token);
 
-        print_r($products);
-        
+        print_r($blog);
+
         die();
-
-
-
-        if( is_array($products) && isset($products['Product']) )
-        {
-            // print_r($products);
-            // ha a termékek tömb, akkor végigmegyünk rajta
-            foreach($products['Product'] as $product)
-            {
-
-                if( isset($product['Images']) && is_array($product['Images']) && count($product['Images']) )
-                {
-                    
-                    foreach($product['Images'] as $k => $v)
-                    {
-
-                        if($k == 'Image') 
-                        {
-                            // ha az Image kulcs, akkor ez egy kép tömb
-                            $image = $v;
-
-                            if(isset($image[0]) && is_array($image[0]))
-                            {
-                                foreach($image as $img)
-                                {
-                                    // ha tömb, akkor végigmegyünk rajta
-                                    if($img['Type'] == 'base')
-                                    {
-                                        $rec = [
-                                            'product_id' => $product['Id'],
-                                            'filename' => $img['Filename'],
-                                            'url' => $img['Url'],
-                                            'alt' => $img['Alt']
-                                        ];
-                                        $records[] = $rec;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if($image['Type'] == 'base')
-                                {
-                                    $rec = [
-                                        'product_id' => $product['Id'],
-                                        'filename' => $image['Filename'],
-                                        'url' => $image['Url']['Medium'],
-                                        'alt' => $image['Alt']
-                                    ];
-                                    $records[] = $rec;
-                                }  
-                            }
-                        }
-                    }
-                }
-            }
-
-            // ha vannak rekordok, akkor végimegyünk a tömbön
-            echo 'Found ' . count($records) . ' images for products:';
-
-            print_r($records);
-
-        }
-        else
-        {
-            echo 'Error fetching products: ' . print_r($products, true);
-        }
-
-        echo '</pre>';        
         
     }
 
