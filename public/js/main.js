@@ -7,6 +7,7 @@ var App = {
   init: function () {
     //this.stickyHeader();
     this.heroSlider();
+    this.testimonialsSlider();
     this.toggleDarkMode();
     this.toggleMobileMenu();
     this.dropzoneUpload();
@@ -49,6 +50,23 @@ var App = {
         navContainer: ".f-2-s-nav",
       });
     }
+  },
+
+  /**
+   * testimonials slider
+   */
+  testimonialsSlider: function () {
+    
+    if ($(".client-review-slider")[0]){
+        $('.client-review-slider.owl-carousel').owlCarousel({
+            items:1,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: false,
+            dots: true,
+        });
+    }
+     
   },
 
   /**
