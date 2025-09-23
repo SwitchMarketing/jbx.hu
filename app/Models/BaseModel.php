@@ -73,10 +73,20 @@ class BaseModel extends Model
         $this->_applySorters($this->sorters, $builder);
 
         $queryResult = parent::findAll($limit, $offset);
-        //echo $this->db->getLastQuery();
-        
+
+        // a teljes lekérdezésből kinyerjük a where részt
+        // hogy a teljes találati számot is meg tudjuk adni
+        $lastQuery = $this->db->getLastQuery()->getQuery();
+
+        //echo $lastQuery;
+
+        $where = '';
+        if (preg_match('/(?:WHERE)(.*?)(ORDER|LIMIT|$)/is', $lastQuery, $m)) {
+            $where = $m[1];
+        }
+
         $result = (object) [
-            'total' => $builder->countAllResults(),
+            'total' => ($where) ? $builder->where($where)->countAllResults() : $builder->countAllResults(),
             'data'  => $queryResult
         ];
 

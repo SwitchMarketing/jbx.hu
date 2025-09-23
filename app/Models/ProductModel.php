@@ -68,8 +68,81 @@ class ProductModel extends BaseModel
             'category_path' => 'categories.path',
             'image'         => 'images.filename'
         ];
-        $this->_setDefaultFields();
+        $this->_setDefaultFields();        
+                  
     }
+
+    
+    /**
+     * getChildren
+     *
+     * @param  mixed $parentSku
+     * @return object
+     */
+    public function getChildren($parentSku)
+    {
+        return $this->where("json_extract(types, '$.Parent') =", $parentSku)
+                    ->where("json_extract(types, '$.Type') =", 'child')
+                    ->findAll(0);
+    }
+
+    
+    /**
+     * getOptions
+     *
+     * @param  mixed $parentSku
+     * @param  mixed $filters
+     * @return array
+     */
+    public function getOptions($parentSku, $filters = [])
+    {
+
+        $builder = $this->db->table('products');
+        
+        unset($filters['parent']);
+
+		$builder->select('slug, params')
+			->where("json_extract(types, '$.Type') =", 'child')
+			->where("json_extract(types, '$.Parent') =", $parentSku);
+
+        // szűrők alkalmazása
+        if (!empty($filters)) {
+            foreach ($filters as $name => $value) {
+                $builder->where("EXISTS (
+                    SELECT 1 FROM json_each(params)
+                    WHERE json_extract(json_each.value, '$.Name') = ".$this->db->escape($name)."
+                    AND trim(json_extract(json_each.value, '$.Value')) = ".$this->db->escape(trim($value))."
+                )");
+            }
+        }
+		
+		$children = $builder->get()->getResult();
+
+		// echo $this->db->getLastQuery()->getQuery();
+
+		$options = [];
+		foreach ($children as $child) {
+			$slug = $child->slug;
+			foreach (json_decode($child->params, true) as $p) {
+                if(!is_array($p) || !isset($p['Name']) || !isset($p['Value'])) {
+                    continue;
+                }
+				$n = $p['Name'];
+				$v = trim($p['Value']);
+				// minden elérhető értékhez hozzárendeljük a slugját
+				$options[$n][$v] = $slug;
+			}
+		}
+
+		// opcionálisan: duplikátum szűrés
+		foreach ($options as &$group) {
+			$group = array_unique($group);
+		}
+
+		return $options;
+    }   
+   
+
 
     /**
      * _setSelect
