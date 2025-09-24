@@ -577,6 +577,54 @@ var App = {
       $('.shop-categories li.active').parents('li.has-children').removeClass('collapsed').addClass('expanded');
 
     }
+  },
+
+  productOption: function(option) {
+
+    const sku = $(option).data('sku') || '';
+    const slug = $(option).data('slug') || '';
+    const params = [];
+    const activeButtons = $('button.option-pill.active') || [];
+
+    params.push({
+      optionId : $(option).data('option-id'),
+      optionValue : $(option).data('option-value')
+    });
+
+    if (activeButtons.length > 0) {
+      // remove active class from all buttons
+      // activeButtons.removeClass('active');
+      activeButtons.each(function(el) {        
+        if($(option).data('option-id') != $(this).data('option-id')) {
+          params.push(
+            {
+              optionId : $(this).data('option-id'),
+              optionValue : $(this).data('option-value')
+            }
+          );
+        }        
+      });      
+    }
+
+    if(sku != '' && params.length > 0) {
+        // ajax call to get product data
+        $.ajax({
+          url: App.base + 'termek',
+          type: 'POST',
+          data: {
+            sku: sku,
+            slug: slug,
+            params: JSON.stringify(params)
+          },
+          dataType: 'json',
+          success: function(response) {
+            window.location = response.url;            
+          }
+        });
+    }
+
+    // remove active class from siblings
+    //$(option).siblings().removeClass('active');
   }
    
 };

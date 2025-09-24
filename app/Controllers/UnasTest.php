@@ -19,19 +19,21 @@ class UnasTest extends BaseController
     public function index()
     {        
 
-        die('Unas API tesztelése...');
+        //die('Unas API tesztelése...');
         
-        $token = 'fb96306e9db3ce09436e9a4bceddac5938dd7ea8';
+        $token = 'c107e4bb11c5530555517811c04d61a58e124c54';
 
-        echo '<pre>';
-        
         // ide gyűjtjük az adatokat
         $records = [];
 
         // 
-        $blog = Unas::blog($token);
+        $products = Unas::products($token);
+        $categories = Unas::categories($token);
 
-        print_r($blog);
+        echo '<pre>';
+        print_r($categories);
+        print_r($products);
+        echo '</pre>';
 
         die();
         

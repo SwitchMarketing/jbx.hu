@@ -74,6 +74,12 @@ class UnasImport
             {
                 foreach($categories['Category'] as $category)
                 {
+                    // csak azokat importáljuk ahol vannak termékek
+                    if( !isset($category['Products']) || 
+                        !isset($category['Products']['Active']) || 
+                        !($category['Products']['Active'] > 0) )
+                        continue;
+
                     $record = [
                         'unas_id' => $category['Id'],
                         'name' => $category['Name'],

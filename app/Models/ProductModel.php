@@ -97,6 +97,11 @@ class ProductModel extends BaseModel
     public function getOptions($parentSku, $filters = [])
     {
 
+        // kell a szülő termék is
+        $parent = $this->where('sku', $parentSku)
+                       ->where("json_extract(types, '$.Type') =", 'parent')
+                       ->first();
+
         $builder = $this->db->table('products');
         
         unset($filters['parent']);
@@ -119,25 +124,114 @@ class ProductModel extends BaseModel
 		$children = $builder->get()->getResult();
 
 		// echo $this->db->getLastQuery()->getQuery();
-
 		$options = [];
+
+        // a szülő termék paraméterei
+        if(!empty($parent->params)) {
+            foreach (json_decode($parent->params, true) as $p) {
+                if(!is_array($p) || !isset($p['Name']) || !isset($p['Value'])) {
+                    continue;
+                }
+                $id = $p['Id'] ?? null;
+                $n = $p['Name'];
+                $v = trim($p['Value']);
+                if(!array_key_exists($id, $options)) {
+                    $options[$id] = [
+                        'id' => $id,
+                        'name' => $n,
+                        'values' => []
+                    ];
+                }
+                // ha még nincs ilyen érték, akkor hozzáadjuk
+                $found = false;
+                foreach ($options[$id]['values'] as $val) {
+                    if ($val['value'] === $v) {
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found) {
+                    $options[$id]['values'][] = [
+                        'value' => $v,
+                        'slug'  => $parent->slug
+                    ];
+                }
+            }
+        }
+
 		foreach ($children as $child) {
 			$slug = $child->slug;
+            if(empty($child->params)) {
+                continue;
+            }
 			foreach (json_decode($child->params, true) as $p) {
                 if(!is_array($p) || !isset($p['Name']) || !isset($p['Value'])) {
                     continue;
                 }
+                $id = $p['Id'] ?? null;
+                
 				$n = $p['Name'];
 				$v = trim($p['Value']);
-				// minden elérhető értékhez hozzárendeljük a slugját
-				$options[$n][$v] = $slug;
+				
+                if(array_key_exists($id, $options)) {
+                 
+                    // ha még nincs ilyen érték, akkor hozzáadjuk
+                    $found = false;
+                    foreach ($options[$id]['values'] as $val) {
+                        if ($val['value'] === $v) {
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if (!$found) {
+                        $options[$id]['values'][] = [
+                            'value' => $v,
+                            'slug'  => $slug
+                        ];
+                    }
+                    
+                    
+                } else {
+                    $options[$id] = [
+                        'id' => $id,
+                        'name' => $n,
+                        'values' => [
+                            [
+                                'value' => $v,
+                                'slug'  => $slug
+                            ]
+                        ]
+                    ];                    
+                }                
+                
+                // minden elérhető értékhez hozzárendeljük a slugját
+				// $options[$n][$v] = $slug;
 			}
+            // az options tömb kulcsai legyenek rendezettek                
 		}
 
-		// opcionálisan: duplikátum szűrés
-		foreach ($options as &$group) {
-			$group = array_unique($group);
-		}
+        // az options tömb rendzése
+        // --- 1) Rendezés name szerint (ABC) ---
+        uasort($options, function($a, $b) {
+            return strcasecmp($a['name'], $b['name']); // kis/nagybetű érzéketlen
+        });
+
+        // --- 2) Values rendezése számszerint, ha lehet ---
+        foreach ($options as &$item) {
+            usort($item['values'], function($a, $b) {
+                // kinyerjük az elején lévő számot, ha van
+                preg_match('/^\d+/', $a['value'], $ma);
+                preg_match('/^\d+/', $b['value'], $mb);
+                $numA = $ma[0] ?? null;
+                $numB = $mb[0] ?? null;
+
+                if ($numA !== null && $numB !== null) {
+                    return (int)$numA <=> (int)$numB; // szám szerinti összehasonlítás
+                }
+                return strcasecmp($a['value'], $b['value']); // ha nincs szám, szöveg szerint
+            });
+        }
+        unset($item); // referencia megszüntetése        
 
 		return $options;
     }   

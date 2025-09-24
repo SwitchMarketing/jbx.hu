@@ -72,6 +72,7 @@ if (file_exists($categoryRouteCache)) {
  */
 $routes->get('/termekek', 'ShopProducts::index');
 $routes->get('/termekek/(:segment)', 'ShopProducts::product/$1');
+$routes->post('/termek', 'ShopProducts::productVariation');
 
 /**
  * Shop kosár

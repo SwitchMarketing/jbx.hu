@@ -27,12 +27,14 @@
                     <div class="col-lg-6">
                         <div class="pd-data">
                             <h2><?php echo esc($product->name); ?></h2>
+                            <?php echo view('shared/option-pills', ['options' => $options]); ?>
                             <div class="pd-quality">
                                 <span>Mennyiség</span>
                                 <input type="number" name="number" value="1">
                             </div>
                             <?php echo product_price($product); ?>
-                            <?php echo add_to_cart_button($product); ?>                                                        
+                            <?php echo add_to_cart_button($product); ?>     
+                            <!--                                                   
                             <div class="pd-cat-tags">
                                 <ul>
                                     <li>
@@ -43,6 +45,7 @@
                                     </li>                                    
                                 </ul>
                             </div>
+                            -->
                         </div>
                     </div>
                 </div>
@@ -71,11 +74,15 @@
                                     </div>
                                     <?php endif; ?>
                                     <?php if (!empty($product->params)) : $params = json_decode($product->params); ?>                                    
-                                    <div class="tab-pane fade <?php echo empty($product->description) ? 'show active' : ''; ?>" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                        <div class="tab-pane fade <?php echo empty($product->description) ? 'show active' : ''; ?>" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                                         <div class="adis-tab">
                                             <div class="tab-table">
                                                 <table class="table">
                                                     <tbody>
+                                                        <tr>
+                                                            <td>SKU</td>
+                                                            <td><?php echo esc($product->sku); ?></td>
+                                                        </tr>
                                                     <?php if(is_object($params)): ?>
                                                         <tr>
                                                             <td><?php echo esc($params->Name); ?></td>

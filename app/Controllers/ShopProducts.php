@@ -32,31 +32,38 @@ class ShopProducts extends BaseController
 		// a termékek modelje
 		$model = model(ProductModel::class);
 
+		// csak a parent típusú termékeket listázzuk alapértelmezetten
+		// vagy ahol a types mező NULL
+		$model->groupStart()
+             ->where("json_extract(types, '$.Type') IS NULL")
+             ->orWhere("json_extract(types, '$.Type') =", 'parent')
+             ->groupEnd();   
+
 		// a termékek lekérése
 		if ($categoryId) {
-
 			// a kategórának vannak al-kategóriái, így a kategória összes termékét lekérjük
 			$descendantIds = \App\Helpers\CategoryHelper::getDescendantIds($categoryId);
+			$model->whereIn('category_id', $descendantIds);	
+		} 
 
-			// a kategória termékeinek lekérése
-			$items = $model->whereIn('category_id', $descendantIds)->findAll($limit, $start);
-			// a kategória termékeinek számának lekérése
-			$total = $model->whereIn('category_id', $descendantIds)->countAllResults(false);
-			
-		} else {
-			// ha nincs kategória ID, akkor az összes terméket lekérjük
-			$items = $model->findAll($limit, $start);
-			// az összes termék lekérése
-			$total = $model->countAllResults(false);
-		}
+		// a termékek rendezése név alapján
+		$sorters = [
+			(object) [
+				'property' => 'name',
+				'direction' => 'ASC'
+			]
+		];
+		$model->setSorters($sorters);
 
+		$result = $model->findAll($itemsPerPage, $start);		
+		
 		// a lapozó
 		$pager = service('pager');
 
 		$shop = (object) [
-            'items' => $items->data,
-            'total' => $items->total,
-			'links' => $pager->makeLinks($page, $limit, $total, 'shop')
+            'items' => $result->data,
+            'total' => $result->total,
+			'links' => $pager->makeLinks($page, $limit, $result->total, 'shop')
         ];
 
 		// kategória fa lekérése
@@ -124,6 +131,33 @@ class ShopProducts extends BaseController
 			throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
 		}
 
+		// a termék típusa - szülő vagy gyermek
+		// a types mező JSON formátumú, dekódoljuk
+		$type = json_decode($product->types, true)['Type'] ?? null;
+
+		// ha gyermek termék, akkor betöltjük a szülő terméket is
+		// ha szülő termék, akkor az a termék maga
+		$parent = null;
+		if ($type === 'child') {
+
+			$parentSku = json_decode($product->types, true)['Parent'];
+			
+			// Betöltjük a parent terméket
+			$parent = $model
+				->where('sku', $parentSku)
+				->where("json_extract(types, '$.Type') =", 'parent')
+				->first();
+
+		} else {
+			$parent = $product;
+		}		
+		
+		// termék variációk
+		$options = $model->getOptions($parent->sku);
+
+		// a termék kategóriája
+		$category = (new \App\Models\CategoryModel())->find($product->category_id);
+
 		// breadcrumbs
 		$breadcrumbs = [
 			(object) [
@@ -145,24 +179,145 @@ class ShopProducts extends BaseController
 			}
 		}
 
+		if($product->params) {
+		
+			$product_params = json_decode($product->params, true) ?? [];
+		//// --- A jelölés logikája --
+			foreach ($product_params as $param) {
+
+				if(!is_array($param)) {
+					continue;
+				}
+
+				$id    = $param['Id'];
+				$value = trim($param['Value']);
+
+				if (isset($options[$id])) {
+					foreach ($options[$id]['values'] as &$optValue) {
+						if (trim($optValue['value']) === $value) {
+							$optValue['active'] = true;
+						}
+					}
+					unset($optValue); // mindig bontsuk a referenciát!
+				}
+			
+			}
+		}		
+
 		$data = [
 			'header' => [
 				'title'	  => page_title($product->name),		
 				'section' => 'shop'		
 			],
 			'body'	=> [
-
                 'breadcrumbs' => $breadcrumbs,
-
-				'product' => $product
-
+				'product' => $product,
+				'options' => $options				
             ]
         ];
 
+		/*
+		echo '<pre>';
+		print_r($data);
+		echo '</pre>';
+		*/
+		
 		BuildPage::render('shop-product', $data);
 
     }
 	
+		
+	/**
+	 * productVariation
+	 *
+	 * @return void
+	 */
+	public function productVariation()
+	{	
+
+		if(!$this->request->isAJAX()) {
+			return $this->response->setStatusCode(400)->setJSON(['error' => 'Érvénytelen kérés.']);
+		}
+		
+		$sku = $this->request->getPost('sku');
+		$options = json_decode($this->request->getPost('params'), true) ?? []; // tömb
+		$slug = $this->request->getPost('slug');
+		
+		if (!$sku || !$options) {
+			return $this->response->setStatusCode(400)->setJSON(['error' => 'Hiányzó paraméterek.']);
+		}
+
+		// a termék az sku alapján, kell a kategória azonosításhoz
+		$model = model(ProductModel::class);
+		$product = $model->where('sku', $sku)->first();
+		$category_id = $product->category_id ?? null;
+
+		// a kategória
+		if (!$category_id) {
+			return $this->response->setStatusCode(404)->setJSON(['error' => 'A termék kategóriája nem található.']);
+		}
+		$category = (new \App\Models\CategoryModel())->find($category_id);
+
+		// az összes termék lekérése a kategóriából
+		$products = $model->where('category_id', $category_id)->findAll(0);
+		
+		// a megfelelő termék keresése a paraméterek alapján
+		// minden paraméternek egyeznie kell
+		$result = null;
+		foreach ($products->data as $prod) {
+			
+			if ($prod->sku === $sku) {
+				continue; // a kiinduló terméket kihagyjuk
+			}
+			if (!$prod->params) {
+				continue; // ha nincs paraméter, akkor kihagyjuk
+			}
+			$prodParams = json_decode($prod->params, true);
+			$match = true;
+			foreach ($options as $key => $value) {
+				
+				$found = false;
+
+				foreach ($prodParams as $param) {			
+					if(!is_array($param)) {
+						continue;
+					}
+					if ($param['Id'] == $value['optionId'] && trim($param['Value']) === trim($value['optionValue'])) {
+						$found = true;
+						break;
+					}
+				}
+				if (!$found) {
+					$match = false;
+					break;
+				}
+				
+			}
+			if ($match) {
+				$result = $prod;
+				break;
+			}	
+			
+		}
+
+		// ha van kategória ID, akkor a kategória trail lekérése
+		$path = ['termekek'];
+		$trail = \App\Helpers\BreadcrumbsHelper::getCategoryTrail($product->category_id);
+		if(!empty($trail)) {
+			foreach($trail as $cat) {
+				$path[] = $cat->slug;
+			}
+		}
+		$path[] = ($result->slug ?? $slug);
+		
+		$response = [
+			'success' => true,
+			'url' => base_url(implode('/', $path))
+		];
+
+		return $this->response->setJSON($response);		
+	}
+
 	/**
 	 * buildTree
 	 *
@@ -228,4 +383,5 @@ class ShopProducts extends BaseController
         return $html;
     }
 
+	
 }
