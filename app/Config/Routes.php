@@ -78,6 +78,7 @@ $routes->post('/termek', 'ShopProducts::productVariation');
  * Shop kosár
  */
 $routes->get('/kosar', 'ShopCart::index');
+$routes->post('/kosar', 'ShopCart::add');
 
 /**
  * Shop pénztár

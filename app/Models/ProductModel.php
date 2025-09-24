@@ -25,6 +25,7 @@ class ProductModel extends BaseModel
         'params',
         'types',
         'prices',
+        'stock',
         'inquire',
         'state'
     ];

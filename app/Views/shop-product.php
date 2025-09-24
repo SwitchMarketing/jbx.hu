@@ -30,10 +30,11 @@
                             <?php echo view('shared/option-pills', ['options' => $options]); ?>
                             <div class="pd-quality">
                                 <span>Mennyiség</span>
-                                <input type="number" name="number" value="1">
+                                <input type="number" name="number" id="qty-<?php echo esc($product->sku) ?>" value="1">
                             </div>
                             <?php echo product_price($product); ?>
                             <?php echo add_to_cart_button($product); ?>     
+                            <div id="cartMessages" class="mt-4"></div>
                             <!--                                                   
                             <div class="pd-cat-tags">
                                 <ul>

@@ -242,6 +242,13 @@ class UnasImport
                         $rec['prices'] = json_encode($product['Prices']);
                     }
 
+                    // stock
+                    $rec['stock'] = null;
+                    if( isset($product['Stocks']) )
+                    {
+                        $rec['stock'] = json_encode($product['Stocks']);
+                    }
+
                     $records[] = $rec;    
                     
                 }

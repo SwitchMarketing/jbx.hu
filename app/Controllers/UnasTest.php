@@ -31,7 +31,7 @@ class UnasTest extends BaseController
         $categories = Unas::categories($token);
 
         echo '<pre>';
-        print_r($categories);
+        // print_r($categories);
         print_r($products);
         echo '</pre>';
 

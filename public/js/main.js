@@ -622,10 +622,58 @@ var App = {
           }
         });
     }
+    
+  },
 
-    // remove active class from siblings
-    //$(option).siblings().removeClass('active');
-  }
+  addToCart: function(btn) {
+
+    const self = this;
+    const sku = $(btn).data('sku') || '';
+    const qty = $('#qty-' + sku).val() || 1;
+
+    if(sku != '') {
+      $.ajax({
+        url: App.base + 'kosar',
+        type: 'POST',
+        data: {
+          sku: sku,
+          qty: qty
+        },
+        dataType: 'json',
+        beforeSend: () => { 
+          $(btn).attr('disabled', true);
+        },
+        complete: () => {
+          $(btn).attr('disabled', false);
+        },
+        success: function(response) {
+          if(response.success) {  
+            self.showCartAlert(response.message, 'success');            
+          }
+        }
+      });
+
+    }
+  },
+
+  showCartAlert: function(message, type = 'success') {
+    const alertHtml = `
+        <div class="alert alert-${type} alert-dismissible fade show shadow" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
+
+    const container = $('#cartMessages');
+    container.html(alertHtml);
+
+    // Automatikus eltűnés 3 másodperc után
+    setTimeout(() => {
+        const alertEl = container.find('.alert');
+        const bsAlert = new bootstrap.Alert(alertEl[0]);
+        bsAlert.close();
+    }, 3000);
+}
    
 };
 

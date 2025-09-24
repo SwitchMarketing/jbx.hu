@@ -83,7 +83,7 @@ function product_description($text = null)
  * @param  mixed $product
  * @return string
  */
-function product_price($product) {
+function product_price($product, $return_price_only = false) {
     
     if (empty($product->prices)) {
         return '';
@@ -135,6 +135,17 @@ function product_price($product) {
     
     $html .= '</ul>';
 
+    if($return_price_only) {
+        // csak az ár számértéke kell
+        if(isset($prices['sale'])) {
+            return $prices['sale'];
+        }
+        if(isset($prices['normal'])) {
+            return $prices['normal'];
+        }
+        return 0;
+    }
+
     return $html;
     
 }
@@ -154,15 +165,70 @@ function add_to_cart_button($product, $class = 'theme-btn') {
         return '';
     }
 
-    $price = product_price($product);
+    $btnText = product_status($product)->btnText;
 
-    // ha a termék inquiry = 1 vagy nincs ár akkor ajánlatkérés gombot jelenítünk meg
-    if (isset($product->inquiry) && $product->inquiry == 1 || empty($price)) {
-        $btnText = 'Ajánlatkérés';
-    } else {
-        // ha van ár akkor kosárba rakás gombot jelenítünk meg
-        $btnText = 'Kosárba';
+    return '<a href="javascript:void(0)" data-sku="'.$product->sku.'" onclick="App.addToCart(this)" class="theme-btn">' . $btnText . ' <i class="fa-solid fa-angles-right"></i></a>';
+}   
+
+
+/**
+ * product_stock
+ *
+ * a termék raktárkészlete
+ * 
+ * @param  mixed $product
+ * @return void
+ */
+function product_stock($product) {
+
+    if (empty($product->stock)) {
+        return 0;
     }
 
-    return '<a href="javascript:void(0)" class="theme-btn">' . $btnText . ' <i class="fa-solid fa-angles-right"></i></a>';
+    $result = json_decode($product->stock);    
+
+    if (empty($result) || !is_object($result)) {
+        return 0;
+    }
+
+    if(isset($result->Stock)) {
+        return (int)$result->Stock->Qty ?? 0;
+    }
+
+    return 0;
 }   
+
+
+/**
+ * product_status
+ *
+ * @param  mixed $product
+ * @return object
+ */
+function product_status($product) {
+
+    $price = product_price($product);
+    $stock = product_stock($product);
+
+    $status = (object) [
+        'btnText' => '',
+        'inStock' => false
+    ];
+
+    // ha van ár
+    if(!empty($price)) {
+
+        // ha van raktáron
+        if($stock > 0) {
+            $status->inStock = true;
+            $status->btnText = 'Kosárba';            
+        } else {
+            $status->btnText = 'Rendelés';     
+        }
+        
+    } else {
+        $status->btnText = 'Ajánlatkérés';
+    }    
+
+    return $status;   
+}
