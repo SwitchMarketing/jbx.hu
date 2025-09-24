@@ -79,6 +79,7 @@ $routes->post('/termek', 'ShopProducts::productVariation');
  */
 $routes->get('/kosar', 'ShopCart::index');
 $routes->post('/kosar', 'ShopCart::add');
+$routes->post('/kosar/torles', 'ShopCart::remove');
 
 /**
  * Shop pénztár

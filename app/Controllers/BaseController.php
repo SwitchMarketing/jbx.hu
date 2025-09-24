@@ -54,6 +54,11 @@ abstract class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
         $this->session = \Config\Services::session();
+
+        // shopping cart session id
+        if( !$this->session->has('cart_session_id') ){
+            $this->session->set('cart_session_id', session_id());
+        }
         
     }
 }

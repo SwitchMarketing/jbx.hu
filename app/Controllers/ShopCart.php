@@ -16,6 +16,59 @@ class ShopCart extends BaseController
 	public function index()
     {
 
+		$session_id = $this->session->get('cart_session_id');
+
+		// kosár tételek
+		$cartModel = new \App\Models\ShoppingCartModel();
+		$cartItems = $cartModel
+						->select('cart.id, cart.sku, cart.name, cart.price, cart.qty, cart.status, product_id')
+						->join('products', 'products.sku = cart.sku', 'left')
+						->where('session_id', $session_id)						
+						->findAll();
+
+		// termék fotó
+		if(count($cartItems)) {
+
+			foreach($cartItems as $item) {
+				$productIds[] = $item->product_id;
+			}
+
+			// a termékfotók lekérése
+			$imageModel = new \App\Models\ImageModel();
+
+			$images = $imageModel
+						->whereIn('product_id', $productIds)
+						->findAll();
+
+			$imgMap = [];
+			foreach($images as $img) {
+				if(!isset($imgMap[$img->product_id])) {
+					$imgMap[$img->product_id] = $img->filename;
+				}
+			}
+
+			foreach($cartItems as $k => $item) {
+				$cartItems[$k]->image = isset($imgMap[$item->product_id]) ? $imgMap[$item->product_id] : null;
+			}			
+			
+		}
+
+		// a kosár összesen
+		$cartTotal = 0;
+		if(count($cartItems)) {
+			foreach($cartItems as $item) {
+				if($item->price && $item->qty) {
+					$cartTotal += $item->price * $item->qty;
+				}
+			}
+		}
+
+		// nettó ár
+		$cartNetTotal = (int)($cartTotal / 1.27);
+
+		// áfa
+		$cartVat = $cartTotal - $cartNetTotal;
+		
 		$data = [
 			'header' => [
 				'title'	  => page_title('Kosár'),		
@@ -30,7 +83,12 @@ class ShopCart extends BaseController
                         'url'   => base_url('kosar')
                     ]
 
-                ]
+				],
+
+				'cartItems' => $cartItems,
+				'cartTotal' => $cartTotal,
+				'cartNetTotal' => $cartNetTotal,
+				'cartVat' => $cartVat
 
             ]
         ];
@@ -56,6 +114,8 @@ class ShopCart extends BaseController
 		$sku = $this->request->getPost('sku');
 		$qty = (int)$this->request->getPost('qty');
 
+		$session_id = $this->session->get('cart_session_id');
+
 		if(empty($sku)) {
 			return $this->response->setStatusCode(400);
 		}
@@ -68,7 +128,7 @@ class ShopCart extends BaseController
 		$cartModel = new \App\Models\ShoppingCartModel();
 
 		// létezik-e már a termék a kosárban
-		$item = $cartModel->where('session_id', session_id())
+		$item = $cartModel->where('session_id', $session_id)
 						  ->where('sku', $sku)
 						  ->first();
 
@@ -96,7 +156,7 @@ class ShopCart extends BaseController
 			$productName = $product->name;
 
 			$data = [
-				'session_id' => session_id(),
+				'session_id' => $session_id,
 				'sku'        => $product->sku,
 				'name'       => $product->name,
 				'price'      => product_price($product, true),
@@ -115,5 +175,38 @@ class ShopCart extends BaseController
 
 	}
 	
+	public function remove()
+	{
+		if(!$this->request->isAJAX()) {
+			return $this->response->setStatusCode(400);
+		}
+
+		$sku = $this->request->getPost('sku');
+
+		$session_id = $this->session->get('cart_session_id');
+
+		if(empty($sku)) {
+			return $this->response->setStatusCode(400);
+		}
+
+		// tétel eltávolítása a kosárból
+		$cartModel = new \App\Models\ShoppingCartModel();
+
+		$item = $cartModel->where('session_id', $session_id)
+						  ->where('sku', $sku)
+						  ->first();
+
+		if(empty($item)) {
+			return $this->response->setStatusCode(400);
+		}
+
+		$cartModel->delete($item->id);
+
+		return $this->response->setStatusCode(200)->setJSON([
+			'success' => true,
+			'message' => $item->name . ' eltávolítva a kosárból.'
+		]);
+
+	}	
 
 }

@@ -656,6 +656,32 @@ var App = {
     }
   },
 
+  removeFromCart: function(btn) {
+
+    const self = this;
+    const sku = $(btn).data('sku') || '';
+    if(sku != '') {
+      $.ajax({
+        url: App.base + 'kosar/torles',
+        type: 'POST',
+        data: {
+          sku: sku
+        },
+        dataType: 'json',
+        beforeSend: () => {
+          $(btn).attr('disabled', true);
+        },
+        complete: () => {
+          $(btn).attr('disabled', false);
+        },
+        success: function(response) {
+          window.location.reload();
+        }
+      });
+
+    }
+  },
+
   showCartAlert: function(message, type = 'success') {
     const alertHtml = `
         <div class="alert alert-${type} alert-dismissible fade show shadow" role="alert">
@@ -673,7 +699,7 @@ var App = {
         const bsAlert = new bootstrap.Alert(alertEl[0]);
         bsAlert.close();
     }, 3000);
-}
+  }
    
 };
 

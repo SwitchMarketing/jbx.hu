@@ -2,6 +2,7 @@
   .cart-table .c-c {
     .c-data {
       .cr-svg {
+        flex: 0 0 40px;
         width: 40px;
         height: 80px;
         margin-right: 12px;
@@ -69,7 +70,7 @@
 
     h2 {
       font-size: 18px;
-
+      line-height: 1.4rem;
       a {
         color: #444;
       }
