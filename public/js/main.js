@@ -255,6 +255,17 @@ var App = {
   },
 
   /**
+   * 
+   * submit order form
+   * 
+   * @param {*} btn 
+   */
+  submitOrder: function (btn) {
+    const form = jQuery(btn).closest("form");
+    this.submitForm(btn, form);
+  },
+
+  /**
    *
    * submit form
    *

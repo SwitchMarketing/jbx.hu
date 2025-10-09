@@ -84,7 +84,13 @@ $routes->post('/kosar/torles', 'ShopCart::remove');
 /**
  * Shop pénztár
  */
-$routes->get('/penztar', 'ShopCheckout::index');
+$routes->get('/megrendeles', 'ShopCheckout::index');
+$routes->get('/penztar', static function() {
+    return redirect()->to(base_url('megrendeles'), 301);
+});
+$routes->post('/megrendeles', 'ShopCheckout::submit');
+$routes->get('/sikeres-megrendeles', 'ShopCheckout::success');
+
 
 /** Blog */
 $routes->get('/blog', 'Blog::index');

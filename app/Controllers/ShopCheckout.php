@@ -3,7 +3,15 @@
 namespace App\Controllers;
 
 use App\Libraries\BuildPage;
+use Exception;
+use App\Libraries\Mailer;
 
+/**
+ * ShopCheckout
+ * 
+ * a megrendelés oldal és a megrendelés beküldése
+ * 
+ */
 class ShopCheckout extends BaseController
 {
     /**
@@ -16,9 +24,39 @@ class ShopCheckout extends BaseController
 	public function index()
     {
 
+		$session_id = $this->session->get('cart_session_id');
+
+		// kosár tételek
+		$cartModel = new \App\Models\ShoppingCartModel();
+		$cartItems = $cartModel
+						->select('id, sku, name, price, qty, status')
+						->where('session_id', $session_id)						
+						->findAll();
+
+		// ha nincsenek tételek, vissza a kosárhoz
+		if(!count($cartItems)) {
+			return redirect()->to(base_url('kosar'));
+		}
+		
+		// a kosár összesen
+		$cartTotal = 0;
+		if(count($cartItems)) {
+			foreach($cartItems as $item) {
+				if($item->price && $item->qty) {
+					$cartTotal += $item->price * $item->qty;
+				}
+			}
+		}
+
+		// nettó ár
+		$cartNetTotal = (int)($cartTotal / 1.27);
+
+		// áfa
+		$cartVat = $cartTotal - $cartNetTotal;
+
 		$data = [
 			'header' => [
-				'title'	  => page_title('Pénztár'),
+				'title'	  => page_title('Megrendelés'),
 				'section' => 'shop'
 			],
 			'body'	=> [
@@ -26,11 +64,15 @@ class ShopCheckout extends BaseController
                 'breadcrumbs' => [
 
                     (object) [
-                        'title' => 'Pénztár',
+                        'title' => 'Megrendelés',
                         'url'   => base_url('penztar')
                     ]
 
-                ]
+				],
+
+				'cartTotal'   => $cartTotal,
+				'cartNetTotal'=> $cartNetTotal,
+				'cartVat'     => $cartVat
 
             ]
         ];
@@ -39,5 +81,261 @@ class ShopCheckout extends BaseController
 
     }
 	
+	/**
+	 * submit
+	 *
+	 * a megrendelés beküldése
+	 * 
+	 * @return void
+	 */
+	public function submit()
+	{
+
+		// Check for AJAX request.
+		if ($this->request->isAJAX())
+		{
+			$response = (object) [
+				'success'  => false,
+				'message'  => '',
+				'token'	   => csrf_hash()
+			];
+			
+			try 
+			{	
+
+				$post = $this->request->getPost();
+
+				$validation = \Config\Services::validation();
+				
+				$this->_set_rules($validation);
+				
+				$errors = [];
+				
+				// a többi úrlap mező ellenőrzése
+				if (! $validation->run($post) ) {
+					$errors = array_merge($errors, $validation->getErrors());										
+				}					
+
+				// hibaüzenet ha vannak úrlap hibák
+				if( count($errors) )
+					throw new Exception( view('validation_errors_list', ['errors' => $errors]) );
+				
+				// kosár tételek
+				$session_id = $this->session->get('cart_session_id');
+				$cartModel = new \App\Models\ShoppingCartModel();
+				$cartItems = $cartModel
+								->select('id, sku, name, price, qty, status')
+								->where('session_id', $session_id)						
+								->findAll();
+
+				// az adatok 
+				$rec = [
+					'name' 		 => $post['name'],
+					'email' 	 => $post['email'] ?? '',
+					'phone' 	 => $post['phone'] ?? '',
+					'company' 	 => $post['company'] ?? '',
+					'billing_zip'=> $post['billing_zip'] ?? '',
+					'billing_state' => $post['billing_state'] ?? '',
+					'billing_address' => $post['billing_address'] ?? '',
+					'delivery_zip'=> isset($post['diffDeliveryAddress']) && $post['diffDeliveryAddress'] == 'on' ? ($post['delivery_zip'] ?? '') : $post['billing_zip'],
+					'delivery_state' => isset($post['diffDeliveryAddress']) && $post['diffDeliveryAddress'] == 'on' ? ($post['delivery_state'] ?? '') : $post['billing_state'],
+					'delivery_address' => isset($post['diffDeliveryAddress']) && $post['diffDeliveryAddress'] == 'on' ? ($post['delivery_address'] ?? '') : $post['billing_address'],
+					'comments' 	 => $post['comments'] ?? '',
+					'products' => $cartItems
+				];
+
+				// más szállítási cím
+				if(isset($post['diffDeliveryAddress']) && $post['diffDeliveryAddress'] == 'on')
+					$rec['diffDeliveryAddress'] = true;
+									
+				// mehet az email
+				Mailer::order($rec);   
+				
+				//munkamanet változó és átirányítás a köszönő oldalra
+				$this->session->setFlashdata('orderSuccess', '1');
+				
+				$response->success = true;
+				$response->title = 'Sikeres megrendelés!';
+				$response->message = 'Hamarosan keresni fogjuk a megadott elérhetőségeken.';	
+				$response->redirect = '/sikeres-megrendeles';
+
+			}
+			catch (Exception $e)
+			{
+				$response->message = $e->getMessage();
+			}
+			
+			return $this->response
+						->setStatusCode($response->success ? 200 : 500)
+						->setJSON($response);
+		}
+		else 
+		{
+			throw new Exception('Nem AJAX kérés!');
+		}
+	}
+
+	/**
+	 * success
+	 *
+	 * sikeres jelentkezés
+	 * 
+	 * @return void
+	 */
+	public function success()
+	{
+		//ha nincs munkamenet változó a megrendelésről
+		//visszairányitjuk a főoldalra
+		if(!$this->session->has('orderSuccess'))
+			return redirect()->to('/');   
+		
+		// a kosár ürítése
+		$session_id = $this->session->get('cart_session_id');
+		$cartModel = new \App\Models\ShoppingCartModel();
+		$cartModel->where('session_id', $session_id)->delete();
+		$this->session->remove('cart_session_id');
+		
+		$data = [
+			'header' => [
+				'section'	 => 'contact',				
+				'title'		 => page_title('Sikeres megrendelés'),				
+				'og_title'	 => page_title('Sikeres megrendelés'),
+			]
+		];
+
+		BuildPage::render('order-success', $data);
+		
+	}
+
+	/**
+	 * @param mixed $validation
+	 * 
+	 * @return object
+	 */
+	private function _set_rules($validation) {
+
+		$rules = [
+
+			'name' => [
+				'label'  => 'név',
+				'rules'  => 'required',
+				'errors' => [
+					'required' => 'A <span>{field}</span> nem lehet üres',
+				],
+			],
+
+			'email' => [
+				'label'  => 'email cím',
+				'rules'  => 'required|valid_email',				
+				'errors' => [
+					'required' => 'Az <span>{field}</span> nem lehet üres',
+					'valid_email' => 'Az <span>{field}</span> formátuma érvénytelen',		
+				]
+			],
+
+			'phone' => [
+				'label'  => 'telefonszám',
+				'rules'  => 'required|regex_match[/^(\+36|06|36)?(20|30|70)([0-9]{7})$/]',
+				'errors' => [
+					'required' => 'A <span>{field}</span> nem lehet üres',
+					'regex_match' => 'A <span>{field}</span> formátuma érvénytelen',		
+				]
+			],
+			
+			'company' => [
+				'label'  => 'cégnév',
+				'rules'  => 'required|max_length[100]',
+				'errors' => [
+					'required' => 'A <span>{field}</span> nem lehet üres',
+					'max_length' => 'A <span>{field}</span> legfeljebb 100 karakter hosszú lehet',					
+				]
+			],
+
+			'billing_zip' => [
+				'label'  => 'számlázási irányítószám',
+				'rules'  => 'required|exact_length[4]|numeric',
+				'errors' => [
+					'required' => 'Az <span>{field}</span> nem lehet üres',
+					'exact_length' => 'Az <span>{field}</span> pontosan 4 karakter hosszú legyen',
+					'numeric' => 'Az <span>{field}</span> csak számokat tartalmazhat',		
+				]
+			],
+
+			'billing_state' => [
+				'label'  => 'számlázási település',
+				'rules'  => 'required',
+				'errors' => [
+					'required' => 'A <span>{field}</span> nem lehet üres',					
+				]
+			],	
+
+			'billing_address' => [
+				'label'  => 'számlázási cím',
+				'rules'  => 'required',
+				'errors' => [
+					'required' => 'A <span>{field}</span> nem lehet üres',					
+				]
+			],
+
+			'diffDeliveryAddress' => [
+				'label'  => 'más szállítási cím',
+				'rules'  => 'permit_empty|in_list[on]',
+				'errors' => [
+					'in_list' => 'A <span>{field}</span> értéke érvénytelen',					
+				]
+			],
+
+			// ha be van pipálva a diffDeliveryAddress akkor a szállítási cím kötelező
+			'delivery_zip' => [
+				'label'  => 'szállítási irányítószám',
+				'rules'  => 'permit_empty|required_with[diffDeliveryAddress,on]',
+				'errors' => [
+					'required_with' => 'A <span>{field}</span> nem lehet üres',					
+				]
+			],
+
+			'delivery_state' => [
+				'label'  => 'szállítási település',
+				'rules'  => 'permit_empty|required_with[diffDeliveryAddress,on]',
+				'errors' => [
+					'required_with' => 'A <span>{field}</span> nem lehet üres',					
+				]
+			],	
+
+			'delivery_address' => [
+				'label'  => 'szállítási cím',
+				'rules'  => 'permit_empty|required_with[diffDeliveryAddress,on]',
+				'errors' => [
+					'required_with' => 'A <span>{field}</span> nem lehet üres',					
+				]
+			],
+			
+			'comments' => [
+				'label'  => 'megjegyzés',
+				'rules'  => 'max_length[500]',
+				'errors' => [
+					'max_length' => 'A <span>{field}</span> legfeljebb 500 karakter hosszú lehet',					
+				]
+			],
+			
+		];
+
+
+
+		/*
+		$rules['privacy'] = [
+				'label'  => 'adatvédelmi nyilatkozat',
+				'rules'  => 'required',
+				'errors' => [
+					'required' => 'Nem fogadtad el az <span>{field}</span>-ot',
+				]
+			];
+		*/
+
+		$validation->setRules($rules);
+
+		return $validation;
+
+	}
 
 }

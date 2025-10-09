@@ -63,34 +63,14 @@
     </div>
     <div class="row cart-total justify-content-end">
         <div class="col-lg-6">
-            <?php if($cartTotal > 0): ?>
-            <div class="cart-total-box">
-                <div class="parallax" style="background-image: url(imgs/pattren-4.png);"></div>
-                <div class="final">
-                <h4>Összesítés</h4>
-                <ul>
-                    <li>
-                        <span>Nettó:</span>
-                        <span><?php echo format_price($cartNetTotal) ?></span>
-                    </li>
-                    <li>
-                        <span>ÁFA:</span>
-                        <span><?php echo format_price($cartVat) ?></span>
-                    </li>
-                </ul>
-                </div>
-                <div class="total">
-                <ul>
-                    <li>
-                        <span>Összesen:</span>
-                        <span><?php echo format_price($cartTotal) ?></span>
-                    </li>
-                </ul>
-                </div>
-            </div>
+            <?php if($cartTotal > 0): echo view('shop/cart-total-box', [
+                'cartTotal'    => $cartTotal,
+                'cartNetTotal' => $cartNetTotal,
+                'cartVat'      => $cartVat
+            ]); ?>
             <?php endif; ?>
             <div class="update-cart d-flex-all justify-content-end">
-                <a href="#" class="theme-btn">Tovább a rendeléshez <i class="fa-solid fa-angles-right"></i></a>
+                <a href="<?php echo base_url('megrendeles') ?>" class="theme-btn">Tovább a rendeléshez <i class="fa-solid fa-angles-right"></i></a>
             </div>                
         </div>
     </div>

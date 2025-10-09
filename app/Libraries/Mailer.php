@@ -75,7 +75,45 @@ class Mailer {
         return false;
     }
 
+    /**
+     * 
+     * új rendelés email
+     * 
+     * @param array|null $data
+     * @param string|order $tpl
+     * 
+     * @return bool
+     */
+    public static function order(array $data, string $tpl = 'order'):bool
+    {
 
+        if(is_array($data))
+        {
+
+            //send message
+            $email = \Config\Services::email();
+
+            $fromEmail = config( 'Config\\AppConfig' )->siteEmail;
+            $fromName = config( 'Config\\AppConfig' )->siteName;
+            $toEmail = config( 'Config\\AppConfig' )->leadEmail;
+
+            $email->setFrom($fromEmail, $fromName);
+            $email->setTo($toEmail);
+
+            if( isset($data['email']) )
+                $email->setReplyTo($data['email']);
+            // $email->setBCC('
+            $email->setSubject('Új rendelés: '. $data['name']);
+
+            helper('html');
+            $msg = view('email/' . $tpl, $data);
+            $email->setMessage($msg);
+            if(!$email->send(false))
+                throw new Exception('Hiba az email kiküldésekor!'); //$email->printDebugger(['headers'])
+            return true;
+        }
+        return false;
+    }
 
     /**
      * 
