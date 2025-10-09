@@ -17,16 +17,20 @@ class ImportUnasAll extends BaseCommand
     public function run(array $params)
     {
 
+        $cache = \Config\Services::cache();
+
         try {
 
             // Importáljuk a kategóriákat
             CLI::write('🔄 UNAS kategóriák importálása...', 'yellow');
+            $cache->delete('getCategory');
             \App\Helpers\UnasImport::categories();      
             CategoryRouteCache::generate();
             CLI::write('✅ Kategóriák sikeresen importálva.', 'green');
 
             // Importáljuk a termékeket
             CLI::write('🔄 UNAS termékek importálása...', 'yellow');
+            $cache->delete('getProduct');
             \App\Helpers\UnasImport::products();        
             CLI::write('✅ Termékek sikeresen importálva.', 'green');
 

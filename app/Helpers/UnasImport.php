@@ -58,7 +58,7 @@ class UnasImport
 
         // simple xml object
         CLI::write('➡️ Kategóriák lekérése az UNAS API-tól...');
-        $categories = Unas::categories(self::$token, false);
+        $categories = Unas::categories(self::$token);
 
          // a kategóriák feldolgozása
         if( is_array($categories) )
@@ -150,7 +150,7 @@ class UnasImport
 
         // simple xml object
         CLI::write('➡️ Termékek lekérése az UNAS API-tól...');
-        $products = Unas::products(self::$token, false);
+        $products = Unas::products(self::$token);
 
         // a termékek feldolgozása
         if( is_array($products) )
@@ -297,7 +297,7 @@ class UnasImport
 
         // products array
         CLI::write('➡️ Termékek lekérése az UNAS API-tól...');
-        $products = Unas::products(self::$token, false);
+        $products = Unas::products(self::$token);
 
         // a termékek feldolgozása
         if( is_array($products) )
@@ -379,6 +379,9 @@ class UnasImport
                         $records[$k]['filename'] = $fileName; // frissítjük a filename-t a letöltött fájl nevével
 
                         $imagePath = $imageBasePath . $fileName;
+
+                        echo $imagePath . PHP_EOL;
+
                         if( !file_exists($imagePath) )
                         {
                             CLI::write('➡️ Kép letöltése: ' . $imageUrl);
@@ -430,7 +433,7 @@ class UnasImport
 
         // simple xml object
         CLI::write('➡️ Blogbejegyzések lekérése az UNAS API-tól...');
-        $blog = Unas::blog(self::$token, false);
+        $blog = Unas::blog(self::$token);
 
         // a blog bejegyzések feldolgozása
         if( is_array($blog) )
