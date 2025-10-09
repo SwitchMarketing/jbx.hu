@@ -365,7 +365,12 @@ class UnasImport
                     helper(['filesystem']);
 
                     $downloadedImages = 0;
-                    $imageBasePath = FCPATH . 'imgs/products/';
+
+                    // a képek helyi mentési útvonala
+                    if(getenv('app.env') == 'development')
+                        $imageBasePath = FCPATH . 'imgs_dev/products/';
+                    else
+                        $imageBasePath = '/home/jbxhu/public_html/imgs/products/';
 
                     CLI::write('➡️ Képek letöltése...');
                     foreach($records as $k => $record)
@@ -379,8 +384,6 @@ class UnasImport
                         $records[$k]['filename'] = $fileName; // frissítjük a filename-t a letöltött fájl nevével
 
                         $imagePath = $imageBasePath . $fileName;
-
-                        echo $imagePath . PHP_EOL;
 
                         if( !file_exists($imagePath) )
                         {
