@@ -7,8 +7,6 @@ use App\Models\UnasLoginModel;
 
 use CodeIgniter\CLI\CLI;
 
-
-
 class UnasImport
 {
     
@@ -60,7 +58,7 @@ class UnasImport
 
         // simple xml object
         CLI::write('➡️ Kategóriák lekérése az UNAS API-tól...');
-        $categories = Unas::categories(self::$token);
+        $categories = Unas::categories(self::$token, false);
 
          // a kategóriák feldolgozása
         if( is_array($categories) )
@@ -152,7 +150,7 @@ class UnasImport
 
         // simple xml object
         CLI::write('➡️ Termékek lekérése az UNAS API-tól...');
-        $products = Unas::products(self::$token);
+        $products = Unas::products(self::$token, false);
 
         // a termékek feldolgozása
         if( is_array($products) )
@@ -299,7 +297,7 @@ class UnasImport
 
         // products array
         CLI::write('➡️ Termékek lekérése az UNAS API-tól...');
-        $products = Unas::products(self::$token);
+        $products = Unas::products(self::$token, false);
 
         // a termékek feldolgozása
         if( is_array($products) )
@@ -432,7 +430,7 @@ class UnasImport
 
         // simple xml object
         CLI::write('➡️ Blogbejegyzések lekérése az UNAS API-tól...');
-        $blog = Unas::blog(self::$token);
+        $blog = Unas::blog(self::$token, false);
 
         // a blog bejegyzések feldolgozása
         if( is_array($blog) )
