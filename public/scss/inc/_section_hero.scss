@@ -35,11 +35,11 @@
           display: block;
           position: relative;
           img {
-            max-width: 150px;
+            max-width: 255px;
             height: auto;
             margin-left: -13px;
             @include mobile() {
-              max-width: 120px;
+              max-width: 215px;
             }
           }
         }        
