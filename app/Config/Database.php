@@ -29,13 +29,13 @@ class Database extends Config
         'hostname'     => 'localhost',
         'username'     => '',
         'password'     => '',
-        'database'     => WRITEPATH . 'db/jbxdb.db',
-        'DBDriver'     => 'SQLite3',
+        'database'     => '',
+        'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
         'DBDebug'      => true,
-        'charset'      => 'utf8',
-        'DBCollat'     => 'utf8_general_ci',
+        'charset'      => 'utf8mb4',
+        'DBCollat'     => 'utf8mb4_general_ci',
         'swapPre'      => '',
         'encrypt'      => false,
         'compress'     => false,
@@ -47,19 +47,20 @@ class Database extends Config
 
     /**
      * The shop database connection.
+     * Unified with the default connection.
      */
     public array $shop = [
         'DSN'          => '',
         'hostname'     => 'localhost',
         'username'     => '',
         'password'     => '',
-        'database'     => WRITEPATH . 'db/jbxshop.db',
-        'DBDriver'     => 'SQLite3',
+        'database'     => '',
+        'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
         'DBDebug'      => true,
-        'charset'      => 'utf8',
-        'DBCollat'     => 'utf8_general_ci',
+        'charset'      => 'utf8mb4',
+        'DBCollat'     => 'utf8mb4_general_ci',
         'swapPre'      => '',
         'encrypt'      => false,
         'compress'     => false,
@@ -105,5 +106,21 @@ class Database extends Config
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
+
+        // Explicitly map settings from .env if parent didn't handle it
+        $this->default['hostname'] = env('database.default.hostname', 'localhost');
+        $this->default['database'] = env('database.default.database', '');
+        $this->default['username'] = env('database.default.username', '');
+        $this->default['password'] = env('database.default.password', '');
+        $this->default['port']     = env('database.default.port', 3306);
+        $this->default['DBDriver'] = env('database.default.DBDriver', 'MySQLi');
+
+        // Map shop connection to default if not explicitly defined in .env
+        $this->shop['hostname'] = env('database.shop.hostname', $this->default['hostname']);
+        $this->shop['database'] = env('database.shop.database', $this->default['database']);
+        $this->shop['username'] = env('database.shop.username', $this->default['username']);
+        $this->shop['password'] = env('database.shop.password', $this->default['password']);
+        $this->shop['port']     = env('database.shop.port', $this->default['port']);
+        $this->shop['DBDriver'] = env('database.shop.DBDriver', $this->default['DBDriver']);
     }
 }

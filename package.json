@@ -1,0 +1,45 @@
+{
+  "name": "jbx.hu",
+  "version": "1.0.0",
+  "description": "## What is CodeIgniter?",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "(cd ./public/admin) && (sencha app watch)",
+    "minify" : "php spark minify:all",
+    
+    "deploypublic" : "node ftpDeployPublic.mjs",
+    "deployadminpublic" : "node ftpDeployAdminPublic.mjs",
+    "deployapp" : "node ftpDeployApp.mjs",
+    "deploy" : "(npm run minify) && (npm run deploypublic) && (npm run deployapp)",
+    
+    "deployadmin" : "(cd ./public/admin) && (sencha app build) && (npm run deployadminpublic) && (npm run deployapp)",
+    
+    "deploystagingapp" : "node ftpDeployStagingApp.mjs",
+    "deploystagingpublic" : "node ftpDeployStagingPublic.mjs",
+    "deploystaging" : "(npm run minify) && (npm run deploystagingapp) && (npm run deploystagingpublic)"
+  },
+  "author": "Durugy Attila",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "browser-sync": "^2.26.13",
+    "ftp-deploy": "^2.4.7",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-load-plugins": "^2.0.5",
+    "gulp-postcss": "^9.0.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp-wait": "0.0.2",
+    "sass": "^1.49.0"
+  },
+  "dependencies": {
+    "@samkirkland/ftp-deploy": "^1.2.4"
+  }
+}

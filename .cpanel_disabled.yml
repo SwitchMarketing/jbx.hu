@@ -1,0 +1,10 @@
+deployment:
+  tasks:
+    - export ROOTPATH=/home/jbxhu/
+    - export PUBLICPATH=$ROOTPATH/public_html/
+    - # Copy core folders outside of web root
+    - /bin/cp -R app $ROOTPATH
+    - # Copy the content of the public folder into public_html
+    - /bin/cp -R public/* $PUBLICPATH
+    - # Copy the production build output to the admin directory
+    - /bin/cp -R public/admin/build/production/JBXAdmin/* $PUBLICPATH/admin/
