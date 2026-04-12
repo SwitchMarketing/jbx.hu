@@ -3,3 +3,7 @@ bootstrap.*
 classic.json*
 modern.json*
 .sencha
+
+# DO NOT ignore the production build
+!/build/production/JBXAdmin/
+!/build/production/JBXAdmin/*

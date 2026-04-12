@@ -81,15 +81,6 @@ public/.ftp-deploy-sync-state.json
 public/theme
 /*.mjs
 
-#-------------------------
-# ExtJS Admin: Only push built files
-#-------------------------
-# Ignore all source files
-public/admin/*
-
-# DO NOT ignore the production build
-!public/admin/build/production/JBXAdmin/
-!public/admin/build/production/JBXAdmin/*
 
 #-------------------------
 # Manual folders
