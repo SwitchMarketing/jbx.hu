@@ -3,16 +3,10 @@
 namespace App\Controllers\Admin;
 
 use Exception;
-use CodeIgniter\RESTful\ResourceController;
 
 class Attributes extends BaseResourceController
 {
-    protected $modelName = '\App\Models\BaseModel'; // We'll use a generic way or dedicated model
-
-    public function __construct()
-    {
-        // Custom initialization if needed
-    }
+    protected $modelName = '\App\Models\AttributeModel';
 
     /**
      * index
@@ -22,8 +16,7 @@ class Attributes extends BaseResourceController
     public function index()
     {
         try {
-            $db = \Config\Database::connect('shop');
-            $attributes = $db->table('attributes')->orderBy('name', 'ASC')->get()->getResult();
+            $attributes = $this->model->orderBy('name', 'ASC')->findAll();
             
             $this->setData($attributes);
             $this->setSuccess(true);
@@ -44,13 +37,12 @@ class Attributes extends BaseResourceController
     {
         try {
             $data = $this->request->getPost();
-            if (empty($data['name'])) throw new Exception('Név kötelező');
-
-            $db = \Config\Database::connect('shop');
-            $db->table('attributes')->insert(['name' => $data['name']]);
-            
-            $this->setSuccess(true);
-            $this->setMessage('Attribútum létrehozva');
+            if ($this->model->insert($data)) {
+                $this->setSuccess(true);
+                $this->setMessage('Attribútum létrehozva');
+            } else {
+                throw new Exception(implode(' ', $this->model->errors()));
+            }
         } catch (Exception $e) {
             $this->setMessage($e->getMessage());
         } finally {
@@ -66,11 +58,12 @@ class Attributes extends BaseResourceController
     public function delete($id = null)
     {
         try {
-            $db = \Config\Database::connect('shop');
-            $db->table('attributes')->where('id', $id)->delete();
-            
-            $this->setSuccess(true);
-            $this->setMessage('Attribútum törölve');
+            if ($this->model->delete($id)) {
+                $this->setSuccess(true);
+                $this->setMessage('Attribútum törölve');
+            } else {
+                throw new Exception('Törlési hiba');
+            }
         } catch (Exception $e) {
             $this->setMessage($e->getMessage());
         } finally {
