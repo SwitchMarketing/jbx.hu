@@ -32,33 +32,47 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         }).then((response) => {
             if(response.success) {
                 const product = response.data;
-                const html = `<table class="lead">
-                                <tr>
-                                    <td>Név</td>
-                                    <td>${product.name}</td>
-                                </tr>
-                                <tr>
-                                    <td>SKU</td>
-                                    <td>${product.sku}</td>
-                                </tr>
-                                <tr>
-                                    <td>Kategória</td>
-                                    <td>${product.category_name}</td>
-                                </tr>
-                                <tr>
-                                    <td>Leírás</td>
-                                    <td>${product.description || '-'}</td>
-                                </tr>
-                            </table>`;
+                
+                // Create variants HTML
+                let variantsHtml = '<table class="variants-table"><tr><th>SKU</th><th>Ár</th><th>Készlet</th><th>Jellemzők</th></tr>';
+                if (product.variants && product.variants.length > 0) {
+                    product.variants.forEach(v => {
+                        let attrs = v.attributes.map(a => `${a.name}: ${a.value}`).join(', ');
+                        variantsHtml += `<tr><td>${v.sku}</td><td>${v.price} Ft</td><td>${v.stock}</td><td>${attrs}</td></tr>`;
+                    });
+                } else {
+                    variantsHtml += '<tr><td colspan="4">Nincsenek variációk</td></tr>';
+                }
+                variantsHtml += '</table>';
+
+                const html = `<div class="product-details">
+                                <table class="lead">
+                                    <tr><td>Név</td><td>${product.name}</td></tr>
+                                    <tr><td>Kategória</td><td>${product.category_name || '-'}</td></tr>
+                                    <tr><td>Leírás</td><td>${product.description || '-'}</td></tr>
+                                </table>
+                                <h3>Variációk</h3>
+                                ${variantsHtml}
+                              </div>`;
 
                 var dialog = Ext.create({
                     xtype: 'dialog',
                     title: product.name,
-                    minWidth: 400,
-                    maximizable: false,
+                    width: 700,
+                    height: 500,
+                    maximizable: true,
                     closeable: true,
+                    layout: 'fit',
+                    scrollable: true,
                     html: html,
                     buttons: {
+                        edit: {
+                            text: 'Szerkesztés',
+                            handler: () => {
+                                dialog.destroy();
+                                this.onEditItem(sender.view, { record: record });
+                            }
+                        },
                         ok: function () {
                             dialog.destroy();
                         }
@@ -102,8 +116,8 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         name: 'state',
                         value: record.get('state'),
                         options: [
-                            { text: 'Aktív', value: 1 },
-                            { text: 'Inaktív', value: 0 }
+                            { text: 'Aktív', value: 'live' },
+                            { text: 'Inaktív', value: 'draft' }
                         ]
                     },
                     {

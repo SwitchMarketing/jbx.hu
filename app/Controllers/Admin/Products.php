@@ -3,10 +3,12 @@
 namespace App\Controllers\Admin;
 
 use Exception;
+use App\Models\ProductMasterModel;
+use App\Models\ProductVariantModel;
 
 class Products extends BaseResourceController
 {
-    protected $modelName = '\App\Models\ProductModel';
+    protected $modelName = '\App\Models\ProductMasterModel';
 
     /**
      * index
@@ -53,6 +55,10 @@ class Products extends BaseResourceController
             if (!is_object($product = $this->model->find($id))) {
                 throw new Exception('Nincs ilyen rekord!');
             }
+
+            // Include variants
+            $variantModel = new ProductVariantModel();
+            $product->variants = $variantModel->getWithAttributes($id);
 
             $this->setData($product);
             $this->setSuccess(true);
