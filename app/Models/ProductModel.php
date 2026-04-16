@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
-use CodeIgniter\Database\SQLite3\Builder;
+use CodeIgniter\Database\BaseBuilder as Builder;
 
 class ProductModel extends BaseModel
 {

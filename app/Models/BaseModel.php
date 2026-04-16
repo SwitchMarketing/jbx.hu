@@ -1,7 +1,7 @@
 <?php namespace App\Models;
 
 use CodeIgniter\Model;
-use CodeIgniter\Database\SQLite3\Builder;
+use CodeIgniter\Database\BaseBuilder as Builder;
 
 class BaseModel extends Model
 {
