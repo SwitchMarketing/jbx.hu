@@ -37,6 +37,9 @@ Ext.define('JBXAdmin.view.main.Main', {
                 },
                 {
                     xtype: 'app-categories'
+                },
+                {
+                    xtype: 'app-attributes'
                 }
             ]
         },

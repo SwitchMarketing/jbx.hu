@@ -121,6 +121,8 @@ $routes->group('admin', static function ($routes) {
     $routes->resource('leads', ['controller' =>'Admin\Leads', 'only' => ['index', 'show'], 'filter' => 'loggedin']);
     $routes->resource('products', ['controller' =>'Admin\Products', 'filter' => 'loggedin']);
     $routes->resource('productvariants', ['controller' =>'Admin\ProductVariants', 'only' => ['update'], 'filter' => 'loggedin']);
+    $routes->post('productvariants/save_attributes/(:num)', 'Admin\ProductVariants::saveAttributes/$1', ['filter' => 'loggedin']);
+    $routes->resource('attributes', ['controller' =>'Admin\Attributes', 'only' => ['index', 'create', 'delete'], 'filter' => 'loggedin']);
     $routes->resource('categories', ['controller' =>'Admin\Categories', 'filter' => 'loggedin']);
     $routes->resource('download', ['controller' =>'Admin\Download', 'only' => ['show'], 'filter' => 'loggedin']);
 });
