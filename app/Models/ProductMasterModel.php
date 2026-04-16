@@ -32,6 +32,7 @@ class ProductMasterModel extends BaseModel
         $this->extraFields = [
             'category_name' => 'categories.name',
             'category_slug' => 'categories.slug',
+            'variant_count' => 'IFNULL(variants.c, 0)'
         ];
         $this->_setDefaultFields();
     }
@@ -49,7 +50,8 @@ class ProductMasterModel extends BaseModel
         ));
 
         $builder->select($columns, false)
-            ->join('category_tree as categories', $this->table.'.category_id = categories.unas_id', 'left');
+            ->join('category_tree as categories', $this->table.'.category_id = categories.unas_id', 'left')
+            ->join('(SELECT master_id, COUNT(*) as c FROM product_variants GROUP BY master_id) AS variants', $this->table.'.id = variants.master_id', 'left');
 
         return $builder;
     }

@@ -31,9 +31,10 @@ Ext.define('JBXAdmin.view.products.Products', {
             }
         }, 
         {
-            text: 'Cikkszám (SKU)',
-            width : 150,
-            dataIndex: 'sku' 
+            text: 'Variációk',
+            width : 100,
+            dataIndex: 'variant_count',
+            align : 'center'
         }, 
         { 
             text: 'Kategória',
@@ -45,7 +46,7 @@ Ext.define('JBXAdmin.view.products.Products', {
             width : 100,
             dataIndex: 'state',
             renderer : (val) => {
-                return (val == 1) ? 'Aktív' : 'Inaktív';
+                return (val == 'live') ? 'Aktív' : 'Inaktív';
             }
         },
         {
