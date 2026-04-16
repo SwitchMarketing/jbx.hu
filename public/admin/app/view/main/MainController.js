@@ -8,7 +8,16 @@ Ext.define('JBXAdmin.view.main.MainController', {
     alias: 'controller.main',
 
     onReload : function () { 
-        this.fireEvent('reloadLeads');
+        let tabPanel = this.lookup('mainTabPanel');
+        let activeTab = tabPanel.getActiveItem();
+
+        if (activeTab.isXType('app-leads')) {
+            this.fireEvent('reloadLeads');
+        } else if (activeTab.isXType('app-products')) {
+            this.fireEvent('reloadProducts');
+        } else if (activeTab.isXType('app-categories')) {
+            this.fireEvent('reloadCategories');
+        }
     },
 
     onConfirmLogout: function(sender) { 

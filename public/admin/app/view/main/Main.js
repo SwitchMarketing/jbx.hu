@@ -11,7 +11,11 @@ Ext.define('JBXAdmin.view.main.Main', {
     requires: [
         'Ext.MessageBox',
         'Ext.Toast',
-        'Ext.layout.Fit'
+        'Ext.layout.Fit',
+        'Ext.tab.Panel',
+        'JBXAdmin.view.leads.Leads',
+        'JBXAdmin.view.products.Products',
+        'JBXAdmin.view.categories.Categories'
     ],
 
     layout : 'fit',
@@ -21,7 +25,20 @@ Ext.define('JBXAdmin.view.main.Main', {
 
     items: [
         {
-            xtype : 'app-leads'
+            xtype: 'tabpanel',
+            reference: 'mainTabPanel',
+            tabBarPosition: 'top',
+            items: [
+                {
+                    xtype: 'app-leads'
+                },
+                {
+                    xtype: 'app-products'
+                },
+                {
+                    xtype: 'app-categories'
+                }
+            ]
         },
         {
             xtype   : 'toolbar',

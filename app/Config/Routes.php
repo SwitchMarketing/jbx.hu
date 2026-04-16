@@ -119,6 +119,8 @@ $routes->group('admin', static function ($routes) {
     $routes->resource('login', ['controller' =>'Admin\Login', 'only' => ['create']]);
     $routes->resource('logout', ['controller' =>'Admin\Logout', 'only' => ['index']]);
     $routes->resource('leads', ['controller' =>'Admin\Leads', 'only' => ['index', 'show'], 'filter' => 'loggedin']);
+    $routes->resource('products', ['controller' =>'Admin\Products', 'filter' => 'loggedin']);
+    $routes->resource('categories', ['controller' =>'Admin\Categories', 'filter' => 'loggedin']);
     $routes->resource('download', ['controller' =>'Admin\Download', 'only' => ['show'], 'filter' => 'loggedin']);
 });
 
