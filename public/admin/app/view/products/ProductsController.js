@@ -88,7 +88,13 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 var product = response.data;
                 
                 // Create variants HTML
-                var variantsHtml = '<table class="variants-table"><thead><tr><th>SKU</th><th>Név</th><th>Ár</th><th>Készlet</th><th>Jellemzők</th></tr></thead><tbody>';
+                var stateLabels = {
+                    instock:   'Raktáron',
+                    backorder: 'Rendelésre',
+                    inquire:   'Ajánlatkérés',
+                    inactive:  'Inaktív'
+                };
+                var variantsHtml = '<table class="variants-table"><thead><tr><th>SKU</th><th>Név</th><th>Ár</th><th>Készlet</th><th>Állapot</th><th>Jellemzők</th></tr></thead><tbody>';
                 if (product.variants && product.variants.length > 0) {
                     product.variants.forEach(function (v) {
                         var attrs = '';
@@ -97,10 +103,11 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         } else {
                             attrs = '-';
                         }
-                        variantsHtml += '<tr><td>' + v.sku + '</td><td>' + (v.name || '-') + '</td><td>' + v.price + ' Ft</td><td>' + v.stock + '</td><td>' + attrs + '</td></tr>';
+                        var stateLabel = stateLabels[v.state] || v.state || '-';
+                        variantsHtml += '<tr><td>' + v.sku + '</td><td>' + (v.name || '-') + '</td><td>' + v.price + ' Ft</td><td>' + v.stock + '</td><td>' + stateLabel + '</td><td>' + attrs + '</td></tr>';
                     });
                 } else {
-                    variantsHtml += '<tr><td colspan="5" style="text-align:center; padding: 20px;">Nincsenek variációk ehhez a termékhez.</td></tr>';
+                    variantsHtml += '<tr><td colspan="6" style="text-align:center; padding: 20px;">Nincsenek variációk ehhez a termékhez.</td></tr>';
                 }
                 variantsHtml += '</tbody></table>';
 
