@@ -128,6 +128,10 @@ class Products extends BaseResourceController
                 }
             }
 
+            if (isset($data['state']) && !in_array($data['state'], \App\Models\ProductMasterModel::STATES, true)) {
+                throw new Exception('Érvénytelen master állapot: ' . $data['state']);
+            }
+
             if ($this->model->update($id, $data)) {
                 $this->setSuccess(true);
                 $this->setMessage('Sikeres frissítés');
