@@ -7,8 +7,7 @@ Ext.define('JBXAdmin.view.products.Products', {
     requires: [
         'JBXAdmin.store.ProductStore',
         'JBXAdmin.store.AttributeStore',
-        'Ext.grid.plugin.PagingToolbar',
-        'Ext.plugin.Responsive'
+        'Ext.grid.plugin.PagingToolbar'
     ],
 
     title: 'Termékek',
@@ -37,7 +36,6 @@ Ext.define('JBXAdmin.view.products.Products', {
                 reference: 'productSearch',
                 placeholder: 'Keresés név, slug, leírás...',
                 width: 280,
-                plugins: 'responsive',
                 responsiveConfig: {
                     'width >= 768': { flex: 1, width: null },
                     'width < 768':  { flex: null, width: 280 }
@@ -61,7 +59,6 @@ Ext.define('JBXAdmin.view.products.Products', {
                 autoComplete: true,
                 forceSelection: true,
                 placeholder: 'Szűrés kategóriára',
-                plugins: 'responsive',
                 responsiveConfig: {
                     'width >= 768': { flex: 1, width: null },
                     'width < 768':  { flex: null, width: 320 }

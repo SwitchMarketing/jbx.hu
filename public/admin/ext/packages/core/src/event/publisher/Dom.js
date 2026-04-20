@@ -156,7 +156,8 @@ Ext.define('Ext.event.publisher.Dom', {
         // DOM publishers should be the last thing to go since they are used
         // to remove any element listeners which is typically part
         // of the unload destroy process.
-        Ext.getWin().on('unload', me.destroy, me, {
+        // Chrome blocks 'unload' under Permissions Policy; 'pagehide' is the modern equivalent.
+        Ext.getWin().on('pagehide', me.destroy, me, {
             priority: -10000
         });
     },

@@ -13,6 +13,8 @@ Ext.define('JBXAdmin.view.main.Main', {
         'Ext.Toast',
         'Ext.layout.Fit',
         'Ext.tab.Panel',
+        'Ext.Responsive',
+        'Ext.grid.plugin.CellEditing',
         'JBXAdmin.view.leads.Leads',
         'JBXAdmin.view.products.Products',
         'JBXAdmin.view.categories.Categories',
