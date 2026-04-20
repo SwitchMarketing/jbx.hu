@@ -6,6 +6,10 @@ use App\Models\BaseModel;
 
 class ProductMasterModel extends BaseModel
 {
+    public const STATE_ACTIVE   = 'active';
+    public const STATE_INACTIVE = 'inactive';
+    public const STATES         = [self::STATE_ACTIVE, self::STATE_INACTIVE];
+
     protected $table            = 'product_masters';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;

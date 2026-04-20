@@ -6,6 +6,17 @@ use CodeIgniter\Model;
 
 class ProductVariantModel extends Model
 {
+    public const STATE_INSTOCK   = 'instock';
+    public const STATE_BACKORDER = 'backorder';
+    public const STATE_INQUIRE   = 'inquire';
+    public const STATE_INACTIVE  = 'inactive';
+    public const STATES          = [
+        self::STATE_INSTOCK,
+        self::STATE_BACKORDER,
+        self::STATE_INQUIRE,
+        self::STATE_INACTIVE,
+    ];
+
     protected $DBGroup          = 'shop';
     protected $table            = 'product_variants';
     protected $primaryKey       = 'id';
