@@ -37,7 +37,8 @@ Ext.define('JBXAdmin.view.main.Main', {
                     xtype: 'app-products'
                 },
                 {
-                    xtype: 'app-categories'
+                    xtype: 'app-categories',
+                    tab: { hidden: true }
                 },
                 {
                     xtype: 'app-attributes'

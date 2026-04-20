@@ -9,7 +9,7 @@ Ext.define('JBXAdmin.view.attributes.Attributes', {
     ],
 
     title: 'Attribútumok',
-    iconCls: 'x-fa fa-list-ul',
+    iconCls: 'x-fa fa-tags',
 
     store: {
         type: 'attributestore'

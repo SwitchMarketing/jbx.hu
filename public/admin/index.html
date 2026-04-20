@@ -79,35 +79,67 @@
             }
         }
 
-        /* ---- Quill editor: force readable "paper" look regardless of theme ---- */
+        /* ---- Quill editor: dark theme ---- */
         .jbx-quill-wrap .ql-toolbar.ql-snow {
-            background: #f5f5f5;
-            border: 1px solid #ccc;
+            background: #21465b;
+            border: 1px solid #2d5876;
             border-bottom: 0;
         }
-        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-stroke { stroke: #444; }
-        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-fill   { fill: #444; }
-        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label { color: #444; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-stroke { stroke: #cfd8dc; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-fill   { fill: #cfd8dc; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label { color: #cfd8dc; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label::before,
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-item::before { color: #cfd8dc; }
         .jbx-quill-wrap .ql-toolbar.ql-snow button:hover .ql-stroke,
         .jbx-quill-wrap .ql-toolbar.ql-snow button.ql-active .ql-stroke,
         .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label:hover,
-        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label.ql-active { stroke: #06c; color: #06c; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label.ql-active { stroke: #8ecaff; color: #8ecaff; }
         .jbx-quill-wrap .ql-toolbar.ql-snow button:hover .ql-fill,
-        .jbx-quill-wrap .ql-toolbar.ql-snow button.ql-active .ql-fill { fill: #06c; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow button.ql-active .ql-fill { fill: #8ecaff; }
         .jbx-quill-wrap .ql-container.ql-snow {
-            background: #fff;
-            border: 1px solid #ccc;
+            background: #1a2833;
+            border: 1px solid #2d5876;
         }
         .jbx-quill-wrap .ql-editor {
-            background: #fff;
-            color: #222;
+            background: #1a2833;
+            color: #e8e8e8;
             min-height: 200px;
         }
-        .jbx-quill-wrap .ql-editor.ql-blank::before { color: #888; font-style: italic; }
+        .jbx-quill-wrap .ql-editor a { color: #8ecaff; }
+        .jbx-quill-wrap .ql-editor blockquote {
+            border-left-color: #2d5876;
+            color: #b0bec5;
+        }
+        .jbx-quill-wrap .ql-editor code,
+        .jbx-quill-wrap .ql-editor pre {
+            background: #0f1a22;
+            color: #e0f2ff;
+        }
+        .jbx-quill-wrap .ql-editor.ql-blank::before { color: #7a8a95; font-style: italic; }
         .jbx-quill-wrap .ql-snow .ql-picker-options {
-            background: #fff;
-            color: #222;
-            border: 1px solid #ccc;
+            background: #1a2833;
+            color: #e8e8e8;
+            border: 1px solid #2d5876;
+        }
+        .jbx-quill-wrap .ql-snow .ql-tooltip {
+            background: #21465b;
+            color: #e8e8e8;
+            border: 1px solid #2d5876;
+            box-shadow: 0 2px 8px rgba(0,0,0,.4);
+        }
+        .jbx-quill-wrap .ql-snow .ql-tooltip input[type=text] {
+            background: #1a2833;
+            color: #e8e8e8;
+            border: 1px solid #2d5876;
+        }
+        .jbx-quill-wrap .ql-snow .ql-tooltip a { color: #8ecaff; }
+
+        /* Edit-in-progress row highlight */
+        .x-gridrow.jbx-editing-row,
+        .x-gridrow.jbx-editing-row .x-gridcell,
+        .x-listitem.jbx-editing-row {
+            background-color: #21465b !important;
+            color: #fff !important;
         }
 
         /* ---- Product preview card + variants table (theme-aware) ---- */

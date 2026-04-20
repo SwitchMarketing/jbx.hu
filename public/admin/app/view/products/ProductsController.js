@@ -18,31 +18,69 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         view.setSelectable({
             mode : 'single'
         });
+
+        // Populate the category filter with leaf categories only (products can
+        // only live in leaves per the update validation). Labels use the full
+        // breadcrumb path so the dropdown is self-describing.
+        let categoryStore = Ext.getStore('categorystore') || Ext.create('JBXAdmin.store.CategoryStore');
+        let me = this;
+        let populate = () => {
+            let byId = {};
+            let parentIds = new Set();
+            categoryStore.each(r => {
+                byId[r.get('unas_id')] = r;
+                parentIds.add(String(r.get('parent_id')));
+            });
+            let options = [];
+            categoryStore.each(r => {
+                if (parentIds.has(String(r.get('unas_id')))) return;
+                let ids = (r.get('pathIds') || '').toString().split('/').filter(Boolean);
+                if (!ids.length) ids = [r.get('unas_id')];
+                let text = ids.map(id => byId[id] ? byId[id].get('name') : id).join(' › ');
+                options.push({ text: text, value: r.get('unas_id') });
+            });
+            options.sort((a, b) => a.text.localeCompare(b.text, 'hu'));
+
+            let f = me.lookup('productCategoryFilter');
+            if (f) f.setOptions(options);
+        };
+
+        if (categoryStore.getCount() > 0) {
+            populate();
+        } else {
+            categoryStore.on('load', populate, this, { single: true });
+            if (!categoryStore.isLoading()) categoryStore.load();
+        }
 	},
 
     onReloadProducts : function () {
         this.getView().getStore().reload()
     },
 
-    onSearch: function(field, value) {
+    onFilterChange: function() {
         let store = this.getView().getStore();
         let proxy = store.getProxy();
-        let term  = (value || '').trim();
 
-        if (term) {
-            proxy.setExtraParam('filter', Ext.encode([
-                { property: 'qstring', value: term }
-            ]));
-        } else {
-            proxy.setExtraParam('filter', null);
-        }
+        let search = this.lookup('productSearch');
+        let catFilter = this.lookup('productCategoryFilter');
+        let stateFilter = this.lookup('productStateFilter');
 
+        let term  = (search ? (search.getValue() || '') : '').trim();
+        let catId = catFilter ? catFilter.getValue() : null;
+        let state = stateFilter ? stateFilter.getValue() : null;
+
+        let filters = [];
+        if (term)  filters.push({ property: 'qstring', value: term });
+        if (catId) filters.push({ property: 'product_masters.category_id', operator: 'eq', value: String(catId) });
+        if (state) filters.push({ property: 'product_masters.state', operator: 'eq', value: state });
+
+        proxy.setExtraParam('filter', filters.length ? Ext.encode(filters) : null);
         store.loadPage(1);
     },
 
     onItemSelected: function (grid, record) {
         if (!record || !Ext.isFunction(record.get)) return;
-        
+
         API.call({
             url: 'products/' + record.get('id')
         }).then((response) => {
@@ -84,6 +122,9 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     maximizable: true,
                     closeable: true,
                     layout: 'fit',
+                    platformConfig: {
+                        phone: { maximized: true, width: null, height: null }
+                    },
                     items: [{
                         xtype: 'panel',
                         scrollable: true,
@@ -115,6 +156,25 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         let record = info.record;
         if (!record) return;
 
+        // Highlight the row via a CSS class on the DOM row element so the user
+        // keeps visual track of which product is being edited. Avoids touching
+        // the Modern selection model (which throws on some setSelection paths).
+        let view = this.getView();
+        let rowEl = null;
+        if (view && view.el) {
+            let prev = view.el.dom.querySelector('.jbx-editing-row');
+            if (prev) prev.classList.remove('jbx-editing-row');
+
+            let id = record.getId ? record.getId() : record.get('id');
+            if (info && info.cell && info.cell.el && info.cell.el.dom) {
+                rowEl = info.cell.el.dom.closest('.x-gridrow, .x-listitem');
+            }
+            if (!rowEl) {
+                rowEl = view.el.dom.querySelector('[data-recordid="' + id + '"]');
+            }
+            if (rowEl) rowEl.classList.add('jbx-editing-row');
+        }
+
         let me = this;
 
         // Ensure categories are loaded so the parent selectfield has options.
@@ -139,18 +199,32 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
     },
 
     showEditDialog: function(grid, masterRecord, productData, categoryStore) {
-        // Build indented category options
+        // Build category options with full breadcrumb path ("Root › Sub › Leaf")
+        // so the selected value is self-describing both open and closed.
         let categoryOptions = [];
+        let categoryPathById = {};
         if (categoryStore) {
+            let byId = {};
+            categoryStore.each(r => { byId[r.get('unas_id')] = r; });
+
+            let pathOf = (rec) => {
+                let ids = (rec.get('pathIds') || '').toString().split('/').filter(Boolean);
+                if (!ids.length) ids = [rec.get('unas_id')];
+                return ids.map(id => byId[id] ? byId[id].get('name') : id).join(' › ');
+            };
+
             categoryStore.each((r) => {
-                let indent = '';
-                for (let i = 0; i < r.get('depth'); i++) indent += '— ';
+                let full = pathOf(r);
+                categoryPathById[r.get('unas_id')] = full;
                 categoryOptions.push({
-                    text: indent + r.get('name'),
+                    text: full,
                     value: r.get('unas_id')
                 });
             });
+            categoryOptions.sort((a, b) => a.text.localeCompare(b.text, 'hu'));
         }
+
+        let currentCategoryPath = categoryPathById[productData.category_id] || productData.category_path_names || '-';
 
         let dialog = Ext.create({
             xtype: 'dialog',
@@ -158,7 +232,12 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             width: 850,
             height: 650,
             closable: true,
+            maximizable: true,
+            referenceHolder: true,
             layout: 'fit',
+            platformConfig: {
+                phone: { maximized: true, width: null, height: null }
+            },
             items: [{
                 xtype: 'tabpanel',
                 items: [
@@ -184,12 +263,28 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 required: true
                             },
                             {
+                                xtype: 'container',
+                                margin: '0 0 8 0',
+                                items: [
+                                    {
+                                        xtype: 'component',
+                                        html: '<div style="font-size:12px;color:rgba(0,0,0,.54);padding:0 0 4px 0;">Jelenlegi kategória</div>' +
+                                              '<div style="font-size:13px;padding:6px 10px;background:#21465b;color:#fff;border-radius:4px;">' +
+                                              Ext.String.htmlEncode(currentCategoryPath) +
+                                              '</div>'
+                                    }
+                                ]
+                            },
+                            {
                                 xtype: 'selectfield',
-                                label: 'Kategória',
+                                label: 'Kategória áthelyezése',
                                 name: 'category_id',
                                 value: productData.category_id,
                                 options: categoryOptions,
                                 queryMode: 'local',
+                                autoComplete: true,
+                                forceSelection: true,
+                                clearable: false,
                                 required: true
                             },
                             {
@@ -269,7 +364,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             }
                         },
                         columns: [
-                            { text: 'UNAS ID', dataIndex: 'unas_id', width: 90 },
+                            { text: 'UNAS ID', dataIndex: 'unas_id', width: 90, hidden: true },
                             { text: 'SKU', dataIndex: 'sku', width: 140, editable: true },
                             { text: 'Név', dataIndex: 'name', flex: 1, minWidth: 200, editable: true },
                             { text: 'Ár (Nettó)', dataIndex: 'price', width: 120, editable: true },

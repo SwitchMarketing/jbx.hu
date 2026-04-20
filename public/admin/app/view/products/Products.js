@@ -25,42 +25,97 @@ Ext.define('JBXAdmin.view.products.Products', {
     items: [{
         xtype: 'toolbar',
         docked: 'top',
+        platformConfig: {
+            phone: {
+                layout: { type: 'vbox', align: 'stretch' }
+            }
+        },
         items: [
             {
                 xtype: 'searchfield',
                 reference: 'productSearch',
-                placeholder: 'Keresés név, slug, leírás, kategória...',
-                width: 340,
+                placeholder: 'Keresés név, slug, leírás...',
+                width: 280,
+                plugins: 'responsive',
+                responsiveConfig: {
+                    'width >= 768': { flex: 1, width: null },
+                    'width < 768':  { flex: null, width: 280 }
+                },
+                platformConfig: {
+                    phone: { width: null, flex: null }
+                },
                 listeners: {
                     change: {
-                        fn: 'onSearch',
+                        fn: 'onFilterChange',
                         buffer: 300
                     }
+                }
+            },
+            {
+                xtype: 'selectfield',
+                reference: 'productCategoryFilter',
+                width: 320,
+                clearable: true,
+                queryMode: 'local',
+                autoComplete: true,
+                forceSelection: true,
+                placeholder: 'Szűrés kategóriára',
+                plugins: 'responsive',
+                responsiveConfig: {
+                    'width >= 768': { flex: 1, width: null },
+                    'width < 768':  { flex: null, width: 320 }
+                },
+                platformConfig: {
+                    phone: { width: null, flex: null }
+                },
+                listeners: {
+                    change: 'onFilterChange'
+                }
+            },
+            {
+                xtype: 'selectfield',
+                reference: 'productStateFilter',
+                width: 200,
+                clearable: true,
+                placeholder: 'Szűrés állapotra',
+                options: [
+                    { text: 'Raktáron',    value: 'instock' },
+                    { text: 'Rendelésre',  value: 'backorder' },
+                    { text: 'Ajánlatkérés', value: 'inquire' },
+                    { text: 'Inaktív',     value: 'inactive' }
+                ],
+                platformConfig: {
+                    phone: { width: null, flex: null }
+                },
+                listeners: {
+                    change: 'onFilterChange'
                 }
             }
         ]
     }],
 
     columns: [
-        { 
+        {
             text: 'Név',
             dataIndex: 'name',
             flex : 2,
             cell: {
                 userCls: 'bold'
             }
-        }, 
+        },
         {
             text: 'Variációk',
             width : 100,
             dataIndex: 'variant_count',
-            align : 'center'
-        }, 
+            align : 'center',
+            platformConfig: { phone: { hidden: true } }
+        },
         {
             text: 'Kategória',
             flex : 1,
             dataIndex: 'category_path_names',
-            renderer: (v, rec) => v || (rec && rec.get('category_name')) || ''
+            renderer: (v, rec) => v || (rec && rec.get('category_name')) || '',
+            platformConfig: { phone: { hidden: true } }
         },
         {
             text: 'Állapot',
@@ -75,7 +130,8 @@ Ext.define('JBXAdmin.view.products.Products', {
                     live:      'Raktáron'
                 };
                 return labels[val] || val || '';
-            }
+            },
+            platformConfig: { phone: { hidden: true } }
         },
         {
             width: 80,

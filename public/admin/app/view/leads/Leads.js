@@ -13,7 +13,7 @@ Ext.define('JBXAdmin.view.leads.Leads', {
 
     title: 'Megkeresések',
 
-    iconCls: 'x-fa fa-user',
+    iconCls: 'x-fa fa-envelope',
 
     store: {
         type: 'leadstore'

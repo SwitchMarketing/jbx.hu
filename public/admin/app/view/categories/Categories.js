@@ -10,7 +10,7 @@ Ext.define('JBXAdmin.view.categories.Categories', {
 
     title: 'Kategóriák',
 
-    iconCls: 'x-fa fa-tags',
+    iconCls: 'x-fa fa-sitemap',
 
     store: {
         type: 'categorystore'
