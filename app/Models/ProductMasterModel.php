@@ -76,4 +76,22 @@ class ProductMasterModel extends BaseModel
         $builder->where($this->table . '.id', $id);
         return $builder->get()->getRow();
     }
+
+    /**
+     * BaseModel hook: translate the virtual 'variant_state' filter into an
+     * EXISTS subquery against product_variants.
+     */
+    protected function _applyCustomFilter($builder, $filter)
+    {
+        if (($filter->property ?? null) === 'variant_state' && !empty($filter->value)) {
+            $builder->where(
+                "EXISTS (SELECT 1 FROM product_variants pv WHERE pv.master_id = {$this->table}.id AND pv.state = " .
+                $this->db->escape($filter->value) . ")",
+                null,
+                false
+            );
+            return true;
+        }
+        return false;
+    }
 }

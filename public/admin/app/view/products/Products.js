@@ -75,7 +75,7 @@ Ext.define('JBXAdmin.view.products.Products', {
                 reference: 'productStateFilter',
                 width: 200,
                 clearable: true,
-                placeholder: 'Szűrés állapotra',
+                placeholder: 'Szűrés variáció-állapotra',
                 options: [
                     { text: 'Raktáron',    value: 'instock' },
                     { text: 'Rendelésre',  value: 'backorder' },
@@ -118,16 +118,13 @@ Ext.define('JBXAdmin.view.products.Products', {
             platformConfig: { phone: { hidden: true } }
         },
         {
-            text: 'Állapot',
-            width : 120,
+            text: 'Aktív',
+            width : 90,
             dataIndex: 'state',
             renderer : function (val) {
                 var labels = {
-                    instock:   'Raktáron',
-                    backorder: 'Rendelésre',
-                    inquire:   'Ajánlatkérés',
-                    inactive:  'Inaktív',
-                    live:      'Raktáron'
+                    active:   'Aktív',
+                    inactive: 'Inaktív'
                 };
                 return labels[val] || val || '';
             },

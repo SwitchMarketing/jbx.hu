@@ -240,7 +240,11 @@ class BaseModel extends Model
 
             foreach($filter as $f)
             {
-                
+
+                if (method_exists($this, '_applyCustomFilter') && $this->_applyCustomFilter($qb, $f)) {
+                    continue;
+                }
+
                 if(isset($f->expression) && strlen($f->expression) > 0)
                 {
                     $qb->where($f->expression, null, false);

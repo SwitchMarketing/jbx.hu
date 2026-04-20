@@ -72,7 +72,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         var filters = [];
         if (term)  filters.push({ property: 'qstring', value: term });
         if (catId) filters.push({ property: 'product_masters.category_id', operator: 'eq', value: String(catId) });
-        if (state) filters.push({ property: 'product_masters.state', operator: 'eq', value: state });
+        if (state) filters.push({ property: 'variant_state', operator: 'eq', value: state });
 
         proxy.setExtraParam('filter', filters.length ? Ext.encode(filters) : null);
         store.loadPage(1);
