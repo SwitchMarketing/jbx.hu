@@ -51,6 +51,29 @@ class Attributes extends BaseResourceController
     }
 
     /**
+     * update
+     *
+     * @return ResponseInterface
+     */
+    public function update($id = null)
+    {
+        try {
+            $data = $this->request->getRawInput();
+
+            if ($this->model->update($id, $data)) {
+                $this->setSuccess(true);
+                $this->setMessage('Attribútum frissítve');
+            } else {
+                throw new Exception(implode(' ', $this->model->errors()));
+            }
+        } catch (Exception $e) {
+            $this->setMessage($e->getMessage());
+        } finally {
+            return $this->setResponse();
+        }
+    }
+
+    /**
      * delete
      *
      * @return ResponseInterface

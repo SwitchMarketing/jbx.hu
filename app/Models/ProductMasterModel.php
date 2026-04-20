@@ -27,6 +27,12 @@ class ProductMasterModel extends BaseModel
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
+    protected $qstringColumns = [
+        'product_masters.name',
+        'product_masters.slug',
+        'product_masters.description'
+    ];
+
     public function initialize()
     {
         $this->extraFields = [
@@ -54,5 +60,16 @@ class ProductMasterModel extends BaseModel
             ->join('(SELECT master_id, COUNT(*) as c FROM product_variants GROUP BY master_id) AS variants', $this->table.'.id = variants.master_id', 'left');
 
         return $builder;
+    }
+
+    public function findWithCategory($id)
+    {
+        if (empty($this->displayFields)) {
+            $this->_setDefaultFields();
+        }
+        $builder = $this->builder();
+        $this->_setSelect($builder);
+        $builder->where($this->table . '.id', $id);
+        return $builder->get()->getRow();
     }
 }

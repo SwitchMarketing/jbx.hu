@@ -3,11 +3,79 @@
 namespace App\Controllers\Admin;
 
 use Exception;
-use App\Models\ProductVariantModel;
 
 class ProductVariants extends BaseResourceController
 {
     protected $modelName = '\App\Models\ProductVariantModel';
+
+    /**
+     * create — POST /admin/productvariants
+     * Body must include master_id and sku.
+     *
+     * @return ResponseInterface
+     */
+    public function create()
+    {
+        try {
+            $data = $this->request->getRawInput();
+
+            if (empty($data['master_id'])) {
+                throw new Exception('Hiányzó master_id');
+            }
+            if (empty($data['sku'])) {
+                throw new Exception('A SKU megadása kötelező');
+            }
+
+            $insertData = [
+                'master_id' => (int) $data['master_id'],
+                'sku'       => trim($data['sku']),
+                'name'      => $data['name']  ?? null,
+                'price'     => $data['price'] ?? 0,
+                'stock'     => $data['stock'] ?? 0,
+                'state'     => $data['state'] ?? 'live',
+            ];
+
+            if ($this->model->insert($insertData)) {
+                $this->setData(['id' => $this->model->getInsertID()]);
+                $this->setSuccess(true);
+                $this->setMessage('Variáció létrehozva');
+            } else {
+                throw new Exception(implode(' ', $this->model->errors()));
+            }
+        } catch (Exception $e) {
+            $this->setMessage($e->getMessage());
+        } finally {
+            return $this->setResponse();
+        }
+    }
+
+    /**
+     * delete — removes variant and its attribute values.
+     *
+     * @return ResponseInterface
+     */
+    public function delete($id = null)
+    {
+        try {
+            if (empty($id)) {
+                throw new Exception('Hiányzó azonosító');
+            }
+
+            $db = \Config\Database::connect('shop');
+            $db->table('variant_attribute_values')->where('variant_id', $id)->delete();
+
+            if ($this->model->delete($id)) {
+                $this->setSuccess(true);
+                $this->setMessage('Variáció törölve');
+            } else {
+                throw new Exception(implode(' ', $this->model->errors()));
+            }
+        } catch (Exception $e) {
+            $this->setMessage($e->getMessage());
+        } finally {
+            return $this->setResponse();
+        }
+    }
 
     /**
      * update
@@ -24,6 +92,7 @@ class ProductVariants extends BaseResourceController
             if (isset($data['price'])) $updateData['price'] = $data['price'];
             if (isset($data['stock'])) $updateData['stock'] = $data['stock'];
             if (isset($data['sku']))   $updateData['sku']   = $data['sku'];
+            if (isset($data['name']))  $updateData['name']  = $data['name'];
 
             if (!empty($updateData)) {
                 if ($this->model->update($id, $updateData)) {
@@ -43,6 +112,131 @@ class ProductVariants extends BaseResourceController
     }
 
     /**
+     * parseNames — extract attributes from variant names using a template.
+     *
+     * Template syntax: "literal text {{AttrName}} more literal {{OtherAttr}}..."
+     * Runs against every variant of the given master. When apply=true, writes
+     * captured values to variant_attribute_values (creating attributes on the fly).
+     *
+     * @param  int $masterId
+     * @return ResponseInterface
+     */
+    public function parseNames($masterId = null)
+    {
+        try {
+            $data = $this->request->getPost();
+            $pattern = trim($data['pattern'] ?? '');
+            $apply   = !empty($data['apply']) && !in_array($data['apply'], ['false', '0'], true);
+
+            if ($pattern === '') {
+                throw new Exception('Hiányzó minta');
+            }
+
+            [$regex, $names] = $this->compileTemplate($pattern);
+            if (empty($names)) {
+                throw new Exception('A mintában nincs {{placeholder}}');
+            }
+
+            $variants = $this->model->where('master_id', $masterId)->findAll();
+
+            $matches = [];
+            foreach ($variants as $v) {
+                $row = [
+                    'variant_id' => $v->id,
+                    'name'       => $v->name,
+                    'matched'    => false,
+                    'extracted'  => (object)[],
+                ];
+                if (!empty($v->name) && preg_match($regex, $v->name, $m)) {
+                    $row['matched'] = true;
+                    $extracted = [];
+                    foreach ($names as $i => $n) {
+                        $extracted[$n] = trim($m[$i + 1]);
+                    }
+                    $row['extracted'] = $extracted;
+                }
+                $matches[] = $row;
+            }
+
+            $attrModel = new \App\Models\AttributeModel();
+            $attrs = [];
+            foreach ($names as $n) {
+                $existing = $attrModel->where('name', $n)->first();
+                $attrs[$n] = [
+                    'id'       => $existing->id ?? null,
+                    'existing' => !empty($existing),
+                ];
+            }
+
+            if ($apply) {
+                $db = \Config\Database::connect('shop');
+
+                foreach ($names as $n) {
+                    if (empty($attrs[$n]['id'])) {
+                        $attrModel->insert(['name' => $n]);
+                        $attrs[$n]['id'] = $attrModel->getInsertID();
+                        $attrs[$n]['existing'] = true;
+                    }
+                }
+
+                $applied = 0;
+                $skipped = 0;
+                foreach ($matches as $mRow) {
+                    if (!$mRow['matched']) {
+                        $skipped++;
+                        continue;
+                    }
+                    $vid = $mRow['variant_id'];
+                    $db->table('variant_attribute_values')->where('variant_id', $vid)->delete();
+                    foreach ($mRow['extracted'] as $n => $val) {
+                        if ($val === '') continue;
+                        $db->table('variant_attribute_values')->insert([
+                            'variant_id'   => $vid,
+                            'attribute_id' => $attrs[$n]['id'],
+                            'value'        => $val,
+                        ]);
+                    }
+                    $applied++;
+                }
+
+                $this->setData(['applied' => $applied, 'skipped' => $skipped, 'attributes' => $attrs]);
+                $this->setSuccess(true);
+                $this->setMessage("{$applied} variációra alkalmazva, {$skipped} kihagyva");
+            } else {
+                $this->setData(['matches' => $matches, 'attributes' => $attrs]);
+                $this->setSuccess(true);
+                $this->setMessage('OK');
+            }
+        } catch (Exception $e) {
+            $this->setMessage($e->getMessage());
+        } finally {
+            return $this->setResponse();
+        }
+    }
+
+    /**
+     * Convert a {{Name}} template to a PCRE regex with capture groups in order.
+     *
+     * @return array{0: string, 1: string[]}  [regex, placeholderNames]
+     */
+    protected function compileTemplate(string $template): array
+    {
+        $names = [];
+        $regex = '';
+        $parts = preg_split('/(\{\{[^{}]+\}\})/u', $template, -1, PREG_SPLIT_DELIM_CAPTURE);
+        foreach ($parts as $part) {
+            if ($part === '') continue;
+            if (preg_match('/^\{\{(.+)\}\}$/u', $part, $m)) {
+                $names[] = trim($m[1]);
+                $regex .= '(.+?)';
+            } else {
+                $regex .= preg_quote($part, '/');
+            }
+        }
+        return ['/^' . $regex . '$/u', $names];
+    }
+
+    /**
      * saveAttributes
      *
      * @param  int $id Variant ID
@@ -51,29 +245,34 @@ class ProductVariants extends BaseResourceController
     public function saveAttributes($id = null)
     {
         try {
-            $data = $this->request->getPost();
-            $attributes = $data['attributes'] ?? [];
+            $raw = $this->request->getPost('attributes');
+            if (is_string($raw)) {
+                $attributes = json_decode($raw, true) ?? [];
+            } else {
+                $attributes = is_array($raw) ? $raw : [];
+            }
 
             $db = \Config\Database::connect('shop');
-            
-            // Clear existing
             $db->table('variant_attribute_values')->where('variant_id', $id)->delete();
 
-            // Insert new
+            $inserted = 0;
             if (!empty($attributes) && is_array($attributes)) {
                 foreach ($attributes as $attr) {
-                    if (!empty($attr['attribute_id']) && !empty($attr['value'])) {
+                    $aid = $attr['attribute_id'] ?? null;
+                    $val = $attr['value'] ?? null;
+                    if ($aid && $val !== null && $val !== '') {
                         $db->table('variant_attribute_values')->insert([
-                            'variant_id'   => $id,
-                            'attribute_id' => $attr['attribute_id'],
-                            'value'        => $attr['value']
+                            'variant_id'   => (int) $id,
+                            'attribute_id' => (int) $aid,
+                            'value'        => $val,
                         ]);
+                        $inserted++;
                     }
                 }
             }
 
             $this->setSuccess(true);
-            $this->setMessage('Jellemzők mentve');
+            $this->setMessage("Jellemzők mentve ({$inserted})");
         } catch (Exception $e) {
             $this->setMessage($e->getMessage());
         } finally {

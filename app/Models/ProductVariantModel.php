@@ -6,6 +6,7 @@ use CodeIgniter\Model;
 
 class ProductVariantModel extends Model
 {
+    protected $DBGroup          = 'shop';
     protected $table            = 'product_variants';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -16,6 +17,7 @@ class ProductVariantModel extends Model
         'master_id',
         'unas_id',
         'sku',
+        'name',
         'price',
         'stock',
         'state'
@@ -29,11 +31,11 @@ class ProductVariantModel extends Model
 
     public function getWithAttributes($masterId)
     {
-        $db = \Config\Database::connect();
+        $db = \Config\Database::connect('shop');
         $variants = $this->where('master_id', $masterId)->findAll();
 
         foreach ($variants as &$v) {
-            $sql = "SELECT a.name, vav.value 
+            $sql = "SELECT vav.attribute_id, a.name, vav.value
                     FROM variant_attribute_values vav
                     JOIN attributes a ON vav.attribute_id = a.id
                     WHERE vav.variant_id = ?";

@@ -19,11 +19,17 @@ Ext.define('JBXAdmin.view.attributes.Attributes', {
         { text: 'ID', dataIndex: 'id', width: 80 },
         { text: 'Név', dataIndex: 'name', flex: 1 },
         {
-            width: 80,
+            width: 110,
             cell: {
                 tools: {
+                    edit: {
+                        iconCls: 'x-fa fa-edit',
+                        tooltip: 'Átnevezés',
+                        handler: 'onEditItem'
+                    },
                     delete: {
                         iconCls: 'x-fa fa-trash',
+                        tooltip: 'Törlés',
                         handler: 'onDeleteItem'
                     }
                 }

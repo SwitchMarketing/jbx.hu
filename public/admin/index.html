@@ -7,6 +7,10 @@
 
     <title>JBXAdmin</title>
 
+    <!-- Quill HTML editor -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
     <!-- The line below must be kept intact for Sencha Cmd to build your application -->
     <script id="microloader" data-app="671471b1-c45b-44d9-8555-ea0161df3883" type="text/javascript" src="bootstrap.js"></script>
 
@@ -74,7 +78,125 @@
                 transform: rotate(360deg);
             }
         }
-    
+
+        /* ---- Quill editor: force readable "paper" look regardless of theme ---- */
+        .jbx-quill-wrap .ql-toolbar.ql-snow {
+            background: #f5f5f5;
+            border: 1px solid #ccc;
+            border-bottom: 0;
+        }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-stroke { stroke: #444; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-fill   { fill: #444; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label { color: #444; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow button:hover .ql-stroke,
+        .jbx-quill-wrap .ql-toolbar.ql-snow button.ql-active .ql-stroke,
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label:hover,
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label.ql-active { stroke: #06c; color: #06c; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow button:hover .ql-fill,
+        .jbx-quill-wrap .ql-toolbar.ql-snow button.ql-active .ql-fill { fill: #06c; }
+        .jbx-quill-wrap .ql-container.ql-snow {
+            background: #fff;
+            border: 1px solid #ccc;
+        }
+        .jbx-quill-wrap .ql-editor {
+            background: #fff;
+            color: #222;
+            min-height: 200px;
+        }
+        .jbx-quill-wrap .ql-editor.ql-blank::before { color: #888; font-style: italic; }
+        .jbx-quill-wrap .ql-snow .ql-picker-options {
+            background: #fff;
+            color: #222;
+            border: 1px solid #ccc;
+        }
+
+        /* ---- Product preview card + variants table (theme-aware) ---- */
+        .jbx-paper {
+            background: #fff;
+            color: #222;
+            padding: 16px 20px;
+            border-radius: 4px;
+        }
+        .jbx-paper h3 { color: inherit; margin: 20px 0 8px; }
+        .jbx-paper table.lead {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .jbx-paper table.lead td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        .jbx-paper .variants-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 6px;
+        }
+        .jbx-paper .variants-table th,
+        .jbx-paper .variants-table td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        .jbx-paper .variants-table thead th {
+            background: #f5f5f5;
+            font-weight: 600;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .jbx-paper {
+                background: #2b2b2b;
+                color: #e0e0e0;
+            }
+            .jbx-paper table.lead td {
+                color: #e0e0e0;
+                border-bottom-color: #3a3a3a;
+            }
+            .jbx-paper .variants-table {
+                background: #2b2b2b;
+                color: #e0e0e0;
+            }
+            .jbx-paper .variants-table th,
+            .jbx-paper .variants-table td {
+                background: #2b2b2b;
+                color: #e0e0e0;
+                border-color: #3a3a3a;
+            }
+            .jbx-paper .variants-table thead th {
+                background: #1f1f1f;
+                color: #fff;
+            }
+            .jbx-paper .variants-table tbody tr:nth-child(even) td {
+                background: #323232;
+            }
+
+            /* ExtJS grid opted-in via userCls */
+            .jbx-themed-grid,
+            .jbx-themed-grid .x-gridrow,
+            .jbx-themed-grid .x-gridcell {
+                background-color: #2b2b2b !important;
+                color: #e0e0e0 !important;
+            }
+            .jbx-themed-grid .x-gridcell {
+                border-color: #3a3a3a !important;
+            }
+            .jbx-themed-grid .x-gridrow.x-selected,
+            .jbx-themed-grid .x-gridrow.x-selected .x-gridcell {
+                background-color: #3a3a3a !important;
+            }
+            .jbx-themed-grid .x-headercontainer,
+            .jbx-themed-grid .x-column-header,
+            .jbx-themed-grid .x-column-header .x-text-el {
+                background-color: #1f1f1f !important;
+                color: #e0e0e0 !important;
+                border-color: #3a3a3a !important;
+            }
+            .jbx-themed-grid input,
+            .jbx-themed-grid .x-input-el {
+                background-color: #1f1f1f !important;
+                color: #e0e0e0 !important;
+            }
+        }
     </style>
 </head>
 <body>

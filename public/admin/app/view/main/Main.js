@@ -15,7 +15,8 @@ Ext.define('JBXAdmin.view.main.Main', {
         'Ext.tab.Panel',
         'JBXAdmin.view.leads.Leads',
         'JBXAdmin.view.products.Products',
-        'JBXAdmin.view.categories.Categories'
+        'JBXAdmin.view.categories.Categories',
+        'JBXAdmin.view.attributes.Attributes'
     ],
 
     layout : 'fit',

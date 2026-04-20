@@ -61,9 +61,17 @@ class Categories extends BaseResourceController
     {
         try {
             $data = $this->request->getPost();
-            
+
+            // unas_id is the primary key but not auto_increment in the schema
+            // (legacy UNAS-sourced). Generate next available id for new categories.
+            if (empty($data['unas_id'])) {
+                $max = $this->model->selectMax('unas_id')->first();
+                $data['unas_id'] = ((int) ($max->unas_id ?? 0)) + 1;
+            }
+
             if ($this->model->insert($data)) {
                 $this->rebuildTree();
+                $this->setData(['unas_id' => $data['unas_id']]);
                 $this->setSuccess(true);
                 $this->setMessage('Sikeres mentés');
             } else {
@@ -108,6 +116,18 @@ class Categories extends BaseResourceController
     public function delete($id = null)
     {
         try {
+            $childCount = $this->model->where('parent_id', $id)->countAllResults();
+            if ($childCount > 0) {
+                throw new Exception('Nem törölhető: a kategóriának vannak alkategóriái.');
+            }
+
+            $productCount = (new \App\Models\ProductMasterModel())
+                ->where('category_id', $id)
+                ->countAllResults();
+            if ($productCount > 0) {
+                throw new Exception('Nem törölhető: a kategóriához termékek tartoznak.');
+            }
+
             if ($this->model->delete($id)) {
                 $this->rebuildTree();
                 $this->setSuccess(true);
@@ -134,8 +154,8 @@ class Categories extends BaseResourceController
 
         // Clear cache
         @unlink(WRITEPATH . 'cache/category_routes.php');
-        
+
         // Regenerate routes
-        \CodeIgniter\CLI\CLI::runCommand('generate:category-routes');
+        \App\Helpers\CategoryRouteCache::generate();
     }
 }

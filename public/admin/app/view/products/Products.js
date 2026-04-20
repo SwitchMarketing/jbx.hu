@@ -6,6 +6,7 @@ Ext.define('JBXAdmin.view.products.Products', {
 
     requires: [
         'JBXAdmin.store.ProductStore',
+        'JBXAdmin.store.AttributeStore',
         'Ext.grid.plugin.PagingToolbar'
     ],
 
@@ -20,6 +21,25 @@ Ext.define('JBXAdmin.view.products.Products', {
     plugins: {
         pagingtoolbar: true
     },
+
+    items: [{
+        xtype: 'toolbar',
+        docked: 'top',
+        items: [
+            {
+                xtype: 'searchfield',
+                reference: 'productSearch',
+                placeholder: 'Keresés név, slug, leírás, kategória...',
+                width: 340,
+                listeners: {
+                    change: {
+                        fn: 'onSearch',
+                        buffer: 300
+                    }
+                }
+            }
+        ]
+    }],
 
     columns: [
         { 
@@ -36,17 +56,25 @@ Ext.define('JBXAdmin.view.products.Products', {
             dataIndex: 'variant_count',
             align : 'center'
         }, 
-        { 
+        {
             text: 'Kategória',
             flex : 1,
-            dataIndex: 'category_name'
+            dataIndex: 'category_path_names',
+            renderer: (v, rec) => v || (rec && rec.get('category_name')) || ''
         },
-        { 
+        {
             text: 'Állapot',
-            width : 100,
+            width : 120,
             dataIndex: 'state',
             renderer : (val) => {
-                return (val == 'live') ? 'Aktív' : 'Inaktív';
+                const labels = {
+                    instock:   'Raktáron',
+                    backorder: 'Rendelésre',
+                    inquire:   'Ajánlatkérés',
+                    inactive:  'Inaktív',
+                    live:      'Raktáron'
+                };
+                return labels[val] || val || '';
             }
         },
         {

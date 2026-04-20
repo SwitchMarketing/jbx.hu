@@ -45,7 +45,7 @@ class NormalizeData extends BaseCommand
                     'slug'        => $p->slug,
                     'unit'        => $p->unit,
                     'description' => $p->description,
-                    'state'       => $p->state,
+                    'state'       => $this->mapMasterState($p->state),
                     'created_at'  => $p->created_at,
                     'updated_at'  => $p->updated_at,
                 ];
@@ -78,7 +78,7 @@ class NormalizeData extends BaseCommand
                     'slug'        => $p->slug,
                     'unit'        => $p->unit,
                     'description' => $p->description,
-                    'state'       => $p->state,
+                    'state'       => $this->mapMasterState($p->state),
                     'created_at'  => $p->created_at,
                     'updated_at'  => $p->updated_at,
                 ];
@@ -104,6 +104,7 @@ class NormalizeData extends BaseCommand
                 'master_id'  => $masterId,
                 'unas_id'    => $p->product_id,
                 'sku'        => $p->sku,
+                'name'       => $p->name,
                 'price'      => $priceVal,
                 'stock'      => (float)($stock->Value ?? 0),
                 'state'      => $p->state,
@@ -135,5 +136,18 @@ class NormalizeData extends BaseCommand
         }
 
         CLI::write('✅ Data normalization completed.', 'green');
+    }
+
+    protected function mapMasterState(?string $legacy): string
+    {
+        switch ($legacy) {
+            case 'live':     return 'instock';
+            case 'draft':    return 'inactive';
+            case 'instock':
+            case 'backorder':
+            case 'inquire':
+            case 'inactive': return $legacy;
+            default:         return 'instock';
+        }
     }
 }
