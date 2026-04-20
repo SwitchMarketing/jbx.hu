@@ -50,6 +50,7 @@ vendor/
 *.iml
 nbproject/
 build/
+!/public/admin/build/
 nbbuild/
 dist/
 nbdist/
