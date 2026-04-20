@@ -108,7 +108,26 @@ class Products extends BaseResourceController
     {
         try {
             $data = $this->request->getRawInput();
-            
+
+            if (!empty($data['slug'])) {
+                $existing = $this->model
+                    ->where('slug', $data['slug'])
+                    ->where('id !=', $id)
+                    ->first();
+                if ($existing) {
+                    throw new Exception('A slug már foglalt: "' . $data['slug'] . '".');
+                }
+            }
+
+            if (!empty($data['category_id'])) {
+                $childCount = (new \App\Models\CategoryModel())
+                    ->where('parent_id', $data['category_id'])
+                    ->countAllResults();
+                if ($childCount > 0) {
+                    throw new Exception('A termék csak levél (alkategória nélküli) kategóriába helyezhető.');
+                }
+            }
+
             if ($this->model->update($id, $data)) {
                 $this->setSuccess(true);
                 $this->setMessage('Sikeres frissítés');
