@@ -347,13 +347,13 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         reference: 'variantsGrid',
                         userCls: 'jbx-themed-grid',
                         store: {
-                            fields: ['id', 'unas_id', 'sku', 'name', 'price', 'stock', 'attributes'],
+                            fields: ['id', 'unas_id', 'sku', 'name', 'price', 'stock', 'state', 'attributes'],
                             data: productData.variants || [],
                             listeners: {
                                 update: function (store, record, operation, modifiedFieldNames) {
                                     if (operation !== Ext.data.Model.EDIT) return;
                                     if (!record.get('id')) return;
-                                    var editable = ['sku', 'name', 'price', 'stock'];
+                                    var editable = ['sku', 'name', 'price', 'stock', 'state'];
                                     if (!modifiedFieldNames || !modifiedFieldNames.some(function (f) { return editable.indexOf(f) !== -1; })) return;
                                     this.onSaveVariant(record);
                                 }.bind(this)
@@ -365,8 +365,35 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             { text: 'Név', dataIndex: 'name', flex: 1, minWidth: 200, editable: true },
                             { text: 'Ár (Nettó)', dataIndex: 'price', width: 120, editable: true },
                             { text: 'Készlet', dataIndex: 'stock', width: 90, editable: true },
-                            { 
-                                text: 'Jellemzők', 
+                            {
+                                text: 'Állapot',
+                                dataIndex: 'state',
+                                width: 140,
+                                editable: true,
+                                renderer: function (v) {
+                                    var labels = {
+                                        instock:   'Raktáron',
+                                        backorder: 'Rendelésre',
+                                        inquire:   'Ajánlatkérés',
+                                        inactive:  'Inaktív'
+                                    };
+                                    return labels[v] || v || '';
+                                },
+                                editor: {
+                                    xtype: 'selectfield',
+                                    queryMode: 'local',
+                                    autoComplete: false,
+                                    clearable: false,
+                                    options: [
+                                        { text: 'Raktáron',    value: 'instock' },
+                                        { text: 'Rendelésre',  value: 'backorder' },
+                                        { text: 'Ajánlatkérés', value: 'inquire' },
+                                        { text: 'Inaktív',     value: 'inactive' }
+                                    ]
+                                }
+                            },
+                            {
+                                text: 'Jellemzők',
                                 flex: 1, 
                                 renderer: function(v, rec) {
                                     if (!rec) return '-';
@@ -536,7 +563,8 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 sku: variantRecord.get('sku'),
                 name: variantRecord.get('name'),
                 price: variantRecord.get('price'),
-                stock: variantRecord.get('stock')
+                stock: variantRecord.get('stock'),
+                state: variantRecord.get('state')
             }
         }).then(function (response) {
             if (response.success) {
