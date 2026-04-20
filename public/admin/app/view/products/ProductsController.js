@@ -296,16 +296,11 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 placeholder: 'pl. db, m, csomag'
                             },
                             {
-                                xtype: 'selectfield',
-                                label: 'Állapot',
+                                xtype: 'togglefield',
+                                label: 'Aktív',
                                 name: 'state',
-                                value: productData.state === 'live' ? 'instock' : productData.state,
-                                options: [
-                                    { text: 'Raktáron',    value: 'instock' },
-                                    { text: 'Rendelésre',  value: 'backorder' },
-                                    { text: 'Ajánlatkérés', value: 'inquire' },
-                                    { text: 'Inaktív',     value: 'inactive' }
-                                ]
+                                value: productData.state !== 'inactive',
+                                reference: 'masterStateToggle'
                             },
                             {
                                 xtype: 'container',
@@ -444,6 +439,9 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 var html = editor.quillInstance.root.innerHTML;
                                 values.description = (html === '<p><br></p>') ? '' : html;
                             }
+
+                            // togglefield submits a boolean; controller expects 'active'/'inactive'
+                            values.state = values.state ? 'active' : 'inactive';
 
                             API.call({
                                 url: 'products/' + productData.id,
