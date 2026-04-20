@@ -26,13 +26,18 @@ class ProductVariants extends BaseResourceController
                 throw new Exception('A SKU megadása kötelező');
             }
 
+            $state = $data['state'] ?? \App\Models\ProductVariantModel::STATE_INSTOCK;
+            if (!in_array($state, \App\Models\ProductVariantModel::STATES, true)) {
+                throw new Exception('Érvénytelen állapot: ' . $state);
+            }
+
             $insertData = [
                 'master_id' => (int) $data['master_id'],
                 'sku'       => trim($data['sku']),
                 'name'      => $data['name']  ?? null,
                 'price'     => $data['price'] ?? 0,
                 'stock'     => $data['stock'] ?? 0,
-                'state'     => $data['state'] ?? 'live',
+                'state'     => $state,
             ];
 
             if ($this->model->insert($insertData)) {
@@ -87,12 +92,18 @@ class ProductVariants extends BaseResourceController
         try {
             $data = $this->request->getRawInput();
             
-            // For variations, we mainly update price and stock in this phase
+            // For variations we update price, stock, sku, name, and state
             $updateData = [];
             if (isset($data['price'])) $updateData['price'] = $data['price'];
             if (isset($data['stock'])) $updateData['stock'] = $data['stock'];
             if (isset($data['sku']))   $updateData['sku']   = $data['sku'];
             if (isset($data['name']))  $updateData['name']  = $data['name'];
+            if (isset($data['state'])) {
+                if (!in_array($data['state'], \App\Models\ProductVariantModel::STATES, true)) {
+                    throw new Exception('Érvénytelen állapot: ' . $data['state']);
+                }
+                $updateData['state'] = $data['state'];
+            }
 
             if (!empty($updateData)) {
                 if ($this->model->update($id, $updateData)) {
