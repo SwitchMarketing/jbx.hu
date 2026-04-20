@@ -8,8 +8,8 @@ Ext.define('JBXAdmin.view.main.MainController', {
     alias: 'controller.main',
 
     onReload : function () { 
-        let tabPanel = this.lookup('mainTabPanel');
-        let activeTab = tabPanel.getActiveItem();
+        var tabPanel = this.lookup('mainTabPanel');
+        var activeTab = tabPanel.getActiveItem();
 
         if (activeTab.isXType('app-leads')) {
             this.fireEvent('reloadLeads');

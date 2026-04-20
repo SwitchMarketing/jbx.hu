@@ -267,7 +267,6 @@ Ext.define('Ext.grid.filters.menu.List', {
         var me = this;
 
         me.combobox.operator = me.combobox.getMultiSelect() ? 'in' : '==';
-        me.callParent();
     },
     updateSorted: function() {
         this.doUpdateSorted();

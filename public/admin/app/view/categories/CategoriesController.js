@@ -11,9 +11,9 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
     },
 
     init: function (view) {
-        view.on('painted', () => {
+        view.on('painted', function () {
             view.getStore().load();
-        }, this);
+        }.bind(this), this);
     },
 
     onReloadCategories: function () {
@@ -29,49 +29,49 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
     },
 
     onDeleteItem: function (grid, info) {
-        let record = info.record;
-        let store  = this.getView().getStore();
+        var record = info.record;
+        var store  = this.getView().getStore();
 
         Ext.Msg.confirm(
             'Törlés',
             'Biztosan törlöd ezt a kategóriát: "' + record.get('name') + '"?',
-            (choice) => {
+            function (choice) {
                 if (choice !== 'yes') return;
 
                 API.call({
                     url: 'categories/' + record.get('unas_id'),
                     method: 'DELETE'
-                }).then((response) => {
+                }).then(function (response) {
                     if (response.success) {
                         Ext.toast('Kategória törölve');
                         store.reload();
                     } else {
                         Ext.Msg.alert('Hiba', response.message);
                     }
-                });
-            }
+                }.bind(this));
+            }.bind(this)
         );
     },
 
     showFormDialog: function (record) {
-        let me       = this;
-        let isEdit   = !!record;
-        let store    = this.getView().getStore();
+        var me       = this;
+        var isEdit   = !!record;
+        var store    = this.getView().getStore();
 
         // Build parent options from the current store (tree order already loaded)
-        let parentOptions = [{ text: '— Gyökér —', value: 0 }];
-        store.each((r) => {
+        var parentOptions = [{ text: '— Gyökér —', value: 0 }];
+        store.each(function (r) {
             // Prevent a category from being set as its own parent on edit.
             if (isEdit && r.get('unas_id') === record.get('unas_id')) return;
-            let indent = '';
-            for (let i = 0; i < r.get('depth'); i++) indent += '— ';
+            var indent = '';
+            for (var i = 0; i < r.get('depth'); i++) indent += '— ';
             parentOptions.push({
                 text: indent + r.get('name'),
                 value: r.get('unas_id')
             });
         });
 
-        let dialog = Ext.create({
+        var dialog = Ext.create({
             xtype: 'dialog',
             title: isEdit ? 'Kategória szerkesztése' : 'Új kategória',
             width: 450,
@@ -116,21 +116,21 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                 save: {
                     text: 'Mentés',
                     handler: function () {
-                        let form = dialog.lookup('form');
+                        var form = dialog.lookup('form');
                         if (!form.validate()) return;
 
-                        let values = form.getValues();
+                        var values = form.getValues();
 
-                        let url    = isEdit
+                        var url    = isEdit
                             ? 'categories/' + record.get('unas_id')
                             : 'categories';
-                        let method = isEdit ? 'PUT' : 'POST';
+                        var method = isEdit ? 'PUT' : 'POST';
 
                         API.call({
                             url: url,
                             method: method,
                             data: values
-                        }).then((response) => {
+                        }).then(function (response) {
                             if (response.success) {
                                 Ext.toast(isEdit ? 'Sikeres mentés' : 'Kategória létrehozva');
                                 store.reload();
@@ -138,7 +138,7 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                             } else {
                                 Ext.Msg.alert('Hiba', response.message);
                             }
-                        });
+                        }.bind(this));
                     }
                 },
                 cancel: {

@@ -7,7 +7,8 @@ Ext.define('JBXAdmin.view.products.Products', {
     requires: [
         'JBXAdmin.store.ProductStore',
         'JBXAdmin.store.AttributeStore',
-        'Ext.grid.plugin.PagingToolbar'
+        'Ext.grid.plugin.PagingToolbar',
+        'Ext.plugin.Responsive'
     ],
 
     title: 'Termékek',
@@ -114,15 +115,17 @@ Ext.define('JBXAdmin.view.products.Products', {
             text: 'Kategória',
             flex : 1,
             dataIndex: 'category_path_names',
-            renderer: (v, rec) => v || (rec && rec.get('category_name')) || '',
+            renderer: function (v, rec) {
+                return v || (rec && rec.get('category_name')) || '';
+            },
             platformConfig: { phone: { hidden: true } }
         },
         {
             text: 'Állapot',
             width : 120,
             dataIndex: 'state',
-            renderer : (val) => {
-                const labels = {
+            renderer : function (val) {
+                var labels = {
                     instock:   'Raktáron',
                     backorder: 'Rendelésre',
                     inquire:   'Ajánlatkérés',

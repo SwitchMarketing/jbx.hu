@@ -17,7 +17,8 @@
      */
     "requires": [
         "font-awesome",
-        "ext-locale"
+        "ext-locale",
+        "ux"
     ],
 
     "locale": "de",
@@ -394,6 +395,9 @@
 
     "output": {
         "base": "${workspace.build.dir}/${build.environment}/${app.name}",
+        "js": {
+            "version": "ES6"
+        },
         "appCache": {
             "enable": false
         }

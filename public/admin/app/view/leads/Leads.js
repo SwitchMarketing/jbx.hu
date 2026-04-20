@@ -49,7 +49,7 @@ Ext.define('JBXAdmin.view.leads.Leads', {
                     text: 'Forrás',
                     width : 100,
                     dataIndex: 'utm_source',
-                    renderer : (val) => {
+                    renderer : function (val) {
                         return val || '-';
                     }
                 },
@@ -59,7 +59,7 @@ Ext.define('JBXAdmin.view.leads.Leads', {
                     dataIndex: 'message_length',
                     align : 'center',
                     sortable : false,
-                    renderer : (val) => {
+                    renderer : function (val) {
                         return val;
                     }
                 },

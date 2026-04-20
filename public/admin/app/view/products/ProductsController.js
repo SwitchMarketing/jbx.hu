@@ -11,9 +11,9 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
     },
 
     init: function (view) {
-        view.on('painted', () => {
+        view.on('painted', function () {
             view.getStore().load()
-        }, this);
+        }.bind(this), this);
 
         view.setSelectable({
             mode : 'single'
@@ -22,26 +22,26 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         // Populate the category filter with leaf categories only (products can
         // only live in leaves per the update validation). Labels use the full
         // breadcrumb path so the dropdown is self-describing.
-        let categoryStore = Ext.getStore('categorystore') || Ext.create('JBXAdmin.store.CategoryStore');
-        let me = this;
-        let populate = () => {
-            let byId = {};
-            let parentIds = new Set();
-            categoryStore.each(r => {
+        var categoryStore = Ext.getStore('categorystore') || Ext.create('JBXAdmin.store.CategoryStore');
+        var me = this;
+        var populate = function () {
+            var byId = {};
+            var parentIds = new Set();
+            categoryStore.each(function (r) {
                 byId[r.get('unas_id')] = r;
                 parentIds.add(String(r.get('parent_id')));
             });
-            let options = [];
-            categoryStore.each(r => {
+            var options = [];
+            categoryStore.each(function (r) {
                 if (parentIds.has(String(r.get('unas_id')))) return;
-                let ids = (r.get('pathIds') || '').toString().split('/').filter(Boolean);
+                var ids = (r.get('pathIds') || '').toString().split('/').filter(Boolean);
                 if (!ids.length) ids = [r.get('unas_id')];
-                let text = ids.map(id => byId[id] ? byId[id].get('name') : id).join(' › ');
+                var text = ids.map(function (id) { return byId[id] ? byId[id].get('name') : id; }).join(' › ');
                 options.push({ text: text, value: r.get('unas_id') });
             });
-            options.sort((a, b) => a.text.localeCompare(b.text, 'hu'));
+            options.sort(function (a, b) { return a.text.localeCompare(b.text, 'hu'); });
 
-            let f = me.lookup('productCategoryFilter');
+            var f = me.lookup('productCategoryFilter');
             if (f) f.setOptions(options);
         };
 
@@ -58,18 +58,18 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
     },
 
     onFilterChange: function() {
-        let store = this.getView().getStore();
-        let proxy = store.getProxy();
+        var store = this.getView().getStore();
+        var proxy = store.getProxy();
 
-        let search = this.lookup('productSearch');
-        let catFilter = this.lookup('productCategoryFilter');
-        let stateFilter = this.lookup('productStateFilter');
+        var search = this.lookup('productSearch');
+        var catFilter = this.lookup('productCategoryFilter');
+        var stateFilter = this.lookup('productStateFilter');
 
-        let term  = (search ? (search.getValue() || '') : '').trim();
-        let catId = catFilter ? catFilter.getValue() : null;
-        let state = stateFilter ? stateFilter.getValue() : null;
+        var term  = (search ? (search.getValue() || '') : '').trim();
+        var catId = catFilter ? catFilter.getValue() : null;
+        var state = stateFilter ? stateFilter.getValue() : null;
 
-        let filters = [];
+        var filters = [];
         if (term)  filters.push({ property: 'qstring', value: term });
         if (catId) filters.push({ property: 'product_masters.category_id', operator: 'eq', value: String(catId) });
         if (state) filters.push({ property: 'product_masters.state', operator: 'eq', value: state });
@@ -83,36 +83,36 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
 
         API.call({
             url: 'products/' + record.get('id')
-        }).then((response) => {
+        }).then(function (response) {
             if(response.success) {
-                const product = response.data;
+                var product = response.data;
                 
                 // Create variants HTML
-                let variantsHtml = '<table class="variants-table"><thead><tr><th>SKU</th><th>Név</th><th>Ár</th><th>Készlet</th><th>Jellemzők</th></tr></thead><tbody>';
+                var variantsHtml = '<table class="variants-table"><thead><tr><th>SKU</th><th>Név</th><th>Ár</th><th>Készlet</th><th>Jellemzők</th></tr></thead><tbody>';
                 if (product.variants && product.variants.length > 0) {
-                    product.variants.forEach(v => {
-                        let attrs = '';
+                    product.variants.forEach(function (v) {
+                        var attrs = '';
                         if (v.attributes && v.attributes.length > 0) {
-                            attrs = v.attributes.map(a => `<strong>${a.name}</strong>: ${a.value}`).join(', ');
+                            attrs = v.attributes.map(function (a) { return '<strong>' + a.name + '</strong>: ' + a.value; }).join(', ');
                         } else {
                             attrs = '-';
                         }
-                        variantsHtml += `<tr><td>${v.sku}</td><td>${v.name || '-'}</td><td>${v.price} Ft</td><td>${v.stock}</td><td>${attrs}</td></tr>`;
+                        variantsHtml += '<tr><td>' + v.sku + '</td><td>' + (v.name || '-') + '</td><td>' + v.price + ' Ft</td><td>' + v.stock + '</td><td>' + attrs + '</td></tr>';
                     });
                 } else {
                     variantsHtml += '<tr><td colspan="5" style="text-align:center; padding: 20px;">Nincsenek variációk ehhez a termékhez.</td></tr>';
                 }
                 variantsHtml += '</tbody></table>';
 
-                const html = `<div class="jbx-paper product-details">
-                                <table class="lead">
-                                    <tr><td style="width:140px;"><strong>Név</strong></td><td>${product.name}</td></tr>
-                                    <tr><td><strong>Kategória</strong></td><td>${product.category_path_names || product.category_name || '-'}</td></tr>
-                                    <tr><td><strong>Leírás</strong></td><td>${product.description || '-'}</td></tr>
-                                </table>
-                                <h3>Variációk (${product.variants ? product.variants.length : 0})</h3>
-                                ${variantsHtml}
-                              </div>`;
+                var html = '<div class="jbx-paper product-details">' +
+                                '<table class="lead">' +
+                                    '<tr><td style="width:140px;"><strong>Név</strong></td><td>' + product.name + '</td></tr>' +
+                                    '<tr><td><strong>Kategória</strong></td><td>' + (product.category_path_names || product.category_name || '-') + '</td></tr>' +
+                                    '<tr><td><strong>Leírás</strong></td><td>' + (product.description || '-') + '</td></tr>' +
+                                '</table>' +
+                                '<h3>Variációk (' + (product.variants ? product.variants.length : 0) + ')</h3>' +
+                                variantsHtml +
+                              '</div>';
 
                 var dialog = Ext.create({
                     xtype: 'dialog',
@@ -134,10 +134,10 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     buttons: {
                         edit: {
                             text: 'Szerkesztés',
-                            handler: () => {
+                            handler: function () {
                                 dialog.destroy();
                                 this.onEditItem(grid, { record: record });
-                            }
+                            }.bind(this)
                         },
                         ok: {
                             text: 'Bezár',
@@ -149,23 +149,23 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 });
                 dialog.show();
             }
-        });
+        }.bind(this));
     },
 
     onEditItem: function (grid, info) {
-        let record = info.record;
+        var record = info.record;
         if (!record) return;
 
         // Highlight the row via a CSS class on the DOM row element so the user
         // keeps visual track of which product is being edited. Avoids touching
         // the Modern selection model (which throws on some setSelection paths).
-        let view = this.getView();
-        let rowEl = null;
+        var view = this.getView();
+        var rowEl = null;
         if (view && view.el) {
-            let prev = view.el.dom.querySelector('.jbx-editing-row');
+            var prev = view.el.dom.querySelector('.jbx-editing-row');
             if (prev) prev.classList.remove('jbx-editing-row');
 
-            let id = record.getId ? record.getId() : record.get('id');
+            var id = record.getId ? record.getId() : record.get('id');
             if (info && info.cell && info.cell.el && info.cell.el.dom) {
                 rowEl = info.cell.el.dom.closest('.x-gridrow, .x-listitem');
             }
@@ -175,23 +175,24 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             if (rowEl) rowEl.classList.add('jbx-editing-row');
         }
 
-        let me = this;
+        var me = this;
 
         // Ensure categories are loaded so the parent selectfield has options.
-        let categoryStore = Ext.getStore('categorystore') || Ext.create('JBXAdmin.store.CategoryStore');
-        let loadCategories = new Promise((resolve) => {
+        var categoryStore = Ext.getStore('categorystore') || Ext.create('JBXAdmin.store.CategoryStore');
+        var loadCategories = new Promise(function (resolve) {
             if (categoryStore.getCount() > 0 || categoryStore.isLoading()) {
-                categoryStore.on('load', () => resolve(), { single: true });
+                categoryStore.on('load', function () { resolve(); }, { single: true });
                 if (!categoryStore.isLoading()) resolve();
             } else {
-                categoryStore.load({ callback: () => resolve() });
+                categoryStore.load({ callback: function () { resolve(); } });
             }
         });
 
         Promise.all([
             API.call({ url: 'products/' + record.get('id') }),
             loadCategories
-        ]).then(([response]) => {
+        ]).then(function (results) {
+            var response = results[0];
             if (response.success) {
                 me.showEditDialog(grid, record, response.data, categoryStore);
             }
@@ -201,32 +202,32 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
     showEditDialog: function(grid, masterRecord, productData, categoryStore) {
         // Build category options with full breadcrumb path ("Root › Sub › Leaf")
         // so the selected value is self-describing both open and closed.
-        let categoryOptions = [];
-        let categoryPathById = {};
+        var categoryOptions = [];
+        var categoryPathById = {};
         if (categoryStore) {
-            let byId = {};
-            categoryStore.each(r => { byId[r.get('unas_id')] = r; });
+            var byId = {};
+            categoryStore.each(function (r) { byId[r.get('unas_id')] = r; });
 
-            let pathOf = (rec) => {
-                let ids = (rec.get('pathIds') || '').toString().split('/').filter(Boolean);
+            var pathOf = function (rec) {
+                var ids = (rec.get('pathIds') || '').toString().split('/').filter(Boolean);
                 if (!ids.length) ids = [rec.get('unas_id')];
-                return ids.map(id => byId[id] ? byId[id].get('name') : id).join(' › ');
+                return ids.map(function (id) { return byId[id] ? byId[id].get('name') : id; }).join(' › ');
             };
 
-            categoryStore.each((r) => {
-                let full = pathOf(r);
+            categoryStore.each(function (r) {
+                var full = pathOf(r);
                 categoryPathById[r.get('unas_id')] = full;
                 categoryOptions.push({
                     text: full,
                     value: r.get('unas_id')
                 });
             });
-            categoryOptions.sort((a, b) => a.text.localeCompare(b.text, 'hu'));
+            categoryOptions.sort(function (a, b) { return a.text.localeCompare(b.text, 'hu'); });
         }
 
-        let currentCategoryPath = categoryPathById[productData.category_id] || productData.category_path_names || '-';
+        var currentCategoryPath = categoryPathById[productData.category_id] || productData.category_path_names || '-';
 
-        let dialog = Ext.create({
+        var dialog = Ext.create({
             xtype: 'dialog',
             title: 'Szerkesztés: ' + productData.name,
             width: 850,
@@ -324,7 +325,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 listeners: {
                                     painted: function () {
                                         if (this.quillInstance) return;
-                                        let hostEl = this.el.down('.jbx-quill-host');
+                                        var hostEl = this.el.down('.jbx-quill-host');
                                         if (!hostEl || typeof Quill === 'undefined') return;
 
                                         this.quillInstance = new Quill(hostEl.dom, {
@@ -354,13 +355,13 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             fields: ['id', 'unas_id', 'sku', 'name', 'price', 'stock', 'attributes'],
                             data: productData.variants || [],
                             listeners: {
-                                update: (store, record, operation, modifiedFieldNames) => {
+                                update: function (store, record, operation, modifiedFieldNames) {
                                     if (operation !== Ext.data.Model.EDIT) return;
                                     if (!record.get('id')) return;
-                                    let editable = ['sku', 'name', 'price', 'stock'];
-                                    if (!modifiedFieldNames || !modifiedFieldNames.some(f => editable.includes(f))) return;
+                                    var editable = ['sku', 'name', 'price', 'stock'];
+                                    if (!modifiedFieldNames || !modifiedFieldNames.some(function (f) { return editable.indexOf(f) !== -1; })) return;
                                     this.onSaveVariant(record);
-                                }
+                                }.bind(this)
                             }
                         },
                         columns: [
@@ -374,9 +375,9 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 flex: 1, 
                                 renderer: function(v, rec) {
                                     if (!rec) return '-';
-                                    const attrs = rec.get('attributes');
+                                    var attrs = rec.get('attributes');
                                     if (!attrs || !Ext.isArray(attrs)) return '-';
-                                    return attrs.map(a => `${a.name}: ${a.value}`).join(', ');
+                                    return attrs.map(function (a) { return a.name + ': ' + a.value; }).join(', ');
                                 } 
                             },
                             {
@@ -386,16 +387,16 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                         attributes: {
                                             iconCls: 'x-fa fa-list',
                                             tooltip: 'Jellemzők szerkesztése',
-                                            handler: (grid, info) => {
+                                            handler: function (grid, info) {
                                                 this.onEditVariantAttributes(info.record);
-                                            }
+                                            }.bind(this)
                                         },
                                         delete: {
                                             iconCls: 'x-fa fa-trash',
                                             tooltip: 'Variáció törlése',
-                                            handler: (grid, info) => {
+                                            handler: function (grid, info) {
                                                 this.onDeleteVariant(info.record, grid.getStore());
-                                            }
+                                            }.bind(this)
                                         }
                                     }
                                 }
@@ -412,18 +413,18 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                     text: 'Új variáció',
                                     iconCls: 'x-fa fa-plus',
                                     ui: 'action',
-                                    handler: () => {
+                                    handler: function () {
                                         this.onCreateVariant(productData.id, dialog.lookup('variantsGrid'));
-                                    }
+                                    }.bind(this)
                                 },
                                 {
                                     text: 'Jellemzők a névből',
                                     iconCls: 'x-fa fa-magic',
                                     tooltip: 'Attribútumok kinyerése a variációk nevéből egy minta alapján',
                                     hidden: true,
-                                    handler: () => {
+                                    handler: function () {
                                         this.onParseVariantNames(productData.id, dialog.lookup('variantsGrid'));
-                                    }
+                                    }.bind(this)
                                 }
                             ]
                         }]
@@ -433,14 +434,14 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             buttons: {
                 save: {
                     text: 'Főadatok Mentése',
-                    handler: () => {
-                        let form = dialog.lookup('mainForm');
+                    handler: function () {
+                        var form = dialog.lookup('mainForm');
                         if (form.validate()) {
-                            let values = form.getValues();
+                            var values = form.getValues();
 
-                            let editor = dialog.lookup('descEditor');
+                            var editor = dialog.lookup('descEditor');
                             if (editor && editor.quillInstance) {
-                                let html = editor.quillInstance.root.innerHTML;
+                                var html = editor.quillInstance.root.innerHTML;
                                 values.description = (html === '<p><br></p>') ? '' : html;
                             }
 
@@ -448,7 +449,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 url: 'products/' + productData.id,
                                 method: 'PUT',
                                 data: values
-                            }).then((response) => {
+                            }).then(function (response) {
                                 if (response.success) {
                                     Ext.toast('Alapadatok elmentve');
                                     grid.getStore().reload();
@@ -457,7 +458,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 }
                             });
                         }
-                    }
+                    }.bind(this)
                 },
                 close: {
                     text: 'Bezárás',
@@ -472,7 +473,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
     },
 
     onCreateVariant: function(masterId, variantsGrid) {
-        Ext.Msg.prompt('Új variáció', 'SKU:', (btn, sku) => {
+        Ext.Msg.prompt('Új variáció', 'SKU:', function (btn, sku) {
             if (btn !== 'ok') return;
             sku = (sku || '').trim();
             if (!sku) { Ext.Msg.alert('Hiba', 'A SKU megadása kötelező'); return; }
@@ -481,12 +482,12 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 url: 'productvariants',
                 method: 'POST',
                 data: { master_id: masterId, sku: sku }
-            }).then((response) => {
+            }).then(function (response) {
                 if (!response.success) {
                     Ext.Msg.alert('Hiba', response.message);
                     return;
                 }
-                let newId = response.data && response.data.id;
+                var newId = response.data && response.data.id;
                 variantsGrid.getStore().add({
                     id: newId,
                     unas_id: null,
@@ -498,7 +499,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 });
                 Ext.toast('Új variáció létrehozva: ' + sku);
             });
-        });
+        }.bind(this));
     },
 
     onDeleteVariant: function(variantRecord, store) {
@@ -510,12 +511,12 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         Ext.Msg.confirm(
             'Megerősítés',
             'Biztosan törlöd a(z) "' + (variantRecord.get('sku') || variantRecord.get('id')) + '" variációt?',
-            (choice) => {
+            function (choice) {
                 if (choice !== 'yes') return;
                 API.call({
                     url: 'productvariants/' + variantRecord.get('id'),
                     method: 'DELETE'
-                }).then((response) => {
+                }).then(function (response) {
                     if (response.success) {
                         store.remove(variantRecord);
                         Ext.toast(response.message || 'Variáció törölve');
@@ -523,7 +524,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         Ext.Msg.alert('Hiba', response.message);
                     }
                 });
-            }
+            }.bind(this)
         );
     },
 
@@ -539,7 +540,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 price: variantRecord.get('price'),
                 stock: variantRecord.get('stock')
             }
-        }).then((response) => {
+        }).then(function (response) {
             if (response.success) {
                 Ext.toast('Variáció elmentve: ' + variantRecord.get('sku'));
                 variantRecord.commit();
@@ -550,9 +551,9 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
     },
 
     onParseVariantNames: function(masterId, variantsGrid) {
-        let me = this;
+        var me = this;
 
-        let dialog = Ext.create({
+        var dialog = Ext.create({
             xtype: 'dialog',
             title: 'Jellemzők kinyerése a variáció-nevekből',
             width: 780,
@@ -592,20 +593,22 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             text: '',
                             width: 40,
                             dataIndex: 'matched',
-                            renderer: (v) => v
-                                ? '<span style="color:#2e7d32;">●</span>'
-                                : '<span style="color:#c62828;">○</span>'
+                            renderer: function (v) {
+                                return v
+                                    ? '<span style="color:#2e7d32;">●</span>'
+                                    : '<span style="color:#c62828;">○</span>';
+                            }
                         },
                         { text: 'Név', dataIndex: 'name', flex: 1 },
                         {
                             text: 'Kinyert jellemzők',
                             flex: 1,
                             dataIndex: 'extracted',
-                            renderer: (v) => {
+                            renderer: function (v) {
                                 if (!v || typeof v !== 'object') return '';
-                                let keys = Object.keys(v);
+                                var keys = Object.keys(v);
                                 if (!keys.length) return '<em style="opacity:.6;">nincs találat</em>';
-                                return keys.map(k => `<strong>${k}</strong>: ${v[k]}`).join(', ');
+                                return keys.map(function (k) { return '<strong>' + k + '</strong>: ' + v[k]; }).join(', ');
                             }
                         }
                     ]
@@ -615,48 +618,48 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 preview: {
                     text: 'Előnézet',
                     iconCls: 'x-fa fa-eye',
-                    handler: () => {
-                        let pattern = dialog.lookup('patternField').getValue();
+                    handler: function () {
+                        var pattern = dialog.lookup('patternField').getValue();
                         if (!pattern) { Ext.Msg.alert('Hiba', 'Add meg a mintát'); return; }
 
                         API.call({
                             url: 'productvariants/parse_names/' + masterId,
                             method: 'POST',
                             data: { pattern: pattern, apply: 0 }
-                        }).then((response) => {
+                        }).then(function (response) {
                             if (!response.success) {
                                 Ext.Msg.alert('Hiba', response.message);
                                 return;
                             }
-                            let store = dialog.lookup('previewGrid').getStore();
+                            var store = dialog.lookup('previewGrid').getStore();
                             store.loadData(response.data.matches || []);
 
-                            let attrs = response.data.attributes || {};
-                            let newAttrs = Object.keys(attrs).filter(k => !attrs[k].existing);
+                            var attrs = response.data.attributes || {};
+                            var newAttrs = Object.keys(attrs).filter(function (k) { return !attrs[k].existing; });
                             if (newAttrs.length) {
                                 Ext.toast('Új attribútumok lesznek létrehozva: ' + newAttrs.join(', '));
                             }
                         });
-                    }
+                    }.bind(this)
                 },
                 apply: {
                     text: 'Alkalmaz',
                     iconCls: 'x-fa fa-check',
                     ui: 'action',
-                    handler: () => {
-                        let pattern = dialog.lookup('patternField').getValue();
+                    handler: function () {
+                        var pattern = dialog.lookup('patternField').getValue();
                         if (!pattern) { Ext.Msg.alert('Hiba', 'Add meg a mintát'); return; }
 
                         Ext.Msg.confirm(
                             'Megerősítés',
                             'Az egyező variációk meglévő jellemzőit felülírja. Folytatod?',
-                            (choice) => {
+                            function (choice) {
                                 if (choice !== 'yes') return;
                                 API.call({
                                     url: 'productvariants/parse_names/' + masterId,
                                     method: 'POST',
                                     data: { pattern: pattern, apply: 1 }
-                                }).then((response) => {
+                                }).then(function (response) {
                                     if (!response.success) {
                                         Ext.Msg.alert('Hiba', response.message);
                                         return;
@@ -666,20 +669,20 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
 
                                     // Refresh the variants grid inside the edit dialog by re-fetching the master
                                     if (variantsGrid) {
-                                        API.call({ url: 'products/' + masterId }).then((r) => {
+                                        API.call({ url: 'products/' + masterId }).then(function (r) {
                                             if (r.success && r.data && variantsGrid.getStore) {
                                                 variantsGrid.getStore().loadData(r.data.variants || []);
                                             }
                                         });
                                     }
                                 });
-                            }
+                            }.bind(this)
                         );
-                    }
+                    }.bind(this)
                 },
                 cancel: {
                     text: 'Mégse',
-                    handler: () => dialog.destroy()
+                    handler: function () { dialog.destroy(); }
                 }
             }
         });
@@ -688,9 +691,9 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
     },
 
     onEditVariantAttributes: function(variantRecord) {
-        let attrs = variantRecord.get('attributes') || [];
+        var attrs = variantRecord.get('attributes') || [];
         
-        let attrDialog = Ext.create({
+        var attrDialog = Ext.create({
             xtype: 'dialog',
             title: 'Jellemzők szerkesztése: ' + variantRecord.get('sku'),
             width: 500,
@@ -712,10 +715,10 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         dataIndex: 'attribute_id',
                         width: 150,
                         editable: true,
-                        renderer: (v, record) => {
+                        renderer: function (v, record) {
                             if (record && record.get('name')) return record.get('name');
-                            let store = Ext.getStore('attributestore');
-                            let rec = store && v ? store.getById(v) : null;
+                            var store = Ext.getStore('attributestore');
+                            var rec = store && v ? store.getById(v) : null;
                             return rec ? rec.get('name') : (v || '');
                         },
                         editor: {
@@ -733,7 +736,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             tools: {
                                 delete: {
                                     iconCls: 'x-fa fa-trash',
-                                    handler: (grid, info) => {
+                                    handler: function (grid, info) {
                                         grid.getStore().remove(info.record);
                                     }
                                 }
@@ -751,7 +754,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         {
                             text: 'Új sor',
                             iconCls: 'x-fa fa-plus',
-                            handler: () => {
+                            handler: function () {
                                 attrDialog.lookup('attrGrid').getStore().add({ attribute_id: '', value: '' });
                             }
                         }
@@ -761,13 +764,13 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             buttons: {
                 save: {
                     text: 'Mentés',
-                    handler: () => {
-                        let store = attrDialog.lookup('attrGrid').getStore();
-                        let data = [];
-                        let skipped = 0;
-                        store.each(r => {
-                            let aid = r.get('attribute_id');
-                            let val = r.get('value');
+                    handler: function () {
+                        var store = attrDialog.lookup('attrGrid').getStore();
+                        var data = [];
+                        var skipped = 0;
+                        store.each(function (r) {
+                            var aid = r.get('attribute_id');
+                            var val = r.get('value');
                             if (aid && val !== null && val !== '') {
                                 data.push({ attribute_id: aid, value: val });
                             } else if (aid || (val !== null && val !== '')) {
@@ -783,12 +786,12 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             url: 'productvariants/save_attributes/' + variantRecord.get('id'),
                             method: 'POST',
                             data: { attributes: Ext.encode(data) }
-                        }).then((response) => {
+                        }).then(function (response) {
                             if (response.success) {
                                 Ext.toast('Jellemzők elmentve');
-                                let attrStore = Ext.getStore('attributestore');
-                                let enriched = data.map(d => {
-                                    let rec = attrStore ? attrStore.getById(d.attribute_id) : null;
+                                var attrStore = Ext.getStore('attributestore');
+                                var enriched = data.map(function (d) {
+                                    var rec = attrStore ? attrStore.getById(d.attribute_id) : null;
                                     return {
                                         attribute_id: d.attribute_id,
                                         name: rec ? rec.get('name') : '',
@@ -802,11 +805,11 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 Ext.Msg.alert('Hiba', response.message);
                             }
                         });
-                    }
+                    }.bind(this)
                 },
                 cancel: {
                     text: 'Mégse',
-                    handler: () => {
+                    handler: function () {
                         attrDialog.destroy();
                     }
                 }

@@ -96,9 +96,9 @@ Ext.define('Ext.grid.plugin.grouping.Column', {
     },
 
     initRenderData: function() {
-        return Ext.apply(this.callParent(arguments), {
+        return {
             header: this.header
-        });
+        };
     },
 
     afterRender: function() {

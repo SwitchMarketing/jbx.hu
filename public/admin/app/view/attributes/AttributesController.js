@@ -3,8 +3,8 @@ Ext.define('JBXAdmin.view.attributes.AttributesController', {
     alias: 'controller.attributescontroller',
 
     onAddAttribute: function() {
-        let field = this.lookup('newAttrName');
-        let name = field.getValue();
+        var field = this.lookup('newAttrName');
+        var name = field.getValue();
 
         if (!name) return;
 
@@ -12,7 +12,7 @@ Ext.define('JBXAdmin.view.attributes.AttributesController', {
             url: 'attributes',
             method: 'POST',
             data: { name: name }
-        }).then((response) => {
+        }).then(function (response) {
             if (response.success) {
                 Ext.toast('Attribútum hozzáadva');
                 this.getView().getStore().reload();
@@ -20,14 +20,14 @@ Ext.define('JBXAdmin.view.attributes.AttributesController', {
             } else {
                 Ext.Msg.alert('Hiba', response.message);
             }
-        });
+        }.bind(this));
     },
 
     onEditItem: function(grid, info) {
-        let record = info.record;
-        let store  = this.getView().getStore();
+        var record = info.record;
+        var store  = this.getView().getStore();
 
-        let dialog = Ext.create({
+        var dialog = Ext.create({
             xtype: 'dialog',
             title: 'Attribútum átnevezése',
             width: 400,
@@ -48,14 +48,14 @@ Ext.define('JBXAdmin.view.attributes.AttributesController', {
                 save: {
                     text: 'Mentés',
                     handler: function () {
-                        let form = dialog.lookup('form');
+                        var form = dialog.lookup('form');
                         if (!form.validate()) return;
 
                         API.call({
                             url: 'attributes/' + record.get('id'),
                             method: 'PUT',
                             data: form.getValues()
-                        }).then((response) => {
+                        }).then(function (response) {
                             if (response.success) {
                                 Ext.toast('Attribútum frissítve');
                                 store.reload();
@@ -63,7 +63,7 @@ Ext.define('JBXAdmin.view.attributes.AttributesController', {
                             } else {
                                 Ext.Msg.alert('Hiba', response.message);
                             }
-                        });
+                        }.bind(this));
                     }
                 },
                 cancel: {
@@ -79,21 +79,21 @@ Ext.define('JBXAdmin.view.attributes.AttributesController', {
     },
 
     onDeleteItem: function(grid, info) {
-        let record = info.record;
-        Ext.Msg.confirm('Törlés', 'Biztosan törlöd ezt az attribútumot?', (choice) => {
+        var record = info.record;
+        Ext.Msg.confirm('Törlés', 'Biztosan törlöd ezt az attribútumot?', function (choice) {
             if (choice === 'yes') {
                 API.call({
                     url: 'attributes/' + record.get('id'),
                     method: 'DELETE'
-                }).then((response) => {
+                }).then(function (response) {
                     if (response.success) {
                         Ext.toast('Attribútum törölve');
                         grid.getStore().reload();
                     } else {
                         Ext.Msg.alert('Hiba', response.message);
                     }
-                });
+                }.bind(this));
             }
-        });
+        }.bind(this));
     }
 });

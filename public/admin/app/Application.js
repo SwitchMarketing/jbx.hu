@@ -26,7 +26,7 @@ Ext.define('JBXAdmin.Application', {
      */
     launch: function () {
 
-		API.getSession().then((result) => {
+		API.getSession().then(function (result) {
 			if(result.success)
 			{
 				this.startApp();
@@ -35,7 +35,7 @@ Ext.define('JBXAdmin.Application', {
 			{
 				this.showLogin();
 			}	
-		});        
+		}.bind(this));        
 
 	},
 

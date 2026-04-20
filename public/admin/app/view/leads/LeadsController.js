@@ -17,18 +17,18 @@ Ext.define('JBXAdmin.view.login.LeadsController', {
          * a tároló betöltése
          * 
          */
-        view.on('painted', () => {
+        view.on('painted', function () {
             view.getStore().load()
-        }, this);
+        }.bind(this), this);
 
 
         view.setSelectable({
             mode : 'single'
         });
 
-        view.getStore().on('load', (store) => {
+        view.getStore().on('load', function (store) {
             view.setTitle('Megkeresések: ' + store.getTotalCount())
-        });
+        }.bind(this));
         
 	},
 
@@ -41,48 +41,48 @@ Ext.define('JBXAdmin.view.login.LeadsController', {
         
         API.call({
             url: 'leads/' + record.get('id')
-        }).then((response) => {
+        }).then(function (response) {
 
             if(response.success) {
 
-                let files = '';
+                var files = '';
                 if(response.data.files) {
-                    files = response.data.files.map((file) => {
-                        return `<a href="${API.apiBase}download/${file.filename}" target="_blank">${file.filename}</a>`
+                    files = response.data.files.map(function (file) {
+                        return '<a href="' + API.apiBase + 'download/' + file.filename + '" target="_blank">' + file.filename + '</a>';
                     }).join('<br>')
-                    files = `<tr>
-                                <td>Fájlok</td>
-                                <td>${files}</td>
-                            </tr>`;
+                    files = '<tr>' +
+                                '<td>Fájlok</td>' +
+                                '<td>' + files + '</td>' +
+                            '</tr>';
                 }
 
-                const html = `<table class="lead">
-                                <tr>
-                                    <td>Név</td>
-                                    <td>${response.data.name}</td>
-                                </tr>
-                                <tr>
-                                    <td>Email</td>
-                                    <td><a href="mailto:${response.data.email}">${response.data.email}</a></td>
-                                </tr>
-                                <tr>
-                                    <td>Telefon</td>
-                                    <td><a href="tel:${response.data.email}">${response.data.phone}</a></td>
-                                </tr>
-                                <tr>
-                                    <td>Üzenet</td>
-                                    <td>${response.data.message}</td>
-                                </tr>
-                                <tr>
-                                    <td>Forrás</td>
-                                    <td>${response.data.utm_source || '-'}</td>
-                                </tr>
-                                <tr>
-                                    <td>Dátum</td>
-                                    <td>${response.data.created_at}</td>
-                                </tr>
-                                ${files}
-                            </table>`;
+                var html = '<table class="lead">' +
+                                '<tr>' +
+                                    '<td>Név</td>' +
+                                    '<td>' + response.data.name + '</td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                    '<td>Email</td>' +
+                                    '<td><a href="mailto:' + response.data.email + '">' + response.data.email + '</a></td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                    '<td>Telefon</td>' +
+                                    '<td><a href="tel:' + response.data.email + '">' + response.data.phone + '</a></td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                    '<td>Üzenet</td>' +
+                                    '<td>' + response.data.message + '</td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                    '<td>Forrás</td>' +
+                                    '<td>' + (response.data.utm_source || '-') + '</td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                    '<td>Dátum</td>' +
+                                    '<td>' + response.data.created_at + '</td>' +
+                                '</tr>' +
+                                files +
+                            '</table>';
 
                 
 
@@ -111,11 +111,11 @@ Ext.define('JBXAdmin.view.login.LeadsController', {
 
             } 
 
-        }).catch((result) => {
+        }.bind(this)).catch(function (result) {
             
             console.error(result);
 
-        });
+        }.bind(this));
 
     }
 
