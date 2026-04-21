@@ -100,6 +100,69 @@ class Products extends BaseResourceController
     }
 
     /**
+     * create — POST /admin/products
+     * Creates a new product master. Body must include name, slug, category_id.
+     *
+     * @return ResponseInterface
+     */
+    public function create()
+    {
+        try {
+            $data = $this->request->getRawInput();
+
+            $name       = isset($data['name']) ? trim((string) $data['name']) : '';
+            $slug       = isset($data['slug']) ? trim((string) $data['slug']) : '';
+            $categoryId = isset($data['category_id']) ? (int) $data['category_id'] : 0;
+
+            if ($name === '') {
+                throw new Exception('Hiányzó kötelező mező: név');
+            }
+            if ($slug === '') {
+                throw new Exception('Hiányzó kötelező mező: slug');
+            }
+            if ($categoryId <= 0) {
+                throw new Exception('Hiányzó kötelező mező: kategória');
+            }
+
+            if ($this->model->where('slug', $slug)->first()) {
+                throw new Exception('A slug már foglalt: "' . $slug . '".');
+            }
+
+            $childCount = (new \App\Models\CategoryModel())
+                ->where('parent_id', $categoryId)
+                ->countAllResults();
+            if ($childCount > 0) {
+                throw new Exception('A termék csak levél (alkategória nélküli) kategóriába helyezhető.');
+            }
+
+            $state = $data['state'] ?? \App\Models\ProductMasterModel::STATE_INACTIVE;
+            if (!in_array($state, \App\Models\ProductMasterModel::STATES, true)) {
+                throw new Exception('Érvénytelen master állapot: ' . $state);
+            }
+
+            $insertData = [
+                'category_id' => $categoryId,
+                'name'        => $name,
+                'slug'        => $slug,
+                'unit'        => isset($data['unit']) ? trim((string) $data['unit']) : null,
+                'state'       => $state,
+            ];
+
+            if ($this->model->insert($insertData)) {
+                $this->setData(['id' => $this->model->getInsertID()]);
+                $this->setSuccess(true);
+                $this->setMessage('Termék létrehozva');
+            } else {
+                throw new Exception(implode(' ', $this->model->errors()));
+            }
+        } catch (Exception $e) {
+            $this->setMessage($e->getMessage());
+        } finally {
+            return $this->setResponse();
+        }
+    }
+
+    /**
      * update
      *
      * @return ResponseInterface
