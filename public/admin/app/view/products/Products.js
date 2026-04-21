@@ -34,6 +34,7 @@ Ext.define('JBXAdmin.view.products.Products', {
                 iconCls: 'x-fa fa-plus',
                 ui: 'action',
                 handler: 'onCreateProduct',
+                margin: '0 10 0 0',
                 platformConfig: {
                     phone: { width: null, flex: null }
                 }
