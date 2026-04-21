@@ -327,10 +327,12 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 var store = grid.getStore();
                                 store.reload({
                                     callback: function () {
-                                        var rec = store.getById(newId);
-                                        if (rec) {
-                                            me.onEditItem(grid, { record: rec });
-                                        }
+                                        // The new record may not be on the current page
+                                        // (pagination + default sort can push it elsewhere).
+                                        // onEditItem only needs the id, so fall back to a stub.
+                                        var rec = store.getById(newId)
+                                            || Ext.create(store.getModel(), { id: newId });
+                                        me.onEditItem(grid, { record: rec });
                                     }
                                 });
                             });
