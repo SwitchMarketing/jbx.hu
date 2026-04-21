@@ -30,6 +30,15 @@ Ext.define('JBXAdmin.view.products.Products', {
         },
         items: [
             {
+                text: 'Új termék',
+                iconCls: 'x-fa fa-plus',
+                ui: 'action',
+                handler: 'onCreateProduct',
+                platformConfig: {
+                    phone: { width: null, flex: null }
+                }
+            },
+            {
                 xtype: 'searchfield',
                 reference: 'productSearch',
                 placeholder: 'Keresés név, slug, leírás...',
