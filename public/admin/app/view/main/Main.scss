@@ -1,0 +1,64 @@
+/** Fő tabpanel */
+.main-tabs {
+ 
+    $bg: #283749;
+    $hilight: #f2d22f;
+
+    // Need some nice dark mode colors here
+    .x-tabbar {
+        background-color: $bg;
+
+        .x-tab .x-inner-el {
+            background-color: $bg;
+        }
+
+        .x-tab.x-active .x-inner-el {
+            background-color: darken($bg, 10%);
+        }
+
+        .x-tab.x-active .x-active-indicator-el {
+            background-color: $hilight;
+        }
+    }
+
+}
+
+.default-tabs {
+    .x-tabbar {
+        background-color: #283749;
+
+        .x-tab .x-inner-el {
+            background-color: #283749;
+        }
+
+        .x-tab.x-active .x-inner-el {
+            background-color: darken(#283749, 10%);
+        }
+
+        .x-tab.x-active .x-active-indicator-el {
+            background-color: #f2d22f;
+        }
+    }
+}
+
+/** Alapértelmezett címsor */
+.x-titlebar {
+    background-color: #353535;    
+    color: #f2d22f;
+}
+
+/** Alapértelmezett gomb */
+.x-tool-gridcell {
+   
+    $edit-color: #15be6c;
+    $delete-color: #f25c2f;
+
+     .x-icon-el.fa-trash {
+        color: $delete-color;
+    }
+    
+    .x-icon-el.fa-edit,
+    .x-icon-el.fa-list {
+        color: $edit-color;
+    }
+}

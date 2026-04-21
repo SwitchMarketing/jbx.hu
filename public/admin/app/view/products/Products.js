@@ -12,8 +12,6 @@ Ext.define('JBXAdmin.view.products.Products', {
 
     title: 'Termékek',
 
-    iconCls: 'x-fa fa-shopping-cart',
-
     store: {
         type: 'productstore'
     },
@@ -96,7 +94,7 @@ Ext.define('JBXAdmin.view.products.Products', {
         {
             text: 'Név',
             dataIndex: 'name',
-            flex : 2,
+            flex : 1,
             cell: {
                 userCls: 'bold'
             }

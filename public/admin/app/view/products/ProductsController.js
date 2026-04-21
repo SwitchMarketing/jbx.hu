@@ -124,8 +124,18 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 var dialog = Ext.create({
                     xtype: 'dialog',
                     title: product.name,
-                    width: 650,
-                    height: 550,
+                    // width: 650,
+                    // height: 550,
+                    responsiveConfig: {
+                        'width >= 768': { 
+                            width: '80%', 
+                            height: '80%' 
+                        },
+                        'width < 768':  { 
+                            width: null, 
+                            height: null 
+                        }
+                    },
                     maximizable: true,
                     closeable: true,
                     layout: 'fit',
@@ -141,6 +151,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     buttons: {
                         edit: {
                             text: 'Szerkesztés',
+                            ui: 'confirm',
                             handler: function () {
                                 dialog.destroy();
                                 this.onEditItem(grid, { record: record });
@@ -148,6 +159,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         },
                         ok: {
                             text: 'Bezár',
+                            ui: 'decline',
                             handler: function () {
                                 dialog.destroy();
                             }
@@ -237,8 +249,18 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         var dialog = Ext.create({
             xtype: 'dialog',
             title: 'Szerkesztés: ' + productData.name,
-            width: 1100,
-            height: 700,
+            // width: 1100,
+            // height: 700,
+            responsiveConfig: {
+                'width >= 768': { 
+                    width: '80%', 
+                    height: '80%' 
+                },
+                'width < 768':  { 
+                    width: null, 
+                    height: null 
+                }
+            },
             closable: true,
             maximizable: true,
             referenceHolder: true,
@@ -248,6 +270,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             },
             items: [{
                 xtype: 'tabpanel',
+                userCls: 'default-tabs',
                 items: [
                     {
                         title: 'Alapadatok',
@@ -463,6 +486,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             buttons: {
                 save: {
                     text: 'Főadatok Mentése',
+                    ui: 'confirm',
                     handler: function () {
                         var form = dialog.lookup('mainForm');
                         if (form.validate()) {
@@ -494,6 +518,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 },
                 close: {
                     text: 'Bezárás',
+                    ui: 'decline',
                     handler: function () {
                         dialog.destroy();
                     }
@@ -797,6 +822,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             buttons: {
                 save: {
                     text: 'Mentés',
+                    ui: 'confirm',
                     handler: function () {
                         var store = attrDialog.lookup('attrGrid').getStore();
                         var data = [];
@@ -842,6 +868,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 },
                 cancel: {
                     text: 'Mégse',
+                    ui: 'decline',
                     handler: function () {
                         attrDialog.destroy();
                     }

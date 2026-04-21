@@ -31,19 +31,23 @@ Ext.define('JBXAdmin.view.main.Main', {
             xtype: 'tabpanel',
             reference: 'mainTabPanel',
             tabBarPosition: 'top',
+            userCls : 'main-tabs',
             items: [
                 {
-                    xtype: 'app-leads'
+                    xtype: 'app-leads',
+                    iconCls: 'x-fa fa-envelope'
                 },
                 {
-                    xtype: 'app-products'
+                    xtype: 'app-products',
+                    iconCls: 'x-fa fa-shopping-cart'
                 },
                 {
                     xtype: 'app-categories',
                     tab: { hidden: true }
                 },
                 {
-                    xtype: 'app-attributes'
+                    xtype: 'app-attributes',
+                    iconCls: 'x-fa fa-tags'
                 }
             ]
         },
