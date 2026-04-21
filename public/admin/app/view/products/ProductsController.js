@@ -203,6 +203,150 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         }.bind(this));
     },
 
+    onCreateProduct: function () {
+        var me = this;
+        var grid = this.getView();
+
+        var categoryStore = Ext.getStore('categorystore') || Ext.create('JBXAdmin.store.CategoryStore');
+        var loadCategories = new Promise(function (resolve) {
+            if (categoryStore.getCount() > 0) { resolve(); return; }
+            if (categoryStore.isLoading()) {
+                categoryStore.on('load', function () { resolve(); }, { single: true });
+            } else {
+                categoryStore.load({ callback: function () { resolve(); } });
+            }
+        });
+
+        loadCategories.then(function () {
+            var catData = me.buildCategoryOptions(categoryStore);
+            var presetCategoryId = null;
+            var catFilter = me.lookup('productCategoryFilter');
+            if (catFilter && catFilter.getValue()) {
+                presetCategoryId = catFilter.getValue();
+            }
+
+            // last auto-generated slug — if the slug field still holds this value
+            // (or is empty), we continue auto-filling from Név; once the user types
+            // anything else into the slug field the auto-fill halts on its own.
+            var lastAutoSlug = '';
+
+            var dialog = Ext.create({
+                xtype: 'dialog',
+                title: 'Új termék',
+                width: 520,
+                height: 460,
+                closable: true,
+                referenceHolder: true,
+                layout: 'fit',
+                platformConfig: {
+                    phone: { maximized: true, width: null, height: null }
+                },
+                items: [{
+                    xtype: 'formpanel',
+                    reference: 'createForm',
+                    scrollable: true,
+                    bodyPadding: 20,
+                    items: [
+                        {
+                            xtype: 'selectfield',
+                            label: 'Kategória',
+                            name: 'category_id',
+                            reference: 'categoryField',
+                            value: presetCategoryId,
+                            options: catData.options,
+                            queryMode: 'local',
+                            autoComplete: true,
+                            forceSelection: true,
+                            clearable: false,
+                            required: true
+                        },
+                        {
+                            xtype: 'textfield',
+                            label: 'Név',
+                            name: 'name',
+                            reference: 'nameField',
+                            required: true,
+                            listeners: {
+                                change: function (field, newValue) {
+                                    var slugField = dialog.lookup('slugField');
+                                    if (!slugField) return;
+                                    var current = slugField.getValue() || '';
+                                    if (current === '' || current === lastAutoSlug) {
+                                        var next = Slugify.toSlug(newValue);
+                                        lastAutoSlug = next;
+                                        slugField.setValue(next);
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            xtype: 'textfield',
+                            label: 'Slug',
+                            name: 'slug',
+                            reference: 'slugField',
+                            required: true
+                        },
+                        {
+                            xtype: 'textfield',
+                            label: 'Egység',
+                            name: 'unit',
+                            placeholder: 'pl. db, m, csomag'
+                        },
+                        {
+                            xtype: 'togglefield',
+                            label: 'Aktív',
+                            name: 'state',
+                            value: false
+                        }
+                    ]
+                }],
+                buttons: {
+                    create: {
+                        text: 'Létrehozás',
+                        ui: 'action',
+                        handler: function () {
+                            var form = dialog.lookup('createForm');
+                            if (!form.validate()) return;
+
+                            var values = form.getValues();
+                            values.state = values.state ? 'active' : 'inactive';
+
+                            API.call({
+                                url: 'products',
+                                method: 'POST',
+                                data: values
+                            }).then(function (response) {
+                                if (!response.success) {
+                                    Ext.Msg.alert('Hiba', response.message);
+                                    return;
+                                }
+                                var newId = response.data && response.data.id;
+                                Ext.toast('Termék létrehozva');
+                                dialog.destroy();
+
+                                var store = grid.getStore();
+                                store.reload({
+                                    callback: function () {
+                                        var rec = store.getById(newId);
+                                        if (rec) {
+                                            me.onEditItem(grid, { record: rec });
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: 'Mégse',
+                        handler: function () { dialog.destroy(); }
+                    }
+                }
+            });
+
+            dialog.show();
+        });
+    },
+
     onEditItem: function (grid, info) {
         var record = info.record;
         if (!record) return;
