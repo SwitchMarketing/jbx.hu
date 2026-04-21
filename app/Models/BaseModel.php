@@ -81,7 +81,9 @@ class BaseModel extends Model
         //echo $lastQuery;
 
         $where = '';
-        if (preg_match('/(?:WHERE)(.*?)(ORDER|LIMIT|$)/is', $lastQuery, $m)) {
+        // Word boundaries prevent matching SQL keyword substrings inside values
+        // (e.g. 'backorder' would truncate at 'back' without \b).
+        if (preg_match('/\bWHERE\b(.*?)(?:\bORDER\b|\bLIMIT\b|$)/is', $lastQuery, $m)) {
             $where = $m[1];
         }
 
