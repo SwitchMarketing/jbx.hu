@@ -95,5 +95,6 @@ writable/
 # AI generated files
 #-------------------------
 .superpowers/
+docs/
 GEMINI.md
 CLAUDE.md
