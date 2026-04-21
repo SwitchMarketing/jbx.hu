@@ -237,8 +237,8 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         var dialog = Ext.create({
             xtype: 'dialog',
             title: 'Szerkesztés: ' + productData.name,
-            width: 850,
-            height: 650,
+            width: 1100,
+            height: 700,
             closable: true,
             maximizable: true,
             referenceHolder: true,
