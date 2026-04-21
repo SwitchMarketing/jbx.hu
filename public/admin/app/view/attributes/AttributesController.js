@@ -32,6 +32,7 @@ Ext.define('JBXAdmin.view.attributes.AttributesController', {
             title: 'Attribútum átnevezése',
             width: 400,
             closable: true,
+            referenceHolder: true,
             bodyPadding: 20,
             items: [{
                 xtype: 'formpanel',
