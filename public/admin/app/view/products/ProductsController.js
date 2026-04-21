@@ -53,6 +53,38 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         }
 	},
 
+    /**
+     * Build leaf-category options with full breadcrumb-path labels
+     * ("Root › Sub › Leaf") from a loaded CategoryStore.
+     *
+     * @param {Ext.data.Store} categoryStore
+     * @return {{ options: Array, pathById: Object }}
+     */
+    buildCategoryOptions: function (categoryStore) {
+        var options = [];
+        var pathById = {};
+        if (!categoryStore) return { options: options, pathById: pathById };
+
+        var byId = {};
+        var parentIds = new Set();
+        categoryStore.each(function (r) {
+            byId[r.get('unas_id')] = r;
+            parentIds.add(String(r.get('parent_id')));
+        });
+
+        categoryStore.each(function (r) {
+            if (parentIds.has(String(r.get('unas_id')))) return;
+            var ids = (r.get('pathIds') || '').toString().split('/').filter(Boolean);
+            if (!ids.length) ids = [r.get('unas_id')];
+            var text = ids.map(function (id) { return byId[id] ? byId[id].get('name') : id; }).join(' › ');
+            pathById[r.get('unas_id')] = text;
+            options.push({ text: text, value: r.get('unas_id') });
+        });
+        options.sort(function (a, b) { return a.text.localeCompare(b.text, 'hu'); });
+
+        return { options: options, pathById: pathById };
+    },
+
     onReloadProducts : function () {
         this.getView().getStore().reload()
     },
@@ -219,30 +251,9 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
     },
 
     showEditDialog: function(grid, masterRecord, productData, categoryStore) {
-        // Build category options with full breadcrumb path ("Root › Sub › Leaf")
-        // so the selected value is self-describing both open and closed.
-        var categoryOptions = [];
-        var categoryPathById = {};
-        if (categoryStore) {
-            var byId = {};
-            categoryStore.each(function (r) { byId[r.get('unas_id')] = r; });
-
-            var pathOf = function (rec) {
-                var ids = (rec.get('pathIds') || '').toString().split('/').filter(Boolean);
-                if (!ids.length) ids = [rec.get('unas_id')];
-                return ids.map(function (id) { return byId[id] ? byId[id].get('name') : id; }).join(' › ');
-            };
-
-            categoryStore.each(function (r) {
-                var full = pathOf(r);
-                categoryPathById[r.get('unas_id')] = full;
-                categoryOptions.push({
-                    text: full,
-                    value: r.get('unas_id')
-                });
-            });
-            categoryOptions.sort(function (a, b) { return a.text.localeCompare(b.text, 'hu'); });
-        }
+        var catData = this.buildCategoryOptions(categoryStore);
+        var categoryOptions = catData.options;
+        var categoryPathById = catData.pathById;
 
         var currentCategoryPath = categoryPathById[productData.category_id] || productData.category_path_names || '-';
 
