@@ -742,6 +742,40 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         );
     },
 
+    onToggleProductState: function(button, e) {
+        var cell = button.ownerCmp;
+        var record = cell && cell.getRecord();
+        if (!record || !record.get('id')) return;
+        var currentState = record.get('state');
+        var newState = currentState === 'active' ? 'inactive' : 'active';
+
+        button.setDisabled(true);
+
+        API.call({
+            url: 'products/' + record.get('id'),
+            method: 'PUT',
+            data: { state: newState }
+        }).then(function(response) {
+            button.setDisabled(false);
+            if (response.success) {
+                record.set('state', newState, { silent: true });
+                record.commit();
+                var sameRow = button.ownerCmp && button.ownerCmp.getRecord &&
+                              button.ownerCmp.getRecord() &&
+                              button.ownerCmp.getRecord().get('id') === record.get('id');
+                if (sameRow) {
+                    button.setActiveState(newState);
+                }
+                Ext.toast(newState === 'active' ? 'Termék aktiválva' : 'Termék inaktiválva');
+            } else {
+                Ext.Msg.alert('Hiba', response.message);
+            }
+        }).catch(function() {
+            button.setDisabled(false);
+            Ext.Msg.alert('Hiba', 'Hálózati hiba. Kérjük próbálja újra.');
+        });
+    },
+
     onSaveVariant: function(variantRecord) {
         if (!variantRecord || !Ext.isFunction(variantRecord.get)) return;
         

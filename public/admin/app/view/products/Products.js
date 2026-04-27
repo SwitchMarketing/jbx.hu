@@ -7,7 +7,9 @@ Ext.define('JBXAdmin.view.products.Products', {
     requires: [
         'JBXAdmin.store.ProductStore',
         'JBXAdmin.store.AttributeStore',
-        'Ext.grid.plugin.PagingToolbar'
+        'Ext.grid.plugin.PagingToolbar',
+        'Ext.grid.cell.Widget',
+        'JBXAdmin.widget.StateToggle'
     ],
 
     title: 'Termékek',
@@ -126,15 +128,16 @@ Ext.define('JBXAdmin.view.products.Products', {
             platformConfig: { phone: { hidden: true } }
         },
         {
-            text: 'Aktív',
-            width : 90,
+            text: 'Állapot',
+            width: 100,
             dataIndex: 'state',
-            renderer : function (val) {
-                var labels = {
-                    active:   'Aktív',
-                    inactive: 'Inaktív'
-                };
-                return labels[val] || val || '';
+            align: 'center',
+            cell: {
+                xtype: 'widgetcell',
+                widget: {
+                    xtype: 'jbx-statetoggle',
+                    listeners: { tap: 'onToggleProductState' }
+                }
             },
             platformConfig: { phone: { hidden: true } }
         },
@@ -142,6 +145,7 @@ Ext.define('JBXAdmin.view.products.Products', {
             width: 80,
             hideable: false,
             sortable: false,
+            align: 'center',
             cell: {
                 tools: {
                     edit: {

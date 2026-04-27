@@ -15,6 +15,7 @@ Ext.define('JBXAdmin.view.main.Main', {
         'Ext.tab.Panel',
         'Ext.Responsive',
         'Ext.grid.plugin.CellEditing',
+        'Ext.grid.cell.Widget',
         'JBXAdmin.view.leads.Leads',
         'JBXAdmin.view.products.Products',
         'JBXAdmin.view.categories.Categories',
