@@ -1,6 +1,7 @@
 <?php if (!empty($options)): ?>
+    <?php $optionMatrixJson = json_encode($optionMatrix ?? [], JSON_UNESCAPED_UNICODE); ?>
     
-    <div class="option-pills-container mb-3">
+    <div class="option-pills-container mb-3" data-master-slug="<?php echo esc($masterSlug ?? ''); ?>" data-option-matrix="<?php echo esc($optionMatrixJson ?: '[]', 'attr'); ?>">
         <?php foreach($options as $k => $option): ?>
 
             <div class="option-pills-group" data-option-id="<?php echo esc($k); ?>">
@@ -8,10 +9,9 @@
                 <div class="option-pills">
                     <?php foreach($option['values'] as $val): ?>
                         <button type="button" class="option-pill <?php echo (isset($val['active']) && $val['active']) ? 'active' : ''; ?>" 
-                            data-sku="<?php echo esc($product->sku ?? ''); ?>"
                             data-option-id="<?php echo esc($k); ?>"
                             data-option-value="<?php echo esc($val['value']); ?>" 
-                            data-slug="<?php echo esc($val['slug']); ?>" onclick="App.productOption(this)">
+                            onclick="App.productOption(this)">
                             <?php echo esc($val['value']); ?>
                         </button>
                     <?php endforeach; ?>

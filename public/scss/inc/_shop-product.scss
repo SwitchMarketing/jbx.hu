@@ -439,6 +439,30 @@ ul.pd-price {
                   cursor: default;
                   pointer-events: none;
               }
+              &:disabled,
+              &.unavailable {
+                background-color: #d9d9d9;
+                border-color: #b5b5b5;
+                color: #6b6b6b;
+                cursor: not-allowed;
+                opacity: .65;
+                text-decoration: line-through;
+              }
+              &:disabled:hover,
+              &.unavailable:hover {
+                background-color: #d9d9d9;
+                border-color: #b5b5b5;
+                color: #6b6b6b;
+              }
+                &.partially-compatible:not(.active):not(:disabled) {
+                  border-style: dashed;
+                  background-color: #ffe8a3;
+                  color: #3a2a00;
+                }
+                &.partially-compatible:not(.active):not(:disabled):hover {
+                  background-color: #ffd869;
+                  color: #1f1600;
+                }
           }
 
         }

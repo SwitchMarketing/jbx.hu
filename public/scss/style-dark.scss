@@ -963,6 +963,54 @@ body.light-d {
 			}
 		}
 	}
+	.cart {
+		.cart-box {
+			border-color: #3a3a3a;
+		}
+		.cart-table {
+			&.head {
+				background: #222 !important;
+				li {
+					background: #222 !important;
+					.c-c {
+						.c-data span,
+						.c-price span,
+						.c-quality span,
+						.c-total span {
+							color: #fff !important;
+							font-weight: 700;
+							font-size: 14px !important;
+						}
+					}
+				}
+			}
+			li:nth-child(even) {
+				background: #141414;
+			}
+			li:nth-child(odd) {
+				background: #0f0f0f;
+			}
+			.c-c {
+				.c-data {
+					h2 a {
+						color: $color_3;
+					}
+					.cr-svg {
+						border-color: #4a4a4a;
+					}
+				}
+				.c-price .orgnl,
+				.c-total span {
+					color: $color_4;
+				}
+				.c-quality input {
+					background-color: #0f0f0f;
+					border-color: #4a4a4a;
+					color: $color_4;
+				}
+			}
+		}
+	}
 	.checkout {
 		.billing {
 			input {

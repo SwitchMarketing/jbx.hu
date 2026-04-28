@@ -27,7 +27,7 @@
                     <div class="col-lg-6">
                         <div class="pd-data">
                             <h2><?php echo esc($product->name); ?></h2>
-                            <?php echo view('shared/option-pills', ['options' => $options]); ?>
+                            <?php echo view('shared/option-pills', ['options' => $options, 'optionMatrix' => $optionMatrix ?? [], 'masterSlug' => $masterSlug ?? '', 'product' => $product]); ?>
                             <div class="pd-quality">
                                 <span>Mennyiség</span>
                                 <input type="number" name="number" id="qty-<?php echo esc($product->sku) ?>" value="1">
@@ -62,8 +62,8 @@
                                     <?php if (!empty($product->description)) : ?>
                                         <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Leírás</button>
                                     <?php endif; ?>
-                                    <?php if (!empty($product->params)) : ?>
-                                        <button class="nav-link <?php echo empty($product->description) ? 'active' : ''; ?>" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">További információ</button>
+                                    <?php if (!empty($product->params) || !empty($product->sku)) : ?>
+                                        <button class="nav-link <?php echo empty($product->description) ? 'active' : ''; ?>" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Jellemzők</button>
                                     <?php endif; ?>                                                                         
                                 </div>
                                 <div class="tab-content" id="v-pills-tabContent">
@@ -74,16 +74,18 @@
                                         </div>
                                     </div>
                                     <?php endif; ?>
-                                    <?php if (!empty($product->params)) : $params = json_decode($product->params); ?>                                    
+                                    <?php if (!empty($product->params) || !empty($product->sku)) : $params = !empty($product->params) ? json_decode($product->params) : null; ?>                                    
                                         <div class="tab-pane fade <?php echo empty($product->description) ? 'show active' : ''; ?>" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                                         <div class="adis-tab">
                                             <div class="tab-table">
                                                 <table class="table">
                                                     <tbody>
-                                                        <tr>
-                                                            <td>SKU</td>
-                                                            <td><?php echo esc($product->sku); ?></td>
-                                                        </tr>
+                                                        <?php if (!empty($product->sku)) : ?>
+                                                            <tr>
+                                                                <td>SKU</td>
+                                                                <td><?php echo esc($product->sku); ?></td>
+                                                            </tr>
+                                                        <?php endif; ?>
                                                     <?php if(is_object($params)): ?>
                                                         <tr>
                                                             <td><?php echo esc($params->Name); ?></td>

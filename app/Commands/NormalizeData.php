@@ -7,6 +7,8 @@ use CodeIgniter\CLI\CLI;
 
 class NormalizeData extends BaseCommand
 {
+    protected array $variantSlugCache = [];
+
     protected $group       = 'Custom';
     protected $name        = 'db:normalize-products';
     protected $description = 'Migrates data from the flat products table to normalized tables.';
@@ -105,6 +107,7 @@ class NormalizeData extends BaseCommand
                 'unas_id'    => $p->product_id,
                 'sku'        => $p->sku,
                 'name'       => $p->name,
+                'slug'       => $this->buildVariantSlug($db, (int)$masterId, (string)($p->name ?: $p->sku)),
                 'price'      => $priceVal,
                 'stock'      => (float)($stock->Value ?? 0),
                 'state'      => $p->state,
@@ -149,5 +152,41 @@ class NormalizeData extends BaseCommand
             case 'inactive': return $legacy;
             default:         return 'instock';
         }
+    }
+
+    protected function buildVariantSlug($db, int $masterId, string $source): string
+    {
+        $base = $this->slugify($source);
+        if ($base === '') {
+            $base = 'variant';
+        }
+
+        $slug = $base;
+        $i = 2;
+
+        while (
+            isset($this->variantSlugCache[$masterId . ':' . $slug]) ||
+            $db->table('product_variants')->where('master_id', $masterId)->where('slug', $slug)->countAllResults() > 0
+        ) {
+            $slug = $base . '-' . $i;
+            $i++;
+        }
+
+        $this->variantSlugCache[$masterId . ':' . $slug] = true;
+
+        return $slug;
+    }
+
+    protected function slugify(string $value): string
+    {
+        $value = trim($value);
+        if ($value === '') {
+            return '';
+        }
+
+        $value = strtolower($value);
+        $value = preg_replace('/[^a-z0-9]+/', '-', $value) ?? '';
+
+        return trim($value, '-');
     }
 }

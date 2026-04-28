@@ -27,7 +27,7 @@
                     <li>
                         <div class="c-c">
                         <div class="c-data">
-                            <a class="cr-svg d-flex-all" href="javascript:void(0)" data-sku="<?php echo $p->sku; ?>" title="Törlés" onclick="App.removeFromCart(this);">
+                            <a class="cr-svg d-flex-all" href="javascript:void(0)" data-line-id="<?php echo (int)$p->id; ?>" data-sku="<?php echo $p->sku; ?>" title="Törlés" onclick="App.removeFromCart(this);">
                                 <img src="imgs/cross.svg" alt="Cross Svg" width="12">
                             </a>
                             <?php if (isset($p->image) && $p->image): ?>
@@ -38,8 +38,8 @@
                             <h2><a href="javascript:void(0)"><?php echo $p->name ?></a></h2>
                         </div>
                         <div class="c-price text-end">
-                            <?php if($p->price): ?>
-                            <span class="orgnl"><?php echo format_price((int)$p->price) ?></span>                            
+                            <?php if((float)$p->price > 0): ?>
+                            <span class="orgnl"><?php echo format_price((float)$p->price) ?></span>                            
                             <?php else: ?>
                             <span class="orgnl">-</span>
                             <?php endif; ?>
@@ -48,10 +48,11 @@
                             <input type="number" name="number" value="<?php echo $p->qty ?>" id="qty-<?php echo $p->sku; ?>" min="1" class="text-center" readonly>
                         </div>
                         <div class="c-total text-end">
-                            <?php if($p->price && $p->qty): ?>
-                                <span><?php echo format_price($p->price * $p->qty) ?></span>
+                            <?php $lineTotal = $p->price * $p->qty; ?>
+                            <?php if($lineTotal > 0): ?>
+                                <span><?php echo format_price($lineTotal) ?></span>
                             <?php else: ?>
-                                <span><?php echo $p->status ?></span>
+                                <span>Ajánlatkérés</span>
                             <?php endif; ?>
                         </div>
                         </div>

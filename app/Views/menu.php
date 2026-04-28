@@ -48,6 +48,13 @@
                                 <li>
                                     <a href="<?php echo base_url('kapcsolat') ?>">Kapcsolat</a>
                                 </li>
+                                <?php if(session('enable_cart')): ?>
+                                <li>
+                                    <a href="<?php echo base_url('kosar') ?>" title="Kosár">
+                                        <i class="fa-solid fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                                <?php endif; ?>
                             </ul>
 
                             <div class="extras">
@@ -118,6 +125,13 @@
                     <li>
                         <a href="<?php echo base_url('kapcsolat') ?>">Kapcsolat</a>
                     </li>
+                    <?php if(session('enable_cart')): ?>
+                    <li>
+                        <a href="<?php echo base_url('kosar') ?>" title="Kosár">
+                            <i class="fa-solid fa-shopping-cart"></i>
+                        </a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
                 <a href="JavaScript:void(0)" id="res-cross"></a>
             </div>

@@ -84,6 +84,19 @@ function product_description($text = null)
  * @return string
  */
 function product_price($product, $return_price_only = false) {
+
+    // Új normalizált modell: közvetlen numerikus ár a variánson
+    if (isset($product->price) && is_numeric($product->price) && (float)$product->price > 0) {
+        $price = (float)$product->price;
+        if ($return_price_only) {
+            return $price;
+        }
+
+        $html = '<ul class="pd-price mb-3">';
+        $html .= '<li class="pd-sale-price"><span>' . format_price($price) . '</span></li>';
+        $html .= '</ul>';
+        return $html;
+    }
     
     if (empty($product->prices)) {
         return '';
@@ -166,8 +179,12 @@ function add_to_cart_button($product, $class = 'theme-btn') {
     }
 
     $btnText = product_status($product)->btnText;
+    $variantAttr = '';
+    if (isset($product->variant_id) && (int)$product->variant_id > 0) {
+        $variantAttr = ' data-variant-id="' . (int)$product->variant_id . '"';
+    }
 
-    return '<a href="javascript:void(0)" data-sku="'.$product->sku.'" onclick="App.addToCart(this)" class="theme-btn">' . $btnText . ' <i class="fa-solid fa-angles-right"></i></a>';
+    return '<a href="javascript:void(0)" data-sku="'.$product->sku.'"' . $variantAttr . ' onclick="App.addToCart(this)" class="theme-btn">' . $btnText . ' <i class="fa-solid fa-angles-right"></i></a>';
 }   
 
 
@@ -180,6 +197,11 @@ function add_to_cart_button($product, $class = 'theme-btn') {
  * @return void
  */
 function product_stock($product) {
+
+    // Új normalizált modell: közvetlen készlet mező
+    if (isset($product->stock) && is_numeric($product->stock)) {
+        return (float)$product->stock;
+    }
 
     if (empty($product->stock)) {
         return 0;
@@ -206,6 +228,32 @@ function product_stock($product) {
  * @return object
  */
 function product_status($product) {
+
+    // Új normalizált modell: állapot mező alapján döntünk
+    if (isset($product->state) && is_string($product->state) && $product->state !== '') {
+        $state = $product->state;
+
+        $status = (object) [
+            'btnText' => 'Ajánlatkérés',
+            'inStock' => false
+        ];
+
+        if ($state === 'instock') {
+            $status->btnText = 'Kosárba';
+            $status->inStock = true;
+            return $status;
+        }
+
+        if ($state === 'backorder') {
+            $status->btnText = 'Rendelés';
+            return $status;
+        }
+
+        if ($state === 'inquire') {
+            $status->btnText = 'Ajánlatkérés';
+            return $status;
+        }
+    }
 
     $price = product_price($product);
     $stock = product_stock($product);

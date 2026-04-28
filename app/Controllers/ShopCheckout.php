@@ -29,7 +29,7 @@ class ShopCheckout extends BaseController
 		// kosár tételek
 		$cartModel = new \App\Models\ShoppingCartModel();
 		$cartItems = $cartModel
-						->select('id, sku, name, price, qty, status')
+						->select('id, sku, name, price, unit_price_gross, qty, status')
 						->where('session_id', $session_id)						
 						->findAll();
 
@@ -42,17 +42,23 @@ class ShopCheckout extends BaseController
 		$cartTotal = 0;
 		if(count($cartItems)) {
 			foreach($cartItems as $item) {
-				if($item->price && $item->qty) {
-					$cartTotal += $item->price * $item->qty;
+				$linePrice = (float)($item->price ?? 0);
+				if ($linePrice <= 0 && !empty($item->unit_price_gross)) {
+					$linePrice = (float)$item->unit_price_gross;
+				}
+
+				if($linePrice > 0 && $item->qty) {
+					$cartTotal += $linePrice * (int)$item->qty;
 				}
 			}
 		}
+		$cartTotal = round($cartTotal, 2);
 
 		// nettó ár
-		$cartNetTotal = (int)($cartTotal / 1.27);
+		$cartNetTotal = round($cartTotal / 1.27, 2);
 
 		// áfa
-		$cartVat = $cartTotal - $cartNetTotal;
+		$cartVat = round($cartTotal - $cartNetTotal, 2);
 
 		$data = [
 			'header' => [
@@ -124,9 +130,17 @@ class ShopCheckout extends BaseController
 				$session_id = $this->session->get('cart_session_id');
 				$cartModel = new \App\Models\ShoppingCartModel();
 				$cartItems = $cartModel
-								->select('id, sku, name, price, qty, status')
+													->select('id, sku, name, price, unit_price_gross, qty, status')
 								->where('session_id', $session_id)						
 								->findAll();
+
+							foreach ($cartItems as $item) {
+								$linePrice = (float)($item->price ?? 0);
+								if ($linePrice <= 0 && !empty($item->unit_price_gross)) {
+									$linePrice = (float)$item->unit_price_gross;
+								}
+								$item->price = $linePrice;
+							}
 
 				// az adatok 
 				$rec = [

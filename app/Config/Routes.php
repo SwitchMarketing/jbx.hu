@@ -59,19 +59,33 @@ $routes->get('/erintettseg', 'LegalPages::exposure');
 $routes->get('/belepes', 'ShopLoginRegister::index');
 
 /**
+ * Teszt funkciók (csak fejlesztéshez)
+ */
+$routes->get('/teszt-kosar', 'Home::testCart');
+$routes->get('/debug-kategoriak', 'Home::debugCategories');
+
+/**
  * Shop kategóriák
  * Dinamikus kategória útvonalak betöltése cache-ből
  */
 $categoryRouteCache = WRITEPATH . 'cache/category_routes.php';
+if (!file_exists($categoryRouteCache)) {
+    \App\Helpers\CategoryRouteCache::generate();
+}
 if (file_exists($categoryRouteCache)) {
     require $categoryRouteCache;
 }
 
 /**
+ * Shop kategóriák listaoldal
+ */
+$routes->get('/kategoriak', 'ShopCategories::index');
+
+/**
  * Shop termékek
  */
 $routes->get('/termekek', 'ShopProducts::index');
-$routes->get('/termekek/(:segment)', 'ShopProducts::product/$1');
+$routes->get('/termekek/(:segment)/(:segment)', 'ShopProducts::product/$1/$2');
 $routes->post('/termek', 'ShopProducts::productVariation');
 
 /**

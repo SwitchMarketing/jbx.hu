@@ -15,6 +15,7 @@ var App = {
     this.hideCTAButton();
 
     this.categoryTree();
+    this.updateOptionAvailability();
 
     this.nzoomimg();
     this.pdGallery();
@@ -592,8 +593,13 @@ var App = {
 
   productOption: function(option) {
 
-    const sku = $(option).data('sku') || '';
-    const slug = $(option).data('slug') || '';
+    if ($(option).is(':disabled')) {
+      return;
+    }
+
+    const masterSlug = $(option).closest('.option-pills-container').data('master-slug') || '';
+    const clickedOptionId = $(option).data('option-id');
+    const clickedOptionValue = $(option).data('option-value');
     const params = [];
     const activeButtons = $('button.option-pill.active') || [];
 
@@ -617,36 +623,113 @@ var App = {
       });      
     }
 
-    if(sku != '' && params.length > 0) {
+    if(masterSlug != '' && params.length > 0) {
         // ajax call to get product data
         $.ajax({
           url: App.base + 'termek',
           type: 'POST',
           data: {
-            sku: sku,
-            slug: slug,
+            master_slug: masterSlug,
+            clicked_option_id: clickedOptionId,
+            clicked_option_value: clickedOptionValue,
             params: JSON.stringify(params)
           },
           dataType: 'json',
           success: function(response) {
             window.location = response.url;            
+          },
+          error: function(xhr) {
+            const resp = xhr.responseJSON || {};
+            if (resp.error) {
+              App.showCartAlert(resp.error, 'warning');
+            }
           }
         });
     }
     
   },
 
+  updateOptionAvailability: function() {
+    const normalizeOptionValue = function(value) {
+      return String(value || '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase();
+    };
+
+    const container = $('.option-pills-container');
+    if (!container.length) {
+      return;
+    }
+
+    const matrixJson = container.attr('data-option-matrix') || '[]';
+    let matrix = [];
+    try {
+      matrix = JSON.parse(matrixJson);
+    } catch (e) {
+      matrix = [];
+    }
+
+    if (!Array.isArray(matrix) || matrix.length === 0) {
+      return;
+    }
+
+    const activeSelections = {};
+    $('button.option-pill.active').each(function() {
+      const optionId = String($(this).data('option-id'));
+      const optionValue = normalizeOptionValue($(this).data('option-value'));
+      activeSelections[optionId] = optionValue;
+    });
+
+    $('button.option-pill').each(function() {
+      const btn = $(this);
+      const optionId = String(btn.data('option-id'));
+      const optionValue = normalizeOptionValue(btn.data('option-value'));
+
+      const variantsWithOption = matrix.filter(function(variant) {
+        const attrs = variant.attrs || {};
+        return normalizeOptionValue(attrs[optionId]) === optionValue;
+      });
+
+      const isSelectable = variantsWithOption.length > 0;
+      const candidateSelections = Object.assign({}, activeSelections, {
+        [optionId]: optionValue,
+      });
+
+      const isStrictlyCompatible = matrix.some(function(variant) {
+        const attrs = variant.attrs || {};
+        return Object.keys(candidateSelections).every(function(key) {
+          return normalizeOptionValue(attrs[key]) === String(candidateSelections[key]);
+        });
+      });
+
+      btn.prop('disabled', !isSelectable);
+      btn.toggleClass('unavailable', !isSelectable);
+      btn.toggleClass('partially-compatible', isSelectable && !isStrictlyCompatible);
+
+      if (!isSelectable) {
+        btn.attr('title', 'Ez az opció nem elérhető.');
+      } else if (!isStrictlyCompatible) {
+        btn.attr('title', 'Választható, de más opciók is automatikusan változnak.');
+      } else {
+        btn.attr('title', '');
+      }
+    });
+  },
+
   addToCart: function(btn) {
 
     const self = this;
+    const variantId = $(btn).data('variant-id') || '';
     const sku = $(btn).data('sku') || '';
     const qty = $('#qty-' + sku).val() || 1;
 
-    if(sku != '') {
+    if(variantId != '' || sku != '') {
       $.ajax({
         url: App.base + 'kosar',
         type: 'POST',
         data: {
+          variant_id: variantId,
           sku: sku,
           qty: qty
         },
@@ -670,12 +753,14 @@ var App = {
   removeFromCart: function(btn) {
 
     const self = this;
+    const lineId = $(btn).data('line-id') || '';
     const sku = $(btn).data('sku') || '';
-    if(sku != '') {
+    if(lineId != '' || sku != '') {
       $.ajax({
         url: App.base + 'kosar/torles',
         type: 'POST',
         data: {
+          line_id: lineId,
           sku: sku
         },
         dataType: 'json',

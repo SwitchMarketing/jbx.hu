@@ -5,7 +5,8 @@ namespace App\Controllers;
 use App\Libraries\BuildPage;
 
 use App\Models\CategoryTreeModel;
-use App\Models\ProductModel;
+use App\Models\ProductMasterModel;
+use App\Models\ProductVariantModel;
 
 class ShopProducts extends BaseController
 {
@@ -28,42 +29,71 @@ class ShopProducts extends BaseController
 
 		$start = ($page * $itemsPerPage) - $itemsPerPage;
 
-		// a termékek lekérése
-		// a termékek modelje
-		$model = model(ProductModel::class);
+		$db = \Config\Database::connect('shop');
+		$activeVariantStates = [
+			ProductVariantModel::STATE_INSTOCK,
+			ProductVariantModel::STATE_BACKORDER,
+			ProductVariantModel::STATE_INQUIRE,
+		];
+		$quotedStates = implode(', ', array_map(static fn ($state) => $db->escape($state), $activeVariantStates));
 
-		// csak a parent típusú termékeket listázzuk alapértelmezetten
-		// vagy ahol a types mező NULL
-		$model->groupStart()
-             ->where("json_extract(types, '$.Type') IS NULL")
-             ->orWhere("json_extract(types, '$.Type') =", 'parent')
-             ->groupEnd();   
+		$builder = $db->table('product_masters pm');
+		$builder->select([
+			'pm.id AS master_id',
+			'pm.name AS name',
+			'pm.slug AS master_slug',
+			'representative_variant.id AS variant_id',
+			'representative_variant.slug AS variant_slug',
+			'representative_variant.sku AS sku',
+			'representative_variant.price AS price',
+			'representative_variant.state AS variant_state',
+			'categories.path AS category_path',
+			'images.filename AS image',
+		]);
+		$builder->join('category_tree AS categories', 'categories.unas_id = pm.category_id', 'left');
+		$builder->join(
+			'product_variants AS representative_variant',
+			"representative_variant.id = (
+				SELECT pv.id
+				FROM product_variants pv
+				WHERE pv.master_id = pm.id
+					AND pv.state IN ({$quotedStates})
+				ORDER BY pv.price ASC, pv.id ASC
+				LIMIT 1
+			)",
+			'inner',
+			false
+		);
+		$builder->join(
+			'(SELECT product_id, filename FROM images GROUP BY product_id) AS images',
+			'representative_variant.unas_id = images.product_id',
+			'left',
+			false
+		);
+		$builder->where('pm.state', ProductMasterModel::STATE_ACTIVE);
 
-		// a termékek lekérése
 		if ($categoryId) {
 			// a kategórának vannak al-kategóriái, így a kategória összes termékét lekérjük
 			$descendantIds = \App\Helpers\CategoryHelper::getDescendantIds($categoryId);
-			$model->whereIn('category_id', $descendantIds);	
-		} 
+			$builder->whereIn('pm.category_id', $descendantIds);
+		}
 
-		// a termékek rendezése név alapján
-		$sorters = [
-			(object) [
-				'property' => 'name',
-				'direction' => 'ASC'
-			]
-		];
-		$model->setSorters($sorters);
+		$countBuilder = clone $builder;
+		$total = $countBuilder->countAllResults();
 
-		$result = $model->findAll($itemsPerPage, $start);		
+		$items = $builder
+			->orderBy('pm.name', 'ASC')
+			->limit($itemsPerPage, $start)
+			->get()
+			->getResult();
 		
 		// a lapozó
 		$pager = service('pager');
 
 		$shop = (object) [
-            'items' => $result->data,
-            'total' => $result->total,
-			'links' => $pager->makeLinks($page, $limit, $result->total, 'shop')
+			'items' => $items,
+			'total' => $total,
+			'links' => $pager->makeLinks($page, $limit, $total, 'shop')
         ];
 
 		// kategória fa lekérése
@@ -71,7 +101,10 @@ class ShopProducts extends BaseController
         $categories = $treeModel->getAllOrdered();
 
 		// a fategóriaképzés
-        $tree = $this->buildTree($categories);
+		$tree = $this->buildTree($categories, null);
+		if (empty($tree)) {
+			$tree = $this->buildTree($categories, 0);
+		}
 
 		// breadcrumbs
 		$breadcrumbs = [
@@ -119,44 +152,103 @@ class ShopProducts extends BaseController
 	 */
 	public function product(...$params)
     {
+		$master = null;
+		$variant = null;
+		$activeVariantStates = [
+			ProductVariantModel::STATE_INSTOCK,
+			ProductVariantModel::STATE_BACKORDER,
+			ProductVariantModel::STATE_INQUIRE,
+		];
 
-		$slug = end($params);
+		if (count($params) >= 2) {
+			$variantSlug = array_pop($params);
+			$masterSlug = array_pop($params);
 
-		// termék lekérése slug alapján
-		$model = model(ProductModel::class);
-		$product = $model->where('slug', $slug)->first();
+			$masterModel = model(ProductMasterModel::class);
+			$variantModel = model(ProductVariantModel::class);
 
-		// ha nincs termék, akkor 404-es hiba
-		if (!$product) {
+			$master = $masterModel
+				->where('slug', $masterSlug)
+				->where('state', ProductMasterModel::STATE_ACTIVE)
+				->first();
+
+			if ($master) {
+				$variant = $variantModel
+					->where('master_id', $master->id)
+					->where('slug', $variantSlug)
+					->whereIn('state', $activeVariantStates)
+					->first();
+
+				if (!$variant) {
+					$variant = $variantModel
+						->where('master_id', $master->id)
+						->whereIn('state', $activeVariantStates)
+						->orderBy('price', 'ASC')
+						->first();
+
+					if (!$variant) {
+						throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+					}
+
+					$canonicalPath = ['termekek'];
+					if (!empty($master->category_id)) {
+						$trail = \App\Helpers\BreadcrumbsHelper::getCategoryTrail($master->category_id);
+						if (!empty($trail)) {
+							foreach ($trail as $cat) {
+								$canonicalPath[] = $cat->slug;
+							}
+						}
+					}
+					$canonicalPath[] = $master->slug;
+					$canonicalPath[] = $variant->slug;
+
+					return redirect()->to(base_url(implode('/', $canonicalPath)), 301);
+				}
+			}
+		}
+
+		// Egy-szegmenses legacy URL-eket nem szolgálunk ki többé.
+		if (!$master || !$variant) {
 			throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
 		}
 
-		// a termék típusa - szülő vagy gyermek
-		// a types mező JSON formátumú, dekódoljuk
-		$type = json_decode($product->types, true)['Type'] ?? null;
+		$product = (object) [
+			'id'          => (int) $variant->id,
+			'variant_id'  => (int) $variant->id,
+			'master_id'   => (int) $master->id,
+			'name'        => $variant->name ?: $master->name,
+			'sku'         => $variant->sku,
+			'description' => $master->description ?? '',
+			'price'       => (float) ($variant->price ?? 0),
+			'stock'       => (float) ($variant->stock ?? 0),
+			'state'       => $variant->state ?? '',
+			'images'      => $this->getVariantImages($variant->unas_id ?? null),
+			'params'      => null,
+		];
+		$variant->attributes = $this->getVariantAttributes((int) $variant->id);
 
-		// ha gyermek termék, akkor betöltjük a szülő terméket is
-		// ha szülő termék, akkor az a termék maga
-		$parent = null;
-		if ($type === 'child') {
+		$siblings = model(ProductVariantModel::class)->getWithAttributes($master->id);
+		$siblings = array_values(array_filter($siblings, static function ($v) use ($activeVariantStates) {
+			return in_array($v->state ?? null, $activeVariantStates, true);
+		}));
 
-			$parentSku = json_decode($product->types, true)['Parent'];
-			
-			// Betöltjük a parent terméket
-			$parent = $model
-				->where('sku', $parentSku)
-				->where("json_extract(types, '$.Type') =", 'parent')
-				->first();
+		$options = [];
+		$optionMatrix = [];
+		if (!empty($siblings)) {
+			$options = $this->buildOptionsFromVariants($siblings, (int) $variant->id);
+			$optionMatrix = $this->buildOptionMatrix($siblings);
+		}
 
-		} else {
-			$parent = $product;
-		}		
-		
-		// termék variációk
-		$options = $model->getOptions($parent->sku);
-
-		// a termék kategóriája
-		$category = (new \App\Models\CategoryModel())->find($product->category_id);
+		if (!empty($variant->attributes) && is_array($variant->attributes)) {
+			$params = [];
+			foreach ($variant->attributes as $attr) {
+				$params[] = (object) [
+					'Name' => $attr->name,
+					'Value' => $attr->value,
+				];
+			}
+			$product->params = json_encode($params);
+		}
 
 		// breadcrumbs
 		$breadcrumbs = [
@@ -165,12 +257,10 @@ class ShopProducts extends BaseController
                 'url'   => base_url('termekek')
             ]
 		];
-		if ($product->category_id) {
-			// ha van kategória ID, akkor a kategória trail lekérése
-			$trail = \App\Helpers\BreadcrumbsHelper::getCategoryTrail($product->category_id);
-			if(!empty($trail)) {
-				// a breadcrumbs tömbbe hozzáadjuk a kategória neveket és URL-eket
-				foreach($trail as $cat) {
+		if ($master->category_id) {
+			$trail = \App\Helpers\BreadcrumbsHelper::getCategoryTrail($master->category_id);
+			if (!empty($trail)) {
+				foreach ($trail as $cat) {
 					$breadcrumbs[] = (object) [
 						'title' => $cat->name,
 						'url'   => base_url('termekek/' . $cat->path)
@@ -179,31 +269,6 @@ class ShopProducts extends BaseController
 			}
 		}
 
-		if($product->params) {
-		
-			$product_params = json_decode($product->params, true) ?? [];
-		//// --- A jelölés logikája --
-			foreach ($product_params as $param) {
-
-				if(!is_array($param)) {
-					continue;
-				}
-
-				$id    = $param['Id'];
-				$value = trim($param['Value']);
-
-				if (isset($options[$id])) {
-					foreach ($options[$id]['values'] as &$optValue) {
-						if (trim($optValue['value']) === $value) {
-							$optValue['active'] = true;
-						}
-					}
-					unset($optValue); // mindig bontsuk a referenciát!
-				}
-			
-			}
-		}		
-
 		$data = [
 			'header' => [
 				'title'	  => page_title($product->name),		
@@ -211,8 +276,10 @@ class ShopProducts extends BaseController
 			],
 			'body'	=> [
                 'breadcrumbs' => $breadcrumbs,
-				'product' => $product,
-				'options' => $options				
+				'product'     => $product,
+				'options'     => $options,
+				'optionMatrix'=> $optionMatrix,
+				'masterSlug'  => $master->slug,
             ]
         ];
 
@@ -239,83 +306,289 @@ class ShopProducts extends BaseController
 			return $this->response->setStatusCode(400)->setJSON(['error' => 'Érvénytelen kérés.']);
 		}
 		
-		$sku = $this->request->getPost('sku');
-		$options = json_decode($this->request->getPost('params'), true) ?? []; // tömb
-		$slug = $this->request->getPost('slug');
+		$masterSlug = $this->request->getPost('master_slug') ?? '';
+		$clickedOptionId = (string) ($this->request->getPost('clicked_option_id') ?? '');
+		$clickedOptionValue = $this->normalizeOptionValue((string) ($this->request->getPost('clicked_option_value') ?? ''));
+		$options    = json_decode($this->request->getPost('params'), true) ?? [];
 		
-		if (!$sku || !$options) {
+		if (!$masterSlug || !$options) {
 			return $this->response->setStatusCode(400)->setJSON(['error' => 'Hiányzó paraméterek.']);
 		}
 
-		// a termék az sku alapján, kell a kategória azonosításhoz
-		$model = model(ProductModel::class);
-		$product = $model->where('sku', $sku)->first();
-		$category_id = $product->category_id ?? null;
+		$masterModel = model(ProductMasterModel::class);
+		$master = $masterModel
+			->where('slug', $masterSlug)
+			->where('state', ProductMasterModel::STATE_ACTIVE)
+			->first();
 
-		// a kategória
-		if (!$category_id) {
-			return $this->response->setStatusCode(404)->setJSON(['error' => 'A termék kategóriája nem található.']);
-		}
-		$category = (new \App\Models\CategoryModel())->find($category_id);
-
-		// az összes termék lekérése a kategóriából
-		$products = $model->where('category_id', $category_id)->findAll(0);
-		
-		// a megfelelő termék keresése a paraméterek alapján
-		// minden paraméternek egyeznie kell
-		$result = null;
-		foreach ($products->data as $prod) {
-			
-			if ($prod->sku === $sku) {
-				continue; // a kiinduló terméket kihagyjuk
-			}
-			if (!$prod->params) {
-				continue; // ha nincs paraméter, akkor kihagyjuk
-			}
-			$prodParams = json_decode($prod->params, true);
-			$match = true;
-			foreach ($options as $key => $value) {
-				
-				$found = false;
-
-				foreach ($prodParams as $param) {			
-					if(!is_array($param)) {
-						continue;
-					}
-					if ($param['Id'] == $value['optionId'] && trim($param['Value']) === trim($value['optionValue'])) {
-						$found = true;
-						break;
-					}
-				}
-				if (!$found) {
-					$match = false;
-					break;
-				}
-				
-			}
-			if ($match) {
-				$result = $prod;
-				break;
-			}	
-			
+		if (!$master) {
+			return $this->response->setStatusCode(404)->setJSON(['error' => 'Mester termék nem található.']);
 		}
 
-		// ha van kategória ID, akkor a kategória trail lekérése
+		$db = \Config\Database::connect('shop');
+		$matchCount = count($options);
+
+		$conditions = [];
+		foreach ($options as $o) {
+			$conditions[] = '(vav.attribute_id = ' . $db->escape((int)($o['optionId'] ?? 0))
+				. ' AND vav.value = ' . $db->escape($o['optionValue'] ?? '') . ')';
+		}
+		$condStr = implode(' OR ', $conditions);
+
+		$sql = "SELECT pv.id, pv.slug AS variant_slug, pv.sku
+				FROM product_variants pv
+				WHERE pv.master_id = ?
+				AND pv.state IN (?, ?, ?)
+				AND (
+					SELECT COUNT(*) FROM variant_attribute_values vav
+					WHERE vav.variant_id = pv.id
+					AND ({$condStr})
+				) = ?
+				LIMIT 1";
+
+		$foundVariant = $db->query($sql, [
+			$master->id,
+			ProductVariantModel::STATE_INSTOCK,
+			ProductVariantModel::STATE_BACKORDER,
+			ProductVariantModel::STATE_INQUIRE,
+			$matchCount,
+		])->getRow();
+
+		if (!$foundVariant && $clickedOptionId !== '' && $clickedOptionValue !== '') {
+			$activeStates = [
+				ProductVariantModel::STATE_INSTOCK,
+				ProductVariantModel::STATE_BACKORDER,
+				ProductVariantModel::STATE_INQUIRE,
+			];
+
+			$selectedOptions = [];
+			foreach ($options as $o) {
+				$optId = (string) ($o['optionId'] ?? '');
+				if ($optId === '') {
+					continue;
+				}
+				$selectedOptions[$optId] = $this->normalizeOptionValue((string) ($o['optionValue'] ?? ''));
+			}
+
+			$candidates = model(ProductVariantModel::class)->getWithAttributes((int) $master->id);
+			$best = null;
+			$bestScore = -1;
+
+			foreach ($candidates as $candidate) {
+				if (!in_array($candidate->state ?? null, $activeStates, true)) {
+					continue;
+				}
+
+				$attrs = [];
+				foreach (($candidate->attributes ?? []) as $attr) {
+					$attrs[(string) $attr->attribute_id] = $this->normalizeOptionValue((string) $attr->value);
+				}
+
+				if (($attrs[$clickedOptionId] ?? null) !== $clickedOptionValue) {
+					continue;
+				}
+
+				$score = 0;
+				foreach ($selectedOptions as $optId => $optValue) {
+					if (($attrs[$optId] ?? null) === $optValue) {
+						$score++;
+					}
+				}
+
+				if ($score > $bestScore) {
+					$bestScore = $score;
+					$best = $candidate;
+				} elseif ($score === $bestScore && $best && (float)($candidate->price ?? 0) < (float)($best->price ?? 0)) {
+					$best = $candidate;
+				}
+			}
+
+			if ($best) {
+				$foundVariant = (object) [
+					'id' => (int) $best->id,
+					'variant_slug' => (string) $best->slug,
+				];
+			}
+		}
+
 		$path = ['termekek'];
-		$trail = \App\Helpers\BreadcrumbsHelper::getCategoryTrail($product->category_id);
-		if(!empty($trail)) {
-			foreach($trail as $cat) {
+		$trail = \App\Helpers\BreadcrumbsHelper::getCategoryTrail($master->category_id);
+		if (!empty($trail)) {
+			foreach ($trail as $cat) {
 				$path[] = $cat->slug;
 			}
 		}
-		$path[] = ($result->slug ?? $slug);
-		
-		$response = [
-			'success' => true,
-			'url' => base_url(implode('/', $path))
-		];
+		$path[] = $master->slug;
 
-		return $this->response->setJSON($response);		
+		if (!$foundVariant) {
+			return $this->response->setStatusCode(422)->setJSON([
+				'success' => false,
+				'error' => 'A kiválasztott opciókombináció nem elérhető.'
+			]);
+		}
+
+		$path[] = $foundVariant->variant_slug;
+
+		return $this->response->setJSON([
+			'success'   => true,
+			'variantId' => $foundVariant->id ?? null,
+			'url'       => base_url(implode('/', $path)),
+		]);		
+	}
+
+	/**
+	 * buildOptionsFromVariants
+	 *
+	 * Felépíti az opció-választó tömböt a product_variants + variant_attribute_values
+	 * táblák alapján. Visszatér ugyanolyan struktúrával, mint a legacy getOptions().
+	 *
+	 * @param  array $variants  getWithAttributes() eredménye
+	 * @param  int   $currentVariantId  az éppen megjelenített variáns ID-ja
+	 * @return array
+	 */
+	private function buildOptionsFromVariants(array $variants, int $currentVariantId): array
+	{
+		// Az aktuális variáns attribútum-értékei (aktív jelöléshez)
+		$currentAttrs = [];
+		foreach ($variants as $v) {
+			if ((int)$v->id === $currentVariantId) {
+				foreach ($v->attributes as $attr) {
+					$attrId = (string) $attr->attribute_id;
+					$currentAttrs[$attrId] = $this->normalizeOptionValue((string) $attr->value);
+				}
+				break;
+			}
+		}
+
+		$options = [];
+		$seenValues = [];
+		foreach ($variants as $v) {
+			foreach ($v->attributes as $attr) {
+				$attrId = (string) $attr->attribute_id;
+				$rawValue = (string) $attr->value;
+				$normalizedValue = $this->normalizeOptionValue($rawValue);
+				if ($normalizedValue === '') {
+					continue;
+				}
+
+				if (!isset($options[$attrId])) {
+					$options[$attrId] = [
+						'id'     => $attrId,
+						'name'   => $attr->name,
+						'values' => [],
+					];
+					$seenValues[$attrId] = [];
+				}
+
+				// Csak egyszer vegyük fel az adott értéket normalizált összehasonlítással
+				if (!isset($seenValues[$attrId][$normalizedValue])) {
+					$seenValues[$attrId][$normalizedValue] = true;
+					$displayValue = trim(preg_replace('/\s+/u', ' ', $rawValue) ?? $rawValue);
+					$options[$attrId]['values'][] = [
+						'value'  => $displayValue,
+						'slug'   => $v->slug,
+						'active' => (
+							isset($currentAttrs[$attrId]) &&
+							$currentAttrs[$attrId] === $normalizedValue
+						),
+					];
+				}
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * buildOptionMatrix
+	 *
+	 * Olyan mátrixot épít, amiből frontend oldalon eldönthető,
+	 * hogy egy opcióérték kompatibilis-e a jelenlegi kiválasztással.
+	 *
+	 * @param  array $variants
+	 * @return array
+	 */
+	private function buildOptionMatrix(array $variants): array
+	{
+		$matrix = [];
+		foreach ($variants as $variant) {
+			$attrs = [];
+			foreach (($variant->attributes ?? []) as $attr) {
+				$attrId = (string) $attr->attribute_id;
+				$attrs[$attrId] = $this->normalizeOptionValue((string) $attr->value);
+			}
+
+			$matrix[] = [
+				'id' => (int) $variant->id,
+				'attrs' => $attrs,
+			];
+		}
+
+		return $matrix;
+	}
+
+	/**
+	 * getVariantAttributes
+	 *
+	 * @param  int $variantId
+	 * @return array
+	 */
+	private function getVariantAttributes(int $variantId): array
+	{
+		if ($variantId < 1) {
+			return [];
+		}
+
+		$db = \Config\Database::connect('shop');
+		return $db->query(
+			"SELECT vav.attribute_id, a.name, vav.value
+			FROM variant_attribute_values vav
+			JOIN attributes a ON a.id = vav.attribute_id
+			WHERE vav.variant_id = ?
+			ORDER BY a.name ASC",
+			[$variantId]
+		)->getResult();
+	}
+
+	/**
+	 * normalizeOptionValue
+	 *
+	 * @param  string $value
+	 * @return string
+	 */
+	private function normalizeOptionValue(string $value): string
+	{
+		$value = trim(preg_replace('/\s+/u', ' ', $value) ?? $value);
+		if ($value === '') {
+			return '';
+		}
+
+		if (function_exists('mb_strtolower')) {
+			return mb_strtolower($value, 'UTF-8');
+		}
+
+		return strtolower($value);
+	}
+
+	/**
+	 * getVariantImages
+	 *
+	 * @param  int|null $unasId
+	 * @return array
+	 */
+	private function getVariantImages(?int $unasId): array
+	{
+		if (empty($unasId)) {
+			return [];
+		}
+
+		$db = \Config\Database::connect('shop');
+		return $db->table('images')
+			->select('filename')
+			->where('product_id', $unasId)
+			->orderBy('id', 'ASC')
+			->get()
+			->getResult();
 	}
 
 	/**
@@ -330,7 +603,10 @@ class ShopProducts extends BaseController
         $branch = [];
 
         foreach ($elements as $element) {
-            if ($element->parent_id == $parentId) {
+			$isRootSearch = ($parentId === null || $parentId === 0 || $parentId === '0');
+			$isElementRoot = ($element->parent_id === null || $element->parent_id === 0 || $element->parent_id === '0');
+
+			if (($isRootSearch && $isElementRoot) || (!$isRootSearch && $element->parent_id == $parentId)) {
                 $children = $this->buildTree($elements, $element->unas_id);
                 if ($children) {
                     $element->children = $children;
@@ -346,7 +622,7 @@ class ShopProducts extends BaseController
      * renderTree
      *
      * @param  mixed $categories
-     * @return void
+		* @return string
      */
     private function renderTree($categories, $activeCategory = null)
     {

@@ -26,7 +26,7 @@ class CategoryRouteCache
         foreach ($categories as $cat) {
             $slugPath = self::getSlugPath($cat, $categories);
             $routePath = trim($slugPath, '/');
-            $routes[] = "\$routes->get('termekek/$routePath/(:any)', 'ShopProducts::product/$1');";
+            $routes[] = "\$routes->get('termekek/$routePath/(:segment)/(:segment)', 'ShopProducts::product/$1/$2');";
         }
 
         $phpCode = "<?php\n\n// AUTO-GENERATED CATEGORY ROUTES\n";

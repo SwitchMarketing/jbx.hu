@@ -15,11 +15,17 @@ class ShoppingCartModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'session_id',
+        'master_id',
+        'variant_id',
         'sku',
+        'legacy_sku',
         'name',
         'price',
+        'unit_price_gross',
+        'vat_rate',
         'qty',
-        'status'
+        'status',
+        'selected_options_json'
     ];
 
     protected bool $allowEmptyInserts = false;

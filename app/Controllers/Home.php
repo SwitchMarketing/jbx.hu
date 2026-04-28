@@ -265,5 +265,87 @@ class Home extends BaseController
 		$this->response->setStatusCode(404);
 		BuildPage::render('page404', $data);
     }
+
+	/**
+	 * testCart
+	 *
+	 * Kosár funkció be/ki kapcsolása teszt módban
+	 * GET /teszt-kosar - kapcsolja be/ki a kosár funkciót
+	 * 
+	 * @return void
+	 */
+	public function testCart()
+	{
+		$enableCart = session('enable_cart');
+		$newState = !$enableCart;
+		$this->session->set('enable_cart', $newState);
+
+		$message = $newState ? 'Kosár funkció bekapcsolva' : 'Kosár funkció kikapcsolva';
+		
+		return redirect()->back()->with('message', $message);
+	}
+
+	/**
+	 * debugCategories
+	 *
+	 * Kategóriák debug
+	 * GET /debug-kategoriak
+	 * 
+	 * @return void
+	 */
+	public function debugCategories()
+	{
+		$db = \Config\Database::connect('shop');
+		
+		echo "<h2>Kategóriák:</h2>";
+		$categories = $db->table('categories')
+			->groupStart()
+				->where('parent_id IS NULL')
+				->orWhere('parent_id', 0)
+			->groupEnd()
+			->get()
+			->getResult();
+		
+		echo "<pre>";
+		print_r($categories);
+		echo "</pre>";
+		
+		if ($categories) {
+			echo "<h2>Termékek per kategória:</h2>";
+			foreach ($categories as $cat) {
+				echo "<h3>Kategória: {$cat->name} (unas_id: {$cat->unas_id})</h3>";
+				$products = $db->table('product_masters')
+					->where('category_id', $cat->unas_id)
+					->get()
+					->getResult();
+				
+				if ($products) {
+					foreach ($products as $prod) {
+						echo "<h4>Termék: {$prod->name} (id: {$prod->id})</h4>";
+						$variants = $db->table('product_variants')
+							->where('master_id', $prod->id)
+							->limit(1)
+							->get()
+							->getResult();
+						
+						if ($variants) {
+							$v = $variants[0];
+							echo "Variant unas_id: {$v->unas_id}<br>";
+							$images = $db->table('images')
+								->where('product_id', $v->unas_id)
+								->get()
+								->getResult();
+							echo "Képek: " . count($images) . "<br>";
+							if ($images) {
+								echo "Első kép: {$images[0]->filename}<br>";
+							}
+						}
+					}
+				} else {
+					echo "Nincs termék ebben a kategóriában<br>";
+				}
+			}
+		}
+	}
 	
 }

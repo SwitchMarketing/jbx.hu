@@ -29,6 +29,7 @@ class ProductVariantModel extends Model
         'unas_id',
         'sku',
         'name',
+        'slug',
         'price',
         'stock',
         'state'
@@ -52,6 +53,7 @@ class ProductVariantModel extends Model
                     WHERE vav.variant_id = ?";
             $v->attributes = $db->query($sql, [$v->id])->getResult();
         }
+        unset($v);
 
         return $variants;
     }
