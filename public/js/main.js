@@ -16,6 +16,7 @@ var App = {
 
     this.categoryTree();
     this.updateOptionAvailability();
+    this.initOptionPillToggles();
 
     this.nzoomimg();
     this.pdGallery();
@@ -713,6 +714,24 @@ var App = {
         btn.attr('title', 'Választható, de más opciók is automatikusan változnak.');
       } else {
         btn.attr('title', '');
+      }
+    });
+  },
+
+  initOptionPillToggles: function() {
+    $('.option-pills-toggle').off('click').on('click', function() {
+      const toggle = $(this);
+      const wrap = toggle.closest('.option-pills-wrap');
+      const isCollapsed = wrap.hasClass('is-collapsed');
+      const collapsedLabel = toggle.data('collapsed-label') || 'Tovabbi opciok';
+      const expandedLabel = toggle.data('expanded-label') || 'Kevesebb opcio';
+
+      if (isCollapsed) {
+        wrap.removeClass('is-collapsed');
+        toggle.text(expandedLabel);
+      } else {
+        wrap.addClass('is-collapsed');
+        toggle.text(collapsedLabel);
       }
     });
   },

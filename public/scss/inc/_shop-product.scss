@@ -432,29 +432,71 @@ ul.pd-price {
     
     &-container {
         margin: 20px 0;
+      width: 100%;
+      max-width: 100%;
         
     }
      
     &-group {
 
         margin-bottom: 15px;
+      width: 100%;
+
+        .option-pills-wrap {
+          width: 100%;
+
+          &.is-collapsed {
+            .option-pills {
+              max-height: 190px;
+              overflow: hidden;
+            }
+          }
+
+          .option-pills-toggle {
+            margin-top: 10px;
+            border: 1px solid $yellow;
+            background: transparent;
+            color: $yellow;
+            font-size: .86rem;
+            line-height: 1;
+            padding: 7px 10px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+
+            &:hover {
+              background-color: $yellow;
+              color: $black;
+            }
+          }
+        }
         
         .option-pills {
 
-          display: flex;
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+          align-items: stretch;
           gap: 8px;
+          width: 100%;
 
           .option-pill {
-              display: inline-block;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
               padding: 6px 10px;
+              width: 100%;
+              min-height: 38px;
               border: 1px solid $yellow;
               border-radius: 0;
               background-color: $yellow;
               color: $black;
               text-decoration: none;
               transition: background-color 0.3s;
-              font-size: .95rem;
-              line-height: 1.1rem;
+              font-size: .9rem;
+              line-height: 1rem;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              text-align: center;
               &:hover {
                   background-color: $black;
                   //border-color: $white;
@@ -491,6 +533,15 @@ ul.pd-price {
                   background-color: #ffd869;
                   color: #1f1600;
                 }
+          }
+
+          @media (max-width: 575px) {
+            grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
+
+            .option-pill {
+              min-height: 36px;
+              font-size: .82rem;
+            }
           }
 
         }
@@ -539,5 +590,14 @@ body.light-d {
 
   .option-pills-title {
     color: $white;
+  }
+
+  .option-pills-wrap .option-pills-toggle {
+    border-color: $yellow;
+    color: $yellow;
+
+    &:hover {
+      color: $black;
+    }
   }
 }
