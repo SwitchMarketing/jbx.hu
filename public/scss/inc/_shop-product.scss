@@ -442,109 +442,29 @@ ul.pd-price {
         margin-bottom: 15px;
       width: 100%;
 
-        .option-pills-wrap {
-          width: 100%;
+      .option-select {
+        width: 100%;
+        min-height: 44px;
+        border: 1px solid #c1c1c1;
+        border-radius: 0;
+        background-color: #fff;
+        color: $black;
+        font-size: 1rem;
+        line-height: 1.2;
+        padding: 8px 12px;
+        text-overflow: ellipsis;
 
-          &.is-collapsed {
-            .option-pills {
-              max-height: 190px;
-              overflow: hidden;
-            }
-          }
-
-          .option-pills-toggle {
-            margin-top: 10px;
-            border: 1px solid $yellow;
-            background: transparent;
-            color: $yellow;
-            font-size: .86rem;
-            line-height: 1;
-            padding: 7px 10px;
-            text-transform: uppercase;
-            letter-spacing: .04em;
-
-            &:hover {
-              background-color: $yellow;
-              color: $black;
-            }
-          }
+        &:focus {
+          outline: none;
+          border-color: $yellow;
+          box-shadow: 0 0 0 2px rgba(255, 238, 2, 0.25);
         }
-        
-        .option-pills {
 
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
-          align-items: stretch;
-          gap: 8px;
-          width: 100%;
-
-          .option-pill {
-              display: inline-flex;
-              align-items: center;
-              justify-content: center;
-              padding: 6px 10px;
-              width: 100%;
-              min-height: 38px;
-              border: 1px solid $yellow;
-              border-radius: 0;
-              background-color: $yellow;
-              color: $black;
-              text-decoration: none;
-              transition: background-color 0.3s;
-              font-size: .9rem;
-              line-height: 1rem;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              text-align: center;
-              &:hover {
-                  background-color: $black;
-                  //border-color: $white;
-                  color: $white;
-              }
-              &.active {
-                  background-color: $black;
-                  border-color: $yellow;
-                  color: $yellow;
-                  cursor: default;
-                  pointer-events: none;
-              }
-              &:disabled,
-              &.unavailable {
-                background-color: #d9d9d9;
-                border-color: #b5b5b5;
-                color: #6b6b6b;
-                cursor: not-allowed;
-                opacity: .65;
-                text-decoration: line-through;
-              }
-              &:disabled:hover,
-              &.unavailable:hover {
-                background-color: #d9d9d9;
-                border-color: #b5b5b5;
-                color: #6b6b6b;
-              }
-                &.partially-compatible:not(.active):not(:disabled) {
-                  border-style: dashed;
-                  background-color: #ffe8a3;
-                  color: #3a2a00;
-                }
-                &.partially-compatible:not(.active):not(:disabled):hover {
-                  background-color: #ffd869;
-                  color: #1f1600;
-                }
-          }
-
-          @media (max-width: 575px) {
-            grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
-
-            .option-pill {
-              min-height: 36px;
-              font-size: .82rem;
-            }
-          }
-
+        option:disabled {
+          color: #8a8a8a;
         }
+      }
+
         &:last-child {
             margin-bottom: 0;
         }
@@ -591,13 +511,9 @@ body.light-d {
   .option-pills-title {
     color: $white;
   }
-
-  .option-pills-wrap .option-pills-toggle {
-    border-color: $yellow;
-    color: $yellow;
-
-    &:hover {
-      color: $black;
-    }
+  .option-select {
+    background-color: #161616;
+    border-color: #3a3a3a;
+    color: $white;
   }
 }
