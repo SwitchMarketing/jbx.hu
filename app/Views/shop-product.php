@@ -30,7 +30,7 @@
                             <?php echo view('shared/option-pills', ['options' => $options, 'optionMatrix' => $optionMatrix ?? [], 'masterSlug' => $masterSlug ?? '', 'product' => $product]); ?>
                             <div class="pd-quality">
                                 <span>Mennyiség</span>
-                                <input type="number" name="number" id="qty-<?php echo esc($product->sku) ?>" value="1">
+                                <input class="pd-qty-input" type="number" name="number" id="qty-<?php echo esc($product->sku) ?>" value="1" min="1" step="1" inputmode="numeric" aria-label="Mennyiség">
                             </div>
                             <?php echo product_price($product); ?>
                             <?php echo add_to_cart_button($product); ?>     
