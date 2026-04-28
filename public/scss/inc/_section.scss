@@ -42,7 +42,8 @@ section {
 
     &.privacy-policy,
     &.cookie-policy,
-    &.impressum {
+    &.impressum,
+    &.general-terms {
         h1, h2, h3, h4, h5 {
             margin-bottom: 1.4rem;
         }
@@ -99,7 +100,8 @@ body.light-d {
 
         &.privacy-policy,
         &.cookie-policy,
-        &.impressum {
+        &.impressum,
+        &.general-terms {
             h1, h2, h3, h4, h5, p, li {
                 color: white;
             }            

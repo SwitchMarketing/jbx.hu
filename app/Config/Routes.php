@@ -39,6 +39,11 @@ $routes->get('/sikeres-kapcsolatfelvetel', 'Home::success');
 $routes->get('/adatkezeles', 'LegalPages::privacy');
 
 /**
+ * Általános szerződési feltételek
+ */
+$routes->get('/altalanos-szerzodesi-feltetelek', 'LegalPages::terms');
+
+/**
  * Sütikezelés
  */
 $routes->get('/sutikezeles', 'LegalPages::cookies');
@@ -97,6 +102,7 @@ $routes->post('/termek', 'ShopProducts::productVariation');
 $routes->get('/kosar', 'ShopCart::index');
 $routes->post('/kosar', 'ShopCart::add');
 $routes->post('/kosar/torles', 'ShopCart::remove');
+$routes->post('/kosar/mennyiseg', 'ShopCart::updateQty');
 
 /**
  * Shop pénztár

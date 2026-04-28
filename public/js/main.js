@@ -778,6 +778,66 @@ var App = {
     }
   },
 
+  changeQty: function(btn, diff) {
+
+    const $input = $(btn).closest('.qty-control').find('.qty-input');
+    if(!$input.length) {
+      return;
+    }
+
+    const current = parseInt($input.val(), 10) || 1;
+    const next = Math.max(1, current + parseInt(diff, 10));
+    $input.val(next);
+    this.updateCartQty($input.get(0));
+
+  },
+
+  updateCartQty: function(input) {
+
+    const self = this;
+    const $input = $(input);
+    const lineId = $input.data('line-id') || '';
+    let qty = parseInt($input.val(), 10);
+
+    if(!Number.isInteger(qty) || qty < 1) {
+      qty = 1;
+      $input.val(qty);
+    }
+
+    if(lineId === '') {
+      return;
+    }
+
+    const $control = $input.closest('.qty-control');
+    $control.find('.qty-btn').attr('disabled', true);
+    $input.attr('disabled', true);
+
+    $.ajax({
+      url: App.base + 'kosar/mennyiseg',
+      type: 'POST',
+      data: {
+        line_id: lineId,
+        qty: qty,
+      },
+      dataType: 'json',
+      complete: function() {
+        $control.find('.qty-btn').attr('disabled', false);
+        $input.attr('disabled', false);
+      },
+      success: function(response) {
+        if(response.success) {
+          window.location.reload();
+        } else {
+          self.showCartAlert('A mennyiség frissítése sikertelen.', 'danger');
+        }
+      },
+      error: function() {
+        self.showCartAlert('A mennyiség frissítése sikertelen.', 'danger');
+      }
+    });
+
+  },
+
   showCartAlert: function(message, type = 'success') {
     const alertHtml = `
         <div class="alert alert-${type} alert-dismissible fade show shadow" role="alert">

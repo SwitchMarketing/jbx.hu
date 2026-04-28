@@ -30,6 +30,25 @@ class LegalPages extends BaseController
     }
 
 	/**
+	 * terms
+	 *
+	 * Általános szerződési feltételek
+	 *
+	 * @return void
+	 */
+	public function terms()
+	{
+		$data = [
+			'header' => [
+				'title'   => page_title('Általános szerződési feltételek'),
+				'section' => 'terms'
+			]
+		];
+
+		BuildPage::render('general-terms', $data);
+	}
+
+	/**
 	 * cookies
 	 * 
 	 * Sütikezelés

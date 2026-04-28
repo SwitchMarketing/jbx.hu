@@ -1,17 +1,8 @@
 <!-- Categories Start -->
 <main class="shop-categories-page">
-<?php echo view('shared/page-header', ['class' => 'product-grid', 'title' => 'Termék Kategóriák', 'caption' => 'Válassza ki az Önnek szükséges kategóriát']); ?>
+<?php echo view('shared/page-header', ['title' => 'Termék Kategóriák']); ?>
 <div class="sections">
     <?php $categoryCount = isset($categories) && is_array($categories) ? count($categories) : 0; ?>
-    <section class="shop-categories-intro">
-        <div class="container shop-container">
-            <div class="intro-panel">
-                <span class="intro-panel__eyebrow">JBX Trade Webshop</span>
-                <h2>Ipari megoldások kategóriák szerint</h2>
-            </div>
-        </div>
-    </section>
-
     <section class="gap shop-style-one shop-categories-grid">
         <div class="container shop-container d-flex justify-content-center">
             <div class="shop-content w-100">

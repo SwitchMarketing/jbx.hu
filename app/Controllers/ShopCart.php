@@ -273,6 +273,42 @@ class ShopCart extends BaseController
 
 	}
 	
+	public function updateQty()
+	{
+		if(!$this->request->isAJAX()) {
+			return $this->response->setStatusCode(400);
+		}
+
+		$lineId = (int)$this->request->getPost('line_id');
+		$qty = (int)$this->request->getPost('qty');
+
+		$session_id = $this->session->get('cart_session_id');
+
+		if($lineId < 1 || $qty < 1) {
+			return $this->response->setStatusCode(400);
+		}
+
+		$cartModel = new \App\Models\ShoppingCartModel();
+		$item = $cartModel
+					->where('session_id', $session_id)
+					->where('id', $lineId)
+					->first();
+
+		if(empty($item)) {
+			return $this->response->setStatusCode(400);
+		}
+
+		$cartModel->update($item->id, [
+			'qty' => $qty
+		]);
+
+		return $this->response->setStatusCode(200)->setJSON([
+			'success' => true,
+			'message' => $item->name . ' mennyisége frissítve.'
+		]);
+
+	}
+
 	public function remove()
 	{
 		if(!$this->request->isAJAX()) {

@@ -28,7 +28,7 @@
                         <div class="c-c">
                         <div class="c-data">
                             <a class="cr-svg d-flex-all" href="javascript:void(0)" data-line-id="<?php echo (int)$p->id; ?>" data-sku="<?php echo $p->sku; ?>" title="Törlés" onclick="App.removeFromCart(this);">
-                                <img src="imgs/cross.svg" alt="Cross Svg" width="12">
+                                <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
                             </a>
                             <?php if (isset($p->image) && $p->image): ?>
                                 <img src="<?php echo base_url('imgs/products/'.$p->image); ?>" width="80" alt="<?php echo $p->name; ?>">
@@ -45,7 +45,20 @@
                             <?php endif; ?>
                         </div>
                         <div class="c-quality">
-                            <input type="number" name="number" value="<?php echo $p->qty ?>" id="qty-<?php echo $p->sku; ?>" min="1" class="text-center" readonly>
+                            <div class="qty-control">
+                                <button type="button" class="qty-btn qty-minus" aria-label="Mennyiség csökkentése" onclick="App.changeQty(this, -1)">-</button>
+                                <input
+                                    type="number"
+                                    name="number"
+                                    value="<?php echo (int)$p->qty ?>"
+                                    id="qty-<?php echo $p->sku; ?>"
+                                    min="1"
+                                    class="text-center qty-input"
+                                    data-line-id="<?php echo (int)$p->id; ?>"
+                                    onchange="App.updateCartQty(this)"
+                                >
+                                <button type="button" class="qty-btn qty-plus" aria-label="Mennyiség növelése" onclick="App.changeQty(this, 1)">+</button>
+                            </div>
                         </div>
                         <div class="c-total text-end">
                             <?php $lineTotal = $p->price * $p->qty; ?>

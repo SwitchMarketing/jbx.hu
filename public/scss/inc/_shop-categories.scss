@@ -166,109 +166,18 @@ body.light-d {
     --category-shadow: 0 12px 30px rgba(21, 31, 39, 0.14);
     --category-shadow-hover: 0 24px 40px rgba(21, 31, 39, 0.2);
 
-    .shop-categories-intro {
-        padding: 32px 0 0;
-
-        .intro-panel {
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px;
-            padding: 40px 38px;
-            background: linear-gradient(135deg, #151f27 0%, #1f313d 62%, #2b4656 100%);
-            box-shadow: var(--category-shadow);
-
-            &:before {
-                content: "";
-                position: absolute;
-                right: -50px;
-                top: -45px;
-                width: 180px;
-                height: 180px;
-                border-radius: 50%;
-                background: radial-gradient(circle, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 70%);
-                pointer-events: none;
-            }
-
-            &:after {
-                content: "";
-                position: absolute;
-                left: -60px;
-                bottom: -100px;
-                width: 280px;
-                height: 180px;
-                border-radius: 100px;
-                border: 1px solid rgba(255, 255, 255, 0.18);
-                transform: rotate(-14deg);
-                pointer-events: none;
-            }
-
-            .intro-panel__eyebrow {
-                position: relative;
-                z-index: 2;
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                margin-bottom: 12px;
-                font-size: 0.82rem;
-                letter-spacing: 0.1em;
-                text-transform: uppercase;
-                color: $yellow;
-                font-weight: 700;
-            }
-
-            h2 {
-                position: relative;
-                z-index: 2;
-                margin: 0;
-                max-width: 650px;
-                color: $white;
-                font-size: clamp(1.85rem, 3vw, 2.55rem);
-                line-height: 1.2;
-            }
-
-            p {
-                position: relative;
-                z-index: 2;
-                margin: 16px 0 0;
-                max-width: 640px;
-                color: rgba(255, 255, 255, 0.88);
-                font-size: 1.05rem;
-                line-height: 1.65;
-            }
-
-            .intro-panel__meta {
-                position: relative;
-                z-index: 2;
-                margin-top: 22px;
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-
-                span {
-                    display: inline-flex;
-                    align-items: center;
-                    border-radius: 999px;
-                    border: 1px solid rgba(255, 255, 255, 0.26);
-                    color: $white;
-                    padding: 6px 14px;
-                    font-size: 0.9rem;
-                    background: rgba(255, 255, 255, 0.08);
-
-                    strong {
-                        margin-right: 6px;
-                        color: $yellow;
-                    }
-                }
-            }
+    .page-header {
+        .banner-details {
+            padding-bottom: 52px;
         }
     }
 
     .shop-categories-grid {
-        padding-top: 28px;
+        padding-top: 30px;
 
         .category-card {
             height: 100%;
-            border-radius: 16px;
+            border-radius: 0;
             overflow: hidden;
             background: $white;
             box-shadow: var(--category-shadow);
@@ -358,7 +267,7 @@ body.light-d {
         }
 
         .categories-empty-state {
-            border-radius: 16px;
+            border-radius: 0;
             background: linear-gradient(160deg, #f8fafc 0%, #eef2f6 100%);
             padding: 48px 30px;
             box-shadow: var(--category-shadow);
@@ -376,21 +285,6 @@ body.light-d {
     }
 
     @include medium-md() {
-        .shop-categories-intro {
-            .intro-panel {
-                padding: 30px 24px;
-
-                .intro-panel__meta {
-                    gap: 8px;
-
-                    span {
-                        font-size: 0.82rem;
-                        padding: 5px 12px;
-                    }
-                }
-            }
-        }
-
         .shop-categories-grid {
             .category-card__media {
                 height: 220px;
