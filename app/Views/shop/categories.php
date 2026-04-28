@@ -1,36 +1,49 @@
 <!-- Categories Start -->
-<main>
+<main class="shop-categories-page">
 <?php echo view('shared/page-header', ['class' => 'product-grid', 'title' => 'Termék Kategóriák', 'caption' => 'Válassza ki az Önnek szükséges kategóriát']); ?>
 <div class="sections">
-    <section class="gap shop-style-one">
+    <?php $categoryCount = isset($categories) && is_array($categories) ? count($categories) : 0; ?>
+    <section class="shop-categories-intro">
+        <div class="container shop-container">
+            <div class="intro-panel">
+                <span class="intro-panel__eyebrow">JBX Trade Webshop</span>
+                <h2>Ipari megoldások kategóriák szerint</h2>
+            </div>
+        </div>
+    </section>
+
+    <section class="gap shop-style-one shop-categories-grid">
         <div class="container shop-container d-flex justify-content-center">
             <div class="shop-content w-100">
-                <div class="row justify-content-center">
+                <div class="row g-4 justify-content-center">
                     <?php if (isset($categories) && is_array($categories) && count($categories) > 0): ?>
-                        <?php foreach($categories as $category): ?>
-                        <div class="col-lg-4 mb-4">
-                            <div class="product">
-                                <div class="main-data">
-                                    <div class="btn-hover">
-                                        <figure>
-                                            <?php if ($category->image): ?>
-                                                <img src="<?php echo base_url('imgs/products/' . $category->image); ?>" alt="<?php echo $category->name; ?>" loading="lazy">
-                                            <?php else: ?>
-                                                <img src="https://placehold.co/355x290" alt="<?php echo $category->name; ?>">
-                                            <?php endif; ?>
-                                        </figure>
-                                        <a href="<?php echo base_url('termekek/' . $category->slug); ?>" class="theme-btn">Termékek <i class="fa-solid fa-arrow-right"></i></a>
-                                    </div>
-                                    <div class="data">
-                                        <h3><a href="<?php echo base_url('termekek/' . $category->slug); ?>"><?php echo $category->name; ?></a></h3>
-                                    </div>
+                        <?php foreach ($categories as $index => $category): ?>
+                        <?php $categoryUrl = base_url('termekek/' . $category->slug); ?>
+                        <div class="col-lg-4 col-md-6">
+                            <article class="category-card" style="--card-delay: <?php echo ((int) $index) * 80; ?>ms;">
+                                <a class="category-card__media" href="<?php echo $categoryUrl; ?>" aria-label="<?php echo esc($category->name); ?> kategória megnyitása">
+                                    <?php if (!empty($category->image)): ?>
+                                        <img src="<?php echo base_url('imgs/products/' . $category->image); ?>" alt="<?php echo esc($category->name); ?>" loading="lazy">
+                                    <?php else: ?>
+                                        <div class="category-card__placeholder" aria-hidden="true">
+                                            <span><?php echo esc(strtoupper(mb_substr((string) $category->name, 0, 1))); ?></span>
+                                        </div>
+                                    <?php endif; ?>
+                                </a>
+                                <div class="category-card__content">
+                                    <h3><a href="<?php echo $categoryUrl; ?>"><?php echo esc($category->name); ?></a></h3>
+                                    <a href="<?php echo $categoryUrl; ?>" class="theme-btn category-card__cta">Termékek <i class="fa-solid fa-arrow-right"></i></a>
                                 </div>
-                            </div>
+                            </article>
                         </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="col-lg-12">
-                            <p class="text-center">Jelenleg nincsenek kategóriák.</p>
+                        <div class="col-lg-8">
+                            <div class="categories-empty-state text-center">
+                                <h3>Jelenleg nincsenek kategóriák</h3>
+                                <p>Kérjük, látogasson vissza később, vagy vegye fel velünk a kapcsolatot egyedi ajánlatért.</p>
+                                <a href="<?php echo base_url('kapcsolat'); ?>" class="theme-btn">Kapcsolat <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
                         </div>
                     <?php endif; ?>
                 </div>
