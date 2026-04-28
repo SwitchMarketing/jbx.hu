@@ -65,6 +65,14 @@ $routes->get('/teszt-kosar', 'Home::testCart');
 $routes->get('/debug-kategoriak', 'Home::debugCategories');
 
 /**
+ * Shop kategóriák listaoldal
+ */
+$routes->get('/termekek/kategoriak', 'ShopCategories::index');
+$routes->get('/kategoriak', static function() {
+    return redirect()->to(base_url('termekek/kategoriak'), 301);
+});
+
+/**
  * Shop kategóriák
  * Dinamikus kategória útvonalak betöltése cache-ből
  */
@@ -75,11 +83,6 @@ if (!file_exists($categoryRouteCache)) {
 if (file_exists($categoryRouteCache)) {
     require $categoryRouteCache;
 }
-
-/**
- * Shop kategóriák listaoldal
- */
-$routes->get('/kategoriak', 'ShopCategories::index');
 
 /**
  * Shop termékek

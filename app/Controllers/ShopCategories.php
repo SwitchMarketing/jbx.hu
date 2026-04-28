@@ -2,20 +2,28 @@
 
 namespace App\Controllers;
 
+use App\Helpers\CategoryHelper;
 use App\Libraries\BuildPage;
-use App\Models\CategoryModel;
 use App\Models\ProductVariantModel;
-use App\Models\ImageModel;
 
 class ShopCategories extends BaseController
 {
+    /**
+     * Manual override map for top-level category images.
+     * Keys are category slugs, values are filenames from /public/imgs/products.
+     */
+    private const CATEGORY_IMAGE_MAP = [
+        'gepbiztonsagi-kerites' => 'W340-220120.jpg',
+        'kabeltalca-rendszer' => '1112.jpg',
+        'utkozesvedelem' => 'AG-CP4-250IN.jpg',
+        'raktarbiztonsag' => '520-150220.jpg'
+    ];
+
     /**
      * List main product categories
      */
     public function index()
     {
-        $categoryModel = new CategoryModel();
-        
         // Get main categories (parent_id = NULL or 0)
         $db = \Config\Database::connect('shop');
         $mainCategories = $db->table('categories')
@@ -27,31 +35,36 @@ class ShopCategories extends BaseController
             ->get()
             ->getResult();
 
+        $activeVariantStates = [
+            ProductVariantModel::STATE_INSTOCK,
+            ProductVariantModel::STATE_BACKORDER,
+            ProductVariantModel::STATE_INQUIRE,
+        ];
+
         // Load first product image for each category
         foreach ($mainCategories as $cat) {
-            // Get first product from this category (that is active)
-            $firstProduct = $db->table('product_masters')
-                ->select('product_masters.id, product_variants.unas_id')
+            $mappedImage = self::CATEGORY_IMAGE_MAP[$cat->slug] ?? null;
+            if ($mappedImage !== null && $mappedImage !== '') {
+                $cat->image = $mappedImage;
+                continue;
+            }
+
+            $descendantIds = CategoryHelper::getDescendantIds((int) $cat->unas_id);
+
+            // Pick the first available image from an active product variant in this category
+            $image = $db->table('product_masters')
+                ->select('images.filename')
                 ->join('product_variants', 'product_variants.master_id = product_masters.id')
-                ->where('product_masters.category_id', $cat->unas_id)
+                ->join('images', 'images.product_id = product_variants.unas_id', 'inner')
+                ->whereIn('product_masters.category_id', $descendantIds)
                 ->where('product_masters.state', 'active')
+                ->whereIn('product_variants.state', $activeVariantStates)
                 ->orderBy('product_masters.id', 'ASC')
+                ->orderBy('images.id', 'ASC')
                 ->get()
                 ->getFirstRow();
-            
-            if ($firstProduct && $firstProduct->unas_id) {
-                // Get first image of that product
-                $image = $db->table('images')
-                    ->select('filename')
-                    ->where('product_id', $firstProduct->unas_id)
-                    ->orderBy('id', 'ASC')
-                    ->get()
-                    ->getFirstRow();
-                
-                $cat->image = $image ? $image->filename : null;
-            } else {
-                $cat->image = null;
-            }
+
+            $cat->image = $image ? $image->filename : null;
         }
 
         $args = [
@@ -60,7 +73,7 @@ class ShopCategories extends BaseController
                 'desc'     => 'Fedezze fel termék kategóriáinkat: gépbiztonsági kerítések, kábeltálcák, ütközésvédelem, raktárbiztonsági és ingatlan megoldások.',
                 'og_title' => 'Termék Kategóriák',
                 'og_desc'  => 'Ipari gépbiztonsági megoldások és termékek a JBX Trade kínálatában.',
-                'og_url'   => base_url('kategoriak'),
+                'og_url'   => base_url('termekek/kategoriak'),
                 'og_img'   => base_url('imgs/jbx-og.jpg'),
                 'section'  => 'shop categories',
             ],
