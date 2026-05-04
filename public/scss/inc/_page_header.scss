@@ -112,13 +112,20 @@
     }  
     
     &.product-details {
-        padding-top: 75px;
+        padding-top: 30px;
         .banner-details {
+            padding-bottom: 30px;
             h2 {
                 font-size: 3rem;
                 line-height: 2.8rem;
                 color: white;
             }
-        }
+            @include mobile() {
+                h2 {
+                    font-size: 2rem;
+                    line-height: 2.4rem;
+                }
+            }
+        }        
     }
 }
