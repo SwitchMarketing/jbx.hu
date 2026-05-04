@@ -1,5 +1,5 @@
 <main>
-    <?php echo view('shared/page-header', ['title' => $product->name, 'caption' => 'SKU: ' . $product->sku, 'class' => 'product-details']); ?>
+    <?php echo view('shared/page-header', ['class' => 'product-grid']); ?>
     <div class="sections">
 
         <!-- Product Detail Start -->
@@ -27,6 +27,9 @@
                     <div class="col-12 col-lg-6">
                         <div class="pd-data">
                             <h2><?php echo esc($product->name); ?></h2>
+                            <?php if (!empty($product->sku)) : ?>
+                                <p class="pd-sku-meta">SKU: <?php echo esc($product->sku); ?></p>
+                            <?php endif; ?>
                             <?php echo view('shared/option-pills', ['options' => $options, 'optionMatrix' => $optionMatrix ?? [], 'masterSlug' => $masterSlug ?? '', 'product' => $product]); ?>
                             <?php echo product_price($product); ?>
                             <div class="pd-purchase">
