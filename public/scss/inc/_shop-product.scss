@@ -548,6 +548,21 @@ ul.pd-price {
         color: $black;
     }
 
+    // Cap the opened option list height to prevent very long dropdowns.
+    &-container {
+      .nice-select {
+        width: 100%;
+        float: none;
+
+        .list {
+          width: 100%;
+          max-height: 320px;
+          overflow-y: auto;
+          overscroll-behavior: contain;
+        }
+      }
+    }
+
 }
 
 .option-combinations {
