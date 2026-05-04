@@ -647,7 +647,8 @@ class ShopProducts extends BaseController
 			}
 
 			// kategória link
-            $html .= "<li$cls><a href='/termekek/" . esc($cat->path) . "'>" . esc($cat->name) . "</a>";
+			$toggleHtml = isset($cat->children) ? "<span class='tree-toggle' title='alkategóriák'></span>" : '';
+            $html .= "<li$cls>$toggleHtml<a href='/termekek/" . esc($cat->path) . "'>" . esc($cat->name) . "</a>";
             if (isset($cat->children)) {
                 $html .= $this->renderTree($cat->children, $activeCategory);
             }

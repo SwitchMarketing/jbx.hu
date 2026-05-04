@@ -579,15 +579,15 @@ var App = {
 
     if($('.shop-categories').length > 0) {
       
-      $('.shop-categories li.has-children > a').on('click', function(e) {
-        e.preventDefault();
+      $('.shop-categories li.has-children > .tree-toggle').on('click', function(e) {
         e.stopPropagation();
-        $(this).parent().toggleClass('collapsed');
-        $(this).parent().toggleClass('expanded');
-      }); 
+        $(this).parent().toggleClass('collapsed').toggleClass('expanded');
+      });
 
       // find active li elements with class 'active' and expand parents
       $('.shop-categories li.active').parents('li.has-children').removeClass('collapsed').addClass('expanded');
+      // az aktív li maga is nyíljon ki, ha szülő kategória
+      $('.shop-categories li.active.has-children').removeClass('collapsed').addClass('expanded');
 
     }
   },
