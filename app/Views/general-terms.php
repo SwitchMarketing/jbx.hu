@@ -3,31 +3,59 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
-                    <h2>Általános Szerződési Feltételek</h2>
-                    <p>Hatályos: 2026.04.28.-tól</p>
-
-                    <h4>1. A szolgáltató adatai</h4>
-                    <p><strong>Név:</strong> <?php echo config('Config\\AppConfig')->companyFullName ?></p>
-                    <p><strong>Székhely:</strong> <?php echo config('Config\\AppConfig')->companyAddress ?></p>
-                    <p><strong>Email:</strong> <a href="mailto:<?php echo config('Config\\AppConfig')->siteEmail ?>"><?php echo config('Config\\AppConfig')->siteEmail ?></a></p>
-
-                    <h4>2. A megrendelés folyamata</h4>
-                    <p>A weboldalon leadott megrendelés ajánlatkérésként és megrendelési szándékként kerül feldolgozásra. A megrendelés véglegesítése minden esetben egyedi visszaigazolás után történik.</p>
-                    <p>A megrendelés beküldésével a vásárló kijelenti, hogy az általa megadott adatok valósak, és jogosult azok kezelésére.</p>
-
-                    <h4>3. Ár és teljesítés</h4>
-                    <p>A weboldalon megjelenő árak tájékoztató jellegűek. Az aktuális ár, elérhetőség és szállítási feltétel a visszaigazolásban kerül pontosításra.</p>
-                    <p>A teljesítési határidő a termék típusától és elérhetőségétől függően változhat.</p>
-
-                    <h4>4. Felelősség és jogi nyilatkozat</h4>
-                    <p>A megrendelés leadásával a vásárló elfogadja jelen ÁSZF rendelkezéseit, valamint tudomásul veszi az adatkezelési tájékoztatóban foglaltakat.</p>
-
-                    <h4>5. Kapcsolódó jogi dokumentumok</h4>
-                    <ul>
-                        <li><a href="<?php echo base_url('adatkezeles') ?>">Adatkezelési tájékoztató</a></li>
-                        <li><a href="<?php echo base_url('sutikezeles') ?>">Sütikezelési tájékoztató</a></li>
-                        <li><a href="<?php echo base_url('impresszum') ?>">Impresszum</a></li>
-                    </ul>
+                    <h2>Általános Szerződési Feltételek (ÁSZF)</h2>
+                    <p>Hatályos: 2026.04.28.-tól</p>                    
+                    <h4>1. A Szolgáltató adatai</h4>
+                    <p>Cégnév: JBX Trade Korlátolt Felelősségű Társaság (a továbbiakban: „Szolgáltató”)</p>
+                    <p>Székhely: 2040 Budaörs, Ébner György köz 4.</p>
+                    <p>E-mail: info@jbx.hu</p>
+                    <p>Telefonszám: +36 70 559 1144</p>
+                    <p>Webshop: https://www.jbx.hu/termekek</p>
+                    
+                    <h4>2. Az ÁSZF hatálya</h4>
+                    <p>Jelen Általános Szerződési Feltételek (a továbbiakban: „ÁSZF”) a Szolgáltató által üzemeltetett webshopban történő termékértékesítésre vonatkoznak.</p>
+                    <p>A webshop kizárólag gazdasági tevékenységük körében eljáró vállalkozások (a továbbiakban: „Vevő”) részére érhető el.</p>
+                    <p>A webshop használatának feltétele érvényes céges adószám megadása.</p>
+                    
+                    <h4>3. Regisztráció</h4>
+                    <p>A vásárlás regisztrációhoz kötött. A Vevő köteles valós adatokat megadni.</p>
+                    <p>A Szolgáltató jogosult a regisztrációt ellenőrizni és elutasítani.</p>
+                    
+                    <h4>4. A szerződés létrejötte</h4>
+                    <p>A rendelés ajánlattételnek minősül. Az automatikus visszaigazolás nem minősül elfogadásnak.</p>
+                    <p>A szerződés a Szolgáltató egyedi visszaigazolásával jön létre.</p>
+                    
+                    <h4>5. Teljesítés feltételei</h4>
+                    <p>Raktáron lévő termék esetén előlegbekérő kerül kiállításra, amelynek kiegyenlítése után történik a teljesítés.</p>
+                    <p>Nem raktáron lévő termék esetén egyedi ajánlat készül, melynek elfogadásával jön létre a szerződés.</p>
+                    
+                    <h4>6. Fizetési feltételek</h4>
+                    <p>A fizetés módja előre utalás. A teljesítés feltétele az előleg beérkezése.</p>
+                    
+                    <h4>7. Szállítás</h4>
+                    <p>A teljesítés futárszolgálattal vagy személyes átvétellel történik.</p>
+                    <p>Raktári tételek esetén 100 000 Ft felett a szállítás díjmentes.</p>
+                    <p>Nem raktári tételek esetén a szállítási költség egyedi.</p>
+                    
+                    <h4>8. Elállási jog kizárása</h4>
+                    <p>A webshop kizárólag vállalkozások részére érhető el, ezért elállási jog nem illeti meg a Vevőt.</p>
+                    
+                    <h4>9. Szavatosság</h4>
+                    <p>A Szolgáltató a Polgári Törvénykönyv szabályai szerint kellékszavatossággal tartozik.</p>
+                    
+                    <h4>10. Felelősség korlátozása</h4>
+                    <p>A Szolgáltató nem felel közvetett károkért vagy elmaradt haszonért.</p>
+                    <p>A felelősség mértéke legfeljebb a rendelés értékéig terjed.</p>
+                    
+                    <h4>11. Vis maior</h4>
+                    <p>A Szolgáltató nem felel vis maior eseményekből eredő késedelemért.</p>
+                    
+                    <h4>12. Árak módosítása</h4>
+                    <p>A Szolgáltató fenntartja az árak módosításának jogát.</p>
+                    <p>A már visszaigazolt rendelések ára nem változik.</p>
+                    
+                    <h4>13. Egyéb rendelkezések</h4>
+                    <p>A szerződés nyelve magyar. A szerződés elektronikus úton jön létre.</p>
                 </div>
             </div>
         </div>
