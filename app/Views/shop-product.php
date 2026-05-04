@@ -5,8 +5,8 @@
         <!-- Product Detail Start -->
         <section class="gap product-detail">
             <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6">
+                <div class="row align-items-start">
+                    <div class="col-12 col-lg-6">
                         <div class="pd-gallery">
                             <?php if (!empty($product->images) && is_array($product->images) && count($product->images) > 1) : ?>
                             <ul class="pd-imgs">
@@ -24,16 +24,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-12 col-lg-6">
                         <div class="pd-data">
                             <h2><?php echo esc($product->name); ?></h2>
                             <?php echo view('shared/option-pills', ['options' => $options, 'optionMatrix' => $optionMatrix ?? [], 'masterSlug' => $masterSlug ?? '', 'product' => $product]); ?>
-                            <div class="pd-quality">
-                                <span>Mennyiség</span>
-                                <input class="pd-qty-input" type="number" name="number" id="qty-<?php echo esc($product->sku) ?>" value="1" min="1" step="1" inputmode="numeric" aria-label="Mennyiség">
-                            </div>
                             <?php echo product_price($product); ?>
-                            <?php echo add_to_cart_button($product); ?>     
+                            <div class="pd-purchase">
+                                <div class="pd-quality">
+                                    <span>Mennyiség</span>
+                                    <input class="pd-qty-input" type="number" name="number" id="qty-<?php echo esc($product->sku) ?>" value="1" min="1" step="1" inputmode="numeric" aria-label="Mennyiség">
+                                </div>
+                                <div class="pd-add-to-cart">
+                                    <?php echo add_to_cart_button($product); ?>
+                                </div>
+                            </div>
                             <div id="cartMessages" class="mt-4"></div>
                             <!--                                                   
                             <div class="pd-cat-tags">
