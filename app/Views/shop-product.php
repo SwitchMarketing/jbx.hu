@@ -3,7 +3,7 @@
     <div class="sections">
 
         <!-- Product Detail Start -->
-        <section class="gap product-detail">
+        <section class="product-detail pt-5">
             <div class="container">
                 <div class="row align-items-start">
                     <div class="col-12 col-lg-6">
