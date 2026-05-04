@@ -444,14 +444,15 @@ ul.pd-price {
 
       .option-select {
         width: 100%;
-        min-height: 44px;
+        height: 44px;
         border: 1px solid #c1c1c1;
         border-radius: 0;
         background-color: #fff;
         color: $black;
         font-size: 1rem;
-        line-height: 1.2;
-        padding: 8px 12px;
+        line-height: 44px;
+        padding: 0 12px;
+        box-sizing: border-box;
         text-overflow: ellipsis;
 
         &:focus {
@@ -462,6 +463,14 @@ ul.pd-price {
 
         option:disabled {
           color: #8a8a8a;
+        }
+
+        &--single,
+        &:disabled {
+          cursor: default;
+          opacity: .9;
+          background-color: #f3f3f3;
+          color: #5e5e5e;
         }
       }
 
@@ -477,6 +486,108 @@ ul.pd-price {
         color: $black;
     }
 
+}
+
+.option-combinations {
+  margin-top: 14px;
+  border: 1px solid #d8d8d8;
+  padding: 12px;
+  background: #fafafa;
+
+  &-title {
+    font-weight: 800;
+    margin-bottom: 10px;
+    font-size: 0.92rem;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: $black;
+  }
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &-item {
+    border: 1px solid #e3e3e3;
+    background: #fff;
+    padding: 8px 10px;
+    font-size: 0.86rem;
+    line-height: 1.2rem;
+    color: #333;
+
+    .option-combinations-label {
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: default;
+
+      span {
+        font-weight: 400;
+        color: #666;
+        margin-left: 4px;
+      }
+    }
+
+    .option-combinations-values {
+      margin-top: 6px;
+      margin-bottom: 0;
+      padding-left: 0;
+      list-style: none;
+      border-left: 2px solid #efefef;
+      margin-left: 4px;
+      padding-left: 8px;
+
+      .option-combinations-value {
+        position: relative;
+        padding-left: 14px;
+        color: #444;
+        font-size: .85rem;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+
+        &:not(:last-child) {
+          margin-bottom: 2px;
+        }
+
+        &:before {
+          content: "•";
+          position: absolute;
+          left: 0;
+          top: 0;
+          color: #8d8d8d;
+          font-size: .9rem;
+          line-height: 1.1rem;
+        }
+
+        &.is-active {
+          font-weight: 700;
+          color: #111;
+
+          &:before {
+            color: $yellow;
+          }
+        }
+      }
+    }
+
+    .option-combinations-current {
+      margin-top: 6px;
+      font-size: .8rem;
+      font-weight: 700;
+      color: #222;
+      padding-left: 18px;
+    }
+
+    &.is-active {
+      font-weight: 700;
+      color: $black;
+    }
+
+    &[open] {
+      border-color: #d6d6d6;
+    }
+  }
 }
 
 body.light-d {
@@ -511,9 +622,61 @@ body.light-d {
   .option-pills-title {
     color: $white;
   }
+
+  .option-combinations {
+    background: #161616;
+    border-color: #3a3a3a;
+
+    &-title,
+    &-item {
+      color: #f1f1f1;
+    }
+
+    &-item {
+      background: #111;
+      border-color: #333;
+
+      .option-combinations-label span {
+        color: #adadad;
+      }
+
+      .option-combinations-values {
+        color: #e6e6e6;
+        border-left-color: #303030;
+
+        .option-combinations-value {
+          color: #dfdfdf;
+
+          &:before {
+            color: #8b8b8b;
+          }
+
+          &.is-active {
+            color: $yellow;
+          }
+        }
+      }
+
+      .option-combinations-current {
+        color: $yellow;
+      }
+    }
+
+    &-item.is-active {
+      color: $yellow;
+    }
+  }
+
   .option-select {
     background-color: #161616;
     border-color: #3a3a3a;
     color: $white;
+
+    &--single,
+    &:disabled {
+      background-color: #1d1d1d;
+      border-color: #343434;
+      color: #bdbdbd;
+    }
   }
 }

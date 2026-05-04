@@ -767,6 +767,104 @@ var App = {
         }
       });
     });
+
+    this.renderOptionCombinations(container, matrix);
+  },
+
+  renderOptionCombinations: function(container, matrix) {
+    const list = container.find('.option-combinations-list');
+    if (!list.length) {
+      return;
+    }
+
+    const normalizeOptionValue = function(value) {
+      return String(value || '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase();
+    };
+
+    const selectMeta = [];
+    const currentSelections = {};
+
+    container.find('select.option-select').each(function() {
+      const optionId = String($(this).data('option-id'));
+      const optionName = String($(this).data('option-name') || optionId);
+      const selectedValue = String($(this).val() || '');
+      const displayValues = {};
+
+      $(this).find('option').each(function() {
+        const rawValue = String($(this).val() || '').trim();
+        const rawText = String($(this).text() || '').trim();
+        const key = normalizeOptionValue(rawValue);
+        if (key !== '' && !displayValues[key]) {
+          displayValues[key] = rawText !== '' ? rawText : rawValue;
+        }
+      });
+
+      selectMeta.push({ optionId: optionId, optionName: optionName, displayValues: displayValues });
+      currentSelections[optionId] = normalizeOptionValue(selectedValue);
+    });
+
+    if (!selectMeta.length || !Array.isArray(matrix) || !matrix.length) {
+      list.empty();
+      return;
+    }
+
+    const html = selectMeta.map(function(meta) {
+      const compatibleValuesMap = {};
+
+      matrix.forEach(function(variant) {
+        const attrs = variant.attrs || {};
+        const isCompatibleWithOthers = selectMeta.every(function(otherMeta) {
+          if (otherMeta.optionId === meta.optionId) {
+            return true;
+          }
+
+          const selectedNorm = currentSelections[otherMeta.optionId];
+          const variantValueNorm = normalizeOptionValue(attrs[otherMeta.optionId]);
+          return selectedNorm === variantValueNorm;
+        });
+
+        if (!isCompatibleWithOthers) {
+          return;
+        }
+
+        const valueRaw = String(attrs[meta.optionId] || '').trim();
+        const valueNorm = normalizeOptionValue(valueRaw);
+        if (valueNorm !== '') {
+          compatibleValuesMap[valueNorm] = meta.displayValues[valueNorm] || valueRaw;
+        }
+      });
+
+      const values = Object.keys(compatibleValuesMap).map(function(key) {
+        return compatibleValuesMap[key];
+      }).sort(function(a, b) {
+        return a.localeCompare(b, 'hu', { numeric: true, sensitivity: 'base' });
+      });
+
+      const currentValue = String(container.find('select.option-select[data-option-id="' + meta.optionId + '"]').val() || '').trim();
+      const countLabel = values.length + ' db';
+      const valuesHtml = values.map(function(value) {
+        const activeClass = normalizeOptionValue(value) === normalizeOptionValue(currentValue) ? ' is-active' : '';
+        return '<li class="option-combinations-value' + activeClass + '">' + value + '</li>';
+      }).join('');
+
+      if (values.length <= 8) {
+        return '<div class="option-combinations-item">' +
+          '<div class="option-combinations-label">' + meta.optionName + ' <span>(' + countLabel + ')</span></div>' +
+          '<ul class="option-combinations-values">' + valuesHtml + '</ul>' +
+        '</div>';
+      }
+
+      return '<details class="option-combinations-item">' +
+        '<summary class="option-combinations-label">' + meta.optionName + ' <span>(' + countLabel + ')</span></summary>' +
+        '<ul class="option-combinations-values">' + valuesHtml + '</ul>' +
+        '<div class="option-combinations-current">Aktuális: ' + currentValue + '</div>' +
+      '</details>';
+    }).join('');
+
+    list.html(html);
   },
 
   initOptionPillToggles: function() {
