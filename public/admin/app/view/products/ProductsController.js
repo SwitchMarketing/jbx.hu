@@ -894,6 +894,13 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                         ? ' (' + attrCount + ' alapértelmezett jellemző alkalmazva)' 
                                         : '';
                                     Ext.toast('Variáció létrehozva: ' + variantData.sku + attrMsg);
+
+                                    if (attrCount > 0) {
+                                        var added = variantsGrid.getStore().getById(variantData.id);
+                                        if (added) {
+                                            me.onEditVariantAttributes(added);
+                                        }
+                                    }
                                 } else {
                                     // Fallback if fetch fails
                                     variantsGrid.getStore().add({
