@@ -62,6 +62,21 @@ class Categories extends BaseResourceController
         try {
             $data = $this->request->getPost();
 
+            $parentId = isset($data['parent_id']) ? (int) $data['parent_id'] : 0;
+            if ($parentId > 0) {
+                $parent = $this->model->find($parentId);
+                if (!is_object($parent)) {
+                    throw new Exception('A megadott szülő kategória nem létezik.');
+                }
+
+                $parentProductCount = (new \App\Models\ProductMasterModel())
+                    ->where('category_id', $parentId)
+                    ->countAllResults();
+                if ($parentProductCount > 0) {
+                    throw new Exception('Ehhez a kategóriához már termékek tartoznak, ezért nem lehet alkategóriát létrehozni alá. Előbb helyezd át a termékeket levél kategóriába.');
+                }
+            }
+
             // unas_id is the primary key but not auto_increment in the schema
             // (legacy UNAS-sourced). Generate next available id for new categories.
             if (empty($data['unas_id'])) {
@@ -93,6 +108,32 @@ class Categories extends BaseResourceController
     {
         try {
             $data = $this->request->getRawInput();
+
+            if (!is_object($current = $this->model->find($id))) {
+                throw new Exception('Nincs ilyen rekord!');
+            }
+
+            $parentId = array_key_exists('parent_id', $data)
+                ? (int) $data['parent_id']
+                : (int) $current->parent_id;
+
+            if ($parentId === (int) $id) {
+                throw new Exception('A kategória nem lehet önmaga szülője.');
+            }
+
+            if ($parentId > 0) {
+                $parent = $this->model->find($parentId);
+                if (!is_object($parent)) {
+                    throw new Exception('A megadott szülő kategória nem létezik.');
+                }
+
+                $parentProductCount = (new \App\Models\ProductMasterModel())
+                    ->where('category_id', $parentId)
+                    ->countAllResults();
+                if ($parentProductCount > 0) {
+                    throw new Exception('Ehhez a kategóriához már termékek tartoznak, ezért nem lehet alkategóriát mozgatni/létrehozni alá. Előbb helyezd át a termékeket levél kategóriába.');
+                }
+            }
             
             if ($this->model->update($id, $data)) {
                 $this->rebuildTree();
