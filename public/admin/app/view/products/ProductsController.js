@@ -818,7 +818,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         label: 'Állapot',
                         name: 'state',
                         reference: 'stateField',
-                        value: 'instock',
+                        value: 'backorder',
                         options: [
                             { text: 'Raktáron',    value: 'instock' },
                             { text: 'Rendelésre',  value: 'backorder' },
