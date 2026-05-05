@@ -1342,21 +1342,16 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     ui: 'confirm',
                     handler: function () {
                         var rows = [];
-                        var invalid = 0;
                         dialog.lookup('defaultAttrGrid').getStore().each(function (r) {
                             var aid = r.get('attribute_id');
                             var value = r.get('value');
-                            if (aid && value !== null && value !== '') {
-                                rows.push({ attribute_id: aid, value: value });
-                            } else if (aid || value) {
-                                invalid++;
+                            if (aid) {
+                                rows.push({
+                                    attribute_id: aid,
+                                    value: value === null || value === undefined ? '' : String(value)
+                                });
                             }
                         });
-
-                        if (invalid) {
-                            Ext.Msg.alert('Hiba', 'Van hianyos sor.');
-                            return;
-                        }
 
                         API.call({
                             url: 'products/save_default_attributes/' + masterId,

@@ -59,13 +59,10 @@ class ProductVariants extends BaseResourceController
                         ->findAll();
 
                     foreach ($defaults as $row) {
-                        if (($row->default_value ?? '') === '') {
-                            continue;
-                        }
                         $db->table('variant_attribute_values')->insert([
                             'variant_id' => $newId,
                             'attribute_id' => (int) $row->attribute_id,
-                            'value' => (string) $row->default_value,
+                            'value' => isset($row->default_value) ? (string) $row->default_value : '',
                         ]);
                     }
                 }
