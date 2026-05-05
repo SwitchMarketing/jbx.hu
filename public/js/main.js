@@ -17,6 +17,7 @@ var App = {
     this.categoryTree();
     this.updateOptionAvailability();
     this.initOptionPillToggles();
+    this.scrollActiveOptionPillsIntoView();
 
     this.nzoomimg();
     this.pdGallery();
@@ -625,6 +626,11 @@ var App = {
     }
 
     if(masterSlug != '' && params.length > 0) {
+        const wrap = $(option).closest('.option-pills-wrap').get(0);
+        if (wrap && typeof option.scrollIntoView === 'function') {
+          option.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+
         // ajax call to get product data
         $.ajax({
           url: App.base + 'termek',
@@ -648,49 +654,6 @@ var App = {
         });
     }
     
-  },
-
-  productOptionSelect: function(select) {
-
-    if ($(select).is(':disabled')) {
-      return;
-    }
-
-    const container = $(select).closest('.option-pills-container');
-    const masterSlug = container.data('master-slug') || '';
-    const clickedOptionId = $(select).data('option-id');
-    const clickedOptionValue = $(select).val();
-    const params = [];
-
-    container.find('select.option-select').each(function() {
-      params.push({
-        optionId: $(this).data('option-id'),
-        optionValue: $(this).val()
-      });
-    });
-
-    if(masterSlug != '' && params.length > 0) {
-      $.ajax({
-        url: App.base + 'termek',
-        type: 'POST',
-        data: {
-          master_slug: masterSlug,
-          clicked_option_id: clickedOptionId,
-          clicked_option_value: clickedOptionValue,
-          params: JSON.stringify(params)
-        },
-        dataType: 'json',
-        success: function(response) {
-          window.location = response.url;
-        },
-        error: function(xhr) {
-          const resp = xhr.responseJSON || {};
-          if (resp.error) {
-            App.showCartAlert(resp.error, 'warning');
-          }
-        }
-      });
-    }
   },
 
   updateOptionAvailability: function() {
@@ -719,152 +682,46 @@ var App = {
     }
 
     const activeSelections = {};
-    container.find('select.option-select').each(function() {
+    $('button.option-pill.active').each(function() {
       const optionId = String($(this).data('option-id'));
-      const optionValue = normalizeOptionValue($(this).val());
+      const optionValue = normalizeOptionValue($(this).data('option-value'));
       activeSelections[optionId] = optionValue;
     });
 
-    container.find('select.option-select').each(function() {
-      const select = $(this);
-      const optionId = String(select.data('option-id'));
+    $('button.option-pill').each(function() {
+      const btn = $(this);
+      const optionId = String(btn.data('option-id'));
+      const optionValue = normalizeOptionValue(btn.data('option-value'));
 
-      select.find('option').each(function() {
-        const option = $(this);
-        const optionValue = normalizeOptionValue(option.val());
-        const isCurrent = option.is(':selected');
-
-        if (!optionValue) {
-          return;
-        }
-
-        const variantsWithOption = matrix.filter(function(variant) {
-          const attrs = variant.attrs || {};
-          return normalizeOptionValue(attrs[optionId]) === optionValue;
-        });
-
-        const isSelectable = variantsWithOption.length > 0;
-        const candidateSelections = Object.assign({}, activeSelections, {
-          [optionId]: optionValue,
-        });
-
-        const isStrictlyCompatible = matrix.some(function(variant) {
-          const attrs = variant.attrs || {};
-          return Object.keys(candidateSelections).every(function(key) {
-            return normalizeOptionValue(attrs[key]) === String(candidateSelections[key]);
-          });
-        });
-
-        const disabled = !isSelectable && !isCurrent;
-        option.prop('disabled', disabled);
-
-        if (!isSelectable) {
-          option.attr('title', 'Ez az opció nem elérhető.');
-        } else if (!isStrictlyCompatible) {
-          option.attr('title', 'Választható, de más opciók is automatikusan változnak.');
-        } else {
-          option.attr('title', '');
-        }
-      });
-    });
-
-    this.renderOptionCombinations(container, matrix);
-  },
-
-  renderOptionCombinations: function(container, matrix) {
-    const list = container.find('.option-combinations-list');
-    if (!list.length) {
-      return;
-    }
-
-    const normalizeOptionValue = function(value) {
-      return String(value || '')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .toLowerCase();
-    };
-
-    const selectMeta = [];
-    const currentSelections = {};
-
-    container.find('select.option-select').each(function() {
-      const optionId = String($(this).data('option-id'));
-      const optionName = String($(this).data('option-name') || optionId);
-      const selectedValue = String($(this).val() || '');
-      const displayValues = {};
-
-      $(this).find('option').each(function() {
-        const rawValue = String($(this).val() || '').trim();
-        const rawText = String($(this).text() || '').trim();
-        const key = normalizeOptionValue(rawValue);
-        if (key !== '' && !displayValues[key]) {
-          displayValues[key] = rawText !== '' ? rawText : rawValue;
-        }
-      });
-
-      selectMeta.push({ optionId: optionId, optionName: optionName, displayValues: displayValues });
-      currentSelections[optionId] = normalizeOptionValue(selectedValue);
-    });
-
-    if (!selectMeta.length || !Array.isArray(matrix) || !matrix.length) {
-      list.empty();
-      return;
-    }
-
-    const html = selectMeta.map(function(meta) {
-      const compatibleValuesMap = {};
-
-      matrix.forEach(function(variant) {
+      const variantsWithOption = matrix.filter(function(variant) {
         const attrs = variant.attrs || {};
-        const isCompatibleWithOthers = selectMeta.every(function(otherMeta) {
-          if (otherMeta.optionId === meta.optionId) {
-            return true;
-          }
+        return normalizeOptionValue(attrs[optionId]) === optionValue;
+      });
 
-          const selectedNorm = currentSelections[otherMeta.optionId];
-          const variantValueNorm = normalizeOptionValue(attrs[otherMeta.optionId]);
-          return selectedNorm === variantValueNorm;
+      const isSelectable = variantsWithOption.length > 0;
+      const candidateSelections = Object.assign({}, activeSelections, {
+        [optionId]: optionValue,
+      });
+
+      const isStrictlyCompatible = matrix.some(function(variant) {
+        const attrs = variant.attrs || {};
+        return Object.keys(candidateSelections).every(function(key) {
+          return normalizeOptionValue(attrs[key]) === String(candidateSelections[key]);
         });
-
-        if (!isCompatibleWithOthers) {
-          return;
-        }
-
-        const valueRaw = String(attrs[meta.optionId] || '').trim();
-        const valueNorm = normalizeOptionValue(valueRaw);
-        if (valueNorm !== '') {
-          compatibleValuesMap[valueNorm] = meta.displayValues[valueNorm] || valueRaw;
-        }
       });
 
-      const values = Object.keys(compatibleValuesMap).map(function(key) {
-        return compatibleValuesMap[key];
-      }).sort(function(a, b) {
-        return a.localeCompare(b, 'hu', { numeric: true, sensitivity: 'base' });
-      });
+      btn.prop('disabled', !isSelectable);
+      btn.toggleClass('unavailable', !isSelectable);
+      btn.toggleClass('partially-compatible', isSelectable && !isStrictlyCompatible);
 
-      const currentValue = String(container.find('select.option-select[data-option-id="' + meta.optionId + '"]').val() || '').trim();
-      const countLabel = values.length + ' db';
-      const valuesHtml = values.map(function(value) {
-        const activeClass = normalizeOptionValue(value) === normalizeOptionValue(currentValue) ? ' is-active' : '';
-        return '<li class="option-combinations-value' + activeClass + '">' + value + '</li>';
-      }).join('');
-
-      if (values.length <= 8) {
-        return '<div class="option-combinations-item">' +
-          '<div class="option-combinations-label">' + meta.optionName + ' <span>(' + countLabel + ')</span></div>' +
-          '<ul class="option-combinations-values">' + valuesHtml + '</ul>' +
-        '</div>';
+      if (!isSelectable) {
+        btn.attr('title', 'Ez az opció nem elérhető.');
+      } else if (!isStrictlyCompatible) {
+        btn.attr('title', 'Választható, de más opciók is automatikusan változnak.');
+      } else {
+        btn.attr('title', '');
       }
-
-      return '<details class="option-combinations-item">' +
-        '<summary class="option-combinations-label">' + meta.optionName + ' <span>(' + countLabel + ')</span></summary>' +
-        '<ul class="option-combinations-values">' + valuesHtml + '</ul>' +
-        '<div class="option-combinations-current">Aktuális: ' + currentValue + '</div>' +
-      '</details>';
-    }).join('');
-
-    list.html(html);
+    });
   },
 
   initOptionPillToggles: function() {
@@ -881,6 +738,15 @@ var App = {
       } else {
         wrap.addClass('is-collapsed');
         toggle.text(collapsedLabel);
+      }
+    });
+  },
+
+  scrollActiveOptionPillsIntoView: function() {
+    $('.option-pills-wrap').each(function() {
+      const active = $(this).find('.option-pill.active').get(0);
+      if (active && typeof active.scrollIntoView === 'function') {
+        active.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
       }
     });
   },

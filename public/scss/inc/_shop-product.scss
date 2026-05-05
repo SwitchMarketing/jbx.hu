@@ -513,37 +513,92 @@ ul.pd-price {
         margin-bottom: 15px;
       width: 100%;
 
-      .option-select {
-        width: 100%;
-        height: 44px;
-        border: 1px solid #c1c1c1;
-        border-radius: 0;
-        background-color: #fff;
-        color: $black;
-        font-size: 1rem;
-        line-height: 44px;
-        padding: 0 12px;
-        box-sizing: border-box;
-        text-overflow: ellipsis;
+        .option-pills-wrap {
+          width: 100%;
+          overflow-x: auto;
+          overflow-y: hidden;
+          padding-bottom: 4px;
+          scrollbar-width: thin;
 
-        &:focus {
-          outline: none;
-          border-color: $yellow;
-          box-shadow: 0 0 0 2px rgba(255, 238, 2, 0.25);
+          &::-webkit-scrollbar {
+            height: 8px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: #b8b8b8;
+          }
+
+          &::-webkit-scrollbar-track {
+            background-color: #ececec;
+          }
         }
 
-        option:disabled {
-          color: #8a8a8a;
-        }
+        .option-pills {
 
-        &--single,
-        &:disabled {
-          cursor: default;
-          opacity: .9;
-          background-color: #f3f3f3;
-          color: #5e5e5e;
+          display: flex;
+          flex-wrap: nowrap;
+          align-items: stretch;
+          gap: 8px;
+          width: max-content;
+          min-width: 100%;
+
+          .option-pill {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              padding: 6px 10px;
+              width: auto;
+              min-height: 38px;
+              border: 1px solid $yellow;
+              border-radius: 0;
+              background-color: $yellow;
+              color: $black;
+              text-decoration: none;
+              transition: background-color 0.3s;
+              font-size: .9rem;
+              line-height: 1rem;
+              white-space: nowrap;
+                overflow: visible;
+                text-overflow: clip;
+              text-align: center;
+              &:hover {
+                  background-color: $black;
+                  color: $white;
+              }
+              &.active {
+                  background-color: $black;
+                  border-color: $yellow;
+                  color: $yellow;
+                  cursor: default;
+                  pointer-events: none;
+              }
+              &:disabled,
+              &.unavailable {
+                background-color: #d9d9d9;
+                border-color: #b5b5b5;
+                color: #6b6b6b;
+                cursor: not-allowed;
+                opacity: .65;
+                text-decoration: line-through;
+              }
+              &:disabled:hover,
+              &.unavailable:hover {
+                background-color: #d9d9d9;
+                border-color: #b5b5b5;
+                color: #6b6b6b;
+              }
+                &.partially-compatible:not(.active):not(:disabled) {
+                  border-style: dashed;
+                  background-color: #ffe8a3;
+                  color: #3a2a00;
+                }
+                &.partially-compatible:not(.active):not(:disabled):hover {
+                  background-color: #ffd869;
+                  color: #1f1600;
+                }
+          }
+
         }
-      }
 
         &:last-child {
             margin-bottom: 0;
@@ -557,123 +612,6 @@ ul.pd-price {
         color: $black;
     }
 
-    // Cap the opened option list height to prevent very long dropdowns.
-    &-container {
-      .nice-select {
-        width: 100%;
-        float: none;
-
-        .list {
-          width: 100%;
-          max-height: 320px;
-          overflow-y: auto;
-          overscroll-behavior: contain;
-        }
-      }
-    }
-
-}
-
-.option-combinations {
-  margin-top: 14px;
-  border: 1px solid #d8d8d8;
-  padding: 12px;
-  background: #fafafa;
-
-  &-title {
-    font-weight: 800;
-    margin-bottom: 10px;
-    font-size: 0.92rem;
-    letter-spacing: .02em;
-    text-transform: uppercase;
-    color: $black;
-  }
-
-  &-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  &-item {
-    border: 1px solid #e3e3e3;
-    background: #fff;
-    padding: 8px 10px;
-    font-size: 0.86rem;
-    line-height: 1.2rem;
-    color: #333;
-
-    .option-combinations-label {
-      font-weight: 700;
-      font-size: .9rem;
-      cursor: default;
-
-      span {
-        font-weight: 400;
-        color: #666;
-        margin-left: 4px;
-      }
-    }
-
-    .option-combinations-values {
-      margin-top: 6px;
-      margin-bottom: 0;
-      padding-left: 0;
-      list-style: none;
-      border-left: 2px solid #efefef;
-      margin-left: 4px;
-      padding-left: 8px;
-
-      .option-combinations-value {
-        position: relative;
-        padding-left: 14px;
-        color: #444;
-        font-size: .85rem;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-
-        &:not(:last-child) {
-          margin-bottom: 2px;
-        }
-
-        &:before {
-          content: "•";
-          position: absolute;
-          left: 0;
-          top: 0;
-          color: #8d8d8d;
-          font-size: .9rem;
-          line-height: 1.1rem;
-        }
-
-        &.is-active {
-          font-weight: 700;
-          color: #111;
-
-          &:before {
-            color: $yellow;
-          }
-        }
-      }
-    }
-
-    .option-combinations-current {
-      margin-top: 6px;
-      font-size: .8rem;
-      font-weight: 700;
-      color: #222;
-      padding-left: 18px;
-    }
-
-    &.is-active {
-      font-weight: 700;
-      color: $black;
-    }
-
-    &[open] {
-      border-color: #d6d6d6;
-    }
-  }
 }
 
 body.light-d {
@@ -709,60 +647,24 @@ body.light-d {
     color: $white;
   }
 
-  .option-combinations {
-    background: #161616;
-    border-color: #3a3a3a;
+  .option-pills-wrap {
+    scrollbar-width: thin;
+    scrollbar-color: #5a5a5a #1f1f1f;
 
-    &-title,
-    &-item {
-      color: #f1f1f1;
+    &::-webkit-scrollbar-thumb {
+      background-color: #4a4a4a;
     }
 
-    &-item {
-      background: #111;
-      border-color: #333;
-
-      .option-combinations-label span {
-        color: #adadad;
-      }
-
-      .option-combinations-values {
-        color: #e6e6e6;
-        border-left-color: #303030;
-
-        .option-combinations-value {
-          color: #dfdfdf;
-
-          &:before {
-            color: #8b8b8b;
-          }
-
-          &.is-active {
-            color: $yellow;
-          }
-        }
-      }
-
-      .option-combinations-current {
-        color: $yellow;
-      }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #6a6a6a;
     }
 
-    &-item.is-active {
-      color: $yellow;
+    &::-webkit-scrollbar-track {
+      background-color: #222;
     }
-  }
 
-  .option-select {
-    background-color: #161616;
-    border-color: #3a3a3a;
-    color: $white;
-
-    &--single,
-    &:disabled {
-      background-color: #1d1d1d;
-      border-color: #343434;
-      color: #bdbdbd;
+    &::-webkit-scrollbar-corner {
+      background-color: #1f1f1f;
     }
   }
 }
