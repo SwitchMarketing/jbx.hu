@@ -36,7 +36,7 @@
                     </a>
                     <div class="category-card__content">
                       <h3><a href="<?php echo $categoryUrl; ?>"><?php echo esc($category->name); ?></a></h3>
-                      <a href="<?php echo $categoryUrl; ?>" class="theme-btn category-card__cta">Termékek <i class="fa-solid fa-arrow-right"></i></a>
+                      <a href="<?php echo $categoryUrl; ?>" class="theme-btn category-card__cta">Tovább <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                   </article>
                 </div>
