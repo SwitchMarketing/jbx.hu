@@ -265,6 +265,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             label: 'Név',
                             name: 'name',
                             reference: 'nameField',
+                            autoComplete: false,
                             required: true,
                             listeners: {
                                 change: function (field, newValue) {
@@ -284,12 +285,14 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             label: 'Slug',
                             name: 'slug',
                             reference: 'slugField',
+                            autoComplete: false,
                             required: true
                         },
                         {
                             xtype: 'textfield',
                             label: 'Egység',
                             name: 'unit',
+                            autoComplete: false,
                             placeholder: 'pl. db, m, csomag'
                         },
                         {
@@ -440,6 +443,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 xtype: 'textfield',
                                 label: 'Név',
                                 name: 'name',
+                                autoComplete: false,
                                 value: productData.name,
                                 required: true
                             },
@@ -447,6 +451,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 xtype: 'textfield',
                                 label: 'Slug',
                                 name: 'slug',
+                                autoComplete: false,
                                 value: productData.slug,
                                 required: true
                             },
@@ -479,6 +484,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 xtype: 'textfield',
                                 label: 'Egység',
                                 name: 'unit',
+                                autoComplete: false,
                                 value: productData.unit,
                                 placeholder: 'pl. db, m, csomag'
                             },
