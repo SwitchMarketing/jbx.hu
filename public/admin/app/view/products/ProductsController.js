@@ -763,34 +763,120 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
     },
 
     onCreateVariant: function(masterId, variantsGrid) {
-        Ext.Msg.prompt('Új variáció', 'SKU:', function (btn, sku) {
-            if (btn !== 'ok') return;
-            sku = (sku || '').trim();
-            if (!sku) { Ext.Msg.alert('Hiba', 'A SKU megadása kötelező'); return; }
+        var me = this;
+        var dialog = Ext.create({
+            xtype: 'dialog',
+            title: 'Új variáció',
+            width: 400,
+            closable: true,
+            referenceHolder: true,
+            layout: 'fit',
+            platformConfig: {
+                phone: { maximized: true, width: null, height: null }
+            },
+            items: [{
+                xtype: 'formpanel',
+                reference: 'variantForm',
+                scrollable: true,
+                bodyPadding: 20,
+                items: [
+                    {
+                        xtype: 'textfield',
+                        label: 'SKU',
+                        name: 'sku',
+                        reference: 'skuField',
+                        required: true,
+                        placeholder: 'pl. ABC-001'
+                    },
+                    {
+                        xtype: 'textfield',
+                        label: 'Név',
+                        name: 'name',
+                        reference: 'nameField',
+                        placeholder: 'Pl. Fekete, M méret'
+                    },
+                    {
+                        xtype: 'numberfield',
+                        label: 'Ár (Nettó)',
+                        name: 'price',
+                        reference: 'priceField',
+                        value: 0,
+                        minValue: 0,
+                        step: 0.01
+                    },
+                    {
+                        xtype: 'numberfield',
+                        label: 'Készlet',
+                        name: 'stock',
+                        reference: 'stockField',
+                        value: 0,
+                        minValue: 0,
+                        step: 1
+                    },
+                    {
+                        xtype: 'selectfield',
+                        label: 'Állapot',
+                        name: 'state',
+                        reference: 'stateField',
+                        value: 'instock',
+                        options: [
+                            { text: 'Raktáron',    value: 'instock' },
+                            { text: 'Rendelésre',  value: 'backorder' },
+                            { text: 'Ajánlatkérés', value: 'inquire' },
+                            { text: 'Inaktív',     value: 'inactive' }
+                        ],
+                        queryMode: 'local',
+                        autoComplete: false,
+                        clearable: false,
+                        forceSelection: true
+                    }
+                ]
+            }],
+            buttons: {
+                create: {
+                    text: 'Létrehozás',
+                    ui: 'action',
+                    handler: function () {
+                        var form = dialog.lookup('variantForm');
+                        if (!form.validate()) return;
 
-            API.call({
-                url: 'productvariants',
-                method: 'POST',
-                data: { master_id: masterId, sku: sku }
-            }).then(function (response) {
-                if (!response.success) {
-                    Ext.Msg.alert('Hiba', response.message);
-                    return;
+                        var values = form.getValues();
+                        values.master_id = masterId;
+
+                        API.call({
+                            url: 'productvariants',
+                            method: 'POST',
+                            data: values
+                        }).then(function (response) {
+                            if (!response.success) {
+                                Ext.Msg.alert('Hiba', response.message);
+                                return;
+                            }
+                            var newId = response.data && response.data.id;
+                            variantsGrid.getStore().add({
+                                id: newId,
+                                unas_id: null,
+                                sku: values.sku,
+                                name: values.name || null,
+                                price: values.price || 0,
+                                stock: values.stock || 0,
+                                position: (response.data && response.data.position) || 0,
+                                state: values.state,
+                                attributes: []
+                            });
+                            Ext.toast('Variáció létrehozva: ' + values.sku + ' (alapértelmezett jellemzők alkalmazva)');
+                            dialog.destroy();
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Mégse',
+                    handler: function () { dialog.destroy(); }
                 }
-                var newId = response.data && response.data.id;
-                variantsGrid.getStore().add({
-                    id: newId,
-                    unas_id: null,
-                    sku: sku,
-                    name: null,
-                    price: 0,
-                    stock: 0,
-                    position: (response.data && response.data.position) || 0,
-                    attributes: []
-                });
-                Ext.toast('Új variáció létrehozva: ' + sku);
-            });
-        }.bind(this));
+            }
+        });
+
+        dialog.show();
     },
 
     onDeleteVariant: function(variantRecord, store) {
