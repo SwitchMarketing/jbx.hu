@@ -60,7 +60,14 @@ class Categories extends BaseResourceController
     public function create()
     {
         try {
-            $data = $this->request->getPost();
+            $data = $this->normalizeCategoryData($this->request->getPost());
+
+            if ($data['name'] === '') {
+                throw new Exception('A kategória neve kötelező.');
+            }
+            if ($data['slug'] === '') {
+                throw new Exception('A slug megadása kötelező.');
+            }
 
             $parentId = isset($data['parent_id']) ? (int) $data['parent_id'] : 0;
             if ($parentId > 0) {
@@ -84,16 +91,22 @@ class Categories extends BaseResourceController
                 $data['unas_id'] = ((int) ($max->unas_id ?? 0)) + 1;
             }
 
+            $slugExists = $this->model->where('slug', $data['slug'])->first();
+            if ($slugExists) {
+                throw new Exception('A slug már foglalt: "' . $data['slug'] . '".');
+            }
+
             if ($this->model->insert($data)) {
                 $this->rebuildTree();
                 $this->setData(['unas_id' => $data['unas_id']]);
                 $this->setSuccess(true);
                 $this->setMessage('Sikeres mentés');
             } else {
-                throw new Exception(implode(' ', $this->model->errors()));
+                throw new Exception($this->getModelErrorMessage('A kategória mentése sikertelen.'));
             }
         } catch (Exception $e) {
-            $this->setMessage($e->getMessage());
+            \Config\Services::logger()->error('Category create failed: ' . $e->getMessage());
+            $this->setMessage($e->getMessage() !== '' ? $e->getMessage() : 'A kategória mentése sikertelen.');
         } finally {
             return $this->setResponse();
         }
@@ -107,10 +120,25 @@ class Categories extends BaseResourceController
     public function update($id = null)
     {
         try {
-            $data = $this->request->getRawInput();
+            $data = $this->normalizeCategoryData($this->request->getRawInput());
 
             if (!is_object($current = $this->model->find($id))) {
                 throw new Exception('Nincs ilyen rekord!');
+            }
+
+            if ($data['name'] === '') {
+                throw new Exception('A kategória neve kötelező.');
+            }
+            if ($data['slug'] === '') {
+                throw new Exception('A slug megadása kötelező.');
+            }
+
+            $slugExists = $this->model
+                ->where('slug', $data['slug'])
+                ->where('unas_id !=', $id)
+                ->first();
+            if ($slugExists) {
+                throw new Exception('A slug már foglalt: "' . $data['slug'] . '".');
             }
 
             $parentId = array_key_exists('parent_id', $data)
@@ -134,16 +162,35 @@ class Categories extends BaseResourceController
                     throw new Exception('Ehhez a kategóriához már termékek tartoznak, ezért nem lehet alkategóriát mozgatni/létrehozni alá. Előbb helyezd át a termékeket levél kategóriába.');
                 }
             }
+
+            $changedData = [];
+            foreach (['name', 'slug', 'parent_id', 'order'] as $field) {
+                if (!array_key_exists($field, $data)) {
+                    continue;
+                }
+
+                $currentValue = $current->{$field} ?? null;
+                if ((string) $currentValue !== (string) $data[$field]) {
+                    $changedData[$field] = $data[$field];
+                }
+            }
+
+            if (empty($changedData)) {
+                $this->setSuccess(true);
+                $this->setMessage('Nincs módosítás');
+                return $this->setResponse();
+            }
             
-            if ($this->model->update($id, $data)) {
+            if ($this->model->update($id, $changedData)) {
                 $this->rebuildTree();
                 $this->setSuccess(true);
                 $this->setMessage('Sikeres frissítés');
             } else {
-                throw new Exception(implode(' ', $this->model->errors()));
+                throw new Exception($this->getModelErrorMessage('A kategória frissítése sikertelen.'));
             }
         } catch (Exception $e) {
-            $this->setMessage($e->getMessage());
+            \Config\Services::logger()->error('Category update failed: ' . $e->getMessage());
+            $this->setMessage($e->getMessage() !== '' ? $e->getMessage() : 'A kategória frissítése sikertelen.');
         } finally {
             return $this->setResponse();
         }
@@ -297,5 +344,38 @@ class Categories extends BaseResourceController
         $maxBaseLen = 255 - strlen($suffix);
         $base = substr($slug, 0, max(1, $maxBaseLen));
         return $base . $suffix;
+    }
+
+    protected function normalizeCategoryData(array $data): array
+    {
+        if (array_key_exists('name', $data)) {
+            $data['name'] = trim((string) $data['name']);
+        }
+        if (array_key_exists('slug', $data)) {
+            $data['slug'] = trim((string) $data['slug']);
+        }
+        if (array_key_exists('parent_id', $data)) {
+            $data['parent_id'] = (int) $data['parent_id'];
+        }
+        if (array_key_exists('order', $data)) {
+            $data['order'] = max(0, (int) $data['order']);
+        }
+
+        return $data;
+    }
+
+    protected function getModelErrorMessage(string $fallback): string
+    {
+        $errors = $this->model->errors();
+        if (is_array($errors)) {
+            $errors = array_filter(array_map('trim', $errors));
+            if (!empty($errors)) {
+                return implode(' ', $errors);
+            }
+        } elseif (is_string($errors) && trim($errors) !== '') {
+            return trim($errors);
+        }
+
+        return $fallback;
     }
 }
