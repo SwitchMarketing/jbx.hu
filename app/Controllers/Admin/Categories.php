@@ -87,7 +87,7 @@ class Categories extends BaseResourceController
             // unas_id is the primary key but not auto_increment in the schema
             // (legacy UNAS-sourced). Generate next available id for new categories.
             if (empty($data['unas_id'])) {
-                $max = $this->model->selectMax('unas_id')->first();
+                $max = $this->model->withDeleted()->selectMax('unas_id')->first();
                 $data['unas_id'] = ((int) ($max->unas_id ?? 0)) + 1;
             }
 
@@ -374,6 +374,11 @@ class Categories extends BaseResourceController
             }
         } elseif (is_string($errors) && trim($errors) !== '') {
             return trim($errors);
+        }
+
+        $dbError = $this->model->db->error();
+        if (!empty($dbError['message'])) {
+            return trim((string) $dbError['message']);
         }
 
         return $fallback;
