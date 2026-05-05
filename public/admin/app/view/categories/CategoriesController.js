@@ -125,6 +125,7 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
         var store    = this.getView().getStore();
         var selectedImageFile = null;
         var previewObjectUrl = null;
+        var lastAutoSlug = isEdit ? (record.get('slug') || '') : '';
 
         // Hidden native file input for image upload
         var fileInput = document.createElement('input');
@@ -162,13 +163,29 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                         xtype: 'textfield',
                         label: 'Név',
                         name: 'name',
+                        reference: 'nameField',
+                        autoComplete: false,
                         value: isEdit ? record.get('name') : '',
-                        required: true
+                        required: true,
+                        listeners: {
+                            change: function (field, newValue) {
+                                var slugField = dialog.lookup('slugField');
+                                if (!slugField) return;
+                                var current = slugField.getValue() || '';
+                                if (current === '' || current === lastAutoSlug) {
+                                    var next = Slugify.toSlug(newValue);
+                                    lastAutoSlug = next;
+                                    slugField.setValue(next);
+                                }
+                            }
+                        }
                     },
                     {
                         xtype: 'textfield',
                         label: 'Slug',
                         name: 'slug',
+                        reference: 'slugField',
+                        autoComplete: false,
                         value: isEdit ? record.get('slug') : '',
                         required: true
                     },
