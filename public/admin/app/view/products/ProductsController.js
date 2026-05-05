@@ -854,12 +854,30 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             }
                             var newId = response.data && response.data.id;
                             
-                            // Fetch the full variant with auto-applied default attributes
+                            // Fetch the master and extract the new variant with auto-applied defaults.
+                            // productvariants/{id} is not exposed by the admin API.
                             API.call({
-                                url: 'productvariants/' + newId
+                                url: 'products/' + masterId
                             }).then(function (fetchResponse) {
-                                if (fetchResponse.success && fetchResponse.data) {
-                                    var variantData = fetchResponse.data;
+                                if (fetchResponse.success && fetchResponse.data && Ext.isArray(fetchResponse.data.variants)) {
+                                    var variantData = fetchResponse.data.variants.find(function (v) {
+                                        return Number(v.id) === Number(newId);
+                                    });
+
+                                    if (!variantData) {
+                                        variantData = {
+                                            id: newId,
+                                            unas_id: null,
+                                            sku: values.sku,
+                                            name: values.name || null,
+                                            price: values.price || 0,
+                                            stock: values.stock || 0,
+                                            position: (response.data && response.data.position) || 0,
+                                            state: values.state,
+                                            attributes: []
+                                        };
+                                    }
+
                                     variantsGrid.getStore().add({
                                         id: variantData.id,
                                         unas_id: variantData.unas_id || null,
