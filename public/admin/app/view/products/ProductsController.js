@@ -796,21 +796,21 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         placeholder: 'Pl. Fekete, M méret'
                     },
                     {
-                        xtype: 'numberfield',
+                        xtype: 'textfield',
+                        inputType: 'number',
                         label: 'Ár (Nettó)',
                         name: 'price',
                         reference: 'priceField',
                         value: 0,
-                        minValue: 0,
                         step: 0.01
                     },
                     {
-                        xtype: 'numberfield',
+                        xtype: 'textfield',
+                        inputType: 'number',
                         label: 'Készlet',
                         name: 'stock',
                         reference: 'stockField',
                         value: 0,
-                        minValue: 0,
                         step: 1
                     },
                     {
