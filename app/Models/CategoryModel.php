@@ -9,7 +9,7 @@ class CategoryModel extends Model
     protected $DBGroup          = 'shop';
     protected $table            = 'categories';
     protected $primaryKey       = 'unas_id';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $insertID         = 0;
     protected $returnType       = 'object';
     protected $useSoftDeletes   = true;
