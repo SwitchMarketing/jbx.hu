@@ -785,6 +785,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         label: 'SKU',
                         name: 'sku',
                         reference: 'skuField',
+                        autoComplete: false,
                         required: true,
                         placeholder: 'pl. ABC-001'
                     },
@@ -793,6 +794,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         label: 'Név',
                         name: 'name',
                         reference: 'nameField',
+                        autoComplete: false,
                         placeholder: 'Pl. Fekete, M méret'
                     },
                     {
@@ -801,6 +803,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         label: 'Ár (Nettó)',
                         name: 'price',
                         reference: 'priceField',
+                        autoComplete: false,
                         value: 0,
                         step: 0.01
                     },
@@ -810,6 +813,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         label: 'Készlet',
                         name: 'stock',
                         reference: 'stockField',
+                        autoComplete: false,
                         value: 0,
                         step: 1
                     },
