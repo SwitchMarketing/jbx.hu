@@ -58,6 +58,13 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
         var isEdit   = !!record;
         var store    = this.getView().getStore();
 
+        // Hidden native file input for image upload
+        var fileInput = document.createElement('input');
+        fileInput.type   = 'file';
+        fileInput.accept = 'image/jpeg,image/jpg,image/png,image/webp,image/gif';
+        fileInput.style.display = 'none';
+        document.body.appendChild(fileInput);
+
         // Build parent options from the current store (tree order already loaded)
         var parentOptions = [{ text: '— Gyökér —', value: 0 }];
         store.each(function (r) {
@@ -70,6 +77,8 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                 value: r.get('unas_id')
             });
         });
+
+        var currentImage = isEdit ? (record.get('image') || '') : '';
 
         var dialog = Ext.create({
             xtype: 'dialog',
@@ -96,6 +105,28 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                         required: true
                     },
                     {
+                        xtype: 'container',
+                        layout: { type: 'hbox', align: 'middle' },
+                        margin: '0 0 12 0',
+                        items: [
+                            {
+                                xtype    : 'container',
+                                reference: 'imageLabel',
+                                flex     : 1,
+                                html     : '<span style="color:#666;">' +
+                                    (currentImage ? Ext.String.htmlEncode(currentImage) : 'Nincs kép') +
+                                    '</span>'
+                            },
+                            {
+                                xtype  : 'button',
+                                text   : 'Kép feltöltése…',
+                                margin : '0 0 0 8',
+                                hidden : !isEdit,
+                                handler: function () { fileInput.click(); }
+                            }
+                        ]
+                    },
+                    {
                         xtype: 'selectfield',
                         label: 'Szülő kategória',
                         name: 'parent_id',
@@ -116,7 +147,7 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                 save: {
                     text: 'Mentés',
                     handler: function () {
-                        var form = dialog.lookup('form');
+                        var form = dialog.down('[reference=form]');
                         if (!form.validate()) return;
 
                         var values = form.getValues();
@@ -147,7 +178,55 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                         dialog.destroy();
                     }
                 }
+            },
+            listeners: {
+                destroy: function () {
+                    document.body.removeChild(fileInput);
+                }
             }
+        });
+
+        // When a file is chosen, upload it immediately (edit mode only)
+        fileInput.addEventListener('change', function () {
+            var file = fileInput.files[0];
+            if (!file || !isEdit) return;
+
+            // Show local preview immediately
+            var previewObjectUrl = URL.createObjectURL(file);
+            var labelCmp = dialog.down('[reference=imageLabel]');
+            if (labelCmp) {
+                labelCmp.setHtml(
+                    '<img src="' + previewObjectUrl + '" ' +
+                    'style="max-height:80px;max-width:100%;display:block;margin:4px 0;" ' +
+                    'onload="URL.revokeObjectURL(this.src)" />' +
+                    '<span style="color:#666;font-size:11px;">' +
+                    Ext.String.htmlEncode(file.name) + '</span>'
+                );
+            }
+
+            // Use native XHR — Ext.Ajax.request interferes with
+            // the multipart boundary when Content-Type is forced.
+            var formData = new FormData();
+            formData.append('image', file);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', API.apiBase + 'categories/upload_image/' + record.get('unas_id'));
+            xhr.onload = function () {
+                var result = null;
+                try { result = JSON.parse(xhr.responseText); } catch (e) {}
+                if (result && result.success) {
+                    var filename = (result.data && result.data.image) || file.name;
+                    record.set('image', filename);
+                    store.reload();
+                    Ext.toast('Kép feltöltve');
+                } else {
+                    Ext.Msg.alert('Hiba', (result && result.message) || 'Ismeretlen hiba (' + xhr.status + ')');
+                }
+            };
+            xhr.onerror = function () {
+                Ext.Msg.alert('Hiba', 'A feltöltés nem sikerült (hálózati hiba).');
+            };
+            xhr.send(formData);
         });
 
         dialog.show();

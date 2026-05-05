@@ -19,7 +19,8 @@ Ext.define('JBXAdmin.view.main.Main', {
         'JBXAdmin.view.leads.Leads',
         'JBXAdmin.view.products.Products',
         'JBXAdmin.view.categories.Categories',
-        'JBXAdmin.view.attributes.Attributes'
+        'JBXAdmin.view.attributes.Attributes',
+        'JBXAdmin.view.settings.Settings'
     ],
 
     layout : 'fit',
@@ -49,6 +50,10 @@ Ext.define('JBXAdmin.view.main.Main', {
                 {
                     xtype: 'app-attributes',
                     iconCls: 'x-fa fa-tags'
+                },
+                {
+                    xtype: 'app-settings',
+                    iconCls: 'x-fa fa-cog'
                 }
             ]
         },

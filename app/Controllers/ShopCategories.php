@@ -43,6 +43,10 @@ class ShopCategories extends BaseController
 
         // Load first product image for each category
         foreach ($mainCategories as $cat) {
+            if (!empty($cat->image)) {
+                continue;
+            }
+
             $mappedImage = self::CATEGORY_IMAGE_MAP[$cat->slug] ?? null;
             if ($mappedImage !== null && $mappedImage !== '') {
                 $cat->image = $mappedImage;
@@ -55,11 +59,12 @@ class ShopCategories extends BaseController
             $image = $db->table('product_masters')
                 ->select('images.filename')
                 ->join('product_variants', 'product_variants.master_id = product_masters.id')
-                ->join('images', 'images.product_id = product_variants.unas_id', 'inner')
+                ->join('images', '(images.master_id = product_masters.id OR images.product_id = product_variants.unas_id)', 'inner', false)
                 ->whereIn('product_masters.category_id', $descendantIds)
                 ->where('product_masters.state', 'active')
                 ->whereIn('product_variants.state', $activeVariantStates)
                 ->orderBy('product_masters.id', 'ASC')
+                ->orderBy('images.position', 'ASC')
                 ->orderBy('images.id', 'ASC')
                 ->get()
                 ->getFirstRow();

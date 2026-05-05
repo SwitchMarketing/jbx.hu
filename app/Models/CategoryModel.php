@@ -19,7 +19,8 @@ class CategoryModel extends Model
         'name',
         'parent_id',
         'order',
-        'slug'
+        'slug',
+        'image'
     ];
 
     // Dates

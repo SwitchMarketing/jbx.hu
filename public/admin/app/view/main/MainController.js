@@ -19,6 +19,8 @@ Ext.define('JBXAdmin.view.main.MainController', {
             this.fireEvent('reloadCategories');
         } else if (activeTab.isXType('app-attributes')) {
             activeTab.getStore().reload();
+        } else if (activeTab.isXType('app-settings')) {
+            this.fireEvent('reloadSettings');
         }
     },
 

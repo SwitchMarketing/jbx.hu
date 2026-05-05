@@ -143,6 +143,81 @@ class Categories extends BaseResourceController
     }
 
     /**
+     * uploadImage
+     *
+     * Multipart upload endpoint for category image.
+     * Field: image(file)
+     *
+     * @param int|null $id Category unas_id
+     * @return ResponseInterface
+     */
+    public function uploadImage($id = null)
+    {
+        try {
+            $id = (int) $id;
+            if ($id < 1) {
+                throw new Exception('Hiányzó kategória azonosító');
+            }
+
+            if (!is_object($this->model->find($id))) {
+                throw new Exception('Nincs ilyen kategória');
+            }
+
+            $file = $this->request->getFile('image');
+            if (!$file) {
+                throw new Exception('Nincs fájl a kérésben');
+            }
+            if (!$file->isValid()) {
+                throw new Exception('Érvénytelen fájl: ' . $file->getErrorString());
+            }
+
+            $allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+            $mimeType = $file->getMimeType();
+            if (!in_array($mimeType, $allowedMimes, true)) {
+                throw new Exception('Nem támogatott fájltípus: ' . $mimeType);
+            }
+
+            $targetDir = FCPATH . 'imgs/products';
+            if (!is_dir($targetDir)) {
+                if (!@mkdir($targetDir, 0775, true)) {
+                    throw new Exception('A célmappa nem hozható létre: ' . $targetDir);
+                }
+            }
+            if (!is_writable($targetDir)) {
+                throw new Exception('A célmappa nem írható: ' . $targetDir);
+            }
+
+            $storedName = $file->getRandomName();
+            if (!$file->move($targetDir, $storedName)) {
+                throw new Exception('Fájl mozgatás sikertelen. Elérési út: ' . $targetDir . '/' . $storedName);
+            }
+
+            if (!file_exists($targetDir . '/' . $storedName)) {
+                throw new Exception('Fájl feltöltés sikertelen, a fájl nem létezik a célon.');
+            }
+
+            if (!$this->model->update($id, ['image' => $storedName])) {
+                $errors = $this->model->errors();
+                throw new Exception('Adatbázis hiba: ' . (is_array($errors) ? implode('; ', $errors) : $errors));
+            }
+
+            $this->rebuildTree();
+            $this->setData(['image' => $storedName]);
+            $this->setSuccess(true);
+            $this->setMessage('Kategória kép feltöltve');
+        } catch (Exception $e) {
+            $msg = $e->getMessage();
+            if (empty($msg)) {
+                $msg = 'Ismeretlen hiba történt a feltöltés közben';
+            }
+            $this->setMessage($msg);
+            \Config\Services::logger()->error('Category image upload error: ' . $msg);
+        } finally {
+            return $this->setResponse();
+        }
+    }
+
+    /**
      * rebuildTree
      *
      * @return void

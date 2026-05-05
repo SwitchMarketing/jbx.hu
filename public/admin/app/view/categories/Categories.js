@@ -31,6 +31,11 @@ Ext.define('JBXAdmin.view.categories.Categories', {
             dataIndex: 'slug'
         },
         {
+            text: 'Kep',
+            width : 220,
+            dataIndex: 'image'
+        },
+        {
             text: 'Elérési út',
             flex : 2,
             dataIndex: 'path'

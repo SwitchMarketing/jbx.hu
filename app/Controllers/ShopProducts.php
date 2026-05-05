@@ -48,7 +48,7 @@ class ShopProducts extends BaseController
 			'representative_variant.price AS price',
 			'representative_variant.state AS variant_state',
 			'categories.path AS category_path',
-			'images.filename AS image',
+			'(SELECT i.filename FROM images i WHERE i.master_id = pm.id ORDER BY i.position ASC, i.id ASC LIMIT 1) AS image',
 		]);
 		$builder->join('category_tree AS categories', 'categories.unas_id = pm.category_id', 'left');
 		$builder->join(
@@ -58,16 +58,10 @@ class ShopProducts extends BaseController
 				FROM product_variants pv
 				WHERE pv.master_id = pm.id
 					AND pv.state IN ({$quotedStates})
-				ORDER BY pv.price ASC, pv.id ASC
+				ORDER BY pv.position ASC, pv.price ASC, pv.id ASC
 				LIMIT 1
 			)",
 			'inner',
-			false
-		);
-		$builder->join(
-			'(SELECT product_id, filename FROM images GROUP BY product_id) AS images',
-			'representative_variant.unas_id = images.product_id',
-			'left',
 			false
 		);
 		$builder->where('pm.state', ProductMasterModel::STATE_ACTIVE);
@@ -183,6 +177,7 @@ class ShopProducts extends BaseController
 					$variant = $variantModel
 						->where('master_id', $master->id)
 						->whereIn('state', $activeVariantStates)
+						->orderBy('position', 'ASC')
 						->orderBy('price', 'ASC')
 						->first();
 
@@ -222,7 +217,7 @@ class ShopProducts extends BaseController
 			'price'       => (float) ($variant->price ?? 0),
 			'stock'       => (float) ($variant->stock ?? 0),
 			'state'       => $variant->state ?? '',
-			'images'      => $this->getVariantImages($variant->unas_id ?? null),
+			'images'      => $this->getVariantImages((int) $master->id, (int) $variant->id, $variant->unas_id ?? null),
 			'params'      => null,
 		];
 		$variant->attributes = $this->getVariantAttributes((int) $variant->id);
@@ -573,19 +568,44 @@ class ShopProducts extends BaseController
 	/**
 	 * getVariantImages
 	 *
-	 * @param  int|null $unasId
+	 * @param  int $masterId
+	 * @param  int|null $variantId
+	 * @param  int|string|null $unasId
 	 * @return array
 	 */
-	private function getVariantImages(?int $unasId): array
+	private function getVariantImages(int $masterId, ?int $variantId = null, $unasId = null): array
 	{
-		if (empty($unasId)) {
+		if ($masterId < 1 && empty($unasId)) {
 			return [];
 		}
 
 		$db = \Config\Database::connect('shop');
-		return $db->table('images')
+		$builder = $db->table('images')
 			->select('filename')
-			->where('product_id', $unasId)
+			->groupStart();
+
+		if ($masterId > 0) {
+			$builder->where('master_id', $masterId);
+		}
+
+		if (!empty($variantId)) {
+			$builder->groupStart()
+				->where('variant_id', null)
+				->orWhere('variant_id', $variantId)
+			->groupEnd();
+		}
+
+		if (!empty($unasId)) {
+			$builder->orGroupStart()
+				->where('master_id', null)
+				->where('product_id', (string) $unasId)
+			->groupEnd();
+		}
+
+		$builder->groupEnd();
+
+		return $builder
+			->orderBy('position', 'ASC')
 			->orderBy('id', 'ASC')
 			->get()
 			->getResult();

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Libraries\BuildPage;
+use App\Libraries\ShopSettings;
 
 class ShopCart extends BaseController
 {
@@ -128,7 +129,7 @@ class ShopCart extends BaseController
 		$cartTotal = round($cartTotal, 2);
 
 		// nettó ár
-		$cartNetTotal = round($cartTotal / 1.27, 2);
+		$cartNetTotal = round($cartTotal / ShopSettings::vatMultiplier(), 2);
 
 		// áfa
 		$cartVat = round($cartTotal - $cartNetTotal, 2);
@@ -254,7 +255,7 @@ class ShopCart extends BaseController
 				'name'       => $variant->name,
 				'price'      => (float)$variant->price,
 				'unit_price_gross' => (float)$variant->price,
-				'vat_rate'   => 27.00,
+					'vat_rate'   => ShopSettings::vatRatePercent(),
 				'qty'        => $qty,
 				'status'     => $stateMap[$variant->state] ?? 'Rendelés',
 				'selected_options_json' => null,

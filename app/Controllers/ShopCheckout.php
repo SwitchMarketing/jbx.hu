@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Libraries\BuildPage;
 use Exception;
 use App\Libraries\Mailer;
+use App\Libraries\ShopSettings;
 
 /**
  * ShopCheckout
@@ -48,7 +49,7 @@ class ShopCheckout extends BaseController
         }
 
         $cartTotal = round($cartTotal, 2);
-        $cartNetTotal = round($cartTotal / 1.27, 2);
+        $cartNetTotal = round($cartTotal / ShopSettings::vatMultiplier(), 2);
         $cartVat = round($cartTotal - $cartNetTotal, 2);
 
         $data = [

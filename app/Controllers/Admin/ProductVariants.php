@@ -3,6 +3,8 @@
 namespace App\Controllers\Admin;
 
 use Exception;
+use App\Models\ProductMasterDefaultAttributeModel;
+use App\Models\ProductVariantModel;
 
 class ProductVariants extends BaseResourceController
 {
@@ -26,22 +28,49 @@ class ProductVariants extends BaseResourceController
                 throw new Exception('A SKU megadása kötelező');
             }
 
-            $state = $data['state'] ?? \App\Models\ProductVariantModel::STATE_INSTOCK;
-            if (!in_array($state, \App\Models\ProductVariantModel::STATES, true)) {
+            $state = $data['state'] ?? ProductVariantModel::STATE_INSTOCK;
+            if (!in_array($state, ProductVariantModel::STATES, true)) {
                 throw new Exception('Érvénytelen állapot: ' . $state);
             }
 
+            $masterId = (int) $data['master_id'];
+            $maxPosition = $this->model->selectMax('position')->where('master_id', $masterId)->first();
+            $nextPosition = isset($maxPosition->position) ? ((int) $maxPosition->position + 1) : 1;
+
             $insertData = [
-                'master_id' => (int) $data['master_id'],
+                'master_id' => $masterId,
                 'sku'       => trim($data['sku']),
                 'name'      => $data['name']  ?? null,
                 'price'     => $data['price'] ?? 0,
                 'stock'     => $data['stock'] ?? 0,
+                'position'  => isset($data['position']) ? (int) $data['position'] : $nextPosition,
                 'state'     => $state,
             ];
 
             if ($this->model->insert($insertData)) {
-                $this->setData(['id' => $this->model->getInsertID()]);
+                $newId = (int) $this->model->getInsertID();
+
+                // Copy master-level default attributes to the newly created variant.
+                $copyDefaults = !isset($data['copy_defaults']) || !in_array($data['copy_defaults'], ['0', 'false', 0, false], true);
+                if ($copyDefaults) {
+                    $db = \Config\Database::connect('shop');
+                    $defaults = (new ProductMasterDefaultAttributeModel())
+                        ->where('master_id', $masterId)
+                        ->findAll();
+
+                    foreach ($defaults as $row) {
+                        if (($row->default_value ?? '') === '') {
+                            continue;
+                        }
+                        $db->table('variant_attribute_values')->insert([
+                            'variant_id' => $newId,
+                            'attribute_id' => (int) $row->attribute_id,
+                            'value' => (string) $row->default_value,
+                        ]);
+                    }
+                }
+
+                $this->setData(['id' => $newId, 'position' => $insertData['position']]);
                 $this->setSuccess(true);
                 $this->setMessage('Variáció létrehozva');
             } else {
@@ -98,8 +127,9 @@ class ProductVariants extends BaseResourceController
             if (isset($data['stock'])) $updateData['stock'] = $data['stock'];
             if (isset($data['sku']))   $updateData['sku']   = $data['sku'];
             if (isset($data['name']))  $updateData['name']  = $data['name'];
+            if (isset($data['position'])) $updateData['position'] = (int) $data['position'];
             if (isset($data['state'])) {
-                if (!in_array($data['state'], \App\Models\ProductVariantModel::STATES, true)) {
+                if (!in_array($data['state'], ProductVariantModel::STATES, true)) {
                     throw new Exception('Érvénytelen állapot: ' . $data['state']);
                 }
                 $updateData['state'] = $data['state'];
@@ -115,6 +145,49 @@ class ProductVariants extends BaseResourceController
             } else {
                 throw new Exception('Nincs módosítandó adat');
             }
+        } catch (Exception $e) {
+            $this->setMessage($e->getMessage());
+        } finally {
+            return $this->setResponse();
+        }
+    }
+
+    /**
+     * reorder - bulk reorder variant positions.
+     * Expects rows: [{id: number, position: number}, ...]
+     */
+    public function reorder()
+    {
+        try {
+            $rows = $this->request->getRawInput()['rows'] ?? $this->request->getPost('rows');
+            if (is_string($rows)) {
+                $rows = json_decode($rows, true);
+            }
+
+            if (empty($rows) || !is_array($rows)) {
+                throw new Exception('Hiányzó sor-rendezési adatok');
+            }
+
+            $db = \Config\Database::connect('shop');
+            $db->transStart();
+
+            foreach ($rows as $row) {
+                $id = isset($row['id']) ? (int) $row['id'] : 0;
+                $position = isset($row['position']) ? (int) $row['position'] : 0;
+                if ($id < 1) {
+                    continue;
+                }
+                $this->model->update($id, ['position' => max(0, $position)]);
+            }
+
+            $db->transComplete();
+
+            if ($db->transStatus() === false) {
+                throw new Exception('A variációk sorrend mentése sikertelen');
+            }
+
+            $this->setSuccess(true);
+            $this->setMessage('Variáció sorrend mentve');
         } catch (Exception $e) {
             $this->setMessage($e->getMessage());
         } finally {

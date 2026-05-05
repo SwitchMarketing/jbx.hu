@@ -5,6 +5,8 @@ namespace App\Controllers\Admin;
 use Exception;
 use App\Models\ProductVariantModel;
 use App\Models\CategoryTreeModel;
+use App\Models\ImageModel;
+use App\Models\ProductMasterDefaultAttributeModel;
 use App\Helpers\BreadcrumbsHelper;
 
 class Products extends BaseResourceController
@@ -80,6 +82,21 @@ class Products extends BaseResourceController
             // Include variants
             $variantModel = new ProductVariantModel();
             $product->variants = $variantModel->getWithAttributes($id);
+
+            $db = \Config\Database::connect('shop');
+            $product->default_attributes = $db->table('product_master_default_attributes pmda')
+                ->select('pmda.attribute_id, a.name, pmda.default_value as value')
+                ->join('attributes a', 'a.id = pmda.attribute_id', 'left')
+                ->where('pmda.master_id', (int) $id)
+                ->orderBy('a.name', 'ASC')
+                ->get()
+                ->getResult();
+
+            $product->images = (new ImageModel())
+                ->where('master_id', (int) $id)
+                ->orderBy('position', 'ASC')
+                ->orderBy('id', 'ASC')
+                ->findAll();
 
             // Full category path (breadcrumb-style): "Root > Parent > Child"
             $product->category_path_names = '';
@@ -201,6 +218,60 @@ class Products extends BaseResourceController
             } else {
                 throw new Exception(implode(' ', $this->model->errors()));
             }
+        } catch (Exception $e) {
+            $this->setMessage($e->getMessage());
+        } finally {
+            return $this->setResponse();
+        }
+    }
+
+    /**
+     * saveDefaultAttributes
+     *
+     * @param int|null $id Product master ID
+     * @return ResponseInterface
+     */
+    public function saveDefaultAttributes($id = null)
+    {
+        try {
+            $raw = $this->request->getRawInput()['attributes'] ?? $this->request->getPost('attributes');
+            if (is_string($raw)) {
+                $attributes = json_decode($raw, true) ?? [];
+            } else {
+                $attributes = is_array($raw) ? $raw : [];
+            }
+
+            $id = (int) $id;
+            if ($id < 1) {
+                throw new Exception('Hiányzó termék azonosító');
+            }
+
+            $db = \Config\Database::connect('shop');
+            $db->transStart();
+
+            $defaultModel = new ProductMasterDefaultAttributeModel();
+            $defaultModel->where('master_id', $id)->delete();
+
+            foreach ($attributes as $row) {
+                $attributeId = isset($row['attribute_id']) ? (int) $row['attribute_id'] : 0;
+                if ($attributeId < 1) {
+                    continue;
+                }
+
+                $defaultModel->insert([
+                    'master_id' => $id,
+                    'attribute_id' => $attributeId,
+                    'default_value' => isset($row['value']) ? trim((string) $row['value']) : '',
+                ]);
+            }
+
+            $db->transComplete();
+            if ($db->transStatus() === false) {
+                throw new Exception('Alapertelmezett jellemzok mentese sikertelen');
+            }
+
+            $this->setSuccess(true);
+            $this->setMessage('Alapertelmezett jellemzok mentve');
         } catch (Exception $e) {
             $this->setMessage($e->getMessage());
         } finally {

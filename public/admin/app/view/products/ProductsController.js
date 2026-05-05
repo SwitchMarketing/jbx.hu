@@ -534,19 +534,20 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         reference: 'variantsGrid',
                         userCls: 'jbx-themed-grid',
                         store: {
-                            fields: ['id', 'unas_id', 'sku', 'name', 'price', 'stock', 'state', 'attributes'],
+                            fields: ['id', 'unas_id', 'sku', 'name', 'price', 'stock', 'position', 'state', 'attributes'],
                             data: productData.variants || [],
                             listeners: {
                                 update: function (store, record, operation, modifiedFieldNames) {
                                     if (operation !== Ext.data.Model.EDIT) return;
                                     if (!record.get('id')) return;
-                                    var editable = ['sku', 'name', 'price', 'stock', 'state'];
+                                    var editable = ['sku', 'name', 'price', 'stock', 'position', 'state'];
                                     if (!modifiedFieldNames || !modifiedFieldNames.some(function (f) { return editable.indexOf(f) !== -1; })) return;
                                     this.onSaveVariant(record);
                                 }.bind(this)
                             }
                         },
                         columns: [
+                            { text: 'Poz.', dataIndex: 'position', width: 70, editable: true },
                             { text: 'UNAS ID', dataIndex: 'unas_id', width: 90, hidden: true },
                             { text: 'SKU', dataIndex: 'sku', width: 140, editable: true },
                             { text: 'Név', dataIndex: 'name', flex: 1, minWidth: 200, editable: true },
@@ -627,12 +628,87 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                     }.bind(this)
                                 },
                                 {
+                                    text: 'Alapert. jellemzok',
+                                    iconCls: 'x-fa fa-sliders-h',
+                                    handler: function () {
+                                        this.onEditDefaultAttributes(productData.id, productData);
+                                    }.bind(this)
+                                },
+                                {
                                     text: 'Jellemzők a névből',
                                     iconCls: 'x-fa fa-magic',
                                     tooltip: 'Attribútumok kinyerése a variációk nevéből egy minta alapján',
                                     hidden: true,
                                     handler: function () {
                                         this.onParseVariantNames(productData.id, dialog.lookup('variantsGrid'));
+                                    }.bind(this)
+                                }
+                            ]
+                        }]
+                    },
+                    {
+                        title: 'Kepek',
+                        xtype: 'grid',
+                        reference: 'imagesGrid',
+                        userCls: 'jbx-themed-grid',
+                        store: {
+                            fields: ['id', 'filename', 'alt', 'position', 'variant_id'],
+                            data: productData.images || [],
+                            listeners: {
+                                update: function (store, record, operation, modifiedFieldNames) {
+                                    if (operation !== Ext.data.Model.EDIT) return;
+                                    if (!record.get('id')) return;
+                                    if (!modifiedFieldNames || !modifiedFieldNames.length) return;
+                                    this.onSaveImage(record);
+                                }.bind(this)
+                            }
+                        },
+                        columns: [
+                            { text: 'Poz.', dataIndex: 'position', width: 70, editable: true },
+                            {
+                                text: 'Fajl', dataIndex: 'filename', flex: 1, editable: true,
+                                cell: {
+                                    xtype: 'gridcell',
+                                    encodeHtml: false,
+                                    renderer: function (value) {
+                                        if (!value) return '';
+                                        var src = '/imgs/products/' + Ext.String.htmlEncode(value);
+                                        return '<a href="' + src + '" target="_blank" ' +
+                                            'style="color:#1677ff;text-decoration:underline;" ' +
+                                            'onclick="event.stopPropagation();">' +
+                                            Ext.String.htmlEncode(value) + '</a>';
+                                    }
+                                }
+                            },
+                            { text: 'ALT', dataIndex: 'alt', flex: 1, editable: true },
+                            { text: 'Variant ID', dataIndex: 'variant_id', width: 100, editable: true },
+                            {
+                                width: 60,
+                                cell: {
+                                    tools: {
+                                        delete: {
+                                            iconCls: 'x-fa fa-trash',
+                                            tooltip: 'Kep torlese',
+                                            handler: function (gridRef, info) {
+                                                this.onDeleteImage(info.record, gridRef.getStore());
+                                            }.bind(this)
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        plugins: {
+                            cellediting: true
+                        },
+                        items: [{
+                            xtype: 'toolbar',
+                            docked: 'top',
+                            items: [
+                                {
+                                    text: 'Uj kep',
+                                    iconCls: 'x-fa fa-image',
+                                    handler: function () {
+                                        this.onCreateImage(productData.id, dialog.lookup('imagesGrid'));
                                     }.bind(this)
                                 }
                             ]
@@ -709,6 +785,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     name: null,
                     price: 0,
                     stock: 0,
+                    position: (response.data && response.data.position) || 0,
                     attributes: []
                 });
                 Ext.toast('Új variáció létrehozva: ' + sku);
@@ -787,6 +864,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 name: variantRecord.get('name'),
                 price: variantRecord.get('price'),
                 stock: variantRecord.get('stock'),
+                position: variantRecord.get('position'),
                 state: variantRecord.get('state')
             }
         }).then(function (response) {
@@ -1068,5 +1146,300 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         });
 
         attrDialog.show();
+    },
+
+    onEditDefaultAttributes: function(masterId, productData) {
+        var storeData = (productData.default_attributes || []).map(function (r) {
+            return {
+                attribute_id: r.attribute_id,
+                name: r.name,
+                value: r.value
+            };
+        });
+
+        var dialog = Ext.create({
+            xtype: 'dialog',
+            title: 'Alapertelmezett jellemzok',
+            width: 540,
+            height: 420,
+            closable: true,
+            referenceHolder: true,
+            layout: 'fit',
+            items: [{
+                xtype: 'grid',
+                reference: 'defaultAttrGrid',
+                userCls: 'jbx-themed-grid',
+                store: {
+                    fields: ['attribute_id', 'name', 'value'],
+                    data: storeData
+                },
+                columns: [
+                    {
+                        text: 'Tipus',
+                        dataIndex: 'attribute_id',
+                        width: 200,
+                        editable: true,
+                        renderer: function (v, record) {
+                            if (record && record.get('name')) return record.get('name');
+                            var store = Ext.getStore('attributestore');
+                            var rec = store && v ? store.getById(v) : null;
+                            return rec ? rec.get('name') : (v || '');
+                        },
+                        editor: {
+                            xtype: 'selectfield',
+                            store: 'attributestore',
+                            valueField: 'id',
+                            displayField: 'name',
+                            queryMode: 'local'
+                        }
+                    },
+                    { text: 'Ertek', dataIndex: 'value', flex: 1, editable: true },
+                    {
+                        width: 50,
+                        cell: {
+                            tools: {
+                                delete: {
+                                    iconCls: 'x-fa fa-trash',
+                                    handler: function (grid, info) {
+                                        grid.getStore().remove(info.record);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                plugins: {
+                    cellediting: true
+                },
+                items: [{
+                    xtype: 'toolbar',
+                    docked: 'top',
+                    items: [{
+                        text: 'Uj sor',
+                        iconCls: 'x-fa fa-plus',
+                        handler: function () {
+                            dialog.lookup('defaultAttrGrid').getStore().add({ attribute_id: '', value: '' });
+                        }
+                    }]
+                }]
+            }],
+            buttons: {
+                save: {
+                    text: 'Mentés',
+                    ui: 'confirm',
+                    handler: function () {
+                        var rows = [];
+                        var invalid = 0;
+                        dialog.lookup('defaultAttrGrid').getStore().each(function (r) {
+                            var aid = r.get('attribute_id');
+                            var value = r.get('value');
+                            if (aid && value !== null && value !== '') {
+                                rows.push({ attribute_id: aid, value: value });
+                            } else if (aid || value) {
+                                invalid++;
+                            }
+                        });
+
+                        if (invalid) {
+                            Ext.Msg.alert('Hiba', 'Van hianyos sor.');
+                            return;
+                        }
+
+                        API.call({
+                            url: 'products/save_default_attributes/' + masterId,
+                            method: 'POST',
+                            data: { attributes: Ext.encode(rows) }
+                        }).then(function (response) {
+                            if (!response.success) {
+                                Ext.Msg.alert('Hiba', response.message);
+                                return;
+                            }
+
+                            var attrStore = Ext.getStore('attributestore');
+                            productData.default_attributes = rows.map(function (d) {
+                                var rec = attrStore ? attrStore.getById(d.attribute_id) : null;
+                                return {
+                                    attribute_id: d.attribute_id,
+                                    name: rec ? rec.get('name') : '',
+                                    value: d.value
+                                };
+                            });
+
+                            Ext.toast('Alapertelmezett jellemzok mentve');
+                            dialog.destroy();
+                        });
+                    }.bind(this)
+                },
+                cancel: {
+                    text: 'Mégse',
+                    ui: 'decline',
+                    handler: function () { dialog.destroy(); }
+                }
+            }
+        });
+
+        dialog.show();
+    },
+
+    onCreateImage: function(masterId, imagesGrid) {
+        var me = this;
+
+        // Native file input — attached to body so .click() works cross-browser
+        var fileInput = document.createElement('input');
+        fileInput.type   = 'file';
+        fileInput.accept = 'image/jpeg,image/jpg,image/png,image/webp,image/gif';
+        fileInput.style.display = 'none';
+        document.body.appendChild(fileInput);
+
+        var previewObjectUrl = null;
+
+        var dialog = Ext.create({
+            xtype      : 'dialog',
+            title      : 'Új kép feltöltése',
+            width      : 440,
+            closable   : true,
+            bodyPadding: 16,
+            items: [{
+                xtype: 'formpanel',
+                items: [
+                    {
+                        xtype    : 'container',
+                        reference: 'previewBox',
+                        html     : '<div style="width:100%;height:180px;background:#f5f5f5;border:1px dashed #ccc;' +
+                                   'display:flex;align-items:center;justify-content:center;' +
+                                   'color:#aaa;font-size:13px;margin-bottom:12px;">' +
+                                   'Előnézet</div>'
+                    },
+                    {
+                        xtype : 'button',
+                        text  : 'Fájl kiválasztása…',
+                        handler: function () { fileInput.click(); }
+                    },
+                    {
+                        xtype      : 'textfield',
+                        label      : 'Alt szöveg',
+                        reference  : 'altField',
+                        placeholder: 'opcionális',
+                        margin     : '12 0 0 0'
+                    }
+                ]
+            }],
+            buttons: {
+                ok: {
+                    text   : 'Feltöltés',
+                    handler: function () {
+                        var file = fileInput.files[0];
+                        if (!file) {
+                            Ext.Msg.alert('Hiba', 'Kérjük válasszon képfájlt.');
+                            return;
+                        }
+                        var altCmp = dialog.down('[reference=altField]');
+                        var alt = (altCmp ? altCmp.getValue() : '').trim();
+                        var formData = new FormData();
+                        formData.append('image',     file);
+                        formData.append('master_id', masterId);
+                        if (alt) formData.append('alt', alt);
+
+                        // Use native XHR — Ext.Ajax.request interferes with
+                        // the multipart boundary when Content-Type is forced.
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', API.apiBase + 'images/upload');
+                        xhr.onload = function () {
+                            var result = null;
+                            try { result = JSON.parse(xhr.responseText); } catch (e) {}
+                            if (result && result.success) {
+                                me.reloadImages(masterId, imagesGrid);
+                                Ext.toast('Kép feltöltve');
+                                dialog.destroy();
+                            } else {
+                                Ext.Msg.alert('Hiba', (result && result.message) || 'Ismeretlen hiba (' + xhr.status + ')');
+                            }
+                        };
+                        xhr.onerror = function () {
+                            Ext.Msg.alert('Hiba', 'A feltöltés nem sikerült (hálózati hiba).');
+                        };
+                        xhr.send(formData);
+                    }
+                },
+                cancel: {
+                    text   : 'Mégse',
+                    handler: function () { dialog.destroy(); }
+                }
+            },
+            listeners: {
+                destroy: function () {
+                    if (previewObjectUrl) { URL.revokeObjectURL(previewObjectUrl); }
+                    document.body.removeChild(fileInput);
+                }
+            }
+        });
+
+        fileInput.addEventListener('change', function () {
+            var file = fileInput.files[0];
+            if (!file) return;
+
+            if (previewObjectUrl) { URL.revokeObjectURL(previewObjectUrl); }
+            previewObjectUrl = URL.createObjectURL(file);
+
+            var previewCmp = dialog.down('[reference=previewBox]');
+            if (previewCmp) {
+                previewCmp.setHtml(
+                    '<img src="' + previewObjectUrl + '" ' +
+                    'style="max-width:100%;max-height:180px;display:block;margin:0 auto;" />'
+                );
+            }
+        });
+
+        dialog.show();
+    },
+
+    onSaveImage: function(imageRecord) {
+        API.call({
+            url: 'images/' + imageRecord.get('id'),
+            method: 'PUT',
+            data: {
+                filename: imageRecord.get('filename'),
+                alt: imageRecord.get('alt'),
+                position: imageRecord.get('position'),
+                variant_id: imageRecord.get('variant_id')
+            }
+        }).then(function (response) {
+            if (response.success) {
+                imageRecord.commit();
+                Ext.toast('Kep mentve');
+            } else {
+                Ext.Msg.alert('Hiba', response.message);
+            }
+        });
+    },
+
+    onDeleteImage: function(imageRecord, store) {
+        Ext.Msg.confirm('Megerosites', 'Torlod ezt a kepet?', function (choice) {
+            if (choice !== 'yes') return;
+
+            API.call({
+                url: 'images/' + imageRecord.get('id'),
+                method: 'DELETE'
+            }).then(function (response) {
+                if (response.success) {
+                    store.remove(imageRecord);
+                    Ext.toast('Kep torolve');
+                } else {
+                    Ext.Msg.alert('Hiba', response.message);
+                }
+            });
+        });
+    },
+
+    reloadImages: function(masterId, imagesGrid) {
+        API.call({
+            url: 'images',
+            method: 'GET',
+            data: { master_id: masterId }
+        }).then(function (response) {
+            if (response.success && imagesGrid && imagesGrid.getStore) {
+                imagesGrid.getStore().loadData(response.data || []);
+            }
+        });
     }
 });

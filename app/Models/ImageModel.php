@@ -15,8 +15,11 @@ class ImageModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'product_id',
+        'master_id',
+        'variant_id',
         'filename',
-        'alt'
+        'alt',
+        'position'
     ];
 
     protected bool $allowEmptyInserts = false;

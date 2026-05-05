@@ -32,6 +32,7 @@ class ProductVariantModel extends Model
         'slug',
         'price',
         'stock',
+        'position',
         'state'
     ];
 
@@ -44,7 +45,10 @@ class ProductVariantModel extends Model
     public function getWithAttributes($masterId)
     {
         $db = \Config\Database::connect('shop');
-        $variants = $this->where('master_id', $masterId)->findAll();
+        $variants = $this->where('master_id', $masterId)
+            ->orderBy('position', 'ASC')
+            ->orderBy('id', 'ASC')
+            ->findAll();
 
         foreach ($variants as &$v) {
             $sql = "SELECT vav.attribute_id, a.name, vav.value

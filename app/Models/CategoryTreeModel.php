@@ -18,6 +18,7 @@ class CategoryTreeModel extends Model
         'unas_id',
         'name',
         'slug',
+        'image',
         'parent_id',
         'order',
         'depth',
@@ -60,14 +61,15 @@ class CategoryTreeModel extends Model
         // Clear the existing tree
         $this->db->table($this->table)->truncate();
 
-        $sql = "INSERT INTO category_tree (unas_id, name, slug, parent_id, `order`, depth, path, pathIds)
-                WITH RECURSIVE category_tree_cte(unas_id, name, parent_id, `order`, slug, depth, path, pathIds) AS (
+        $sql = "INSERT INTO category_tree (unas_id, name, slug, image, parent_id, `order`, depth, path, pathIds)
+            WITH RECURSIVE category_tree_cte(unas_id, name, parent_id, `order`, slug, image, depth, path, pathIds) AS (
                     SELECT 
                         unas_id,
                         name,
                         parent_id,
                         `order`,
                         slug,
+                image,
                         0 AS depth,
                         CAST(slug AS CHAR(255)) AS path,
                         CAST(unas_id AS CHAR(255)) AS pathIds
@@ -82,13 +84,14 @@ class CategoryTreeModel extends Model
                         c.parent_id,
                         c.`order`,
                         c.slug,
+                        c.image,
                         ct.depth + 1,
                         CONCAT(ct.path, '/', c.slug) AS path,
                         CONCAT(ct.pathIds, '/', c.unas_id) AS pathIds
                     FROM categories c
                     JOIN category_tree_cte ct ON c.parent_id = ct.unas_id
                 )
-                SELECT unas_id, name, slug, parent_id, `order`, depth, path, pathIds
+                SELECT unas_id, name, slug, image, parent_id, `order`, depth, path, pathIds
                 FROM category_tree_cte;";
 
         return $this->db->query($sql);
