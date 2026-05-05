@@ -33,7 +33,20 @@ Ext.define('JBXAdmin.view.categories.Categories', {
         {
             text: 'Kep',
             width : 220,
-            dataIndex: 'image'
+            dataIndex: 'image',
+            cell: {
+                xtype: 'gridcell',
+                encodeHtml: false,
+                renderer: function (value) {
+                    if (!value) return '<span style="color:#999;">Nincs kép</span>';
+                    var src = '/imgs/products/' + Ext.String.htmlEncode(value);
+                    return '<a href="' + src + '" target="_blank" onclick="event.stopPropagation();" ' +
+                        'style="display:flex;align-items:center;gap:8px;color:#1677ff;text-decoration:none;">' +
+                        '<img src="' + src + '" style="width:36px;height:36px;object-fit:cover;border-radius:4px;border:1px solid #ddd;" />' +
+                        '<span style="text-decoration:underline;">' + Ext.String.htmlEncode(value) + '</span>' +
+                        '</a>';
+                }
+            }
         },
         {
             text: 'Elérési út',
@@ -62,6 +75,11 @@ Ext.define('JBXAdmin.view.categories.Categories', {
                         iconCls: 'x-fa fa-edit',
                         tooltip: 'Szerkesztés',
                         handler: 'onEditItem'
+                    },
+                    image: {
+                        iconCls: 'x-fa fa-image',
+                        tooltip: 'Borítókép feltöltése',
+                        handler: 'onUploadImageItem'
                     },
                     delete: {
                         iconCls: 'x-fa fa-trash',

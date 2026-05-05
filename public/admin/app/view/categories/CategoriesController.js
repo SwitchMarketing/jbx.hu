@@ -28,6 +28,10 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
         this.showFormDialog(info.record);
     },
 
+    onUploadImageItem: function (grid, info) {
+        this.pickAndUploadCategoryImage(info.record);
+    },
+
     onDeleteItem: function (grid, info) {
         var record = info.record;
         var store  = this.getView().getStore();
@@ -53,10 +57,74 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
         );
     },
 
+    pickAndUploadCategoryImage: function (record) {
+        if (!record) return;
+        var store = this.getView().getStore();
+        var fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = 'image/jpeg,image/jpg,image/png,image/webp,image/gif';
+        fileInput.style.display = 'none';
+        document.body.appendChild(fileInput);
+
+        fileInput.addEventListener('change', function () {
+            var file = fileInput.files[0];
+            if (!file) return;
+
+            this.uploadCategoryImage(record.get('unas_id'), file)
+                .then(function (result) {
+                    var filename = (result.data && result.data.image) || file.name;
+                    record.set('image', filename);
+                    store.reload();
+                    Ext.toast('Kép feltöltve');
+                    document.body.removeChild(fileInput);
+                })
+                .catch(function (message) {
+                    Ext.Msg.alert('Hiba', message);
+                    document.body.removeChild(fileInput);
+                });
+        }.bind(this), { once: true });
+
+        fileInput.click();
+    },
+
+    uploadCategoryImage: function (categoryId, file) {
+        return new Promise(function (resolve, reject) {
+            if (!categoryId) {
+                reject('Hiányzó kategória azonosító');
+                return;
+            }
+            if (!file) {
+                reject('Nincs kiválasztott kép');
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append('image', file);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', API.apiBase + 'categories/upload_image/' + categoryId);
+            xhr.onload = function () {
+                var result = null;
+                try { result = JSON.parse(xhr.responseText); } catch (e) {}
+                if (result && result.success) {
+                    resolve(result);
+                } else {
+                    reject((result && result.message) || ('Ismeretlen hiba (' + xhr.status + ')'));
+                }
+            };
+            xhr.onerror = function () {
+                reject('A feltöltés nem sikerült (hálózati hiba).');
+            };
+            xhr.send(formData);
+        });
+    },
+
     showFormDialog: function (record) {
         var me       = this;
         var isEdit   = !!record;
         var store    = this.getView().getStore();
+        var selectedImageFile = null;
+        var previewObjectUrl = null;
 
         // Hidden native file input for image upload
         var fileInput = document.createElement('input');
@@ -119,9 +187,8 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                             },
                             {
                                 xtype  : 'button',
-                                text   : 'Kép feltöltése…',
+                                text   : 'Borítókép kiválasztása…',
                                 margin : '0 0 0 8',
-                                hidden : !isEdit,
                                 handler: function () { fileInput.click(); }
                             }
                         ]
@@ -135,11 +202,12 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                         queryMode: 'local'
                     },
                     {
-                        xtype: 'numberfield',
+                        xtype: 'textfield',
+                        inputType: 'number',
                         label: 'Sorrend',
                         name: 'order',
                         value: isEdit ? (record.get('order') || 0) : 0,
-                        minValue: 0
+                        autoComplete: false
                     }
                 ]
             }],
@@ -163,9 +231,31 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                             data: values
                         }).then(function (response) {
                             if (response.success) {
-                                Ext.toast(isEdit ? 'Sikeres mentés' : 'Kategória létrehozva');
-                                store.reload();
-                                dialog.destroy();
+                                var categoryId = isEdit
+                                    ? record.get('unas_id')
+                                    : (response.data && response.data.unas_id);
+
+                                var finish = function (message) {
+                                    Ext.toast(message || (isEdit ? 'Sikeres mentés' : 'Kategória létrehozva'));
+                                    store.reload();
+                                    dialog.destroy();
+                                };
+
+                                if (selectedImageFile && categoryId) {
+                                    me.uploadCategoryImage(categoryId, selectedImageFile)
+                                        .then(function (uploadResponse) {
+                                            if (isEdit && record) {
+                                                record.set('image', (uploadResponse.data && uploadResponse.data.image) || selectedImageFile.name);
+                                            }
+                                            finish((isEdit ? 'Sikeres mentés' : 'Kategória létrehozva') + ' + borítókép feltöltve');
+                                        })
+                                        .catch(function (message) {
+                                            Ext.Msg.alert('Hiba', 'A kategória mentve, de a kép feltöltése nem sikerült: ' + message);
+                                            finish(isEdit ? 'Sikeres mentés' : 'Kategória létrehozva');
+                                        });
+                                } else {
+                                    finish();
+                                }
                             } else {
                                 Ext.Msg.alert('Hiba', response.message);
                             }
@@ -181,52 +271,34 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
             },
             listeners: {
                 destroy: function () {
+                    if (previewObjectUrl) {
+                        URL.revokeObjectURL(previewObjectUrl);
+                    }
                     document.body.removeChild(fileInput);
                 }
             }
         });
 
-        // When a file is chosen, upload it immediately (edit mode only)
+        // Keep the selected file for upload after save (works for create and edit)
         fileInput.addEventListener('change', function () {
             var file = fileInput.files[0];
-            if (!file || !isEdit) return;
+            if (!file) return;
+            selectedImageFile = file;
 
             // Show local preview immediately
-            var previewObjectUrl = URL.createObjectURL(file);
+            if (previewObjectUrl) {
+                URL.revokeObjectURL(previewObjectUrl);
+            }
+            previewObjectUrl = URL.createObjectURL(file);
             var labelCmp = dialog.down('[reference=imageLabel]');
             if (labelCmp) {
                 labelCmp.setHtml(
                     '<img src="' + previewObjectUrl + '" ' +
-                    'style="max-height:80px;max-width:100%;display:block;margin:4px 0;" ' +
-                    'onload="URL.revokeObjectURL(this.src)" />' +
+                    'style="max-height:80px;max-width:100%;display:block;margin:4px 0;" />' +
                     '<span style="color:#666;font-size:11px;">' +
                     Ext.String.htmlEncode(file.name) + '</span>'
                 );
             }
-
-            // Use native XHR — Ext.Ajax.request interferes with
-            // the multipart boundary when Content-Type is forced.
-            var formData = new FormData();
-            formData.append('image', file);
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', API.apiBase + 'categories/upload_image/' + record.get('unas_id'));
-            xhr.onload = function () {
-                var result = null;
-                try { result = JSON.parse(xhr.responseText); } catch (e) {}
-                if (result && result.success) {
-                    var filename = (result.data && result.data.image) || file.name;
-                    record.set('image', filename);
-                    store.reload();
-                    Ext.toast('Kép feltöltve');
-                } else {
-                    Ext.Msg.alert('Hiba', (result && result.message) || 'Ismeretlen hiba (' + xhr.status + ')');
-                }
-            };
-            xhr.onerror = function () {
-                Ext.Msg.alert('Hiba', 'A feltöltés nem sikerült (hálózati hiba).');
-            };
-            xhr.send(formData);
         });
 
         dialog.show();
