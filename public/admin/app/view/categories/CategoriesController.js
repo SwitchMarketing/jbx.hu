@@ -154,6 +154,7 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
             title: isEdit ? 'Kategória szerkesztése' : 'Új kategória',
             width: 450,
             closable: true,
+            referenceHolder: true,
             bodyPadding: 20,
             items: [{
                 xtype: 'formpanel',
