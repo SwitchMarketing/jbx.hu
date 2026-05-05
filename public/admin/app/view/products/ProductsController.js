@@ -853,19 +853,46 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 return;
                             }
                             var newId = response.data && response.data.id;
-                            variantsGrid.getStore().add({
-                                id: newId,
-                                unas_id: null,
-                                sku: values.sku,
-                                name: values.name || null,
-                                price: values.price || 0,
-                                stock: values.stock || 0,
-                                position: (response.data && response.data.position) || 0,
-                                state: values.state,
-                                attributes: []
+                            
+                            // Fetch the full variant with auto-applied default attributes
+                            API.call({
+                                url: 'productvariants/' + newId
+                            }).then(function (fetchResponse) {
+                                if (fetchResponse.success && fetchResponse.data) {
+                                    var variantData = fetchResponse.data;
+                                    variantsGrid.getStore().add({
+                                        id: variantData.id,
+                                        unas_id: variantData.unas_id || null,
+                                        sku: variantData.sku,
+                                        name: variantData.name || null,
+                                        price: variantData.price || 0,
+                                        stock: variantData.stock || 0,
+                                        position: variantData.position || 0,
+                                        state: variantData.state,
+                                        attributes: variantData.attributes || []
+                                    });
+                                    var attrCount = (variantData.attributes && variantData.attributes.length) || 0;
+                                    var attrMsg = attrCount > 0 
+                                        ? ' (' + attrCount + ' alapértelmezett jellemző alkalmazva)' 
+                                        : '';
+                                    Ext.toast('Variáció létrehozva: ' + variantData.sku + attrMsg);
+                                } else {
+                                    // Fallback if fetch fails
+                                    variantsGrid.getStore().add({
+                                        id: newId,
+                                        unas_id: null,
+                                        sku: values.sku,
+                                        name: values.name || null,
+                                        price: values.price || 0,
+                                        stock: values.stock || 0,
+                                        position: (response.data && response.data.position) || 0,
+                                        state: values.state,
+                                        attributes: []
+                                    });
+                                    Ext.toast('Variáció létrehozva: ' + values.sku);
+                                }
+                                dialog.destroy();
                             });
-                            Ext.toast('Variáció létrehozva: ' + values.sku + ' (alapértelmezett jellemzők alkalmazva)');
-                            dialog.destroy();
                         });
                     }
                 },
