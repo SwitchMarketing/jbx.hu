@@ -288,7 +288,22 @@ class Products extends BaseResourceController
         try {
             $data = $this->request->getRawInput();
 
+            if (!array_key_exists('ids', $data)) {
+                $data['ids'] = $this->request->getPost('ids');
+            }
+            if (!array_key_exists('category_id', $data)) {
+                $data['category_id'] = $this->request->getPost('category_id');
+            }
+
             $ids = $data['ids'] ?? [];
+            if (is_string($ids)) {
+                $decoded = json_decode($ids, true);
+                if (is_array($decoded)) {
+                    $ids = $decoded;
+                } elseif (trim($ids) !== '') {
+                    $ids = [$ids];
+                }
+            }
             if (!is_array($ids)) {
                 throw new Exception('Hiányzó vagy érvénytelen terméklista');
             }
