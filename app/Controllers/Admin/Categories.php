@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use Exception;
+use Throwable;
 
 class Categories extends BaseResourceController
 {
@@ -61,6 +62,7 @@ class Categories extends BaseResourceController
     {
         try {
             $data = $this->normalizeCategoryData($this->request->getPost());
+            $db = \Config\Database::connect('shop');
 
             if ($data['name'] === '') {
                 throw new Exception('A kategória neve kötelező.');
@@ -87,8 +89,7 @@ class Categories extends BaseResourceController
             // unas_id is the primary key but not auto_increment in the schema
             // (legacy UNAS-sourced). Generate next available id for new categories.
             if (empty($data['unas_id'])) {
-                $max = $this->model->withDeleted()->selectMax('unas_id')->first();
-                $data['unas_id'] = ((int) ($max->unas_id ?? 0)) + 1;
+                $data['unas_id'] = $this->getNextCategoryId($db);
             }
 
             $slugExists = $this->model->where('slug', $data['slug'])->first();
@@ -96,14 +97,34 @@ class Categories extends BaseResourceController
                 throw new Exception('A slug már foglalt: "' . $data['slug'] . '".');
             }
 
-            if ($this->model->insert($data)) {
-                $this->rebuildTree();
-                $this->setData(['unas_id' => $data['unas_id']]);
-                $this->setSuccess(true);
-                $this->setMessage('Sikeres mentés');
-            } else {
-                throw new Exception($this->getModelErrorMessage('A kategória mentése sikertelen.'));
+            $inserted = false;
+            for ($attempt = 0; $attempt < 3; $attempt++) {
+                try {
+                    $inserted = (bool) $this->model->insert($data);
+                    if ($inserted) {
+                        break;
+                    }
+
+                    throw new Exception($this->getModelErrorMessage('A kategória mentése sikertelen.'));
+                } catch (Throwable $e) {
+                    $message = $e->getMessage() ?? '';
+                    if (stripos($message, 'Duplicate entry') !== false && stripos($message, 'PRIMARY') !== false) {
+                        $data['unas_id'] = $this->getNextCategoryId($db);
+                        continue;
+                    }
+
+                    throw $e;
+                }
             }
+
+            if (!$inserted) {
+                throw new Exception('A kategória mentése sikertelen: nem sikerült egyedi azonosítót foglalni.');
+            }
+
+            $this->rebuildTree();
+            $this->setData(['unas_id' => $data['unas_id']]);
+            $this->setSuccess(true);
+            $this->setMessage('Sikeres mentés');
         } catch (Exception $e) {
             \Config\Services::logger()->error('Category create failed: ' . $e->getMessage());
             $this->setMessage($e->getMessage() !== '' ? $e->getMessage() : 'A kategória mentése sikertelen.');
@@ -382,5 +403,15 @@ class Categories extends BaseResourceController
         }
 
         return $fallback;
+    }
+
+    protected function getNextCategoryId($db): int
+    {
+        $row = $db->table('categories')
+            ->selectMax('unas_id', 'max_id')
+            ->get()
+            ->getRow();
+
+        return ((int) ($row->max_id ?? 0)) + 1;
     }
 }
