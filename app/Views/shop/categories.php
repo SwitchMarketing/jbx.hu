@@ -10,11 +10,13 @@
                     <?php if (isset($categories) && is_array($categories) && count($categories) > 0): ?>
                         <?php foreach ($categories as $index => $category): ?>
                         <?php $categoryUrl = base_url('termekek/' . $category->slug); ?>
+                        <?php $imageFile = !empty($category->image) ? $category->image : (!empty($category->default_image) ? $category->default_image : null); ?>
                         <div class="col-lg-4 col-md-6">
                             <article class="category-card" style="--card-delay: <?php echo ((int) $index) * 80; ?>ms;">
                                 <a class="category-card__media" href="<?php echo $categoryUrl; ?>" aria-label="<?php echo esc($category->name); ?> kategória megnyitása">
-                                    <?php if (!empty($category->image)): ?>
-                                        <img src="<?php echo base_url('imgs/products/' . $category->image); ?>" alt="<?php echo esc($category->name); ?>" loading="lazy">
+                                    <?php if (!empty($imageFile)): ?>
+                                        <?php $imageSrc = preg_match('#^https?://#i', (string) $imageFile) ? $imageFile : base_url('imgs/products/' . ltrim((string) $imageFile, '/')); ?>
+                                        <img src="<?php echo $imageSrc; ?>" alt="<?php echo esc($category->name); ?>" loading="lazy">
                                     <?php else: ?>
                                         <div class="category-card__placeholder" aria-hidden="true">
                                             <span><?php echo esc(strtoupper(mb_substr((string) $category->name, 0, 1))); ?></span>

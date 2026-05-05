@@ -32,4 +32,26 @@ class CategoryHelper
 
         return $result;
     }
+
+    public static function hasChildren($parentId): bool
+    {
+        $db = \Config\Database::connect('shop');
+
+        return $db->table('category_tree')
+            ->where('parent_id', $parentId)
+            ->countAllResults() > 0;
+    }
+
+    public static function getDirectChildren($parentId): array
+    {
+        $db = \Config\Database::connect('shop');
+
+        return $db->table('category_tree')
+            ->select('unas_id, name, slug, image, path, parent_id, `order`')
+            ->where('parent_id', $parentId)
+            ->orderBy('order', 'ASC')
+            ->orderBy('name', 'ASC')
+            ->get()
+            ->getResult();
+    }
 }

@@ -19,6 +19,13 @@ class ShopProducts extends BaseController
 	 */
 	public function index($categoryId = null)
     {
+		$showCategoryCards = false;
+		$directChildren = [];
+
+		if ($categoryId && \App\Helpers\CategoryHelper::hasChildren($categoryId)) {
+			$showCategoryCards = true;
+			$directChildren = \App\Helpers\CategoryHelper::getDirectChildren($categoryId);
+		}
 
 		// termékek lekérése
 		// a lapozóhoz szükséges paraméterek
@@ -66,20 +73,25 @@ class ShopProducts extends BaseController
 		);
 		$builder->where('pm.state', ProductMasterModel::STATE_ACTIVE);
 
-		if ($categoryId) {
+		if ($categoryId && !$showCategoryCards) {
 			// a kategórának vannak al-kategóriái, így a kategória összes termékét lekérjük
 			$descendantIds = \App\Helpers\CategoryHelper::getDescendantIds($categoryId);
 			$builder->whereIn('pm.category_id', $descendantIds);
 		}
 
-		$countBuilder = clone $builder;
-		$total = $countBuilder->countAllResults();
+		$total = 0;
+		$items = [];
 
-		$items = $builder
-			->orderBy('pm.name', 'ASC')
-			->limit($itemsPerPage, $start)
-			->get()
-			->getResult();
+		if (!$showCategoryCards) {
+			$countBuilder = clone $builder;
+			$total = $countBuilder->countAllResults();
+
+			$items = $builder
+				->orderBy('pm.name', 'ASC')
+				->limit($itemsPerPage, $start)
+				->get()
+				->getResult();
+		}
 		
 		// a lapozó
 		$pager = service('pager');
@@ -87,7 +99,7 @@ class ShopProducts extends BaseController
 		$shop = (object) [
 			'items' => $items,
 			'total' => $total,
-			'links' => $pager->makeLinks($page, $limit, $total, 'shop')
+			'links' => $showCategoryCards ? '' : $pager->makeLinks($page, $limit, $total, 'shop')
         ];
 
 		// kategória fa lekérése
@@ -129,7 +141,9 @@ class ShopProducts extends BaseController
 			'body'	=> [
                 'breadcrumbs' => $breadcrumbs,
 				'shop' => $shop,
-				'tree' => $this->renderTree($tree, $categoryId)
+				'tree' => $this->renderTree($tree, $categoryId),
+				'showCategoryCards' => $showCategoryCards,
+				'categories' => $directChildren
             ]
         ];
 
