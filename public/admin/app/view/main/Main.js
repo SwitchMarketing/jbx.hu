@@ -45,7 +45,7 @@ Ext.define('JBXAdmin.view.main.Main', {
                 },
                 {
                     xtype: 'app-categories',
-                    tab: { hidden: true }
+                    iconCls: 'x-fa fa-sitemap'
                 },
                 {
                     xtype: 'app-attributes',
