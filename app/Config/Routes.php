@@ -143,6 +143,7 @@ $routes->group('admin', static function ($routes) {
     $routes->resource('logout', ['controller' =>'Admin\Logout', 'only' => ['index']]);
     $routes->resource('leads', ['controller' =>'Admin\Leads', 'only' => ['index', 'show'], 'filter' => 'loggedin']);
     $routes->resource('products', ['controller' =>'Admin\Products', 'filter' => 'loggedin']);
+    $routes->post('products/bulk_move_category', 'Admin\Products::bulkMoveCategory', ['filter' => 'loggedin']);
     $routes->resource('productvariants', ['controller' =>'Admin\ProductVariants', 'only' => ['create', 'update', 'delete'], 'filter' => 'loggedin']);
     $routes->post('products/save_default_attributes/(:num)', 'Admin\Products::saveDefaultAttributes/$1', ['filter' => 'loggedin']);
     $routes->post('productvariants/reorder', 'Admin\ProductVariants::reorder', ['filter' => 'loggedin']);

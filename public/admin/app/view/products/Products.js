@@ -42,6 +42,15 @@ Ext.define('JBXAdmin.view.products.Products', {
                 }
             },
             {
+                text: 'Kijelöltek áthelyezése',
+                iconCls: 'x-fa fa-exchange-alt',
+                handler: 'onBulkMoveProducts',
+                margin: '0 10 0 0',
+                platformConfig: {
+                    phone: { width: null, flex: null }
+                }
+            },
+            {
                 xtype: 'searchfield',
                 reference: 'productSearch',
                 placeholder: 'Keresés név, slug, leírás...',
@@ -148,6 +157,10 @@ Ext.define('JBXAdmin.view.products.Products', {
             align: 'center',
             cell: {
                 tools: {
+                    view: {
+                        iconCls: 'x-fa fa-eye',
+                        handler: 'onViewItem'
+                    },
                     edit: {
                         iconCls: 'x-fa fa-edit',
                         handler: 'onEditItem'
@@ -155,9 +168,5 @@ Ext.define('JBXAdmin.view.products.Products', {
                 }
             }
         }
-    ],
-
-    listeners: {
-        select: 'onItemSelected'
-    }
+    ]
 });

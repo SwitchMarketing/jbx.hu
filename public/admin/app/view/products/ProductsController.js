@@ -16,7 +16,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
         }.bind(this), this);
 
         view.setSelectable({
-            mode : 'single'
+            mode : 'multi'
         });
 
         // Populate the category filter with leaf categories only (products can
@@ -201,6 +201,133 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 dialog.show();
             }
         }.bind(this));
+    },
+
+    onViewItem: function (grid, info) {
+        if (!info || !info.record) return;
+        this.onItemSelected(grid, info.record);
+    },
+
+    onBulkMoveProducts: function () {
+        var me = this;
+        var grid = this.getView();
+        var selected = [];
+
+        if (grid.getSelections && Ext.isFunction(grid.getSelections)) {
+            selected = grid.getSelections() || [];
+        } else if (grid.getSelection && Ext.isFunction(grid.getSelection)) {
+            var s = grid.getSelection();
+            selected = Ext.isArray(s) ? s : (s ? [s] : []);
+        } else if (grid.getSelectable && Ext.isFunction(grid.getSelectable)) {
+            var selModel = grid.getSelectable();
+            if (selModel && selModel.getSelectedRecords && Ext.isFunction(selModel.getSelectedRecords)) {
+                selected = selModel.getSelectedRecords() || [];
+            }
+        }
+
+        if (!selected.length) {
+            Ext.Msg.alert('Figyelem', 'Jelölj ki legalább egy terméket az áthelyezéshez.');
+            return;
+        }
+
+        var categoryStore = Ext.getStore('categorystore') || Ext.create('JBXAdmin.store.CategoryStore');
+        var loadCategories = new Promise(function (resolve) {
+            if (categoryStore.getCount() > 0) { resolve(); return; }
+            if (categoryStore.isLoading()) {
+                categoryStore.on('load', function () { resolve(); }, { single: true });
+            } else {
+                categoryStore.load({ callback: function () { resolve(); } });
+            }
+        });
+
+        loadCategories.then(function () {
+            var catData = me.buildCategoryOptions(categoryStore);
+
+            var dialog = Ext.create({
+                xtype: 'dialog',
+                title: 'Termékek áthelyezése kategóriába',
+                width: 620,
+                height: 520,
+                closable: true,
+                referenceHolder: true,
+                layout: 'fit',
+                platformConfig: {
+                    phone: { maximized: true, width: null, height: null }
+                },
+                items: [{
+                    xtype: 'formpanel',
+                    reference: 'bulkMoveForm',
+                    scrollable: true,
+                    bodyPadding: 16,
+                    items: [
+                        {
+                            xtype: 'selectfield',
+                            label: 'Cél kategória (levél)',
+                            name: 'category_id',
+                            options: catData.options,
+                            queryMode: 'local',
+                            autoComplete: true,
+                            forceSelection: true,
+                            clearable: false,
+                            required: true
+                        },
+                        {
+                            xtype: 'component',
+                            margin: '10 0 6 0',
+                            html: '<strong>Kijelölt termékek (' + selected.length + ' db)</strong>'
+                        },
+                        {
+                            xtype: 'component',
+                            style: 'max-height:260px;overflow:auto;border:1px solid #ddd;padding:8px;border-radius:4px;background:#fff;',
+                            html: selected.map(function (r) {
+                                var n = Ext.String.htmlEncode(r.get('name') || ('#' + r.get('id')));
+                                var c = Ext.String.htmlEncode(r.get('category_path_names') || r.get('category_name') || '-');
+                                return '<div style="padding:4px 0;border-bottom:1px solid #f1f1f1;">' +
+                                    '<div style="font-weight:600;">' + n + '</div>' +
+                                    '<div style="font-size:12px;color:#666;">Jelenlegi: ' + c + '</div>' +
+                                    '</div>';
+                            }).join('')
+                        }
+                    ]
+                }],
+                buttons: {
+                    move: {
+                        text: 'Áthelyezés',
+                        ui: 'action',
+                        handler: function () {
+                            var form = dialog.lookup('bulkMoveForm');
+                            if (!form.validate()) return;
+
+                            var values = form.getValues();
+                            var ids = selected.map(function (r) { return r.get('id'); });
+
+                            API.call({
+                                url: 'products/bulk_move_category',
+                                method: 'POST',
+                                data: {
+                                    ids: ids,
+                                    category_id: values.category_id
+                                }
+                            }).then(function (response) {
+                                if (!response.success) {
+                                    Ext.Msg.alert('Hiba', response.message);
+                                    return;
+                                }
+                                Ext.toast(response.message || 'Termékek áthelyezve');
+                                dialog.destroy();
+                                grid.getStore().reload();
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: 'Mégse',
+                        handler: function () { dialog.destroy(); }
+                    }
+                }
+            });
+
+            dialog.show();
+        });
     },
 
     onCreateProduct: function () {

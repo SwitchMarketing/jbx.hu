@@ -280,6 +280,63 @@ class Products extends BaseResourceController
     }
 
     /**
+     * bulkMoveCategory — moves selected products to a target category.
+     * Expects: ids (array), category_id (int)
+     */
+    public function bulkMoveCategory()
+    {
+        try {
+            $data = $this->request->getRawInput();
+
+            $ids = $data['ids'] ?? [];
+            if (!is_array($ids)) {
+                throw new Exception('Hiányzó vagy érvénytelen terméklista');
+            }
+
+            $ids = array_values(array_unique(array_filter(array_map('intval', $ids), function ($id) {
+                return $id > 0;
+            })));
+            if (empty($ids)) {
+                throw new Exception('Nincs kiválasztott termék');
+            }
+
+            $categoryId = isset($data['category_id']) ? (int) $data['category_id'] : 0;
+            if ($categoryId < 1) {
+                throw new Exception('Hiányzó cél kategória');
+            }
+
+            $catModel = new \App\Models\CategoryModel();
+            if (!is_object($catModel->find($categoryId))) {
+                throw new Exception('A cél kategória nem létezik');
+            }
+
+            $childCount = $catModel->where('parent_id', $categoryId)->countAllResults();
+            if ($childCount > 0) {
+                throw new Exception('A termék csak levél (alkategória nélküli) kategóriába helyezhető.');
+            }
+
+            $moved = 0;
+            foreach ($ids as $id) {
+                if ($this->model->update($id, ['category_id' => $categoryId])) {
+                    $moved++;
+                }
+            }
+
+            if ($moved < 1) {
+                throw new Exception('Nem sikerült egyetlen terméket sem áthelyezni');
+            }
+
+            $this->setSuccess(true);
+            $this->setMessage($moved . ' termék áthelyezve');
+            $this->setData(['moved' => $moved]);
+        } catch (Exception $e) {
+            $this->setMessage($e->getMessage());
+        } finally {
+            return $this->setResponse();
+        }
+    }
+
+    /**
      * saveDefaultAttributes
      *
      * @param int|null $id Product master ID
