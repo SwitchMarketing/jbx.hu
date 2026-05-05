@@ -14,5 +14,8 @@ Ext.define('JBXAdmin.store.AttributeStore', {
         }
     },
     autoLoad: true,
-    sorters: [{ property: 'name', direction: 'ASC' }]
+    sorters: [
+        { property: 'position', direction: 'ASC' },
+        { property: 'name', direction: 'ASC' }
+    ]
 });

@@ -16,6 +16,7 @@ Ext.define('JBXAdmin.view.attributes.Attributes', {
 
     columns: [
         { text: 'ID', dataIndex: 'id', width: 80 },
+        { text: 'Sorrend', dataIndex: 'position', width: 100 },
         { text: 'Név', dataIndex: 'name', flex: 1 },
         {
             width: 110,
@@ -40,6 +41,14 @@ Ext.define('JBXAdmin.view.attributes.Attributes', {
         xtype: 'toolbar',
         docked: 'top',
         items: [
+            {
+                xtype: 'textfield',
+                width: 120,
+                placeholder: 'Sorrend',
+                reference: 'newAttrPosition',
+                value: 0,
+                inputType: 'number'
+            },
             {
                 xtype: 'textfield',
                 placeholder: 'Új attribútum neve...',

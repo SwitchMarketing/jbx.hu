@@ -16,7 +16,10 @@ class Attributes extends BaseResourceController
     public function index()
     {
         try {
-            $attributes = $this->model->orderBy('name', 'ASC')->findAll();
+            $attributes = $this->model
+                ->orderBy('position', 'ASC')
+                ->orderBy('name', 'ASC')
+                ->findAll();
             
             $this->setData($attributes);
             $this->setSuccess(true);

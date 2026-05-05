@@ -4,19 +4,25 @@ Ext.define('JBXAdmin.view.attributes.AttributesController', {
 
     onAddAttribute: function() {
         var field = this.lookup('newAttrName');
+        var positionField = this.lookup('newAttrPosition');
         var name = field.getValue();
+        var position = positionField ? (parseInt(positionField.getValue(), 10) || 0) : 0;
 
         if (!name) return;
 
         API.call({
             url: 'attributes',
             method: 'POST',
-            data: { name: name }
+            data: {
+                name: name,
+                position: position
+            }
         }).then(function (response) {
             if (response.success) {
                 Ext.toast('Attribútum hozzáadva');
                 this.getView().getStore().reload();
                 field.setValue('');
+                if (positionField) positionField.setValue(0);
             } else {
                 Ext.Msg.alert('Hiba', response.message);
             }
@@ -43,6 +49,12 @@ Ext.define('JBXAdmin.view.attributes.AttributesController', {
                     name: 'name',
                     value: record.get('name'),
                     required: true
+                }, {
+                    xtype: 'textfield',
+                    placeholder: 'Sorrend',
+                    name: 'position',
+                    value: record.get('position') || 0,
+                    inputType: 'number'
                 }]
             }],
             buttons: {
