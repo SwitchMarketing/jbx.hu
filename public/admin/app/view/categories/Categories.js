@@ -31,8 +31,8 @@ Ext.define('JBXAdmin.view.categories.Categories', {
             dataIndex: 'slug'
         },
         {
-            text: 'Kep',
-            width : 220,
+            text: 'Kép',
+            width : 100,
             dataIndex: 'image',
             cell: {
                 xtype: 'gridcell',
@@ -43,7 +43,7 @@ Ext.define('JBXAdmin.view.categories.Categories', {
                     return '<a href="' + src + '" target="_blank" onclick="event.stopPropagation();" ' +
                         'style="display:flex;align-items:center;gap:8px;color:#1677ff;text-decoration:none;">' +
                         '<img src="' + src + '" style="width:36px;height:36px;object-fit:cover;border-radius:4px;border:1px solid #ddd;" />' +
-                        '<span style="text-decoration:underline;">' + Ext.String.htmlEncode(value) + '</span>' +
+                        // '<span style="text-decoration:underline;">' + Ext.String.htmlEncode(value) + '</span>' +
                         '</a>';
                 }
             }
