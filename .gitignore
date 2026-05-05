@@ -80,6 +80,7 @@ app/.ftp-deploy-sync-state.json
 public/.ftp-deploy-sync-state-staging.json
 public/.ftp-deploy-sync-state.json
 public/theme
+public/imgs/products
 /*.mjs
 
 
