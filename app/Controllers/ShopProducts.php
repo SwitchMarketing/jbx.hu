@@ -22,7 +22,10 @@ class ShopProducts extends BaseController
 		$showCategoryCards = false;
 		$directChildren = [];
 
-		if ($categoryId && \App\Helpers\CategoryHelper::hasChildren($categoryId)) {
+		if (!$categoryId) {
+			$showCategoryCards = true;
+			$directChildren = \App\Helpers\CategoryHelper::getDirectChildren(0);
+		} elseif (\App\Helpers\CategoryHelper::hasChildren($categoryId)) {
 			$showCategoryCards = true;
 			$directChildren = \App\Helpers\CategoryHelper::getDirectChildren($categoryId);
 		}
