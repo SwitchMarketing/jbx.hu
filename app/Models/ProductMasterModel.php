@@ -14,7 +14,7 @@ class ProductMasterModel extends BaseModel
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
         'category_id',
@@ -30,6 +30,7 @@ class ProductMasterModel extends BaseModel
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
 
     protected $qstringColumns = [
         'product_masters.name',

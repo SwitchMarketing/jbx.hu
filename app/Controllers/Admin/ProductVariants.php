@@ -88,12 +88,20 @@ class ProductVariants extends BaseResourceController
     public function delete($id = null)
     {
         try {
-            if (empty($id)) {
+            $id = (int) $id;
+            if ($id < 1) {
                 throw new Exception('Hiányzó azonosító');
             }
 
-            $db = \Config\Database::connect('shop');
-            $db->table('variant_attribute_values')->where('variant_id', $id)->delete();
+            $variant = $this->model->find($id);
+            if (!is_object($variant)) {
+                throw new Exception('Nincs ilyen rekord!');
+            }
+
+            $oldSlug = trim((string) ($variant->slug ?? ''));
+            if ($oldSlug !== '') {
+                $this->model->update($id, ['slug' => $this->buildDeletedSlug($oldSlug, $id)]);
+            }
 
             if ($this->model->delete($id)) {
                 $this->setSuccess(true);
@@ -106,6 +114,14 @@ class ProductVariants extends BaseResourceController
         } finally {
             return $this->setResponse();
         }
+    }
+
+    protected function buildDeletedSlug(string $slug, int $id): string
+    {
+        $suffix = '--deleted-' . $id . '-' . date('YmdHis');
+        $maxBaseLen = 255 - strlen($suffix);
+        $base = substr($slug, 0, max(1, $maxBaseLen));
+        return $base . $suffix;
     }
 
     /**

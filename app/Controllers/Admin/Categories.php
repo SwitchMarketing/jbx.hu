@@ -157,6 +157,16 @@ class Categories extends BaseResourceController
     public function delete($id = null)
     {
         try {
+            $id = (int) $id;
+            if ($id < 1) {
+                throw new Exception('Hiányzó kategória azonosító');
+            }
+
+            $category = $this->model->find($id);
+            if (!is_object($category)) {
+                throw new Exception('Nincs ilyen rekord!');
+            }
+
             $childCount = $this->model->where('parent_id', $id)->countAllResults();
             if ($childCount > 0) {
                 throw new Exception('Nem törölhető: a kategóriának vannak alkategóriái.');
@@ -167,6 +177,12 @@ class Categories extends BaseResourceController
                 ->countAllResults();
             if ($productCount > 0) {
                 throw new Exception('Nem törölhető: a kategóriához termékek tartoznak.');
+            }
+
+            $oldSlug = trim((string) ($category->slug ?? ''));
+            if ($oldSlug !== '') {
+                $archivedSlug = $this->buildDeletedSlug($oldSlug, $id);
+                $this->model->update($id, ['slug' => $archivedSlug]);
             }
 
             if ($this->model->delete($id)) {
@@ -273,5 +289,13 @@ class Categories extends BaseResourceController
 
         // Regenerate routes
         \App\Helpers\CategoryRouteCache::generate();
+    }
+
+    protected function buildDeletedSlug(string $slug, int $id): string
+    {
+        $suffix = '--deleted-' . $id . '-' . date('YmdHis');
+        $maxBaseLen = 255 - strlen($suffix);
+        $base = substr($slug, 0, max(1, $maxBaseLen));
+        return $base . $suffix;
     }
 }

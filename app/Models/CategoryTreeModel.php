@@ -74,7 +74,8 @@ class CategoryTreeModel extends Model
                         CAST(slug AS CHAR(255)) AS path,
                         CAST(unas_id AS CHAR(255)) AS pathIds
                     FROM categories
-                    WHERE parent_id = 0
+                                        WHERE parent_id = 0
+                                            AND deleted_at IS NULL
 
                     UNION ALL
 
@@ -90,6 +91,7 @@ class CategoryTreeModel extends Model
                         CONCAT(ct.pathIds, '/', c.unas_id) AS pathIds
                     FROM categories c
                     JOIN category_tree_cte ct ON c.parent_id = ct.unas_id
+                    WHERE c.deleted_at IS NULL
                 )
                 SELECT unas_id, name, slug, image, parent_id, `order`, depth, path, pathIds
                 FROM category_tree_cte;";

@@ -22,7 +22,7 @@ class ProductVariantModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
         'master_id',
@@ -41,6 +41,7 @@ class ProductVariantModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
 
     public function getWithAttributes($masterId)
     {

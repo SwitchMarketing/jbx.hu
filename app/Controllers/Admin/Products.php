@@ -226,6 +226,60 @@ class Products extends BaseResourceController
     }
 
     /**
+     * delete — soft delete product and its variants.
+     */
+    public function delete($id = null)
+    {
+        try {
+            $id = (int) $id;
+            if ($id < 1) {
+                throw new Exception('Hiányzó azonosító');
+            }
+
+            $product = $this->model->find($id);
+            if (!is_object($product)) {
+                throw new Exception('Nincs ilyen rekord!');
+            }
+
+            $db = \Config\Database::connect('shop');
+            $db->transStart();
+
+            $oldSlug = trim((string) ($product->slug ?? ''));
+            if ($oldSlug !== '') {
+                $this->model->update($id, ['slug' => $this->buildDeletedSlug($oldSlug, $id)]);
+            }
+
+            $variantModel = new ProductVariantModel();
+            $variants = $variantModel->where('master_id', $id)->findAll();
+            foreach ($variants as $variant) {
+                $variantSlug = trim((string) ($variant->slug ?? ''));
+                if ($variantSlug !== '') {
+                    $variantModel->update($variant->id, [
+                        'slug' => $this->buildDeletedSlug($variantSlug, (int) $variant->id),
+                    ]);
+                }
+                $variantModel->delete($variant->id);
+            }
+
+            if (!$this->model->delete($id)) {
+                throw new Exception(implode(' ', $this->model->errors()));
+            }
+
+            $db->transComplete();
+            if ($db->transStatus() === false) {
+                throw new Exception('A termék törlése sikertelen');
+            }
+
+            $this->setSuccess(true);
+            $this->setMessage('Sikeres törlés');
+        } catch (Exception $e) {
+            $this->setMessage($e->getMessage());
+        } finally {
+            return $this->setResponse();
+        }
+    }
+
+    /**
      * saveDefaultAttributes
      *
      * @param int|null $id Product master ID
@@ -277,5 +331,13 @@ class Products extends BaseResourceController
         } finally {
             return $this->setResponse();
         }
+    }
+
+    protected function buildDeletedSlug(string $slug, int $id): string
+    {
+        $suffix = '--deleted-' . $id . '-' . date('YmdHis');
+        $maxBaseLen = 255 - strlen($suffix);
+        $base = substr($slug, 0, max(1, $maxBaseLen));
+        return $base . $suffix;
     }
 }
