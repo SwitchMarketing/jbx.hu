@@ -873,10 +873,18 @@ var App = {
   },
 
   showCartAlert: function(message, type = 'success') {
+    const typeClassMap = {
+      success: 'is-success',
+      warning: 'is-warning',
+      danger: 'is-danger',
+      error: 'is-danger'
+    };
+    const toneClass = typeClassMap[type] || 'is-success';
+
     const alertHtml = `
-        <div class="alert alert-${type} alert-dismissible fade show shadow" role="alert">
+      <div class="alert alert-${type} alert-dismissible fade show shadow cart-inline-alert ${toneClass}" role="alert">
             ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Bezár"></button>
         </div>
     `;
 
@@ -886,8 +894,10 @@ var App = {
     // Automatikus eltűnés 3 másodperc után
     setTimeout(() => {
         const alertEl = container.find('.alert');
-        const bsAlert = new bootstrap.Alert(alertEl[0]);
-        bsAlert.close();
+        if(alertEl.length) {
+          const bsAlert = new bootstrap.Alert(alertEl[0]);
+          bsAlert.close();
+        }
     }, 3000);
   }
    
