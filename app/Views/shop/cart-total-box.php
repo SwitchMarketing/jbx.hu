@@ -1,4 +1,4 @@
-<div class="cart-total-box w-100">
+<div class="cart-total-box w-100 mb-4">
 <div class="parallax" style="background-image: url(/imgs/pattren-4.png);"></div>
 <div class="final">
     <h4>Összesítés</h4>
