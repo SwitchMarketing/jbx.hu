@@ -1,5 +1,10 @@
 <main>
-    <?php echo view('shared/page-header', ['title' => 'Kosár']); ?>
+    <?php echo view('shared/page-header', [
+        'class'       => 'product-grid',
+        'breadcrumbs' => [
+            (object) ['title' => 'Kosár', 'url' => base_url('kosar')],
+        ],
+    ]); ?>
     <div class="sections">
         <?php if( isset($cartItems) && count($cartItems) ): 
                 echo view('shop/cart-items', [

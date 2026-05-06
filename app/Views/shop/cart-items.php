@@ -1,5 +1,5 @@
 <!-- Cart Start -->
-<section class="gap cart">
+<section class="cart pt-5">
     <div class="container">
     <div class="row">
         <div class="col-lg-12">

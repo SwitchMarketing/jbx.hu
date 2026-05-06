@@ -1,9 +1,15 @@
 <main>
-    <?php echo view('shared/page-header', ['title' => 'Megrendelés']); ?>
+    <?php echo view('shared/page-header', [
+        'class'       => 'product-grid',
+        'breadcrumbs' => [
+            (object) ['title' => 'Kosár',       'url' => base_url('kosar')],
+            (object) ['title' => 'Megrendelés', 'url' => base_url('megrendeles')],
+        ],
+    ]); ?>
     <div class="sections">
 
         <!-- Cart Start -->
-        <section class="gap checkout detail-page contact-form-2 order-checkout-section">
+        <section class="checkout detail-page contact-form-2 order-checkout-section pt-5">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-7">
