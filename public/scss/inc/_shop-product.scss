@@ -113,6 +113,37 @@ ul.pd-price {
       }
     }
 
+    &.pd-net-price {
+      font-size: 17px;
+      color: #4d4d4d;
+      font-weight: 500;
+      font-family: $primary-font;
+      line-height: 20px;
+
+      span {
+        font-size: 17px;
+        color: #4d4d4d;
+        font-weight: 500;
+        font-family: $primary-font;
+        line-height: 20px;
+      }
+    }
+
+    &.pd-vat-meta {
+      span {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #f2f2f2;
+        color: #5b5b5b;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+    }
+
     &.pd-sale-price span {
       margin-right: 3px;
     }
@@ -123,7 +154,9 @@ ul.pd-price {
   }
 
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   margin-top: 37px;
 }
 
@@ -666,6 +699,23 @@ ul.pd-price {
 }
 
 body.light-d {
+  ul.pd-price {
+    li.pd-net-price {
+      color: #d7d7d7;
+
+      span {
+        color: #d7d7d7;
+      }
+    }
+
+    li.pd-vat-meta {
+      span {
+        background: #2a2a2a;
+        color: #e3e3e3;
+      }
+    }
+  }
+
   .pd-quality {
     background: linear-gradient(135deg, rgba(34, 34, 34, 0.98) 0%, rgba(18, 18, 18, 0.98) 100%);
     border-color: #323232;

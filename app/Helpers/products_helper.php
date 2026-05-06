@@ -87,13 +87,15 @@ function product_price($product, $return_price_only = false) {
 
     // Új normalizált modell: közvetlen numerikus ár a variánson
     if (isset($product->price) && is_numeric($product->price) && (float)$product->price > 0) {
-        $price = (float)$product->price;
+        $price = shop_price_breakdown((float)$product->price);
         if ($return_price_only) {
-            return $price;
+            return $price->gross;
         }
 
         $html = '<ul class="pd-price mb-3">';
-        $html .= '<li class="pd-sale-price"><span>' . format_price($price) . '</span></li>';
+        $html .= '<li class="pd-sale-price"><span>Nettó: ' . format_price($price->net) . '</span></li>';
+        $html .= '<li class="pd-net-price"><span>Bruttó: ' . format_price($price->gross) . '</span></li>';
+        $html .= '<li class="pd-vat-meta"><span>ÁFA: ' . number_format($price->vatRatePercent, 0, '', ' ') . '%</span></li>';
         $html .= '</ul>';
         return $html;
     }

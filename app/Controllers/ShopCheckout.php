@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Libraries\BuildPage;
 use Exception;
 use App\Libraries\Mailer;
-use App\Libraries\ShopSettings;
 
 /**
  * ShopCheckout
@@ -28,7 +27,7 @@ class ShopCheckout extends BaseController
 
         $cartModel = new \App\Models\ShoppingCartModel();
         $cartItems = $cartModel
-            ->select('id, sku, name, price, unit_price_gross, qty, status')
+            ->select('id, sku, name, price, unit_price_gross, vat_rate, qty, status')
             ->where('session_id', $session_id)
             ->findAll();
 
@@ -36,21 +35,24 @@ class ShopCheckout extends BaseController
             return redirect()->to(base_url('kosar'));
         }
 
-        $cartTotal = 0;
+        $cartNetTotal = 0;
         foreach ($cartItems as $item) {
             $linePrice = (float)($item->price ?? 0);
             if ($linePrice <= 0 && !empty($item->unit_price_gross)) {
-                $linePrice = (float)$item->unit_price_gross;
+                $lineVatRate = isset($item->vat_rate) ? (float)$item->vat_rate : null;
+                $linePrice = shop_net_from_gross((float)$item->unit_price_gross, $lineVatRate);
             }
 
             if ($linePrice > 0 && $item->qty) {
-                $cartTotal += $linePrice * (int)$item->qty;
+                $cartNetTotal += $linePrice * (int)$item->qty;
             }
         }
 
-        $cartTotal = round($cartTotal, 2);
-        $cartNetTotal = round($cartTotal / ShopSettings::vatMultiplier(), 2);
-        $cartVat = round($cartTotal - $cartNetTotal, 2);
+        $cartSummary = shop_price_breakdown($cartNetTotal);
+        $cartNetTotal = $cartSummary->net;
+        $cartVat = $cartSummary->vat;
+        $cartTotal = $cartSummary->gross;
+        $vatRatePercent = $cartSummary->vatRatePercent;
 
         $data = [
             'header' => [
@@ -66,7 +68,8 @@ class ShopCheckout extends BaseController
                 ],
                 'cartTotal'    => $cartTotal,
                 'cartNetTotal' => $cartNetTotal,
-                'cartVat'      => $cartVat
+                'cartVat'      => $cartVat,
+                'vatRatePercent' => $vatRatePercent
             ]
         ];
 
@@ -106,7 +109,7 @@ class ShopCheckout extends BaseController
                 $session_id = $this->session->get('cart_session_id');
                 $cartModel = new \App\Models\ShoppingCartModel();
                 $cartItems = $cartModel
-                    ->select('id, sku, name, price, unit_price_gross, qty, status')
+                    ->select('id, sku, name, price, unit_price_gross, vat_rate, qty, status')
                     ->where('session_id', $session_id)
                     ->findAll();
 

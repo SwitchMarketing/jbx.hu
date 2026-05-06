@@ -8,7 +8,7 @@
             <span><?php echo format_price($cartNetTotal) ?></span>
         </li>
         <li>
-            <span>ÁFA:</span>
+            <span>ÁFA (<?php echo number_format((float)($vatRatePercent ?? 0), 0, '', ' ') ?>%):</span>
             <span><?php echo format_price($cartVat) ?></span>
         </li>
     </ul>

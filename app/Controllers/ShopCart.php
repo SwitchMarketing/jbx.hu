@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Libraries\BuildPage;
-use App\Libraries\ShopSettings;
 
 class ShopCart extends BaseController
 {
@@ -22,7 +21,7 @@ class ShopCart extends BaseController
 		// kosár tételek
 		$cartModel = new \App\Models\ShoppingCartModel();
 		$cartItems = $cartModel
-						->select('cart.id, cart.master_id, cart.variant_id, cart.sku, cart.name, cart.price, cart.unit_price_gross, cart.qty, cart.status')
+						->select('cart.id, cart.master_id, cart.variant_id, cart.sku, cart.name, cart.price, cart.unit_price_gross, cart.vat_rate, cart.qty, cart.status')
 						->where('session_id', $session_id)						
 						->findAll();
 
@@ -71,8 +70,9 @@ class ShopCart extends BaseController
 				]);
 			}
 
-			if (!$item->price && !empty($item->unit_price_gross)) {
-				$item->price = $item->unit_price_gross;
+			if ((!isset($item->price) || (float)$item->price <= 0) && !empty($item->unit_price_gross)) {
+				$itemVatRate = isset($item->vat_rate) ? (float)$item->vat_rate : null;
+				$item->price = shop_net_from_gross((float)$item->unit_price_gross, $itemVatRate);
 			}
 		}
 
@@ -118,21 +118,19 @@ class ShopCart extends BaseController
 		}
 
 		// a kosár összesen
-		$cartTotal = 0;
+		$cartNetTotal = 0;
 		if(count($cartItems)) {
 			foreach($cartItems as $item) {
 				if($item->price && $item->qty) {
-					$cartTotal += (float)$item->price * (int)$item->qty;
+					$cartNetTotal += (float)$item->price * (int)$item->qty;
 				}
 			}
 		}
-		$cartTotal = round($cartTotal, 2);
-
-		// nettó ár
-		$cartNetTotal = round($cartTotal / ShopSettings::vatMultiplier(), 2);
-
-		// áfa
-		$cartVat = round($cartTotal - $cartNetTotal, 2);
+		$cartSummary = shop_price_breakdown($cartNetTotal);
+		$cartNetTotal = $cartSummary->net;
+		$cartVat = $cartSummary->vat;
+		$cartTotal = $cartSummary->gross;
+		$vatRatePercent = $cartSummary->vatRatePercent;
 		
 		$data = [
 			'header' => [
@@ -153,7 +151,8 @@ class ShopCart extends BaseController
 				'cartItems' => $cartItems,
 				'cartTotal' => $cartTotal,
 				'cartNetTotal' => $cartNetTotal,
-				'cartVat' => $cartVat
+				'cartVat' => $cartVat,
+				'vatRatePercent' => $vatRatePercent
 
             ]
         ];
@@ -246,6 +245,8 @@ class ShopCart extends BaseController
 				\App\Models\ProductVariantModel::STATE_INACTIVE => 'Inaktív',
 			];
 
+			$unitPrice = shop_price_breakdown((float)$variant->price);
+
 			$data = [
 				'session_id' => $session_id,
 				'master_id'  => $variant->master_id,
@@ -254,8 +255,8 @@ class ShopCart extends BaseController
 				'legacy_sku' => $sku ?: null,
 				'name'       => $variant->name,
 				'price'      => (float)$variant->price,
-				'unit_price_gross' => (float)$variant->price,
-					'vat_rate'   => ShopSettings::vatRatePercent(),
+				'unit_price_gross' => $unitPrice->gross,
+				'vat_rate'   => $unitPrice->vatRatePercent,
 				'qty'        => $qty,
 				'status'     => $stateMap[$variant->state] ?? 'Rendelés',
 				'selected_options_json' => null,

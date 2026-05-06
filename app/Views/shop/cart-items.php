@@ -38,8 +38,17 @@
                             <h2><a href="javascript:void(0)"><?php echo $p->name ?></a></h2>
                         </div>
                         <div class="c-price text-end">
-                            <?php if((float)$p->price > 0): ?>
-                            <span class="orgnl"><?php echo format_price((float)$p->price) ?></span>                            
+                            <?php
+                                $lineVatRate = isset($p->vat_rate) ? (float)$p->vat_rate : ($vatRatePercent ?? null);
+                                $unitNetPrice = (float)($p->price ?? 0);
+                                if ($unitNetPrice <= 0 && !empty($p->unit_price_gross)) {
+                                    $unitNetPrice = shop_net_from_gross((float)$p->unit_price_gross, $lineVatRate);
+                                }
+                                $unitPrice = shop_price_breakdown($unitNetPrice, $lineVatRate);
+                            ?>
+                            <?php if($unitPrice->hasPrice): ?>
+                            <span class="orgnl">Nettó: <?php echo format_price($unitPrice->net) ?></span>
+                            <span class="net">Bruttó: <?php echo format_price($unitPrice->gross) ?></span>
                             <?php else: ?>
                             <span class="orgnl">-</span>
                             <?php endif; ?>
@@ -61,9 +70,13 @@
                             </div>
                         </div>
                         <div class="c-total text-end">
-                            <?php $lineTotal = $p->price * $p->qty; ?>
-                            <?php if($lineTotal > 0): ?>
-                                <span><?php echo format_price($lineTotal) ?></span>
+                            <?php
+                                $lineNetTotal = $unitPrice->net * (int)$p->qty;
+                                $linePrice = shop_price_breakdown($lineNetTotal, $lineVatRate);
+                            ?>
+                            <?php if($linePrice->hasPrice): ?>
+                                <span>Nettó: <?php echo format_price($linePrice->net) ?></span>
+                                <span class="net">Bruttó: <?php echo format_price($linePrice->gross) ?></span>
                             <?php else: ?>
                                 <span>Ajánlatkérés</span>
                             <?php endif; ?>
@@ -80,7 +93,8 @@
             <?php if($cartTotal > 0): echo view('shop/cart-total-box', [
                 'cartTotal'    => $cartTotal,
                 'cartNetTotal' => $cartNetTotal,
-                'cartVat'      => $cartVat
+                'cartVat'      => $cartVat,
+                'vatRatePercent' => $vatRatePercent ?? null
             ]); ?>
             <?php endif; ?>
             <div class="update-cart d-flex-all justify-content-end">

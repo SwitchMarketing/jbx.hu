@@ -34,7 +34,7 @@
   .cart-table {
     .c-c {
       .c-price {
-        .orgnl, .sale {
+        .orgnl, .sale, .net {
             display: block;
             font-family: $primary-font;   
         }
@@ -93,13 +93,21 @@
 
   .c-price {
     .orgnl {
-      font-size: 22px;
-      margin-right: 10px;
+      font-size: 18px;
+      margin-right: 0;
+      font-weight: 700;
     }
 
     .sale {
       font-size: 16px;
       color: #a1a1a1;
+    }
+
+    .net {
+      margin-top: 4px;
+      font-size: 14px;
+      color: #606060;
+      font-weight: 500;
     }
   }
 
@@ -231,11 +239,18 @@ body.light-d .cart .cart-table .c-c {
   .cart-table {
     .c-c {
       .c-total span {
-        font-size: 22px;
+        font-size: 18px;
       }
 
       .c-quality, .c-price, .c-total {
         width: 16%;
+      }
+
+      .c-total .net {
+        display: block;
+        margin-top: 4px;
+        font-size: 14px;
+        color: #606060;
       }
     }
 

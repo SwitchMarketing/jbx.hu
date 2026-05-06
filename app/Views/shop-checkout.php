@@ -20,7 +20,8 @@
                                 <?php echo view('shop/cart-total-box', [
                                     'cartTotal'    => $cartTotal,
                                     'cartNetTotal' => $cartNetTotal,
-                                    'cartVat'      => $cartVat
+                                    'cartVat'      => $cartVat,
+                                    'vatRatePercent' => $vatRatePercent ?? null
                                 ]); ?>
                             <?php endif; ?>
                                 <div class="order-trust-box mt-0">
