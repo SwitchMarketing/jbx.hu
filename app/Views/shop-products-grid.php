@@ -2,7 +2,7 @@
 <?php echo view('shared/page-header', ['class' => 'product-grid']); ?>
 <div class="sections">
 
-  <section class="gap shop-style-one">
+  <section class="shop-style-one pt-5">
     <div class="container shop-container">
       <aside class="sidebar shop-sidebar">
         <div class="shop-categories">
