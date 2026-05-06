@@ -29,6 +29,25 @@
             </div>
 
         <?php endforeach; ?>
+
+        <div class="option-pills-legend" aria-label="Opció színmagyarázat">
+            <span class="option-pills-legend-item">
+                <span class="option-pills-legend-swatch is-default" aria-hidden="true"></span>
+                Elérhető opció
+            </span>
+            <span class="option-pills-legend-item">
+                <span class="option-pills-legend-swatch is-active" aria-hidden="true"></span>
+                Kiválasztott opció
+            </span>
+            <span class="option-pills-legend-item">
+                <span class="option-pills-legend-swatch is-partial" aria-hidden="true"></span>
+                Részben kompatibilis opció
+            </span>
+            <span class="option-pills-legend-item">
+                <span class="option-pills-legend-swatch is-unavailable" aria-hidden="true"></span>
+                Nem elérhető opció
+            </span>
+        </div>
     </div>
     
 <?php endif; ?>
