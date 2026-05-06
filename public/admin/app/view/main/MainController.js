@@ -13,6 +13,8 @@ Ext.define('JBXAdmin.view.main.MainController', {
 
         if (activeTab.isXType('app-leads')) {
             this.fireEvent('reloadLeads');
+        } else if (activeTab.isXType('app-orders')) {
+            this.fireEvent('reloadOrders');
         } else if (activeTab.isXType('app-products')) {
             this.fireEvent('reloadProducts');
         } else if (activeTab.isXType('app-categories')) {

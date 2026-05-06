@@ -121,28 +121,58 @@ class ShopCheckout extends BaseController
                     $item->price = $linePrice;
                 }
 
-                $rec = [
-                    'name'             => $post['name'],
+                // Prepare billing and delivery address as JSON
+                $billingAddress = [
+                    'address' => $post['billing_address'] ?? '',
+                    'zip'     => $post['billing_zip'] ?? '',
+                    'state'   => $post['billing_state'] ?? ''
+                ];
+
+                $deliveryAddress = $billingAddress;
+                if (isset($post['diffDeliveryAddress']) && $post['diffDeliveryAddress'] == 'on') {
+                    $deliveryAddress = [
+                        'address' => $post['delivery_address'] ?? '',
+                        'zip'     => $post['delivery_zip'] ?? '',
+                        'state'   => $post['delivery_state'] ?? ''
+                    ];
+                }
+
+                // Create order record
+                $orderModel = new \App\Models\OrderModel();
+                $orderData = [
+                    'customer_name'    => $post['name'],
                     'email'            => $post['email'] ?? '',
                     'phone'            => $post['phone'] ?? '',
                     'company'          => $post['company'] ?? '',
                     'contact_person'   => $post['contact_person'] ?? '',
                     'tax_number'       => $post['tax_number'] ?? '',
-                    'billing_zip'      => $post['billing_zip'] ?? '',
-                    'billing_state'    => $post['billing_state'] ?? '',
-                    'billing_address'  => $post['billing_address'] ?? '',
-                    'delivery_zip'     => isset($post['diffDeliveryAddress']) && $post['diffDeliveryAddress'] == 'on' ? ($post['delivery_zip'] ?? '') : $post['billing_zip'],
-                    'delivery_state'   => isset($post['diffDeliveryAddress']) && $post['diffDeliveryAddress'] == 'on' ? ($post['delivery_state'] ?? '') : $post['billing_state'],
-                    'delivery_address' => isset($post['diffDeliveryAddress']) && $post['diffDeliveryAddress'] == 'on' ? ($post['delivery_address'] ?? '') : $post['billing_address'],
-                    'comments'         => $post['comments'] ?? '',
-                    'products'         => $cartItems
+                    'billing_address'  => json_encode($billingAddress),
+                    'delivery_address' => json_encode($deliveryAddress),
+                    'notes'            => $post['comments'] ?? '',
+                    'emailed_at'       => null
                 ];
 
-                if (isset($post['diffDeliveryAddress']) && $post['diffDeliveryAddress'] == 'on') {
-                    $rec['diffDeliveryAddress'] = true;
+                $order_id = $orderModel->insert($orderData, true);
+                if (!$order_id) {
+                    throw new Exception('Megrendelés rögzítése sikertelen.');
                 }
 
-                Mailer::order($rec);
+                // Create order items from cart
+                $orderItemModel = new \App\Models\OrderItemModel();
+                foreach ($cartItems as $item) {
+                    $itemData = [
+                        'order_id' => $order_id,
+                        'sku'      => $item->sku,
+                        'name'     => $item->name,
+                        'price'    => (float)$item->price,
+                        'qty'      => (int)$item->qty
+                    ];
+                    $orderItemModel->insert($itemData);
+                }
+
+                // Clear cart
+                $cartModel->where('session_id', $session_id)->delete();
+
                 $this->session->setFlashdata('orderSuccess', '1');
 
                 $response->success = true;

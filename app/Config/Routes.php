@@ -142,6 +142,7 @@ $routes->group('admin', static function ($routes) {
     $routes->resource('login', ['controller' =>'Admin\Login', 'only' => ['create']]);
     $routes->resource('logout', ['controller' =>'Admin\Logout', 'only' => ['index']]);
     $routes->resource('leads', ['controller' =>'Admin\Leads', 'only' => ['index', 'show'], 'filter' => 'loggedin']);
+    $routes->resource('orders', ['controller' =>'Admin\Orders', 'only' => ['index', 'show'], 'filter' => 'loggedin']);
     $routes->resource('products', ['controller' =>'Admin\Products', 'filter' => 'loggedin']);
     $routes->post('products/bulk_move_category', 'Admin\Products::bulkMoveCategory', ['filter' => 'loggedin']);
     $routes->resource('productvariants', ['controller' =>'Admin\ProductVariants', 'only' => ['create', 'update', 'delete'], 'filter' => 'loggedin']);

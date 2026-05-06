@@ -29,7 +29,7 @@ class Mailer {
      * 
      * @return bool
      */
-    public static function contact(array $data = null)
+    public static function contact(?array $data = null)
     {
 
         if(is_array($data))
@@ -105,7 +105,7 @@ class Mailer {
             // $email->setBCC('
             $email->setSubject('Új rendelés: '. $data['name']);
 
-            helper('html');
+            helper(['html', 'utils']);
             $msg = view('email/' . $tpl, $data);
             $email->setMessage($msg);
             if(!$email->send(false))
@@ -124,7 +124,7 @@ class Mailer {
      * 
      * @return bool
      */
-    public static function thankYou(array $data = null, string $tpl = 'thankyou'):bool
+    public static function thankYou(?array $data = null, string $tpl = 'thankyou'):bool
     {
 
         if(is_array($data))

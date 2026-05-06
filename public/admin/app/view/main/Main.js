@@ -17,6 +17,7 @@ Ext.define('JBXAdmin.view.main.Main', {
         'Ext.grid.plugin.CellEditing',
         'Ext.grid.cell.Widget',
         'JBXAdmin.view.leads.Leads',
+        'JBXAdmin.view.orders.Orders',
         'JBXAdmin.view.products.Products',
         'JBXAdmin.view.categories.Categories',
         'JBXAdmin.view.attributes.Attributes',
@@ -38,6 +39,10 @@ Ext.define('JBXAdmin.view.main.Main', {
                 {
                     xtype: 'app-leads',
                     iconCls: 'x-fa fa-envelope'
+                },
+                {
+                    xtype: 'app-orders',
+                    iconCls: 'x-fa fa-shopping-bag'
                 },
                 {
                     xtype: 'app-products',
