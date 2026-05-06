@@ -3,6 +3,7 @@ var App = {
   jsonData: null,
   contactModal: false,
   isLoading: false,
+  productPopStateBound: false,
 
   init: function () {
     //this.stickyHeader();
@@ -21,6 +22,7 @@ var App = {
 
     this.nzoomimg();
     this.pdGallery();
+    this.initProductHistoryState();
 
     // Nice Select
     if ($("select")[0]) {
@@ -642,8 +644,14 @@ var App = {
             params: JSON.stringify(params)
           },
           dataType: 'json',
+          beforeSend: function() {
+            $(option).attr('disabled', true);
+          },
+          complete: function() {
+            $(option).attr('disabled', false);
+          },
           success: function(response) {
-            window.location = response.url;            
+            App.updateProductVariant(response, true);
           },
           error: function(xhr) {
             const resp = xhr.responseJSON || {};
@@ -656,14 +664,123 @@ var App = {
     
   },
 
-  updateOptionAvailability: function() {
-    const normalizeOptionValue = function(value) {
-      return String(value || '')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .toLowerCase();
-    };
+  normalizeOptionValue: function(value) {
+    return String(value || '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+  },
 
+  updateProductVariant: function(response, pushState) {
+    const shouldPushState = pushState !== false;
+
+    if (!response || !response.success) {
+      return;
+    }
+
+    const payload = response.payload || response;
+    if (!payload || !payload.name) {
+      return;
+    }
+
+    $('.pd-product-name').text(payload.name);
+
+    const skuMeta = $('#pdSkuMeta');
+    if (skuMeta.length) {
+      if (payload.sku) {
+        skuMeta.text('SKU: ' + payload.sku).removeClass('d-none');
+      } else {
+        skuMeta.text('').addClass('d-none');
+      }
+    }
+
+    if (typeof payload.priceHtml === 'string') {
+      $('#pdPriceWrap').html(payload.priceHtml);
+    }
+
+    if (typeof payload.addToCartHtml === 'string') {
+      $('#pdAddToCartWrap').html(payload.addToCartHtml);
+    }
+
+    const qtyInput = $('[data-role="pd-qty-input"]');
+    if (qtyInput.length && payload.sku) {
+      qtyInput.attr('id', 'qty-' + payload.sku);
+    }
+
+    if (typeof payload.featureRowsHtml === 'string') {
+      $('#pdFeatureTableBody').html(payload.featureRowsHtml);
+    }
+
+    if (typeof payload.galleryHtml === 'string') {
+      const gallery = $('.pd-gallery');
+      if (payload.galleryHtml !== '') {
+        if (gallery.find('.pd-imgs').length) {
+          gallery.find('.pd-imgs').html(payload.galleryHtml);
+        } else {
+          gallery.prepend('<ul class="pd-imgs">' + payload.galleryHtml + '</ul>');
+        }
+      } else {
+        gallery.find('.pd-imgs').remove();
+      }
+    }
+
+    if (payload.coverImageUrl) {
+      $('.pd-main-img').html('<img id="NZoomImg" data-NZoomscale="2" style="width: 100%;height: 100%;">');
+      $('#NZoomImg').attr('src', payload.coverImageUrl);
+      $('#NZoomImg').attr('alt', payload.name || '');
+      App.nzoomimg();
+      App.pdGallery();
+    }
+
+    if (payload.selectedOptions && typeof payload.selectedOptions === 'object') {
+      $('button.option-pill').each(function() {
+        const btn = $(this);
+        const optionId = String(btn.data('option-id'));
+        const optionValue = App.normalizeOptionValue(btn.data('option-value'));
+        const selectedValue = App.normalizeOptionValue(payload.selectedOptions[optionId] || '');
+        btn.toggleClass('active', selectedValue !== '' && optionValue === selectedValue);
+      });
+    }
+
+    App.updateOptionAvailability();
+    App.scrollActiveOptionPillsIntoView();
+
+    if (payload.title) {
+      document.title = payload.title;
+    }
+
+    if (shouldPushState && payload.url && window.history && window.history.pushState) {
+      window.history.pushState({ variantData: response }, '', payload.url);
+    }
+  },
+
+  initProductHistoryState: function() {
+    if (typeof window === 'undefined' || !window.history || !window.history.replaceState) {
+      return;
+    }
+
+    if (!window.JBX_INITIAL_VARIANT || !window.JBX_INITIAL_VARIANT.success) {
+      return;
+    }
+
+    window.history.replaceState({ variantData: window.JBX_INITIAL_VARIANT }, '', window.location.href);
+
+    if (this.productPopStateBound) {
+      return;
+    }
+
+    this.productPopStateBound = true;
+    window.addEventListener('popstate', function(event) {
+      if (event.state && event.state.variantData) {
+        App.updateProductVariant(event.state.variantData, false);
+        return;
+      }
+
+      window.location.reload();
+    });
+  },
+
+  updateOptionAvailability: function() {
     const container = $('.option-pills-container');
     if (!container.length) {
       return;
@@ -684,18 +801,18 @@ var App = {
     const activeSelections = {};
     $('button.option-pill.active').each(function() {
       const optionId = String($(this).data('option-id'));
-      const optionValue = normalizeOptionValue($(this).data('option-value'));
+      const optionValue = App.normalizeOptionValue($(this).data('option-value'));
       activeSelections[optionId] = optionValue;
     });
 
     $('button.option-pill').each(function() {
       const btn = $(this);
       const optionId = String(btn.data('option-id'));
-      const optionValue = normalizeOptionValue(btn.data('option-value'));
+      const optionValue = App.normalizeOptionValue(btn.data('option-value'));
 
       const variantsWithOption = matrix.filter(function(variant) {
         const attrs = variant.attrs || {};
-        return normalizeOptionValue(attrs[optionId]) === optionValue;
+        return App.normalizeOptionValue(attrs[optionId]) === optionValue;
       });
 
       const isSelectable = variantsWithOption.length > 0;
@@ -706,7 +823,7 @@ var App = {
       const isStrictlyCompatible = matrix.some(function(variant) {
         const attrs = variant.attrs || {};
         return Object.keys(candidateSelections).every(function(key) {
-          return normalizeOptionValue(attrs[key]) === String(candidateSelections[key]);
+          return App.normalizeOptionValue(attrs[key]) === String(candidateSelections[key]);
         });
       });
 
@@ -756,7 +873,8 @@ var App = {
     const self = this;
     const variantId = $(btn).data('variant-id') || '';
     const sku = $(btn).data('sku') || '';
-    const qty = $('#qty-' + sku).val() || 1;
+    const qtyInput = $('#qty-' + sku);
+    const qty = (qtyInput.length ? qtyInput.val() : $('[data-role="pd-qty-input"]').val()) || 1;
 
     if(variantId != '' || sku != '') {
       $.ajax({

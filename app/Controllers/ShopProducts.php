@@ -262,6 +262,8 @@ class ShopProducts extends BaseController
 			$product->params = json_encode($params);
 		}
 
+		$initialVariantPayload = $this->buildVariantPayload($master, $variant, $product, current_url());
+
 		// breadcrumbs
 		$breadcrumbs = [
 			(object) [
@@ -284,6 +286,8 @@ class ShopProducts extends BaseController
 		$data = [
 			'header' => [
 				'title'	  => page_title($product->name),		
+				'og_img'   => product_cover_image($product),
+				'og_url'   => current_url(),
 				'section' => 'shop'		
 			],
 			'body'	=> [
@@ -292,6 +296,7 @@ class ShopProducts extends BaseController
 				'options'     => $options,
 				'optionMatrix'=> $optionMatrix,
 				'masterSlug'  => $master->slug,
+				'initialVariantPayload' => $initialVariantPayload,
             ]
         ];
 
@@ -440,12 +445,152 @@ class ShopProducts extends BaseController
 		}
 
 		$path[] = $foundVariant->variant_slug;
+		$variantModel = model(ProductVariantModel::class);
+		$variant = $variantModel
+			->where('master_id', $master->id)
+			->where('id', (int) ($foundVariant->id ?? 0))
+			->whereIn('state', [
+				ProductVariantModel::STATE_INSTOCK,
+				ProductVariantModel::STATE_BACKORDER,
+				ProductVariantModel::STATE_INQUIRE,
+			])
+			->first();
+
+		if (!$variant) {
+			return $this->response->setStatusCode(404)->setJSON([
+				'success' => false,
+				'error' => 'A kiválasztott variáns nem található.'
+			]);
+		}
+
+		$product = (object) [
+			'id'          => (int) $variant->id,
+			'variant_id'  => (int) $variant->id,
+			'master_id'   => (int) $master->id,
+			'name'        => $variant->name ?: $master->name,
+			'sku'         => $variant->sku,
+			'description' => $master->description ?? '',
+			'price'       => (float) ($variant->price ?? 0),
+			'stock'       => (float) ($variant->stock ?? 0),
+			'state'       => $variant->state ?? '',
+			'images'      => $this->getVariantImages((int) $master->id, (int) $variant->id, $variant->unas_id ?? null),
+			'params'      => null,
+		];
+
+		$variantAttributes = $this->getVariantAttributes((int) $variant->id);
+		if (!empty($variantAttributes)) {
+			$params = [];
+			foreach ($variantAttributes as $attr) {
+				$params[] = (object) [
+					'Name' => $attr->name,
+					'Value' => $attr->value,
+				];
+			}
+			$product->params = json_encode($params);
+		}
+
+		$variantUrl = base_url(implode('/', $path));
+		$payload = $this->buildVariantPayload($master, $variant, $product, $variantUrl);
 
 		return $this->response->setJSON([
 			'success'   => true,
 			'variantId' => $foundVariant->id ?? null,
-			'url'       => base_url(implode('/', $path)),
+			'url'       => $variantUrl,
+			'payload'   => $payload,
 		]);		
+	}
+
+	/**
+	 * buildVariantPayload
+	 *
+	 * @param  object $master
+	 * @param  object $variant
+	 * @param  object $product
+	 * @param  string $url
+	 * @return array
+	 */
+	private function buildVariantPayload(object $master, object $variant, object $product, string $url): array
+	{
+		$selectedOptions = [];
+		$attrs = $this->getVariantAttributes((int) $variant->id);
+		foreach ($attrs as $attr) {
+			$selectedOptions[(string) $attr->attribute_id] = $this->normalizeOptionValue((string) ($attr->value ?? ''));
+		}
+
+		return [
+			'name' => (string) ($product->name ?? ''),
+			'sku' => (string) ($product->sku ?? ''),
+			'state' => (string) ($product->state ?? ''),
+			'title' => page_title((string) ($product->name ?? 'Termék')),
+			'url' => $url,
+			'priceHtml' => product_price($product),
+			'addToCartHtml' => add_to_cart_button($product),
+			'coverImageUrl' => product_cover_image($product),
+			'galleryHtml' => $this->renderGalleryItemsHtml($product->images ?? [], (string) ($product->name ?? '')),
+			'featureRowsHtml' => $this->renderFeatureRowsHtml($product),
+			'selectedOptions' => $selectedOptions,
+			'masterSlug' => (string) ($master->slug ?? ''),
+			'variantSlug' => (string) ($variant->slug ?? ''),
+		];
+	}
+
+	/**
+	 * renderGalleryItemsHtml
+	 *
+	 * @param  array  $images
+	 * @param  string $productName
+	 * @return string
+	 */
+	private function renderGalleryItemsHtml(array $images, string $productName): string
+	{
+		if (count($images) < 2) {
+			return '';
+		}
+
+		$html = '';
+		$index = 0;
+		foreach ($images as $image) {
+			$filename = $image->filename ?? null;
+			if (!$filename) {
+				continue;
+			}
+
+			$activeClass = $index === 0 ? ' nav-active' : '';
+			$html .= '<li class="li-pd-imgs' . $activeClass . '">';
+			$html .= '<a href="JavaScript:void(0)">';
+			$html .= '<img src="' . esc(product_image($filename), 'attr') . '" alt="' . esc($productName, 'attr') . '" class="img-fluid">';
+			$html .= '</a>';
+			$html .= '</li>';
+			$index++;
+		}
+
+		return $html;
+	}
+
+	/**
+	 * renderFeatureRowsHtml
+	 *
+	 * @param  object $product
+	 * @return string
+	 */
+	private function renderFeatureRowsHtml(object $product): string
+	{
+		$rows = '';
+
+		if (!empty($product->sku)) {
+			$rows .= '<tr><td>SKU</td><td>' . esc((string) $product->sku) . '</td></tr>';
+		}
+
+		$params = !empty($product->params) ? json_decode((string) $product->params) : null;
+		if (is_object($params)) {
+			$rows .= '<tr><td>' . esc((string) ($params->Name ?? '')) . '</td><td>' . esc((string) ($params->Value ?? '')) . '</td></tr>';
+		} elseif (is_array($params)) {
+			foreach ($params as $param) {
+				$rows .= '<tr><td>' . esc((string) ($param->Name ?? '')) . '</td><td>' . esc((string) ($param->Value ?? '')) . '</td></tr>';
+			}
+		}
+
+		return $rows;
 	}
 
 	/**

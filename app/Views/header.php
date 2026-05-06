@@ -13,6 +13,7 @@
 <meta property="og:description" content="<?=$og_desc?>">
 <meta property="og:image" content="<?=$og_img?>">
 <meta property="og:type" content="website">
+<link rel="canonical" href="<?=$og_url?>">
 <?php echo view('inc/verify') ?>
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="theme-color" content="#ffffff">

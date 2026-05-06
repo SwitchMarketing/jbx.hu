@@ -26,18 +26,20 @@
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="pd-data">
-                            <h2><?php echo esc($product->name); ?></h2>
+                            <h2 class="pd-product-name"><?php echo esc($product->name); ?></h2>
                             <?php if (!empty($product->sku)) : ?>
-                                <p class="pd-sku-meta">SKU: <?php echo esc($product->sku); ?></p>
+                                <p id="pdSkuMeta" class="pd-sku-meta">SKU: <?php echo esc($product->sku); ?></p>
+                            <?php else : ?>
+                                <p id="pdSkuMeta" class="pd-sku-meta d-none"></p>
                             <?php endif; ?>
                             <?php echo view('shared/option-pills', ['options' => $options, 'optionMatrix' => $optionMatrix ?? [], 'masterSlug' => $masterSlug ?? '', 'product' => $product]); ?>
-                            <?php echo product_price($product); ?>
+                            <div id="pdPriceWrap"><?php echo product_price($product); ?></div>
                             <div class="pd-purchase">
                                 <div class="pd-quality">
                                     <span>Mennyiség</span>
-                                    <input class="pd-qty-input" type="number" name="number" id="qty-<?php echo esc($product->sku) ?>" value="1" min="1" step="1" inputmode="numeric" aria-label="Mennyiség">
+                                    <input class="pd-qty-input" data-role="pd-qty-input" type="number" name="number" id="qty-<?php echo esc($product->sku) ?>" value="1" min="1" step="1" inputmode="numeric" aria-label="Mennyiség">
                                 </div>
-                                <div class="pd-add-to-cart">
+                                <div id="pdAddToCartWrap" class="pd-add-to-cart">
                                     <?php echo add_to_cart_button($product); ?>
                                 </div>
                             </div>
@@ -86,7 +88,7 @@
                                         <div class="adis-tab">
                                             <div class="tab-table">
                                                 <table class="table">
-                                                    <tbody>
+                                                    <tbody id="pdFeatureTableBody">
                                                         <?php if (!empty($product->sku)) : ?>
                                                             <tr>
                                                                 <td>SKU</td>
@@ -123,3 +125,12 @@
 
     </div>
 </main>
+
+<?php if (!empty($initialVariantPayload) && is_array($initialVariantPayload)) : ?>
+<script>
+window.JBX_INITIAL_VARIANT = <?php echo json_encode(
+    array_merge(['success' => true], $initialVariantPayload),
+    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+); ?>;
+</script>
+<?php endif; ?>
