@@ -487,6 +487,7 @@ class ShopProducts extends BaseController
 					$options[$attrId] = [
 						'id'     => $attrId,
 						'name'   => $attr->name,
+						'position' => isset($attr->position) ? (int) $attr->position : 0,
 						'values' => [],
 					];
 					$seenValues[$attrId] = [];
@@ -507,6 +508,18 @@ class ShopProducts extends BaseController
 				}
 			}
 		}
+
+		// Stabil sorrend: attribútum pozíció, majd név
+		uasort($options, static function(array $a, array $b): int {
+			$positionA = (int) ($a['position'] ?? 0);
+			$positionB = (int) ($b['position'] ?? 0);
+
+			if ($positionA === $positionB) {
+				return strnatcasecmp((string) ($a['name'] ?? ''), (string) ($b['name'] ?? ''));
+			}
+
+			return $positionA <=> $positionB;
+		});
 
 		return $options;
 	}
@@ -553,11 +566,11 @@ class ShopProducts extends BaseController
 
 		$db = \Config\Database::connect('shop');
 		return $db->query(
-			"SELECT vav.attribute_id, a.name, vav.value
+			"SELECT vav.attribute_id, a.name, a.position, vav.value
 			FROM variant_attribute_values vav
 			JOIN attributes a ON a.id = vav.attribute_id
 			WHERE vav.variant_id = ?
-			ORDER BY a.name ASC",
+			ORDER BY a.position ASC, a.name ASC, a.id ASC",
 			[$variantId]
 		)->getResult();
 	}

@@ -52,10 +52,11 @@ class ProductVariantModel extends Model
             ->findAll();
 
         foreach ($variants as &$v) {
-            $sql = "SELECT vav.attribute_id, a.name, vav.value
+            $sql = "SELECT vav.attribute_id, a.name, a.position, vav.value
                     FROM variant_attribute_values vav
                     JOIN attributes a ON vav.attribute_id = a.id
-                    WHERE vav.variant_id = ?";
+                WHERE vav.variant_id = ?
+                ORDER BY a.position ASC, a.name ASC, a.id ASC";
             $v->attributes = $db->query($sql, [$v->id])->getResult();
         }
         unset($v);
