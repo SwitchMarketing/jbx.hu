@@ -4,6 +4,8 @@ Megrendelés<br><br>
 <p>Email: <br><?php echo $email ?></p>
 <p>Telefon: <br><?php echo $phone ?></p>
 <p>Cégnév: <br><?php echo $company ?? '' ?></p>
+<p>Kapcsolattartó: <br><?php echo $contact_person ?? '' ?></p>
+<p>Adószám: <br><?php echo $tax_number ?? '' ?></p>
 <p>Számlázási cím: <br><?php echo $billing_zip ?? '' ?> <?php echo $billing_state ?? '' ?>, <?php echo $billing_address ?? '' ?></p>
 <?php if(isset($diffDeliveryAddress)): ?>
 <p>Szállítási cím: <br><?php echo $delivery_zip ?? '' ?> <?php echo $delivery_state ?? '' ?>, <?php echo $delivery_address ?? '' ?></p>

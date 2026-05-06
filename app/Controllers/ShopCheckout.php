@@ -126,6 +126,8 @@ class ShopCheckout extends BaseController
                     'email'            => $post['email'] ?? '',
                     'phone'            => $post['phone'] ?? '',
                     'company'          => $post['company'] ?? '',
+                    'contact_person'   => $post['contact_person'] ?? '',
+                    'tax_number'       => $post['tax_number'] ?? '',
                     'billing_zip'      => $post['billing_zip'] ?? '',
                     'billing_state'    => $post['billing_state'] ?? '',
                     'billing_address'  => $post['billing_address'] ?? '',
@@ -225,6 +227,22 @@ class ShopCheckout extends BaseController
                 'errors' => [
                     'required' => 'A <span>{field}</span> nem lehet üres',
                     'max_length' => 'A <span>{field}</span> legfeljebb 100 karakter hosszú lehet',
+                ]
+            ],
+            'contact_person' => [
+                'label'  => 'kapcsolattartó',
+                'rules'  => 'required|max_length[100]',
+                'errors' => [
+                    'required' => 'A <span>{field}</span> nem lehet üres',
+                    'max_length' => 'A <span>{field}</span> legfeljebb 100 karakter hosszú lehet',
+                ]
+            ],
+            'tax_number' => [
+                'label'  => 'adószám',
+                'rules'  => 'required|regex_match[/^[0-9]{8}-?[0-9]-?[0-9]{2}$/]',
+                'errors' => [
+                    'required' => 'Az <span>{field}</span> nem lehet üres',
+                    'regex_match' => 'Az <span>{field}</span> formátuma érvénytelen',
                 ]
             ],
             'billing_zip' => [

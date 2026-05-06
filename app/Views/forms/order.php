@@ -15,12 +15,22 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            <input type="text" name="contact_person" placeholder="Kapcsolattartó">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <input type="text" name="company" placeholder="Cégnév">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="text" name="tax_number" placeholder="Adószám (pl. 12345678-1-12)">
         </div>
     </div>
     <div class="row dist">
         <div class="col-md-6">
-            <input type="text" name="billing_zip" placeholder="IRSZ" maxlength="4">
+            <input type="text" name="billing_zip" placeholder="IRSZ (pl. 1117)" maxlength="4">
         </div>
         <div class="form-group col-md-6">
             <input type="text" name="billing_state" placeholder="Település">            
@@ -43,7 +53,7 @@
         <h3 class="mt-0">Szállítási cím</h3>
         <div class="row dist">
             <div class="col-md-6">
-                <input type="text" name="delivery_zip" placeholder="IRSZ" maxlength="4">
+                <input type="text" name="delivery_zip" placeholder="IRSZ (pl. 1117)" maxlength="4">
             </div>
             <div class="form-group col-md-6">
                 <input type="text" name="delivery_state" placeholder="Település">
