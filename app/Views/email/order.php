@@ -26,7 +26,13 @@ Megrendelés<br><br>
     <tbody>
         <?php foreach($products as $p): ?>
         <tr>
-            <td><?php echo $p->name ?></td>
+            <td>
+                <?php echo $p->name ?>
+                <br><small style="color:#666; font-size:0.8em;">SKU: <?php echo $p->sku ?></small>
+                <?php if (!empty($p->attributes)): ?>
+                    <br><small style="color:#666; font-size:0.8em;"><?php echo implode(', ', array_map(function($a) { return htmlspecialchars($a['name'], ENT_QUOTES, 'UTF-8') . ': ' . htmlspecialchars($a['value'], ENT_QUOTES, 'UTF-8'); }, $p->attributes)); ?></small>
+                <?php endif; ?>
+            </td>
             <td align="center"><?php echo $p->sku ?></td>
             <td align="right"><?php echo $p->price ? format_price((int)$p->price) : '-' ?></td>
             <td align="center"><?php echo $p->qty ?></td>

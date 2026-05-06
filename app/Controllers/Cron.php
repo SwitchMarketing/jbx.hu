@@ -60,6 +60,11 @@ class Cron extends Controller
             {
                 $orderItemModel = new \App\Models\OrderItemModel();
                 $items = $orderItemModel->where('order_id', $order->id)->findAll();
+                foreach ($items as $item) {
+                    $item->attributes = (!empty($item->attributes))
+                        ? json_decode($item->attributes, true)
+                        : [];
+                }
                 CLI::showProgress($currStep++, $total);
 
                 // Decode address JSONs

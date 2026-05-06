@@ -17,7 +17,8 @@ class OrderItemModel extends Model
         'sku',
         'name',
         'price',
-        'qty'
+        'qty',
+        'attributes'
     ];
 
     protected bool $allowEmptyInserts = false;

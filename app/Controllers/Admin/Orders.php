@@ -82,9 +82,15 @@ class Orders extends BaseResourceController
             
             // Fetch order items
             $items = (new \App\Models\OrderItemModel())
-                ->select('id, sku, name, price, qty')
+                ->select('id, sku, name, price, qty, attributes')
                 ->where('order_id', $id)
                 ->findAll();
+
+            foreach ($items as $item) {
+                $item->attributes = (!empty($item->attributes))
+                    ? json_decode($item->attributes, true)
+                    : [];
+            }
 
             $order->items = (count($items) > 0) ? $items : [];
 

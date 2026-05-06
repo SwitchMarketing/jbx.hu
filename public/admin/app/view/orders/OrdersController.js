@@ -49,16 +49,23 @@ Ext.define('JBXAdmin.view.orders.OrdersController', {
                 if(response.data.items && response.data.items.length > 0) {
                     orderItemsHtml = '<tr><td colspan="2"><strong>Tételek</strong><table class="order-items" style="width:100%; border-collapse: collapse;">' +
                         '<tr style="border-bottom: 1px solid #ddd;">' +
-                        '<th style="text-align: left; padding: 5px;">SKU</th>' +
                         '<th style="text-align: left; padding: 5px;">Megnevezés</th>' +
                         '<th style="text-align: right; padding: 5px;">Ár</th>' +
                         '<th style="text-align: center; padding: 5px;">Menny.</th>' +
                         '</tr>';
                     
                     response.data.items.forEach(function (item) {
+                        var nameCell = item.name;
+                        var metaParts = [];
+                        if (item.sku) metaParts.push('SKU: <strong>' + item.sku + '</strong>');
+                        if (item.attributes && item.attributes.length > 0) {
+                            metaParts.push(item.attributes.map(function(a) { return a.name + ': <strong>' + a.value + '</strong>'; }).join(', '));
+                        }
+                        if (metaParts.length > 0) {
+                            nameCell += '<br><small style="color:#888; font-size:0.8em;">' + metaParts.join(' &mdash; ') + '</small>';
+                        }
                         orderItemsHtml += '<tr style="border-bottom: 1px solid #eee;">' +
-                            '<td style="padding: 5px;">' + item.sku + '</td>' +
-                            '<td style="padding: 5px;">' + item.name + '</td>' +
+                            '<td style="padding: 5px;">' + nameCell + '</td>' +
                             '<td style="text-align: right; padding: 5px;">' + item.price + ' Ft</td>' +
                             '<td style="text-align: center; padding: 5px;">' + item.qty + '</td>' +
                             '</tr>';

@@ -57,6 +57,29 @@ class ShopCart extends BaseController
 			}
 		}
 
+		// Töltsd be az attribútumokat a variantshoz
+		$variantAttributes = [];
+		if (!empty($variantIds)) {
+			$db = \Config\Database::connect('shop');
+			$attributeRows = $db->table('variant_attribute_values')
+				->select('variant_attribute_values.variant_id, attributes.name, variant_attribute_values.value')
+				->join('attributes', 'attributes.id = variant_attribute_values.attribute_id', 'left')
+				->whereIn('variant_attribute_values.variant_id', $variantIds)
+				->get()
+				->getResultArray();
+			
+			foreach ($attributeRows as $row) {
+				$variantId = (int)$row['variant_id'];
+				if (!isset($variantAttributes[$variantId])) {
+					$variantAttributes[$variantId] = [];
+				}
+				$variantAttributes[$variantId][] = [
+					'name' => $row['name'],
+					'value' => $row['value']
+				];
+			}
+		}
+
 		foreach ($cartItems as $item) {
 			if (empty($item->variant_id) && !empty($item->sku) && isset($variantsBySku[$item->sku])) {
 				$resolvedVariant = $variantsBySku[$item->sku];
@@ -113,6 +136,13 @@ class ShopCart extends BaseController
 					$imageKey = $variantsById[(int)$item->variant_id]->unas_id;
 				}
 				$cartItems[$k]->image = ($imageKey && isset($imgMap[$imageKey])) ? $imgMap[$imageKey] : null;
+				
+				// Attribútumok hozzáadása a cart itemhez
+				if (!empty($item->variant_id) && isset($variantAttributes[(int)$item->variant_id])) {
+					$cartItems[$k]->attributes = $variantAttributes[(int)$item->variant_id];
+				} else {
+					$cartItems[$k]->attributes = [];
+				}
 			}			
 			
 		}

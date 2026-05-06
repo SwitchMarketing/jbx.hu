@@ -109,7 +109,7 @@ class ShopCheckout extends BaseController
                 $session_id = $this->session->get('cart_session_id');
                 $cartModel = new \App\Models\ShoppingCartModel();
                 $cartItems = $cartModel
-                    ->select('id, sku, name, price, unit_price_gross, vat_rate, qty, status')
+                    ->select('id, sku, name, price, unit_price_gross, vat_rate, qty, status, variant_id')
                     ->where('session_id', $session_id)
                     ->findAll();
 
@@ -119,6 +119,31 @@ class ShopCheckout extends BaseController
                         $linePrice = (float)$item->unit_price_gross;
                     }
                     $item->price = $linePrice;
+                }
+
+                // Variant attribútumok lekérése a kosár tételekhez
+                $variantIds = [];
+                foreach ($cartItems as $item) {
+                    if (!empty($item->variant_id)) {
+                        $variantIds[] = (int)$item->variant_id;
+                    }
+                }
+                $variantAttributes = [];
+                if (!empty($variantIds)) {
+                    $db = \Config\Database::connect('shop');
+                    $attributeRows = $db->table('variant_attribute_values')
+                        ->select('variant_attribute_values.variant_id, attributes.name, variant_attribute_values.value')
+                        ->join('attributes', 'attributes.id = variant_attribute_values.attribute_id', 'left')
+                        ->whereIn('variant_attribute_values.variant_id', $variantIds)
+                        ->get()
+                        ->getResultArray();
+                    foreach ($attributeRows as $row) {
+                        $vid = (int)$row['variant_id'];
+                        if (!isset($variantAttributes[$vid])) {
+                            $variantAttributes[$vid] = [];
+                        }
+                        $variantAttributes[$vid][] = ['name' => $row['name'], 'value' => $row['value']];
+                    }
                 }
 
                 // Prepare billing and delivery address as JSON
@@ -160,12 +185,16 @@ class ShopCheckout extends BaseController
                 // Create order items from cart
                 $orderItemModel = new \App\Models\OrderItemModel();
                 foreach ($cartItems as $item) {
+                    $attrs = (!empty($item->variant_id) && isset($variantAttributes[(int)$item->variant_id]))
+                        ? json_encode($variantAttributes[(int)$item->variant_id], JSON_UNESCAPED_UNICODE)
+                        : null;
                     $itemData = [
-                        'order_id' => $order_id,
-                        'sku'      => $item->sku,
-                        'name'     => $item->name,
-                        'price'    => (float)$item->price,
-                        'qty'      => (int)$item->qty
+                        'order_id'   => $order_id,
+                        'sku'        => $item->sku,
+                        'name'       => $item->name,
+                        'price'      => (float)$item->price,
+                        'qty'        => (int)$item->qty,
+                        'attributes' => $attrs,
                     ];
                     $orderItemModel->insert($itemData);
                 }

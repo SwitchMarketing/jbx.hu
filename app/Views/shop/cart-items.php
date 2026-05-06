@@ -35,7 +35,19 @@
                             <?php else: ?>
                                 <img src="https://placehold.co/80x80" alt="<?php echo $p->name ?>">
                             <?php endif; ?>                            
-                            <h2><a href="javascript:void(0)"><?php echo $p->name ?></a></h2>
+                            <div>
+                                <h2><a href="javascript:void(0)"><?php echo $p->name ?></a></h2>
+                                <p class="product-sku" style="font-size: 0.75rem; color: #666; margin: 0.25rem 0 0 0;">
+                                    SKU: <strong><?php echo htmlspecialchars($p->sku, ENT_QUOTES, 'UTF-8'); ?></strong>
+                                </p>
+                                <?php if (!empty($p->attributes)): ?>
+                                <p class="product-attributes" style="font-size: 0.75rem; color: #666; margin: 0.15rem 0 0 0; line-height: 1.2;">
+                                    <?php echo implode(', ', array_map(function($attr) {
+                                        return htmlspecialchars($attr['name'], ENT_QUOTES, 'UTF-8') . ': <strong>' . htmlspecialchars($attr['value'], ENT_QUOTES, 'UTF-8') . '</strong>';
+                                    }, $p->attributes)); ?>
+                                </p>
+                                <?php endif; ?>
+                            </div>
                         </div>
                         <div class="c-price text-end">
                             <?php
