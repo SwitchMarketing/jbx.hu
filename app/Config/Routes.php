@@ -95,6 +95,7 @@ if (file_exists($categoryRouteCache)) {
 $routes->get('/termekek', 'ShopProducts::index');
 $routes->get('/termekek/(:segment)/(:segment)', 'ShopProducts::product/$1/$2');
 $routes->post('/termek', 'ShopProducts::productVariation');
+$routes->get('/google-merchant-feed.xml', 'GoogleMerchantFeed::index');
 
 /**
  * Shop kosár
