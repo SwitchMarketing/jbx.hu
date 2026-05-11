@@ -257,6 +257,24 @@ ul.pd-imgs {
     font-weight: 700;
     color: #555;
   }
+
+  &--empty {
+    align-items: center;
+    justify-content: center;
+    min-height: 106px;
+    padding: 18px 22px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 248, 244, 0.98) 100%);
+
+    .pd-price__empty {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #111;
+      text-align: center;
+      letter-spacing: -0.01em;
+      font-family: $primary-font;
+    }
+  }
 }
 
 .pd-colors {

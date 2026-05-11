@@ -123,13 +123,13 @@ function product_price($product, $return_price_only = false) {
     }
     
     if (empty($product->prices)) {
-        return '';
+        return $return_price_only ? 0 : '<div class="pd-price pd-price--empty mb-3"><div class="pd-price__empty">Kérjen gyors ajánlatot.</div></div>';
     }
 
     $result = json_decode($product->prices);    
 
     if (empty($result) || !is_object($result)) {
-        return '';
+        return $return_price_only ? 0 : '<div class="pd-price pd-price--empty mb-3"><div class="pd-price__empty">Kérjen gyors ajánlatot.</div></div>';
     }
 
     $prices = [];
@@ -154,7 +154,7 @@ function product_price($product, $return_price_only = false) {
     }
 
     if (empty($prices)) {
-        return '';
+        return $return_price_only ? 0 : '<div class="pd-price pd-price--empty mb-3"><div class="pd-price__empty">Kérjen gyors ajánlatot.</div></div>';
     }
 
     $html = '<ul class="pd-price mb-3">';
@@ -252,54 +252,19 @@ function product_stock($product) {
  * @return object
  */
 function product_status($product) {
-
-    // Új normalizált modell: állapot mező alapján döntünk
-    if (isset($product->state) && is_string($product->state) && $product->state !== '') {
-        $state = $product->state;
-
-        $status = (object) [
-            'btnText' => 'Ajánlatkérés',
-            'inStock' => false
-        ];
-
-        if ($state === 'instock') {
-            $status->btnText = 'Kosárba';
-            $status->inStock = true;
-            return $status;
-        }
-
-        if ($state === 'backorder') {
-            $status->btnText = 'Rendelés';
-            return $status;
-        }
-
-        if ($state === 'inquire') {
-            $status->btnText = 'Ajánlatkérés';
-            return $status;
-        }
-    }
-
-    $price = product_price($product);
+    $price = (float) product_price($product, true);
     $stock = product_stock($product);
 
     $status = (object) [
-        'btnText' => '',
+        'btnText' => 'Ajánlatkérés',
         'inStock' => false
     ];
 
-    // ha van ár
-    if(!empty($price)) {
-
-        // ha van raktáron
-        if($stock > 0) {
+    if ($price > 0) {
+        $status->btnText = 'Kosárba';
+        if ($stock > 0 || (isset($product->state) && $product->state === 'instock')) {
             $status->inStock = true;
-            $status->btnText = 'Kosárba';            
-        } else {
-            $status->btnText = 'Rendelés';     
         }
-        
-    } else {
-        $status->btnText = 'Ajánlatkérés';
     }    
 
     return $status;   

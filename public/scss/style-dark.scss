@@ -787,6 +787,12 @@ body.light-d {
 		border-color: #313131;
 		box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 
+		&--empty {
+			background: linear-gradient(135deg, rgba(28, 28, 28, 0.98) 0%, rgba(18, 18, 18, 0.98) 100%);
+			border: 1px solid #313131;
+			box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+		}
+
 		.pd-price__label {
 			color: #777;
 		}
@@ -814,6 +820,10 @@ body.light-d {
 
 		.pd-price__vat {
 			color: #999;
+		}
+
+		.pd-price__empty {
+			color: $color_1;
 		}
 	}
 	.pd-data {
