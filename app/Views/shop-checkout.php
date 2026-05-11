@@ -22,6 +22,21 @@
                     </div>
                     <div class="col-lg-4 offset-lg-1">
                         <div class="order-summary-side">
+                            <?php if(!empty($deliveryInfo)): ?>
+                                <div class="order-delivery-box mt-0">
+                                    <span class="order-delivery-box__eyebrow">Szállítás</span>
+                                    <h3>Szállítási információk</h3>
+                                    <?php $deliveryLines = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', (string) $deliveryInfo)))); ?>
+                                    <ul class="order-delivery-box__list">
+                                        <?php foreach ($deliveryLines as $line): ?>
+                                            <li>
+                                                <i class="fa-solid fa-circle-check"></i>
+                                                <span><?php echo esc($line); ?></span>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            <?php endif; ?>
                             <?php if($cartTotal): ?>
                                 <?php echo view('shop/cart-total-box', [
                                     'cartTotal'    => $cartTotal,

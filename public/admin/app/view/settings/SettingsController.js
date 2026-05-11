@@ -73,11 +73,12 @@ Ext.define('JBXAdmin.view.settings.SettingsController', {
                         required: true
                     },
                     {
-                        xtype: 'textfield',
+                        xtype: 'textareafield',
                         label: 'Ertek',
                         name: 'setting_value',
                         value: isEdit ? (record.get('setting_value') || '') : '',
-                        required: true
+                        required: true,
+                        height: 160
                     },
                     {
                         xtype: 'selectfield',

@@ -54,6 +54,9 @@ class ShopCheckout extends BaseController
         $cartTotal = $cartSummary->gross;
         $vatRatePercent = $cartSummary->vatRatePercent;
 
+        $settingModel = new \App\Models\SettingModel();
+        $deliveryInfo = $settingModel->getValue('delivery_info', '');
+
         $data = [
             'header' => [
                 'title'   => page_title('Megrendelés'),
@@ -69,7 +72,8 @@ class ShopCheckout extends BaseController
                 'cartTotal'    => $cartTotal,
                 'cartNetTotal' => $cartNetTotal,
                 'cartVat'      => $cartVat,
-                'vatRatePercent' => $vatRatePercent
+                'vatRatePercent' => $vatRatePercent,
+                'deliveryInfo' => $deliveryInfo
             ]
         ];
 
