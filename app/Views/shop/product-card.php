@@ -24,10 +24,16 @@
                 <a href="<?php echo $productUrl; ?>" class="theme-btn">Termékinfó <i class="fa-solid fa-arrow-right"></i></a>
             </div>
             <div class="data">
+                <?php
+                    $hasDiscount = !empty($item->has_discount_variant);
+                ?>
+                <?php if ($hasDiscount): ?>
+                    <div class="product-badge-discount"><span><i>Akció</i></span></div>
+                <?php endif; ?>
                 <h3><a href="<?php echo $productUrl; ?>"><?php echo $item->name; ?></a></h3>
                 <div class="sku">
                     <span>SKU: <?php echo $item->sku; ?></span>
-                </div>                
+                </div>
             </div>
         </div>
     </div>

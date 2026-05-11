@@ -56,6 +56,15 @@ class CreateSettingsTable extends Migration
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+
+        $db->table('settings')->insert([
+            'setting_key' => 'eur_to_huf_rate',
+            'setting_value' => '400',
+            'data_type' => 'float',
+            'description' => 'EUR -> HUF arfolyam',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 
     public function down()

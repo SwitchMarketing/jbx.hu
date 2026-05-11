@@ -87,16 +87,38 @@ function product_price($product, $return_price_only = false) {
 
     // Új normalizált modell: közvetlen numerikus ár a variánson
     if (isset($product->price) && is_numeric($product->price) && (float)$product->price > 0) {
-        $price = shop_price_breakdown((float)$product->price);
-        if ($return_price_only) {
-            return $price->gross;
+        $baseNetEur = (float) $product->price;
+        $discountNetEur = isset($product->discount_price) ? (float) $product->discount_price : 0.0;
+        $effectiveNetEur = shop_effective_net_price_eur($baseNetEur, $discountNetEur);
+        $price = shop_price_breakdown_huf_from_eur_net($effectiveNetEur);
+
+        $regularPrice = null;
+        $hasDiscount = $discountNetEur > 0 && $discountNetEur < $baseNetEur;
+        if ($hasDiscount) {
+            $regularPrice = shop_price_breakdown_huf_from_eur_net($baseNetEur, $price->vatRatePercent);
         }
 
-        $html = '<ul class="pd-price mb-3">';
-        $html .= '<li class="pd-sale-price"><span>Nettó: ' . format_price($price->net) . '</span></li>';
-        $html .= '<li class="pd-net-price"><span>Bruttó: ' . format_price($price->gross) . '</span></li>';
-        $html .= '<li class="pd-vat-meta"><span>ÁFA: ' . number_format($price->vatRatePercent, 0, '', ' ') . '%</span></li>';
-        $html .= '</ul>';
+        if ($return_price_only) {
+            return $price->net;
+        }
+
+        $html = '<div class="pd-price mb-3">';
+        $html .= '<div class="pd-price__row">';
+        $html .= '<div class="pd-price__box pd-price__box--main">';
+        if ($hasDiscount && $regularPrice !== null) {
+            $html .= '<div class="pd-price__old">';
+            $html .= '<span class="pd-discount-badge"><span><i>Akció</i></span></span>';
+            $html .= '<span class="pd-price__old-wrap"><span class="pd-price__label">Eredeti ár</span><del>' . format_price($regularPrice->net) . '</del></span>';
+            $html .= '</div>';
+        }
+        $html .= '<div class="pd-price__current"><span class="pd-price__label">Nettó ár</span>' . format_price($price->net) . '</div>';
+        $html .= '</div>';
+        $html .= '<div class="pd-price__box pd-price__box--secondary">';
+        $html .= '<div class="pd-price__gross"><span class="pd-price__label">Bruttó ár</span>' . format_price($price->gross) . '</div>';
+        $html .= '<div class="pd-price__vat"><span class="pd-price__label">ÁFA</span>+' . number_format($price->vatRatePercent, 0, '', ' ') . '%</div>';
+        $html .= '</div>'; // pd-price__box--secondary
+        $html .= '</div>'; // pd-price__row
+        $html .= '</div>'; // pd-price
         return $html;
     }
     

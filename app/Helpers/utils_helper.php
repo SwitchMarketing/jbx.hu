@@ -116,3 +116,64 @@ function shop_net_from_gross($grossAmount = 0, $vatRatePercent = null): float
 
     return round($grossAmount / $multiplier, 2);
 }
+
+/**
+ * shop_effective_net_price_eur
+ *
+ * A termék/variáció effektív nettó ára EUR-ban (kedvezmény figyelembevételével).
+ *
+ * @param mixed $price
+ * @param mixed $discountPrice
+ * @return float
+ */
+function shop_effective_net_price_eur($price = 0, $discountPrice = null): float
+{
+    $base = is_numeric($price) ? (float) $price : 0.0;
+    $discount = is_numeric($discountPrice) ? (float) $discountPrice : 0.0;
+
+    if ($base < 0) {
+        $base = 0.0;
+    }
+    if ($discount < 0) {
+        $discount = 0.0;
+    }
+
+    if ($discount > 0 && ($base <= 0 || $discount < $base)) {
+        return $discount;
+    }
+
+    return $base;
+}
+
+/**
+ * shop_eur_to_huf
+ *
+ * EUR összeget HUF-ra vált a beállított árfolyam alapján.
+ *
+ * @param mixed $amountEur
+ * @return float
+ */
+function shop_eur_to_huf($amountEur = 0): float
+{
+    $amount = is_numeric($amountEur) ? (float) $amountEur : 0.0;
+    if ($amount <= 0) {
+        return 0.0;
+    }
+
+    return round($amount * \App\Libraries\ShopSettings::eurToHufRate(), 2);
+}
+
+/**
+ * shop_price_breakdown_huf_from_eur_net
+ *
+ * EUR nettó árból HUF nettó/bruttó/áfa bontás.
+ *
+ * @param mixed $netAmountEur
+ * @param mixed $vatRatePercent
+ * @return object
+ */
+function shop_price_breakdown_huf_from_eur_net($netAmountEur = 0, $vatRatePercent = null)
+{
+    $netHuf = shop_eur_to_huf($netAmountEur);
+    return shop_price_breakdown($netHuf, $vatRatePercent);
+}

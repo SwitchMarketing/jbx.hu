@@ -42,6 +42,7 @@ class ProductVariants extends BaseResourceController
                 'sku'       => trim($data['sku']),
                 'name'      => $data['name']  ?? null,
                 'price'     => $data['price'] ?? 0,
+                'discount_price' => $data['discount_price'] ?? null,
                 'stock'     => $data['stock'] ?? 0,
                 'position'  => isset($data['position']) ? (int) $data['position'] : $nextPosition,
                 'state'     => $state,
@@ -137,6 +138,7 @@ class ProductVariants extends BaseResourceController
             // For variations we update price, stock, sku, name, and state
             $updateData = [];
             if (isset($data['price'])) $updateData['price'] = $data['price'];
+            if (isset($data['discount_price'])) $updateData['discount_price'] = $data['discount_price'];
             if (isset($data['stock'])) $updateData['stock'] = $data['stock'];
             if (isset($data['sku']))   $updateData['sku']   = $data['sku'];
             if (isset($data['name']))  $updateData['name']  = $data['name'];

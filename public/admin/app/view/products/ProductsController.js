@@ -126,7 +126,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     inquire:   'Ajánlatkérés',
                     inactive:  'Inaktív'
                 };
-                var variantsHtml = '<table class="variants-table"><thead><tr><th>SKU</th><th>Név</th><th>Ár</th><th>Készlet</th><th>Állapot</th><th>Jellemzők</th></tr></thead><tbody>';
+                var variantsHtml = '<table class="variants-table"><thead><tr><th>SKU</th><th>Név</th><th>Ár (nettó, EUR)</th><th>Készlet</th><th>Állapot</th><th>Jellemzők</th></tr></thead><tbody>';
                 if (product.variants && product.variants.length > 0) {
                     product.variants.forEach(function (v) {
                         var attrs = '';
@@ -136,7 +136,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             attrs = '-';
                         }
                         var stateLabel = stateLabels[v.state] || v.state || '-';
-                        variantsHtml += '<tr><td>' + v.sku + '</td><td>' + (v.name || '-') + '</td><td>' + v.price + ' Ft</td><td>' + v.stock + '</td><td>' + stateLabel + '</td><td>' + attrs + '</td></tr>';
+                        variantsHtml += '<tr><td>' + v.sku + '</td><td>' + (v.name || '-') + '</td><td>' + v.price + ' EUR</td><td>' + v.stock + '</td><td>' + stateLabel + '</td><td>' + attrs + '</td></tr>';
                     });
                 } else {
                     variantsHtml += '<tr><td colspan="6" style="text-align:center; padding: 20px;">Nincsenek variációk ehhez a termékhez.</td></tr>';
@@ -667,13 +667,13 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         reference: 'variantsGrid',
                         userCls: 'jbx-themed-grid',
                         store: {
-                            fields: ['id', 'unas_id', 'sku', 'name', 'price', 'stock', 'position', 'state', 'attributes'],
+                            fields: ['id', 'unas_id', 'sku', 'name', 'price', 'discount_price', 'stock', 'position', 'state', 'attributes'],
                             data: productData.variants || [],
                             listeners: {
                                 update: function (store, record, operation, modifiedFieldNames) {
                                     if (operation !== Ext.data.Model.EDIT) return;
                                     if (!record.get('id')) return;
-                                    var editable = ['sku', 'name', 'price', 'stock', 'position', 'state'];
+                                    var editable = ['sku', 'name', 'price', 'discount_price', 'stock', 'position', 'state'];
                                     if (!modifiedFieldNames || !modifiedFieldNames.some(function (f) { return editable.indexOf(f) !== -1; })) return;
                                     this.onSaveVariant(record);
                                 }.bind(this)
@@ -684,7 +684,8 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             { text: 'UNAS ID', dataIndex: 'unas_id', width: 90, hidden: true },
                             { text: 'SKU', dataIndex: 'sku', width: 140, editable: true },
                             { text: 'Név', dataIndex: 'name', flex: 1, minWidth: 200, editable: true },
-                            { text: 'Ár (Nettó)', dataIndex: 'price', width: 120, editable: true },
+                            { text: 'Ár (Nettó, EUR)', dataIndex: 'price', width: 140, editable: true },
+                            { text: 'Kedv. ár (Nettó, EUR)', dataIndex: 'discount_price', width: 180, editable: true },
                             { text: 'Készlet', dataIndex: 'stock', width: 90, editable: true },
                             {
                                 text: 'Állapot',
@@ -933,12 +934,23 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     {
                         xtype: 'textfield',
                         inputType: 'number',
-                        label: 'Ár (Nettó)',
+                        label: 'Ár (Nettó, EUR)',
                         name: 'price',
                         reference: 'priceField',
                         autoComplete: false,
                         value: 0,
                         step: 0.01
+                    },
+                    {
+                        xtype: 'textfield',
+                        inputType: 'number',
+                        label: 'Kedvezményes ár (Nettó, EUR)',
+                        name: 'discount_price',
+                        reference: 'discountPriceField',
+                        autoComplete: false,
+                        value: 0,
+                        step: 0.01,
+                        placeholder: '0 = nincs kedvezmény'
                     },
                     {
                         xtype: 'textfield',
@@ -1008,6 +1020,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                             sku: values.sku,
                                             name: values.name || null,
                                             price: values.price || 0,
+                                            discount_price: values.discount_price || 0,
                                             stock: values.stock || 0,
                                             position: (response.data && response.data.position) || 0,
                                             state: values.state,
@@ -1021,6 +1034,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                         sku: variantData.sku,
                                         name: variantData.name || null,
                                         price: variantData.price || 0,
+                                        discount_price: variantData.discount_price || 0,
                                         stock: variantData.stock || 0,
                                         position: variantData.position || 0,
                                         state: variantData.state,
@@ -1046,6 +1060,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                         sku: values.sku,
                                         name: values.name || null,
                                         price: values.price || 0,
+                                        discount_price: values.discount_price || 0,
                                         stock: values.stock || 0,
                                         position: (response.data && response.data.position) || 0,
                                         state: values.state,
@@ -1138,6 +1153,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 sku: variantRecord.get('sku'),
                 name: variantRecord.get('name'),
                 price: variantRecord.get('price'),
+                discount_price: variantRecord.get('discount_price'),
                 stock: variantRecord.get('stock'),
                 position: variantRecord.get('position'),
                 state: variantRecord.get('state')

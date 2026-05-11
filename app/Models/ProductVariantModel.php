@@ -31,6 +31,7 @@ class ProductVariantModel extends Model
         'name',
         'slug',
         'price',
+        'discount_price',
         'stock',
         'position',
         'state'

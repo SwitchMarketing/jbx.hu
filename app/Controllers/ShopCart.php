@@ -48,7 +48,7 @@ class ShopCart extends BaseController
 		$variantsBySku = [];
 		if (!empty($variantIds)) {
 			$variants = $variantModel
-				->select('id, master_id, unas_id, sku, name, price, state')
+				->select('id, master_id, unas_id, sku, name, price, discount_price, state')
 				->whereIn('id', $variantIds)
 				->findAll();
 			foreach ($variants as $variant) {
@@ -83,13 +83,18 @@ class ShopCart extends BaseController
 		foreach ($cartItems as $item) {
 			if (empty($item->variant_id) && !empty($item->sku) && isset($variantsBySku[$item->sku])) {
 				$resolvedVariant = $variantsBySku[$item->sku];
+				$resolvedNetHuf = shop_eur_to_huf(shop_effective_net_price_eur($resolvedVariant->price ?? 0, $resolvedVariant->discount_price ?? null));
+				$resolvedPrice = shop_price_breakdown($resolvedNetHuf);
 				$item->variant_id = $resolvedVariant->id;
 				$item->master_id = $resolvedVariant->master_id;
-				$item->unit_price_gross = $item->unit_price_gross ?? $resolvedVariant->price;
+				$item->price = $item->price ?? $resolvedPrice->net;
+				$item->unit_price_gross = $item->unit_price_gross ?? $resolvedPrice->gross;
 				$cartModel->update($item->id, [
 					'variant_id' => $resolvedVariant->id,
 					'master_id' => $resolvedVariant->master_id,
+					'price' => $item->price,
 					'unit_price_gross' => $item->unit_price_gross,
+					'vat_rate' => $resolvedPrice->vatRatePercent,
 				]);
 			}
 
@@ -275,7 +280,8 @@ class ShopCart extends BaseController
 				\App\Models\ProductVariantModel::STATE_INACTIVE => 'Inaktív',
 			];
 
-			$unitPrice = shop_price_breakdown((float)$variant->price);
+			$variantNetHuf = shop_eur_to_huf(shop_effective_net_price_eur($variant->price ?? 0, $variant->discount_price ?? null));
+			$unitPrice = shop_price_breakdown($variantNetHuf);
 
 			$data = [
 				'session_id' => $session_id,
@@ -284,7 +290,7 @@ class ShopCart extends BaseController
 				'sku'        => $variant->sku,
 				'legacy_sku' => $sku ?: null,
 				'name'       => $variant->name,
-				'price'      => (float)$variant->price,
+				'price'      => (float)$unitPrice->net,
 				'unit_price_gross' => $unitPrice->gross,
 				'vat_rate'   => $unitPrice->vatRatePercent,
 				'qty'        => $qty,

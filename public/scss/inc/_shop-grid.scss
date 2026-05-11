@@ -38,6 +38,28 @@
       margin-top: 3px;
     }
 
+    .product-badge-discount {
+      margin-bottom: 6px;
+
+      span {
+        display: inline-flex;
+        padding: 3px 10px;
+        background: linear-gradient(135deg, #ffd84d 0%, #ffbf00 100%);
+        color: #1f1600;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transform: skewX(-12deg);
+
+        i {
+          display: inline-block;
+          transform: skewX(12deg);
+          font-style: normal;
+        }
+      }
+    }
+
     .sku {
       span {
         font-size: .8rem;

@@ -601,6 +601,27 @@ body.light-d {
 					color: $color_3;
 				}
 			}
+			.product-price {
+				background: linear-gradient(135deg, rgba(28, 28, 28, 0.98) 0%, rgba(14, 14, 14, 0.98) 100%);
+				border-color: #363636;
+
+				&__badge {
+					background: #ffdf6a;
+					color: #111;
+				}
+
+				&__current {
+					color: $color_1;
+				}
+
+				&__old {
+					color: #b6b6b6;
+				}
+
+				&__gross {
+					color: #888;
+				}
+			}
 			h3 {
 				a {
 					color: $yellow;
@@ -761,13 +782,47 @@ body.light-d {
 			}
 		}
 	}
-	ul.pd-price {
-		li.pd-sale-price,
-		li.pd-regular-price {
+	ul.pd-price,
+	.pd-price {
+		border-color: #313131;
+		box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+
+		.pd-price__label {
+			color: #777;
+		}
+
+		.pd-price__box--main {
+			background: linear-gradient(135deg, rgba(28, 28, 28, 0.98) 0%, rgba(18, 18, 18, 0.98) 100%);
+		}
+
+		.pd-price__box--secondary {
+			background: #1a1a1a;
+			border-left-color: #333;
+		}
+
+		.pd-price__current {
 			color: $color_1;
-			span {
-				color: $color_1;
-			}
+		}
+
+		.pd-price__old {
+			color: #b8b8b8;
+		}
+
+		.pd-price__gross {
+			color: #d0d0d0;
+		}
+
+		.pd-price__vat {
+			color: #999;
+		}
+	}
+	.pd-data {
+		h2 {
+			color: $color_1;
+		}
+
+		.pd-sku-meta {
+			color: #d6d6d6;
 		}
 	}
 	.pd-data {

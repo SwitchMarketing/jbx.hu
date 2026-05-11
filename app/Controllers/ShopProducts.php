@@ -56,9 +56,11 @@ class ShopProducts extends BaseController
 			'representative_variant.slug AS variant_slug',
 			'representative_variant.sku AS sku',
 			'representative_variant.price AS price',
+			'representative_variant.discount_price AS discount_price',
 			'representative_variant.state AS variant_state',
 			'categories.path AS category_path',
 			'(SELECT i.filename FROM images i WHERE i.master_id = pm.id ORDER BY i.position ASC, i.id ASC LIMIT 1) AS image',
+			'(SELECT COUNT(*) FROM product_variants pv2 WHERE pv2.master_id = pm.id AND pv2.discount_price IS NOT NULL AND pv2.discount_price > 0 AND pv2.discount_price < pv2.price) AS has_discount_variant',
 		]);
 		$builder->join('category_tree AS categories', 'categories.unas_id = pm.category_id', 'left');
 		$builder->join(
@@ -68,7 +70,15 @@ class ShopProducts extends BaseController
 				FROM product_variants pv
 				WHERE pv.master_id = pm.id
 					AND pv.state IN ({$quotedStates})
-				ORDER BY pv.position ASC, pv.price ASC, pv.id ASC
+				ORDER BY
+					CASE WHEN pv.discount_price IS NOT NULL AND pv.discount_price > 0 AND pv.discount_price < pv.price THEN 0 ELSE 1 END ASC,
+					CASE WHEN pv.price > 0 THEN 0 ELSE 1 END ASC,
+					CASE
+						WHEN pv.discount_price IS NOT NULL AND pv.discount_price > 0 AND pv.discount_price < pv.price
+						THEN pv.discount_price
+						ELSE pv.price
+					END ASC,
+					pv.id ASC
 				LIMIT 1
 			)",
 			'inner',
@@ -195,7 +205,7 @@ class ShopProducts extends BaseController
 						->where('master_id', $master->id)
 						->whereIn('state', $activeVariantStates)
 						->orderBy('position', 'ASC')
-						->orderBy('price', 'ASC')
+						->orderBy('CASE WHEN discount_price IS NOT NULL AND discount_price > 0 AND discount_price < price THEN discount_price ELSE price END', 'ASC', false)
 						->first();
 
 					if (!$variant) {
@@ -232,6 +242,7 @@ class ShopProducts extends BaseController
 			'sku'         => $variant->sku,
 			'description' => $master->description ?? '',
 			'price'       => (float) ($variant->price ?? 0),
+			'discount_price' => isset($variant->discount_price) ? (float) $variant->discount_price : null,
 			'stock'       => (float) ($variant->stock ?? 0),
 			'state'       => $variant->state ?? '',
 			'images'      => $this->getVariantImages((int) $master->id, (int) $variant->id, $variant->unas_id ?? null),
@@ -415,7 +426,12 @@ class ShopProducts extends BaseController
 				if ($score > $bestScore) {
 					$bestScore = $score;
 					$best = $candidate;
-				} elseif ($score === $bestScore && $best && (float)($candidate->price ?? 0) < (float)($best->price ?? 0)) {
+				} elseif (
+					$score === $bestScore
+					&& $best
+					&& shop_effective_net_price_eur($candidate->price ?? 0, $candidate->discount_price ?? null)
+					< shop_effective_net_price_eur($best->price ?? 0, $best->discount_price ?? null)
+				) {
 					$best = $candidate;
 				}
 			}
@@ -471,6 +487,7 @@ class ShopProducts extends BaseController
 			'sku'         => $variant->sku,
 			'description' => $master->description ?? '',
 			'price'       => (float) ($variant->price ?? 0),
+			'discount_price' => isset($variant->discount_price) ? (float) $variant->discount_price : null,
 			'stock'       => (float) ($variant->stock ?? 0),
 			'state'       => $variant->state ?? '',
 			'images'      => $this->getVariantImages((int) $master->id, (int) $variant->id, $variant->unas_id ?? null),

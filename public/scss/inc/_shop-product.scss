@@ -125,88 +125,138 @@ ul.pd-imgs {
       }
     }
   }
+
+  .pd-discount-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 5px 0 0;
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 16px;
+      background: linear-gradient(135deg, #ffd84d 0%, #ffbf00 100%);
+      color: #1f1600;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 20px rgba(255, 191, 0, 0.22);
+      transform: skewX(-12deg);
+
+      i {
+        display: inline-block;
+        transform: skewX(12deg);
+        font-style: normal;
+      }
+    }
+  }
 }
 
-ul.pd-price {
-  li {
-    &.pd-sale-price {
-      font-size: 28px;
-      color: #000;
-      font-family: $primary-font;
-      line-height: 30px;
-      font-weight: bold;
+.pd-price {
+  display: flex;
+  flex-direction: column;
+  margin-top: 28px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
 
-      span {
-        font-size: 28px;
-        color: #000;
-        font-family: $primary-font;
-        line-height: 30px;
-        font-weight: bold;
-      }
+  .pd-price__row {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .pd-price__label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 4px;
+  }
+
+  .pd-price__box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 18px 22px;
+
+    &--main {
+      flex: 1 1 auto;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 248, 244, 0.98) 100%);
     }
 
-    &.pd-regular-price {
-      font-size: 20px;
-      color: #444;
-      font-weight: 500;
-      font-family: $primary-font;
-      line-height: 23px;
-
-      span {
-        font-size: 20px;
-        color: #444;
-        font-weight: 500;
-        font-family: $primary-font;
-        line-height: 23px;
-        margin-right: 3px;
-      }
-    }
-
-    &.pd-net-price {
-      font-size: 17px;
-      color: #4d4d4d;
-      font-weight: 500;
-      font-family: $primary-font;
-      line-height: 20px;
-
-      span {
-        font-size: 17px;
-        color: #4d4d4d;
-        font-weight: 500;
-        font-family: $primary-font;
-        line-height: 20px;
-      }
-    }
-
-    &.pd-vat-meta {
-      span {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: #f2f2f2;
-        color: #5b5b5b;
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-      }
-    }
-
-    &.pd-sale-price span {
-      margin-right: 3px;
-    }
-
-    &:not(:last-child) {
-      margin-right: 12px;
+    &--secondary {
+      flex: 0 0 auto;
+      min-width: 140px;
+      background: #f5f5f5;
+      border-left: 1px solid rgba(0, 0, 0, 0.07);
     }
   }
 
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  margin-top: 37px;
+  .pd-price__current {
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 800;
+    color: #111;
+    letter-spacing: -0.02em;
+    font-family: $primary-font;
+  }
+
+  .pd-price__old {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+
+    .pd-price__old-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: .8rem;
+
+      del {
+        font-size: 14px;
+        color: #8a8a8a;
+        font-weight: 600;
+        text-decoration-thickness: 2px;
+      }
+    }
+
+    .pd-discount-badge {
+      span {
+        display: inline-flex;
+        padding: 3px 10px;
+        background: linear-gradient(135deg, #ffd84d 0%, #ffbf00 100%);
+        color: #1f1600;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transform: skewX(-12deg);
+
+        i {
+          display: inline-block;
+          transform: skewX(12deg);
+          font-style: normal;
+        }
+      }
+    }
+  }
+
+  .pd-price__gross {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .pd-price__vat {
+    font-size: 15px;
+    font-weight: 700;
+    color: #555;
+  }
 }
 
 .pd-colors {
