@@ -629,6 +629,22 @@ body.light-d {
 			}
 			background-color: $background-color_1;
 		}
+		.no-results-message {
+			background-color: $background-color_1;
+			border-color: #333;
+
+			.no-results-icon {
+				color: #666;
+			}
+
+			h3 {
+				color: $color_3;
+			}
+
+			p {
+				color: #999;
+			}
+		}
 		background-color: $background-color_2;
 		.p-slider {
 			.owl-dots {

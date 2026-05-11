@@ -6,6 +6,24 @@
     <div class="container shop-container">
       <aside class="sidebar shop-sidebar">
         <div class="shop-categories">
+          <div class="shop-toolbar mb-4">
+            <form method="get" action="<?php echo !empty($searchTerm) ? base_url('termekek') : current_url(); ?>">
+              <input
+                type="text"
+                name="q"
+                class="form-control"
+                placeholder="Keresés név, cikkszám vagy leírás alapján"
+                value="<?php echo esc($searchTerm ?? ''); ?>"
+              >
+              <select name="sort" class="form-select" aria-label="Rendezés" onchange="this.form.submit()">
+                <option value="name_asc" <?php echo (($sort ?? 'name_asc') === 'name_asc') ? 'selected' : ''; ?>>Rendezés: Név szerint (A-Z)</option>
+                <option value="name_desc" <?php echo (($sort ?? 'name_asc') === 'name_desc') ? 'selected' : ''; ?>>Rendezés: Név szerint (Z-A)</option>
+                <option value="price_asc" <?php echo (($sort ?? 'name_asc') === 'price_asc') ? 'selected' : ''; ?>>Rendezés: Ár szerint (olcsóbb elöl)</option>
+                <option value="price_desc" <?php echo (($sort ?? 'name_asc') === 'price_desc') ? 'selected' : ''; ?>>Rendezés: Ár szerint (drágább elöl)</option>
+              </select>
+            </form>
+          </div>
+
           <h3 class="shop-title d-none d-xl-block">Termék kategóriák</h3>
           <a href="#offcanvasCategories" class="shop-title d-xl-none" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasCategories"><i class="fas fa-th-list"></i>Termék kategóriák</a>
           <div class="shop-tree d-none d-xl-block">
@@ -56,7 +74,17 @@
                   foreach($shop->items as $item):
                     echo view('shop/product-card', ['item' => $item]);
                   endforeach;
-            endif; ?>
+            else: ?>
+              <div class="col-12">
+                <div class="no-results-message">
+                  <div class="no-results-icon">
+                    <i class="fas fa-search"></i>
+                  </div>
+                  <h3>Nincs találat</h3>
+                  <p>A megadott feltételekre nem találtunk termékeket.</p>
+                </div>
+              </div>
+            <?php endif; ?>
           </div>
         <?php endif; ?>
       </div>
@@ -79,6 +107,24 @@
   </div>
   <div class="offcanvas-body">
     <div class="shop-categories">
+      <div class="shop-toolbar mb-4">
+        <form method="get" action="<?php echo !empty($searchTerm) ? base_url('termekek') : current_url(); ?>">
+          <input
+            type="text"
+            name="q"
+            class="form-control"
+            placeholder="Keresés név, cikkszám vagy leírás alapján"
+            value="<?php echo esc($searchTerm ?? ''); ?>"
+          >
+          <select name="sort" class="form-select" aria-label="Rendezés" onchange="this.form.submit()">
+            <option value="name_asc" <?php echo (($sort ?? 'name_asc') === 'name_asc') ? 'selected' : ''; ?>>Rendezés: Név szerint (A-Z)</option>
+            <option value="name_desc" <?php echo (($sort ?? 'name_asc') === 'name_desc') ? 'selected' : ''; ?>>Rendezés: Név szerint (Z-A)</option>
+            <option value="price_asc" <?php echo (($sort ?? 'name_asc') === 'price_asc') ? 'selected' : ''; ?>>Rendezés: Ár szerint (olcsóbb elöl)</option>
+            <option value="price_desc" <?php echo (($sort ?? 'name_asc') === 'price_desc') ? 'selected' : ''; ?>>Rendezés: Ár szerint (drágább elöl)</option>
+          </select>
+        </form>
+      </div>
+
       <?php if(isset($tree) && !empty($tree)): ?>
         <?php echo $tree; ?>
       <?php endif; ?>

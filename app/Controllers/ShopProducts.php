@@ -19,13 +19,17 @@ class ShopProducts extends BaseController
 	 */
 	public function index($categoryId = null)
     {
+		$searchTerm = trim((string) ($this->request->getGet('q') ?? ''));
+		$sort = $this->normalizeProductSort((string) ($this->request->getGet('sort') ?? 'name_asc'));
+		$hasActiveSearch = $searchTerm !== '';
+
 		$showCategoryCards = false;
 		$directChildren = [];
 
-		if (!$categoryId) {
+		if (!$categoryId && !$hasActiveSearch) {
 			$showCategoryCards = true;
 			$directChildren = \App\Helpers\CategoryHelper::getDirectChildren(0);
-		} elseif (\App\Helpers\CategoryHelper::hasChildren($categoryId)) {
+		} elseif (!$hasActiveSearch && \App\Helpers\CategoryHelper::hasChildren($categoryId)) {
 			$showCategoryCards = true;
 			$directChildren = \App\Helpers\CategoryHelper::getDirectChildren($categoryId);
 		}
@@ -34,8 +38,8 @@ class ShopProducts extends BaseController
 		// a lapozóhoz szükséges paraméterek
 		$itemsPerPage = 12;
 
-		$page = $this->request->getGet('page') ?? 1;
-		$limit = $this->request->getGet('limit') ?? 24;
+		$page = max(1, (int) ($this->request->getGet('page') ?? 1));
+		$limit = $itemsPerPage;
 
 		$start = ($page * $itemsPerPage) - $itemsPerPage;
 
@@ -86,10 +90,23 @@ class ShopProducts extends BaseController
 		);
 		$builder->where('pm.state', ProductMasterModel::STATE_ACTIVE);
 
-		if ($categoryId && !$showCategoryCards) {
+		if ($categoryId && !$showCategoryCards && !$hasActiveSearch) {
 			// a kategórának vannak al-kategóriái, így a kategória összes termékét lekérjük
 			$descendantIds = \App\Helpers\CategoryHelper::getDescendantIds($categoryId);
 			$builder->whereIn('pm.category_id', $descendantIds);
+		}
+
+		if ($searchTerm !== '') {
+			// split search term into individual words and match ALL words
+			$searchWords = array_filter(preg_split('/\s+/', $searchTerm), static fn ($word) => $word !== '');
+			foreach ($searchWords as $word) {
+				$builder->groupStart()
+					->like('pm.name', $word)
+					->orLike('pm.slug', $word)
+					->orLike('pm.description', $word)
+					->orLike('representative_variant.sku', $word)
+				->groupEnd();
+			}
 		}
 
 		$total = 0;
@@ -99,8 +116,9 @@ class ShopProducts extends BaseController
 			$countBuilder = clone $builder;
 			$total = $countBuilder->countAllResults();
 
+			$this->applyProductListingSort($builder, $sort);
+
 			$items = $builder
-				->orderBy('pm.name', 'ASC')
 				->limit($itemsPerPage, $start)
 				->get()
 				->getResult();
@@ -156,7 +174,9 @@ class ShopProducts extends BaseController
 				'shop' => $shop,
 				'tree' => $this->renderTree($tree, $categoryId),
 				'showCategoryCards' => $showCategoryCards,
-				'categories' => $directChildren
+				'categories' => $directChildren,
+				'searchTerm' => $searchTerm,
+				'sort' => $sort
             ]
         ];
 
@@ -320,6 +340,46 @@ class ShopProducts extends BaseController
 		BuildPage::render('shop-product', $data);
 
     }
+
+	/**
+	 * applyProductListingSort
+	 */
+	private function applyProductListingSort($builder, string $sort): void
+	{
+		$effectivePriceExpr = 'CASE WHEN representative_variant.discount_price IS NOT NULL AND representative_variant.discount_price > 0 AND representative_variant.discount_price < representative_variant.price THEN representative_variant.discount_price ELSE representative_variant.price END';
+
+		switch ($sort) {
+			case 'name_desc':
+				$builder->orderBy('pm.name', 'DESC');
+				break;
+			case 'price_asc':
+				$builder->orderBy($effectivePriceExpr, 'ASC', false)
+					->orderBy('pm.name', 'ASC');
+				break;
+			case 'price_desc':
+				$builder->orderBy($effectivePriceExpr, 'DESC', false)
+					->orderBy('pm.name', 'ASC');
+				break;
+			case 'name_asc':
+			default:
+				$builder->orderBy('pm.name', 'ASC');
+				break;
+		}
+	}
+
+	/**
+	 * normalizeProductSort
+	 */
+	private function normalizeProductSort(string $sort): string
+	{
+		$allowed = ['name_asc', 'name_desc', 'price_asc', 'price_desc'];
+
+		if (!in_array($sort, $allowed, true)) {
+			return 'name_asc';
+		}
+
+		return $sort;
+	}
 	
 		
 	/**

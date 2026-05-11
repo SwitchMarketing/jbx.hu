@@ -3,12 +3,19 @@
 
   .shop-container {
     display: grid;
-    grid-template-columns: .3fr 1fr;
+    grid-template-columns: 300px 1fr;
     grid-gap: 30px;
     @include medium-md() {
 
       grid-template-columns: 1fr;        
 
+    }
+  }
+
+  .shop-sidebar {
+    width: 300px;
+    @include medium-md() {
+      width: 100%;
     }
   }
 
@@ -141,6 +148,34 @@
             visibility: visible;
         }
 
+    }
+  }
+
+  .no-results-message {
+    text-align: center;
+    padding: 60px 30px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+
+    .no-results-icon {
+      font-size: 3rem;
+      color: #ccc;
+      margin-bottom: 20px;
+      opacity: 0.7;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #666;
+      margin: 0;
     }
   }
 
