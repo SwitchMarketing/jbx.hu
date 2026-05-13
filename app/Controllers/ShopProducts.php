@@ -23,15 +23,27 @@ class ShopProducts extends BaseController
 		$sort = $this->normalizeProductSort((string) ($this->request->getGet('sort') ?? 'name_asc'));
 		$hasActiveSearch = $searchTerm !== '';
 
+		$db = \Config\Database::connect('shop');
+		$activeVariantStates = [
+			ProductVariantModel::STATE_INSTOCK,
+			ProductVariantModel::STATE_BACKORDER,
+			ProductVariantModel::STATE_INQUIRE,
+		];
+
 		$showCategoryCards = false;
 		$directChildren = [];
 
+		$treeModel = new CategoryTreeModel();
+        $allCategories = $treeModel->getAllOrdered();
+		$visibleCategoryIds = $this->resolveVisibleCategoryIds($allCategories, $activeVariantStates);
+		$categories = $this->filterVisibleCategories($allCategories, $visibleCategoryIds);
+
 		if (!$categoryId && !$hasActiveSearch) {
 			$showCategoryCards = true;
-			$directChildren = \App\Helpers\CategoryHelper::getDirectChildren(0);
-		} elseif (!$hasActiveSearch && \App\Helpers\CategoryHelper::hasChildren($categoryId)) {
+			$directChildren = $this->getDirectChildren($categories, 0);
+		} elseif (!$hasActiveSearch && $this->hasChildren($categories, $categoryId)) {
 			$showCategoryCards = true;
-			$directChildren = \App\Helpers\CategoryHelper::getDirectChildren($categoryId);
+			$directChildren = $this->getDirectChildren($categories, $categoryId);
 		}
 
 		// termékek lekérése
@@ -43,12 +55,6 @@ class ShopProducts extends BaseController
 
 		$start = ($page * $itemsPerPage) - $itemsPerPage;
 
-		$db = \Config\Database::connect('shop');
-		$activeVariantStates = [
-			ProductVariantModel::STATE_INSTOCK,
-			ProductVariantModel::STATE_BACKORDER,
-			ProductVariantModel::STATE_INQUIRE,
-		];
 		$quotedStates = implode(', ', array_map(static fn ($state) => $db->escape($state), $activeVariantStates));
 
 		$builder = $db->table('product_masters pm');
@@ -132,10 +138,6 @@ class ShopProducts extends BaseController
 			'total' => $total,
 			'links' => $showCategoryCards ? '' : $pager->makeLinks($page, $limit, $total, 'shop')
         ];
-
-		// kategória fa lekérése
-		$treeModel = new CategoryTreeModel();
-        $categories = $treeModel->getAllOrdered();
 
 		// a fategóriaképzés
 		$tree = $this->buildTree($categories, null);
@@ -931,6 +933,87 @@ class ShopProducts extends BaseController
 
         return $html;
     }
+
+	private function resolveVisibleCategoryIds(array $categories, array $activeVariantStates): array
+	{
+		if (empty($categories)) {
+			return [];
+		}
+
+		$db = \Config\Database::connect('shop');
+		$quotedStates = implode(', ', array_map(static fn ($state) => $db->escape($state), $activeVariantStates));
+		$categoryIds = $db->table('product_masters')
+			->select('category_id')
+			->distinct()
+			->where('state', ProductMasterModel::STATE_ACTIVE)
+			->whereIn('category_id', array_map(static fn ($cat) => (int) $cat->unas_id, $categories))
+			->where("EXISTS (SELECT 1 FROM product_variants pv WHERE pv.master_id = product_masters.id AND pv.state IN ({$quotedStates}))", null, false)
+			->get()
+			->getResultArray();
+
+		if (empty($categoryIds)) {
+			return [];
+		}
+
+		$parentById = [];
+		foreach ($categories as $category) {
+			$parentById[(int) $category->unas_id] = (int) ($category->parent_id ?? 0);
+		}
+
+		$visible = [];
+		foreach ($categoryIds as $row) {
+			$current = (int) ($row['category_id'] ?? 0);
+			while ($current > 0 && !isset($visible[$current])) {
+				$visible[$current] = true;
+				$current = $parentById[$current] ?? 0;
+			}
+		}
+
+		return $visible;
+	}
+
+	private function filterVisibleCategories(array $categories, array $visibleCategoryIds): array
+	{
+		if (empty($visibleCategoryIds)) {
+			return [];
+		}
+
+		return array_values(array_filter($categories, static function ($category) use ($visibleCategoryIds) {
+			return isset($visibleCategoryIds[(int) $category->unas_id]);
+		}));
+	}
+
+	private function hasChildren(array $categories, $parentId): bool
+	{
+		$parentId = (int) $parentId;
+		foreach ($categories as $category) {
+			if ((int) ($category->parent_id ?? 0) === $parentId) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private function getDirectChildren(array $categories, $parentId): array
+	{
+		$parentId = (int) $parentId;
+		$children = array_values(array_filter($categories, static function ($category) use ($parentId) {
+			return (int) ($category->parent_id ?? 0) === $parentId;
+		}));
+
+		usort($children, static function ($a, $b) {
+			$orderA = (int) ($a->order ?? 0);
+			$orderB = (int) ($b->order ?? 0);
+			if ($orderA !== $orderB) {
+				return $orderA <=> $orderB;
+			}
+
+			return strcmp((string) ($a->name ?? ''), (string) ($b->name ?? ''));
+		});
+
+		return $children;
+	}
 
 	
 }
