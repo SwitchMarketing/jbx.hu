@@ -6,11 +6,11 @@
                     <h2>Általános Szerződési Feltételek (ÁSZF)</h2>
                     <p>Hatályos: 2026.04.28.-tól</p>                    
                     <h4>1. A Szolgáltató adatai</h4>
-                    <p>Cégnév: JBX Trade Korlátolt Felelősségű Társaság (a továbbiakban: „Szolgáltató”)</p>
-                    <p>Székhely: 2040 Budaörs, Ébner György köz 4.</p>
-                    <p>E-mail: info@jbx.hu</p>
-                    <p>Telefonszám: +36 70 559 1144</p>
-                    <p>Webshop: https://www.jbx.hu/termekek</p>
+                    <p>Cégnév: <?php echo config('Config\\AppConfig')->companyFullName ?> (a továbbiakban: „Szolgáltató”)</p>
+                    <p>Székhely: <?php echo config('Config\\AppConfig')->companyAddress ?></p>
+                    <p>E-mail: <?php echo config('Config\\AppConfig')->siteEmail ?></p>
+                    <p>Telefonszám: <?php echo default_phone_number() ?></p>
+                    <p>Webshop: <?php echo base_url('termekek') ?></p>
                     
                     <h4>2. Az ÁSZF hatálya</h4>
                     <p>Jelen Általános Szerződési Feltételek (a továbbiakban: „ÁSZF”) a Szolgáltató által üzemeltetett webshopban történő termékértékesítésre vonatkoznak.</p>
