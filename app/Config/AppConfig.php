@@ -33,7 +33,7 @@ class AppConfig extends BaseConfig
      * 
      * @var string
      */
-    public $companyAddress = '2040 Budaörs, Ébner György köz 4.';
+    public $companyAddress = '1141 Budapest, Öv utca 7/b';
 
     /**
      * companyTaxId
@@ -47,7 +47,7 @@ class AppConfig extends BaseConfig
      * 
      * @var string
      */
-    public $companyRegNo = '13-09-233581';
+    public $companyRegNo = '01 09 458200';
         
     /**
      * businessName
@@ -62,7 +62,7 @@ class AppConfig extends BaseConfig
      * 
      * @var string
      */
-    public $businessAddress = '2040 Budaörs, Ébner György köz 4.';
+    public $businessAddress = '1141 Budapest, Öv utca 7/b';
 
     
     /**
