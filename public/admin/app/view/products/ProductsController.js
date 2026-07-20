@@ -1620,7 +1620,8 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             return;
                         }
                         var altCmp = dialog.down('[reference=altField]');
-                        var alt = (altCmp ? altCmp.getValue() : '').trim();
+                        var altRaw = altCmp ? altCmp.getValue() : '';
+                        var alt = String(altRaw == null ? '' : altRaw).trim();
                         var formData = new FormData();
                         formData.append('image',     file);
                         formData.append('master_id', masterId);
