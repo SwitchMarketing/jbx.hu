@@ -99,3 +99,8 @@ writable/
 docs/
 GEMINI.md
 CLAUDE.md
+
+#-------------------------
+# TMP Files
+#-------------------------
+_tmp_/
