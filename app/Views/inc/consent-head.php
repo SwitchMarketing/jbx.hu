@@ -26,6 +26,10 @@
 ></script>
 <script>
   (function () {
+    if (window.__jbxConsentInitialized) {
+      return;
+    }
+
     var consentConfig = {
     backdrop: {
       show: true
@@ -82,32 +86,11 @@
     }
     };
 
-    function applyConsentConfig() {
-      if (!window.silktideConsentManager) {
-        return false;
-      }
-
-      var instance = null;
-      if (typeof window.silktideConsentManager.getInstance === 'function') {
-        instance = window.silktideConsentManager.getInstance();
-      }
-
-      if (instance && typeof window.silktideConsentManager.update === 'function') {
-        window.silktideConsentManager.update(consentConfig);
-        return true;
-      }
-
-      if (typeof window.silktideConsentManager.init === 'function') {
-        window.silktideConsentManager.init(consentConfig);
-        return true;
-      }
-
-      return false;
+    if (!window.silktideConsentManager || typeof window.silktideConsentManager.init !== 'function') {
+      return;
     }
 
-    if (!applyConsentConfig()) {
-      window.addEventListener('load', applyConsentConfig, { once: true });
-      setTimeout(applyConsentConfig, 300);
-    }
+    window.__jbxConsentInitialized = true;
+    window.silktideConsentManager.init(consentConfig);
   })();
 </script>
