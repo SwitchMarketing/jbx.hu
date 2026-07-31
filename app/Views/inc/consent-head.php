@@ -26,10 +26,6 @@
 ></script>
 <script>
   (function () {
-    if (window.__jbxConsentInitialized) {
-      return;
-    }
-
     var consentConfig = {
     backdrop: {
       show: true
@@ -90,7 +86,29 @@
       return;
     }
 
-    window.__jbxConsentInitialized = true;
-    window.silktideConsentManager.init(consentConfig);
+    var manager = window.silktideConsentManager;
+    if (!window.__jbxConsentOriginalInit) {
+      window.__jbxConsentOriginalInit = manager.init.bind(manager);
+
+      manager.init = function () {
+        if (window.__jbxConsentInitialized) {
+          if (typeof manager.update === 'function') {
+            manager.update(consentConfig);
+          }
+          return;
+        }
+
+        window.__jbxConsentInitialized = true;
+        return window.__jbxConsentOriginalInit(consentConfig);
+      };
+    }
+
+    manager.init(consentConfig);
+
+    if (typeof manager.update === 'function') {
+      window.addEventListener('load', function () {
+        manager.update(consentConfig);
+      }, { once: true });
+    }
   })();
 </script>
