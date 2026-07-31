@@ -38,21 +38,21 @@
     consentTypes: [
       {
         id: 'essential',
-        label: 'Szukseges',
-        description: '<p>Ezek a cookie-k a weboldal megfelelo mukodesehez elengedhetetlenek, ezert nem lehet oket kikapcsolni. Segitsegukkel lehet peldaul bejelentkezni es beallitani az adatvedelmi preferenciakat.</p>',
+        label: 'Szükséges',
+        description: '<p>Ezek a cookie-k a weboldal megfelelő működéséhez elengedhetetlenek, ezért nem lehet őket kikapcsolni. Segítségükkel lehet például bejelentkezni és beállítani az adatvédelmi preferenciákat.</p>',
         required: true
       },
       {
         id: 'analytics',
         label: 'Analitika',
-        description: '<p>Ezek a cookie-k segitenek nekunk a weboldal fejleszteseben azaltal, hogy nyomon kovetik, mely oldalak a legnepszerubbek, es hogyan mozognak a latogatok a weboldalon.</p>',
+        description: '<p>Ezek a cookie-k segítenek nekünk a weboldal fejlesztésében azáltal, hogy nyomon követik, mely oldalak a legnépszerűbbek, és hogyan mozognak a látogatók a weboldalon.</p>',
         defaultValue: true,
         gtag: 'analytics_storage'
       },
       {
         id: 'marketing',
         label: 'Marketing',
-        description: '<p>Ezeket a cookie-kat mi es hirdetesi partnereink hasznaljuk arra, hogy relevans hirdeteseket jelenitsunk meg ezen a weboldalon es mashol, valamint hogy merjuk ezeknek a kampanyoknak a teljesitmenyet.</p>',
+        description: '<p>Ezeket a cookie-kat mi és hirdetési partnereink használjuk arra, hogy releváns hirdetéseket jelenítsünk meg ezen a weboldalon és máshol, valamint hogy mérjük ezeknek a kampányoknak a teljesítményét.</p>',
         gtag: [
           'ad_storage',
           'ad_user_data',
@@ -62,19 +62,19 @@
     ],
     text: {
       prompt: {
-        description: '<p>Weboldalunkon cookie-kat hasznalunk a felhasznaloi elmeny javitasa, szemelyre szabott tartalom nyujtasa, valamint a forgalom elemzese erdekeben.</p>',
-        acceptAllButtonText: 'Elfogadas',
-        acceptAllButtonAccessibleLabel: 'Elfogadas',
-        rejectNonEssentialButtonText: 'Elutasit',
-        rejectNonEssentialButtonAccessibleLabel: 'Elutasit',
-        preferencesButtonText: 'Testreszabas',
-        preferencesButtonAccessibleLabel: 'Testreszabas'
+        description: '<p>Weboldalunkon cookie-kat használunk a felhasználói élmény javítása, személyre szabott tartalom nyújtása, valamint a forgalom elemzése érdekében.</p>',
+        acceptAllButtonText: 'Elfogadás',
+        acceptAllButtonAccessibleLabel: 'Elfogadás',
+        rejectNonEssentialButtonText: 'Elutasít',
+        rejectNonEssentialButtonAccessibleLabel: 'Elutasít',
+        preferencesButtonText: 'Testreszabás',
+        preferencesButtonAccessibleLabel: 'Testreszabás'
       },
       preferences: {
-        title: 'Cookie beallitasok',
-        description: '<p>Tiszteletben tartjuk az On adatvedelmi jogat. Donthet ugy, hogy bizonyos tipuszu cookie-k hasznalatat nem engedelyezi. A cookie-beallitasai weboldalunk egeszen ervenyesek lesznek.</p>',
-        saveButtonText: 'Mentes',
-        saveButtonAccessibleLabel: 'Mentes',
+        title: 'Cookie beállítások',
+        description: '<p>Tiszteletben tartjuk az Ön adatvédelmi jogát. Dönthet úgy, hogy bizonyos típusú cookie-k használatát nem engedélyezi. A cookie-beállításai weboldalunk egészén érvényesek lesznek.</p>',
+        saveButtonText: 'Mentés',
+        saveButtonAccessibleLabel: 'Mentés',
         creditLinkText: 'Silktide',
         creditLinkAccessibleLabel: 'Silktide'
       }
