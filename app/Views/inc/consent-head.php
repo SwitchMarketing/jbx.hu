@@ -25,7 +25,8 @@
   crossorigin="anonymous"
 ></script>
 <script>
-  window.silktideConsentManager.init({
+  (function () {
+    var consentConfig = {
     backdrop: {
       show: true
     },
@@ -79,5 +80,34 @@
         creditLinkAccessibleLabel: 'Silktide'
       }
     }
-  });
+    };
+
+    function applyConsentConfig() {
+      if (!window.silktideConsentManager) {
+        return false;
+      }
+
+      var instance = null;
+      if (typeof window.silktideConsentManager.getInstance === 'function') {
+        instance = window.silktideConsentManager.getInstance();
+      }
+
+      if (instance && typeof window.silktideConsentManager.update === 'function') {
+        window.silktideConsentManager.update(consentConfig);
+        return true;
+      }
+
+      if (typeof window.silktideConsentManager.init === 'function') {
+        window.silktideConsentManager.init(consentConfig);
+        return true;
+      }
+
+      return false;
+    }
+
+    if (!applyConsentConfig()) {
+      window.addEventListener('load', applyConsentConfig, { once: true });
+      setTimeout(applyConsentConfig, 300);
+    }
+  })();
 </script>
