@@ -66,7 +66,7 @@
                         </tbody>
                     </table>
                     <p class="fw-bold mt-4">Az elhelyezett sütik:</p>
-                    <script id="CookieDeclaration" src="https://consent.cookiebot.com/833cdc50-3755-45ff-a259-b2a3dcaa52e4/cd.js" type="text/javascript" async></script>
+                    <p>A sütik típusait és az aktuális beállításait az oldal bal alsó sarkában található süti ikonra kattintva tudja megtekinteni és módosítani.</p>
                     <h4>8. A sütik kezelése, törlése</h4>
                     <p>A „sütiket” a használt böngészőprogramokban lehet törölni vagy letiltani. A böngészők alapértelmezett módon engedélyezik a „sütik” elhelyezését. Ezt a böngésző beállításainál lehet letiltani, valamint a meglévőket törölni. Mindemellett beállítható az is, hogy a böngésző értesítést küldjön a felhasználónak, amikor „sütit” küld az eszközre. Fontos hangsúlyozni azonban, hogy ezen fájlok letiltása vagy korlátozása rontja a böngészési élményt, valamint hiba jelentkezhet a weboldal funkciójában is.</p>
                     <p>A beállítási lehetőségek általában a böngésző „Opciók” vagy „Beállítások” menüpontjában találhatók. Mindegyik webes kereső különböző, így a megfelelő beállításokhoz használja keresője “Segítség” menüjét, illetve az alábbi linkeket a sütik beállításainak módosításához:</p>
