@@ -1,4 +1,4 @@
-<?php if ($gtmId): ?>
+<?php if ($gtmId ?? ''): ?>
 <script>
   (function () {
     window.dataLayer = window.dataLayer || [];
