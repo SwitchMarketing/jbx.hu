@@ -20,8 +20,8 @@
       ad_storage: getConsent('stcm.consent.marketing'),
       ad_user_data: getConsent('stcm.consent.marketing'),
       ad_personalization: getConsent('stcm.consent.marketing'),
-      functionality_storage: 'granted',
-      security_storage: 'granted'
+      functionality_storage: getConsent('stcm.consent.essential'),
+      security_storage: getConsent('stcm.consent.essential')
     });
   })();
 </script>
