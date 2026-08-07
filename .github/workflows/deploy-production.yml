@@ -9,6 +9,10 @@ concurrency:
   group: production-deploy
   cancel-in-progress: false
 
+env:
+  DEPLOY_HOST: 185.51.188.76
+  DEPLOY_USER: jbxhu
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -16,31 +20,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm ci --omit=dev
+      - name: Set up deploy SSH key
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
 
       - name: Deploy app/
-        run: node .github/scripts/deploy-app.mjs
-        env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          tar -C app -czf - . | ssh -i ~/.ssh/deploy_key "$DEPLOY_USER@$DEPLOY_HOST" "tar -xzf - -C app"
 
       - name: Deploy public/
-        run: node .github/scripts/deploy-public.mjs
-        env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          tar -C public --exclude=.htaccess --exclude=scss --exclude=theme --exclude=admin -czf - . | ssh -i ~/.ssh/deploy_key "$DEPLOY_USER@$DEPLOY_HOST" "tar -xzf - -C public_html"
 
-      - name: Deploy admin/
-        run: node .github/scripts/deploy-admin.mjs
-        env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      - name: Deploy admin build
+        run: |
+          tar -C public/admin/build/production/JBXAdmin -czf - . | ssh -i ~/.ssh/deploy_key "$DEPLOY_USER@$DEPLOY_HOST" "tar -xzf - -C public_html/admin"
+
+      - name: Clean up deploy key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
