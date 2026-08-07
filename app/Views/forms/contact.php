@@ -1,18 +1,33 @@
 <form id="contact_form" action="<?php echo base_url('kapcsolat') ?>" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="<?php echo csrf_token() ?>" value="<?php echo csrf_hash() ?>">
-    <div class="row g-0">
-        <input type="text" name="name" class="form-control" id="contactName" placeholder="Név">
+    <div class="row g-0 mb-2">
+        <p class="mb-0">A <strong>*</strong> jelölt mezők kitöltése kötelező.</p>
     </div>
     <div class="row g-0">
-        <input type="email" name="email" class="form-control" id="contactEmail" placeholder="Email cím">
+        <input type="text" name="name" class="form-control" id="contactName" placeholder="Név *" required>
     </div>
     <div class="row g-0">
-        <input type="tel" name="phone_number" class="form-control" id="contactPhone" placeholder="Telefonszám">
+        <input type="text" name="company_name" class="form-control" id="contactCompanyName" placeholder="Cégnév *" required>
+    </div>
+    <div class="row g-0">
+        <input type="text" name="company_address" class="form-control" id="contactCompanyAddress" placeholder="Székhely *" required>
+    </div>
+    <div class="row g-0">
+        <input type="text" name="tax_number" class="form-control" id="contactTaxNumber" placeholder="Adószám *" required>
+    </div>
+    <div class="row g-0">
+        <input type="email" name="email" class="form-control" id="contactEmail" placeholder="Email cím *">
+    </div>
+    <div class="row g-0">
+        <input type="tel" name="phone_number" class="form-control" id="contactPhone" placeholder="Telefonszám *">
+    </div>
+    <div class="row g-0 mb-2">
+        <small>Email cím vagy telefonszám megadása kötelező.</small>
     </div>
     <?php if( isset($products) ): ?>
     <!-- Termékek -->
     <div class="row checkk g-2">
-        <p>Termékcsalád</p>    
+        <p>Termékcsalád *</p>
         <?php foreach($products as $p): ?>
             <div class="form-group col-md-6">
                 <div class="custom-control custom-radio">
@@ -35,7 +50,7 @@
     <div class="row g-0">
         <div class="custom-control custom-checkbox custom-checkbox-privacy">
             <input type="checkbox" class="custom-control-input" id="privacyModal" name="privacy" value="1" required>
-            <label class="custom-control-label" for="privacyModal">Hozzájárulok a fenti személyes adataim kezeléséhez, kapcsolatfelvétel és árajánlat küldés céljából. Az <a href="<?php echo base_url('adatkezeles') ?>" target="_blank">adatkezelési tájékoztató</a> ide vonatkozó rendelkezéseit megértettem, annak tartalmát ismerem és elfogadom.</label>
+            <label class="custom-control-label" for="privacyModal">Hozzájárulok a fenti személyes adataim kezeléséhez, kapcsolatfelvétel és árajánlat küldés céljából. Az <a href="<?php echo base_url('adatkezeles') ?>" target="_blank">adatkezelési tájékoztató</a> ide vonatkozó rendelkezéseit megértettem, annak tartalmát ismerem és elfogadom. *</label>
         </div>
     </div>
     <div class="row g-0 mt-4">

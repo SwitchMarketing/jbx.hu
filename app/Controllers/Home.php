@@ -90,6 +90,10 @@ class Home extends BaseController
 				// az adatok mentése
 				$rec = [
 					'name' 		 => $post['name'],
+					'company_name' => $post['company_name'],
+					'company_address' => $post['company_address'],
+					'tax_number' => $post['tax_number'],
+					'company' 	 => sprintf('%s | %s | %s', $post['company_name'], $post['company_address'], $post['tax_number']),
 					'email' 	 => $post['email'] ?? '',
 					'phone' 	 => $post['phone_number'] ?? '',
 					'products' 	 => implode(', ', array_unique($post['products'])),
@@ -203,6 +207,30 @@ class Home extends BaseController
 				],
 			],
 
+			'company_name' => [
+				'label'  => 'cégnév',
+				'rules'  => 'required',
+				'errors' => [
+					'required' => 'A <span>{field}</span> megadása kötelező',
+				],
+			],
+
+			'company_address' => [
+				'label'  => 'székhely',
+				'rules'  => 'required',
+				'errors' => [
+					'required' => 'A <span>{field}</span> megadása kötelező',
+				],
+			],
+
+			'tax_number' => [
+				'label'  => 'adószám',
+				'rules'  => 'required',
+				'errors' => [
+					'required' => 'A <span>{field}</span> megadása kötelező',
+				],
+			],
+
 			'email' => [
 				'label'  => 'email cím',
 				'rules'  => 'permit_empty'				
@@ -217,7 +245,7 @@ class Home extends BaseController
 				'label'  => 'termékcsalád',
 				'rules'  => 'required',
 				'errors' => [
-					'required' => 'Kerjük válassz termékcsaládot',
+					'required' => 'Kérjük válassz termékcsaládot',
 				],
 			],
 			

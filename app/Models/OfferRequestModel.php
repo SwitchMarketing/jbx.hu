@@ -14,6 +14,10 @@ class OfferRequestModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'name',
+        'company_name',
+        'company_address',
+        'tax_number',
+        'company',
         'email',
         'phone',
         'products',
