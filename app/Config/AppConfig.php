@@ -40,7 +40,7 @@ class AppConfig extends BaseConfig
      * 
      * @var string
      */
-    public $companyTaxId = '32539055-2-13';
+    public $companyTaxId = '32539055-2-42';
 
     /**
      * companyRegNo
