@@ -9,6 +9,10 @@ concurrency:
   group: production-deploy
   cancel-in-progress: false
 
+defaults:
+  run:
+    shell: bash
+
 env:
   DEPLOY_HOST: 185.51.188.76
   DEPLOY_USER: jbxhu
@@ -38,6 +42,11 @@ jobs:
       - name: Deploy admin build
         run: |
           tar -C public/admin/build/production/JBXAdmin -czf - . | ssh -i ~/.ssh/deploy_key "$DEPLOY_USER@$DEPLOY_HOST" "tar -xzf - -C public_html/admin"
+
+      - name: Smoke check
+        run: |
+          curl -fsS --retry 3 --retry-delay 2 -o /dev/null -w '%{http_code}\n' https://jbx.hu/
+          curl -fsS -o /dev/null https://jbx.hu/admin/
 
       - name: Clean up deploy key
         if: always()
