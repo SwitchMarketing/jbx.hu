@@ -23,6 +23,7 @@ class Leads extends BaseResourceController
             $leads = $this->model->select('
                 id, 
                 name, 
+                COALESCE(company_name, company) AS company_name,
                 email, 
                 phone, 
                 products, 
@@ -57,7 +58,7 @@ class Leads extends BaseResourceController
         
         try {
 
-            if( !is_object($lead = $this->model->select('name, email, phone, message, utm_source, created_at')->find($id)) )
+            if( !is_object($lead = $this->model->select('name, COALESCE(company_name, company) AS company_name, company_address, tax_number, email, phone, message, utm_source, created_at')->find($id)) )
                 throw new Exception('Nincs ilyen rekord!');
             
             $files = (new \App\Models\FileModel())->select('filename')->where('offer_id', $id)->findAll();

@@ -39,7 +39,14 @@ Ext.define('JBXAdmin.view.leads.Leads', {
                     dataIndex: 'phone'
                 },
                 { 
-                    text: 'Termékek',
+                    text: 'Cég',
+                    width : 180,
+                    dataIndex: 'company_name',
+                    renderer : function (val) {
+                        return val || '-';
+                    }
+                },
+                { 
                     flex : 1.5,
                     dataIndex: 'products'
                 },

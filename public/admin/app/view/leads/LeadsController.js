@@ -70,6 +70,18 @@ Ext.define('JBXAdmin.view.login.LeadsController', {
                                     '<td><a href="tel:' + response.data.email + '">' + response.data.phone + '</a></td>' +
                                 '</tr>' +
                                 '<tr>' +
+                                    '<td>Cég</td>' +
+                                    '<td>' + (response.data.company_name || '-') + '</td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                    '<td>Székhely</td>' +
+                                    '<td>' + (response.data.company_address || '-') + '</td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                    '<td>Adószám</td>' +
+                                    '<td>' + (response.data.tax_number || '-') + '</td>' +
+                                '</tr>' +
+                                '<tr>' +
                                     '<td>Üzenet</td>' +
                                     '<td>' + response.data.message + '</td>' +
                                 '</tr>' +
