@@ -9,15 +9,19 @@
                     <div class="col-12 col-lg-6">
                         <div class="pd-gallery">
                             <?php if (!empty($product->images) && is_array($product->images) && count($product->images) > 1) : ?>
-                            <ul class="pd-imgs">
-                                <?php foreach ($product->images as $image) : ?>
-                                <li class="li-pd-imgs">
-                                    <a href="JavaScript:void(0)">
-                                        <img src="<?php echo product_image($image->filename); ?>" alt="<?php echo esc($product->name); ?>" class="img-fluid">
-                                    </a>
-                                </li>
-                                <?php endforeach; ?>                                
-                            </ul>
+                            <div class="pd-thumb-slider" data-role="pd-thumb-slider">
+                                <div class="pd-thumb-slider__viewport">
+                                    <ul class="pd-imgs">
+                                        <?php foreach ($product->images as $index => $image) : ?>
+                                        <li class="li-pd-imgs<?php echo $index === 0 ? ' nav-active' : ''; ?>">
+                                            <a href="JavaScript:void(0)">
+                                                <img src="<?php echo product_image($image->filename); ?>" alt="<?php echo esc($product->name); ?>" class="img-fluid">
+                                            </a>
+                                        </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            </div>
                             <?php endif; ?>
                             <div class="pd-main-img">
                                 <img id="NZoomImg" data-NZoomscale="2" style="width: 100%;height: 100%;" src="<?php echo product_cover_image($product); ?>" alt="<?php echo esc($product->name); ?>">
