@@ -17,6 +17,12 @@ function product_options(int $selected = 0) : array {
             'selected' => ($selected == 1)
         ],
         (object) [
+            'id' => 6,
+            'value' => 'NTF Protect',
+            'label' => 'NTF Protect | Rozsdamentes gépvédő kerítés',
+            'selected' => ($selected == 6)
+        ],
+        (object) [
             'id' => 2,
             'value' => 'Wire Tray',
             'label' => 'Wire Tray | Rácsos kábeltálca rendszerek',

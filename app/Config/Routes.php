@@ -11,6 +11,7 @@ $routes->get('/', 'Home::index');
  * Termékek
  */
 $routes->get('/gepbiztonsagi-kerites', 'Products::xguard');
+$routes->get('/rozsdamentes-gepvedo-kerites', 'Products::ntfprotect');
 $routes->get('/kabeltalca-megoldasok', 'Products::xtray');
 $routes->get('/utkozesvedelem', 'Products::xprotect');
 $routes->get('/raktarbiztonsagi-megoldasok', 'Products::xstore');

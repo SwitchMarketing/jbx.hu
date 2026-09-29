@@ -24,6 +24,7 @@
                                     <a href="javascript:void(0)">Termékek</a>
                                     <ul class="sub-menu">
                                         <li><a href="<?php echo base_url('gepbiztonsagi-kerites') ?>">Gépbiztonsági kerítés</a></li>
+                                        <li><a href="<?php echo base_url('rozsdamentes-gepvedo-kerites') ?>">Rozsdamentes gépvédő kerítés</a></li>
                                         <li><a href="<?php echo base_url('kabeltalca-megoldasok') ?>">Kábeltálca megoldások</a></li>
                                         <li><a href="<?php echo base_url('utkozesvedelem') ?>">Ütközésvédelem</a></li>
                                         <li><a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>">Raktárbiztonsági megoldások</a></li>
@@ -101,6 +102,7 @@
                         <a href="javascript:void(0)">Termékek</a>
                         <ul class="sub-menu">
                             <li><a href="<?php echo base_url('gepbiztonsagi-kerites') ?>">Gépbiztonsági kerítés</a></li>
+                            <li><a href="<?php echo base_url('rozsdamentes-gepvedo-kerites') ?>">Rozsdamentes gépvédő kerítés</a></li>
                             <li><a href="<?php echo base_url('kabeltalca-megoldasok') ?>">Kábeltálca megoldások</a></li>
                             <li><a href="<?php echo base_url('utkozesvedelem') ?>">Ütközésvédelem</a></li>
                             <li><a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>">Raktárbiztonsági megoldások</a></li>

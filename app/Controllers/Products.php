@@ -41,8 +41,31 @@ class Products extends BaseController
     }
 
 	/**
+	 * ntfprotect
+	 *
+	 * Rozsdamentes gépvédő kerítés (Axelent NTF Protect)
+	 *
+	 * @return void
+	 */
+	public function ntfprotect()
+    {
+
+		$data = [
+			'header' => [
+				'title'	  => page_title('Axelent NTF Protect - Rozsdamentes gépvédő kerítés'),
+				'section' => 'product'
+			],
+			'body' => [
+				'products' => product_options(6)
+			]
+        ];
+
+		BuildPage::render('ntf-protect', $data);
+    }
+
+	/**
 	 * xtray
-	 * 
+	 *
 	 * Kábeltálca megoldások
 	 *
 	 * @return void

@@ -1,0 +1,326 @@
+/**
+ * Axelent NTF Protect – rozsdamentes gépvédő kerítés oldal
+ */
+
+// Bevezető – főbb számok
+.ntf-about {
+    p:not(.mt-5) {
+        margin-bottom: 1rem;
+    }
+}
+
+.ntf-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+    li {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 28px 24px;
+        background: $white;
+        border-left: 5px solid $yellow;
+        @include transition();
+
+        strong {
+            font-size: 30px;
+            line-height: 1.1;
+            font-weight: 900;
+            color: $black;
+        }
+
+        span {
+            color: #444;
+            line-height: 1.4;
+        }
+
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba($black, .08);
+        }
+    }
+
+    @include mobile() {
+        grid-template-columns: 1fr;
+        li strong {
+            font-size: 26px;
+        }
+    }
+}
+
+// Comp-Line előnyök – sorszám az ikon helyén
+.ntf-comp-line {
+    .service-two-box {
+        .ntf-number {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            font-size: 44px;
+            font-weight: 900;
+            color: $black;
+            line-height: 1;
+        }
+    }
+}
+
+// Ajtótípusok
+.ntf-door {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 36px 30px;
+    background: $white;
+    border-top: 5px solid $yellow;
+    @include transition();
+
+    h3 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    p {
+        line-height: 26px;
+        margin-bottom: 25px;
+    }
+
+    &--widths {
+        margin-top: auto;
+        padding-top: 20px;
+        border-top: 1px solid #e1ded6;
+
+        .label {
+            display: block;
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: $grey;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        li {
+            padding: 4px 12px;
+            background: $light-grey;
+            border: 1px solid #e1ded6;
+            font-weight: 700;
+            font-size: 15px;
+            color: $black;
+        }
+    }
+
+    &:hover {
+        box-shadow: 0 10px 30px rgba($black, .08);
+    }
+}
+
+// Méretek
+.ntf-figure {
+    background: $white;
+    padding: 20px;
+}
+
+.ntf-specs {
+    margin: 0;
+
+    > div {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 14px 0;
+        border-bottom: 1px solid #cfcfcf;
+
+        &:first-child {
+            border-top: 1px solid #cfcfcf;
+        }
+    }
+
+    dt {
+        font-weight: 700;
+        color: $black;
+    }
+
+    dd {
+        margin: 0;
+        text-align: right;
+        color: #444;
+    }
+
+    @include mobile() {
+        > div {
+            flex-direction: column;
+            gap: 4px;
+        }
+        dd {
+            text-align: left;
+        }
+    }
+}
+
+// In-Line – sötét szekció
+section.ntf-in-line {
+    background-color: #232222;
+
+    .heading span,
+    .heading h2,
+    > .container > .row > div > p {
+        color: $white;
+    }
+
+    .heading span {
+        color: $yellow;
+    }
+
+    p {
+        color: #d6d6d6;
+        margin-bottom: 1rem;
+    }
+
+    .ntf-in-line--image {
+        display: flex;
+        justify-content: center;
+        img {
+            max-height: 460px;
+            width: auto;
+            max-width: 100%;
+        }
+    }
+
+    .card {
+        border: 0;
+        border-radius: 0;
+        overflow: hidden;
+        @include transition();
+
+        .card-img-top {
+            border-radius: 0;
+            border-bottom: 5px solid $yellow;
+        }
+
+        .card-title {
+            font-weight: 700;
+            color: $black;
+        }
+
+        .card-text {
+            color: #444;
+            margin-bottom: 0;
+        }
+
+        &:hover {
+            transform: translateY(-4px);
+        }
+    }
+}
+
+// Higiénia
+.ntf-hygiene--box {
+    height: 100%;
+    padding: 40px;
+    background: $white;
+    border: 1px solid #e1ded6;
+
+    i {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        margin-bottom: 25px;
+        font-size: 26px;
+        color: $black;
+        background: $yellow;
+    }
+
+    h3 {
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+
+    p {
+        line-height: 28px;
+    }
+
+    @include mobile() {
+        padding: 30px 24px;
+    }
+}
+
+// Sötét mód
+body.light-d {
+    .ntf-facts li,
+    .ntf-door,
+    .ntf-hygiene--box {
+        background: #232222;
+        border-color: #333;
+
+        strong, h3 {
+            color: $white;
+        }
+
+        span, p {
+            color: #cfcfcf;
+        }
+    }
+
+    .ntf-facts li {
+        border-left-color: $yellow;
+    }
+
+    .ntf-door {
+        border-top-color: $yellow;
+
+        &--widths {
+            border-top-color: #333;
+            li {
+                background: #171717;
+                border-color: #333;
+                color: $white;
+            }
+        }
+    }
+
+    .ntf-hygiene--box i {
+        color: $black;
+    }
+
+    .ntf-specs {
+        dt { color: $white; }
+        dd { color: #cfcfcf; }
+    }
+
+    .ntf-comp-line .ntf-number {
+        color: $white;
+    }
+}
+
+// X-Guard oldali ajánló kártya
+.ntf-teaser {
+    .col-md-5 {
+        background: #232222;
+        padding: 20px;
+    }
+}
+
+// In-Line kártyaképek egységes magassága
+section.ntf-in-line .card .card-img-top {
+    height: 200px;
+    object-fit: contain;
+    background: $white;
+    padding: 10px;
+}
+
+.ntf-figure img {
+    height: auto;
+    max-height: 520px;
+    object-fit: contain;
+    @include medium-sm() {
+        max-height: 420px;
+    }
+}
