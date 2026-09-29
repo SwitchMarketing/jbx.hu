@@ -43,7 +43,23 @@
                     <img src="<?php echo img_src('x-guard/x-guard-zartipusok-v4.webp') ?>" class="card-img-top" alt="Zártípusok">
                     <div class="card-body p-lg-5">
                         <h5 class="card-title">X-Guard - Zár típusok</h5>
-                        <p class="card-text">X-Guard rendszereinkhez egyedileg fejlesztett zármegoldásokkal rendelkezünk, amelyeket bármilyen kombinációban lehet alkalmazni a kerítésrendszereinkkel. Kínálatunkban elérhetőek az egyszerű, de tartós lakattartó konzoloktól kezdve, az egyedi és testre-szabható X-Lock zárszerkezeteken át egészen a vezérelhető Euchner MGB zárakig minden megoldásunk.</p>                        
+                        <p class="card-text">X-Guard rendszereinkhez egyedileg fejlesztett zármegoldásokkal rendelkezünk, amelyeket bármilyen kombinációban lehet alkalmazni a kerítésrendszereinkkel. Kínálatunkban elérhetőek az egyszerű, de tartós lakattartó konzoloktól kezdve, az egyedi és testre-szabható X-Lock zárszerkezeteken át egészen a vezérelhető Euchner MGB zárakig minden megoldásunk.</p>
+                    </div>
+                </div>
+             </div>
+             <div class="col-12 mt-4 mt-lg-5">
+                <div class="card ntf-teaser">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-md-5">
+                            <img src="<?php echo img_src('ntf-protect/ntf-protect-gepvedo-kerites.webp') ?>" class="img-fluid" alt="Axelent NTF Protect rozsdamentes gépvédő kerítés" loading="lazy">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body p-lg-5">
+                                <h5 class="card-title">NTF Protect - Rozsdamentes gépvédő kerítés</h5>
+                                <p class="card-text">Élelmiszer- és gyógyszeripari környezetbe AISI 304 és AISI 316 rozsdamentes acélból készülő, higiénikus kialakítású, moduláris gépvédő rendszerek.</p>
+                                <p class="mt-4 mb-0"><a href="<?php echo base_url('rozsdamentes-gepvedo-kerites') ?>" class="theme-btn">Részletek <i class="fa-solid fa-angles-right"></i></a></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
              </div>
