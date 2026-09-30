@@ -18,7 +18,7 @@ $benefits = [
     ],
     [
         'title' => 'Higiénikus csatlakozások',
-        'text'  => 'A kötéseknél peremes csavarokat és jól felismerhető, kék színű, nyomon követhető távtartókat alkalmaznak.'
+        'text'  => 'A kötések peremes csavarokkal és jól felismerhető, kék színű, nyomon követhető távtartókkal vannak kialakítva.'
     ],
     [
         'title' => 'Megemelt oszlopok lehetősége',
