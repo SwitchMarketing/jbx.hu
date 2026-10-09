@@ -84,6 +84,24 @@ function product_description($text = null)
 
 
 /**
+ * product_price_stock_block
+ *
+ * Az ársáv "Készlet" blokkja (a bruttó ár / ÁFA alatt). Üres, ha nincs mit kiírni.
+ *
+ * @param  object $product
+ * @return string
+ */
+function product_price_stock_block($product) {
+    $stock = product_stock_label($product);
+    if ($stock === '') {
+        return '';
+    }
+
+    return '<div class="pd-price__stock"><span class="pd-price__label">Készlet</span>' . $stock . '</div>';
+}
+
+
+/**
  * product_price
  *
  * @param  mixed $product
@@ -120,8 +138,11 @@ function product_price($product, $return_price_only = false) {
         $html .= '<div class="pd-price__current"><span class="pd-price__label">Nettó ár</span>' . format_price($price->net) . '</div>';
         $html .= '</div>';
         $html .= '<div class="pd-price__box pd-price__box--secondary">';
+        $html .= '<div class="pd-price__pair">';
         $html .= '<div class="pd-price__gross"><span class="pd-price__label">Bruttó ár</span>' . format_price($price->gross) . '</div>';
         $html .= '<div class="pd-price__vat"><span class="pd-price__label">ÁFA</span>+' . number_format($price->vatRatePercent, 0, '', ' ') . '%</div>';
+        $html .= '</div>'; // pd-price__pair
+        $html .= product_price_stock_block($product);
         $html .= '</div>'; // pd-price__box--secondary
         $html .= '</div>'; // pd-price__row
         $html .= '</div>'; // pd-price
@@ -129,13 +150,13 @@ function product_price($product, $return_price_only = false) {
     }
     
     if (empty($product->prices)) {
-        return $return_price_only ? 0 : '<div class="pd-price pd-price--empty mb-3"><div class="pd-price__empty">Kérjen gyors ajánlatot.</div></div>';
+        return $return_price_only ? 0 : '<div class="pd-price pd-price--empty mb-3"><div class="pd-price__empty">Kérjen gyors ajánlatot.</div>' . product_price_stock_block($product) . '</div>';
     }
 
-    $result = json_decode($product->prices);    
+    $result = json_decode($product->prices);
 
     if (empty($result) || !is_object($result)) {
-        return $return_price_only ? 0 : '<div class="pd-price pd-price--empty mb-3"><div class="pd-price__empty">Kérjen gyors ajánlatot.</div></div>';
+        return $return_price_only ? 0 : '<div class="pd-price pd-price--empty mb-3"><div class="pd-price__empty">Kérjen gyors ajánlatot.</div>' . product_price_stock_block($product) . '</div>';
     }
 
     $prices = [];
@@ -249,6 +270,60 @@ function product_stock($product) {
 
     return 0;
 }   
+
+
+/**
+ * product_stock_label
+ *
+ * Készletjelző a termék adatlapra: a variáns állapota (state) adja a típust,
+ * a raktárkészlet (stock) csak sávosan jelenik meg (nem mutatunk pontos számot).
+ *
+ * @param  object $product
+ * @return string HTML (üres, ha nincs mit kiírni)
+ */
+function product_stock_label($product) {
+    if (empty($product) || !is_object($product)) {
+        return '';
+    }
+
+    $lowStockLimit = 10;
+    $state = (string) ($product->state ?? '');
+    $stock = product_stock($product);
+
+    switch ($state) {
+        case 'instock':
+            $class = 'is-instock';
+            $label = 'Raktáron';
+            $note  = '';
+            if ($stock > 0 && $stock <= $lowStockLimit) {
+                $class = 'is-low';
+                $note  = 'Utolsó ' . (int) ceil($stock) . ' db';
+            }
+            break;
+        case 'backorder':
+            $class = 'is-backorder';
+            $label = 'Rendelésre';
+            $note  = 'Beszerzés alatt';
+            break;
+        case 'inquire':
+            $class = 'is-inquire';
+            $label = 'Ajánlatkérés alapján';
+            $note  = '';
+            break;
+        default:
+            return '';
+    }
+
+    $html  = '<div class="pd-stock ' . $class . '">';
+    $html .= '<span class="pd-stock__dot" aria-hidden="true"></span>';
+    $html .= '<span class="pd-stock__label">' . esc($label) . '</span>';
+    if ($note !== '') {
+        $html .= '<span class="pd-stock__note">' . esc($note) . '</span>';
+    }
+    $html .= '</div>';
+
+    return $html;
+}
 
 
 /**

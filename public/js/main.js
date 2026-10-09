@@ -799,6 +799,10 @@ var App = {
       $('#pdPriceWrap').html(payload.priceHtml);
     }
 
+    if (typeof payload.featureSummaryHtml === 'string') {
+      $('#pdFeatureSummary').html(payload.featureSummaryHtml);
+    }
+
     if (typeof payload.addToCartHtml === 'string') {
       $('#pdAddToCartWrap').html(payload.addToCartHtml);
     }
@@ -1130,6 +1134,26 @@ var App = {
 
 jQuery(document).ready(function () {
   App.init();
+
+  // Opció színmagyarázat: koppintásra (mobil) nyit/zár, kívülre kattintva zár
+  $(document).on('click', '[data-role="pills-help"]', function (e) {
+    e.stopPropagation();
+    const open = $(this).attr('aria-expanded') === 'true';
+    $(this).attr('aria-expanded', open ? 'false' : 'true');
+  });
+  $(document).on('click', function () {
+    $('[data-role="pills-help"]').attr('aria-expanded', 'false');
+  });
+
+  // "Összes jellemző": megnyitja és ide görget a Jellemzők fület
+  $(document).on('click', '[data-role="pd-all-features"]', function (e) {
+    e.preventDefault();
+    const tab = document.getElementById('v-pills-profile-tab');
+    if (tab) {
+      tab.click();
+      tab.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
   AOS.init({
     once: true,
   });

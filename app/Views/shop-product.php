@@ -37,7 +37,7 @@
                                 <p id="pdSkuMeta" class="pd-sku-meta d-none"></p>
                             <?php endif; ?>
                             <?php echo view('shared/option-pills', ['options' => $options, 'optionMatrix' => $optionMatrix ?? [], 'masterSlug' => $masterSlug ?? '', 'product' => $product]); ?>
-                            <div id="pdPriceWrap"><?php echo product_price($product); ?></div>
+                            <div id="pdPriceWrap"><?php echo product_price($product); ?></div>                            <div id="pdFeatureSummary" class="pd-feature-summary"><?php echo $initialVariantPayload['featureSummaryHtml'] ?? ''; ?></div>
                             <div class="pd-purchase">
                                 <div class="pd-quality">
                                     <span>Mennyiség</span>

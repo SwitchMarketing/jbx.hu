@@ -603,6 +603,7 @@ class ShopProducts extends BaseController
 			'title' => page_title((string) ($product->name ?? 'Termék')),
 			'url' => $url,
 			'priceHtml' => product_price($product),
+			'featureSummaryHtml' => $this->renderFeatureSummaryHtml($product),
 			'addToCartHtml' => add_to_cart_button($product),
 			'coverImageUrl' => product_cover_image($product),
 			'galleryHtml' => $this->renderGalleryItemsHtml($product->images ?? [], (string) ($product->name ?? '')),
@@ -670,6 +671,39 @@ class ShopProducts extends BaseController
 		}
 
 		return $rows;
+	}
+
+	/**
+	 * renderFeatureSummaryHtml
+	 *
+	 * Kompakt jellemző-lista az ár alá (az első néhány attribútum), a teljes
+	 * lista a "Jellemzők" fülön marad.
+	 *
+	 * @param  object $product
+	 * @param  int    $limit
+	 * @return string
+	 */
+	private function renderFeatureSummaryHtml(object $product, int $limit = 5): string
+	{
+		$params = !empty($product->params) ? json_decode((string) $product->params) : null;
+		if (is_object($params)) {
+			$params = [$params];
+		}
+		if (!is_array($params) || empty($params)) {
+			return '';
+		}
+
+		$html = '<dl class="pd-features">';
+		foreach (array_slice($params, 0, $limit) as $param) {
+			$html .= '<div class="pd-features__row"><dt>' . esc((string) ($param->Name ?? '')) . '</dt><dd>' . esc((string) ($param->Value ?? '')) . '</dd></div>';
+		}
+		$html .= '</dl>';
+
+		if (count($params) > $limit) {
+			$html .= '<a href="#v-pills-profile-tab" class="pd-features__more" data-role="pd-all-features">Összes jellemző <i class="fa-solid fa-angle-down"></i></a>';
+		}
+
+		return $html;
 	}
 
 	/**

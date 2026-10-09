@@ -30,7 +30,10 @@
 
         <?php endforeach; ?>
 
-        <div class="option-pills-legend" aria-label="Opció színmagyarázat">
+        <button type="button" class="option-pills-help" data-role="pills-help" aria-expanded="false" aria-controls="optionPillsLegend" aria-label="Opciók színmagyarázata">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+        </button>
+        <div class="option-pills-legend" id="optionPillsLegend" role="tooltip">
             <span class="option-pills-legend-item">
                 <span class="option-pills-legend-swatch is-default" aria-hidden="true"></span>
                 Elérhető opció
