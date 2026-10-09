@@ -32,6 +32,12 @@
 			}
 		}
 	}
+	// Szűkebb desktopon (a Webshop menüpont miatt) kisebb térköz, hogy a jelvény ne fedje a menüt
+	@media (min-width: 1201px) and (max-width: 1439px) {
+		.nav-bar > ul > li:not(:last-child) {
+			margin-right: 24px;
+		}
+	}
 	.desktop-nav {
 		display: flex;
 		justify-content: space-between;

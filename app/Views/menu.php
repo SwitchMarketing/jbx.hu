@@ -30,6 +30,9 @@
                                         <li><a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>">Raktárbiztonsági megoldások</a></li>
                                     </ul>
                                 </li>
+                                <li>
+                                    <a href="<?php echo base_url('termekek') ?>">Webshop</a>
+                                </li>
                                 <li class="menu-item-has-children">
                                     <a href="javascript:void(0)">Eszközök</a>
                                     <ul class="sub-menu">
@@ -49,13 +52,11 @@
                                 <li>
                                     <a href="<?php echo base_url('kapcsolat') ?>">Kapcsolat</a>
                                 </li>
-                                <?php if(session('enable_cart')): ?>
                                 <li>
                                     <a href="<?php echo base_url('kosar') ?>" title="Kosár">
                                         <i class="fa-solid fa-shopping-cart"></i>
                                     </a>
                                 </li>
-                                <?php endif; ?>
                             </ul>
 
                             <div class="extras">
@@ -108,6 +109,9 @@
                             <li><a href="<?php echo base_url('raktarbiztonsagi-megoldasok') ?>">Raktárbiztonsági megoldások</a></li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="<?php echo base_url('termekek') ?>">Webshop</a>
+                    </li>
                     <li class="menu-item-has-children active">
                         <a href="javascript:void(0)">Eszközök</a>
                         <ul class="sub-menu">
@@ -127,13 +131,11 @@
                     <li>
                         <a href="<?php echo base_url('kapcsolat') ?>">Kapcsolat</a>
                     </li>
-                    <?php if(session('enable_cart')): ?>
                     <li>
                         <a href="<?php echo base_url('kosar') ?>" title="Kosár">
                             <i class="fa-solid fa-shopping-cart"></i>
                         </a>
                     </li>
-                    <?php endif; ?>
                 </ul>
                 <a href="JavaScript:void(0)" id="res-cross"></a>
             </div>
