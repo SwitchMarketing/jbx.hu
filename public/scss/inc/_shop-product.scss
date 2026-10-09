@@ -325,6 +325,28 @@ ul.pd-imgs {
     }
   }
 
+  // Bruttó ár és ÁFA egymás mellett, függőleges vékony vonallal elválasztva
+  .pd-price__pair {
+    display: flex;
+    align-items: stretch;
+
+    .pd-price__label {
+      line-height: 1;
+    }
+
+    .pd-price__gross {
+      margin-bottom: 0;
+      padding-right: 16px;
+    }
+
+    .pd-price__vat {
+      margin-bottom: 0;
+      padding-left: 16px;
+      line-height: 18px; // a bruttó ár sormagasságával egyező, így az értékek egy sorba esnek
+      border-left: 1px solid rgba(128, 128, 128, 0.25);
+    }
+  }
+
   .pd-price__gross {
     font-size: 18px;
     font-weight: 700;
@@ -827,7 +849,33 @@ ul.pd-imgs {
         margin: 20px 0;
       width: 100%;
       max-width: 100%;
-        
+      position: relative;
+
+      .option-pills-group:first-of-type .option-pills-title {
+        padding-right: 32px;
+      }
+    }
+
+    &-help {
+      position: absolute;
+      top: -2px;
+      right: 0;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #8a8a8a;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      transition: color 0.2s;
+
+      &:hover,
+      &:focus-visible,
+      &[aria-expanded="true"] {
+        color: $black;
+      }
     }
      
     &-group {
@@ -936,18 +984,30 @@ ul.pd-imgs {
         color: $black;
     }
 
+    // Színmagyarázat: alapból rejtett, az ⓘ gomb fölé húzva / fókuszra / koppintásra jelenik meg
     &-legend {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px 16px;
-      margin-top: 12px;
-      padding: 10px 12px;
+      display: none;
+      position: absolute;
+      top: 28px;
+      right: 0;
+      z-index: 20;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 210px;
+      padding: 12px 14px;
       border: 1px solid #d6d6d6;
       background-color: #f7f7f7;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
       font-size: .85rem;
       line-height: 1.2;
       color: #444;
+    }
+
+    &-legend:hover,
+    &-help:hover + &-legend,
+    &-help:focus-visible + &-legend,
+    &-help[aria-expanded="true"] + &-legend {
+      display: flex;
     }
 
     &-legend-item {
@@ -988,7 +1048,125 @@ ul.pd-imgs {
 
 }
 
+// Készlet blokk az ársávban (bruttó ár / ÁFA alatt)
+.pd-price__stock {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(128, 128, 128, 0.25);
+}
+
+.pd-price--empty .pd-price__stock {
+  margin: 0;
+  padding: 0 22px 18px;
+  border-top: 0;
+}
+
+// Készletjelző
+.pd-stock {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 0;
+  font-size: 15px;
+
+  &__dot {
+    flex-shrink: 0;
+    align-self: center;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #2e9e4f;
+  }
+
+  &__label {
+    font-weight: 700;
+  }
+
+  &__note {
+    color: #6b6b6b;
+    font-size: 14px;
+  }
+
+  &.is-low .pd-stock__dot { background-color: #e08a00; }
+  &.is-backorder .pd-stock__dot { background-color: #d4a900; }
+  &.is-inquire .pd-stock__dot { background-color: #8d949f; }
+}
+
+// Kompakt jellemző-lista az ár alatt
+.pd-feature-summary:empty {
+  display: none;
+}
+
+.pd-features {
+  margin: 16px 0 0;
+  padding: 10px 14px;
+  border-left: 3px solid $yellow;
+  background-color: #f7f7f7;
+  font-size: 14px;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 4px 0;
+
+    dt {
+      font-weight: 600;
+      color: #555;
+    }
+
+    dd {
+      margin: 0;
+      text-align: right;
+    }
+  }
+
+  &__more {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $black;
+    text-decoration: underline;
+  }
+}
+
 body.light-d {
+  .pd-stock__label {
+    color: $white;
+  }
+
+  .pd-stock__note {
+    color: #a9a9a9;
+  }
+
+  .pd-features {
+    background-color: #232323;
+
+    &__row dt {
+      color: #cecece;
+    }
+
+    &__row dd {
+      color: $white;
+    }
+
+    &__more {
+      color: $yellow;
+    }
+  }
+
+  .option-pills-help {
+    color: #8a8a8a;
+
+    &:hover,
+    &:focus-visible,
+    &[aria-expanded="true"] {
+      color: $yellow;
+    }
+  }
+
   ul.pd-price {
     li.pd-net-price {
       color: #d7d7d7;
