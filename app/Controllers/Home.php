@@ -295,25 +295,6 @@ class Home extends BaseController
     }
 
 	/**
-	 * testCart
-	 *
-	 * Kosár funkció be/ki kapcsolása teszt módban
-	 * GET /teszt-kosar - kapcsolja be/ki a kosár funkciót
-	 * 
-	 * @return void
-	 */
-	public function testCart()
-	{
-		$enableCart = session('enable_cart');
-		$newState = !$enableCart;
-		$this->session->set('enable_cart', $newState);
-
-		$message = $newState ? 'Kosár funkció bekapcsolva' : 'Kosár funkció kikapcsolva';
-		
-		return redirect()->back()->with('message', $message);
-	}
-
-	/**
 	 * debugCategories
 	 *
 	 * Kategóriák debug

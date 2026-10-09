@@ -67,7 +67,6 @@ $routes->get('/belepes', 'ShopLoginRegister::index');
 /**
  * Teszt funkciók (csak fejlesztéshez)
  */
-$routes->get('/teszt-kosar', 'Home::testCart');
 $routes->get('/debug-kategoriak', 'Home::debugCategories');
 
 /**
