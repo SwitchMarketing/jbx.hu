@@ -102,6 +102,99 @@ function product_price_stock_block($product) {
 
 
 /**
+ * product_google_prices
+ *
+ * Bruttó HUF ár (és akciós ár) a nettó EUR árból, ahogy a Google Merchant
+ * feed és a termékoldal strukturált adata várja: price = eredeti bruttó ár,
+ * sale_price = akciós bruttó ár (vagy null).
+ *
+ * @param  float $priceEurNet
+ * @param  mixed $discountPriceEurNet
+ * @return array{price: float, sale_price: float|null}
+ */
+function product_google_prices($priceEurNet, $discountPriceEurNet = null) {
+    $vatRate = \App\Libraries\ShopSettings::vatRatePercent();
+    $baseNetEur = max(0.0, (float) $priceEurNet);
+    $discountNetEur = is_numeric($discountPriceEurNet) ? max(0.0, (float) $discountPriceEurNet) : 0.0;
+
+    $baseGrossHuf = shop_price_breakdown_huf_from_eur_net($baseNetEur, $vatRate)->gross;
+    $effectiveNetEur = shop_effective_net_price_eur($baseNetEur, $discountNetEur);
+    $effectiveGrossHuf = shop_price_breakdown_huf_from_eur_net($effectiveNetEur, $vatRate)->gross;
+
+    $hasSale = $discountNetEur > 0 && $discountNetEur < $baseNetEur;
+
+    return [
+        'price'      => $hasSale ? $baseGrossHuf : $effectiveGrossHuf,
+        'sale_price' => $hasSale ? $effectiveGrossHuf : null,
+    ];
+}
+
+
+/**
+ * product_json_ld
+ *
+ * schema.org Product/Offer strukturált adat a termékoldalhoz. A Google Merchant
+ * Center ebből ellenőrzi a feedben megadott árat és elérhetőséget.
+ *
+ * @param  object $product   ShopProducts::product() által összeállított objektum
+ * @param  string $url       a variáns kanonikus URL-je
+ * @return string            <script type="application/ld+json"> blokk, vagy üres string
+ */
+function product_json_ld($product, $url) {
+    if (empty($product) || !is_object($product) || empty($product->price) || (float) $product->price <= 0) {
+        return '';
+    }
+
+    $prices = product_google_prices((float) $product->price, $product->discount_price ?? null);
+    $effectivePrice = $prices['sale_price'] ?? $prices['price'];
+
+    $availabilityMap = [
+        'instock'   => 'https://schema.org/InStock',
+        'backorder' => 'https://schema.org/BackOrder',
+    ];
+
+    $images = [];
+    if (!empty($product->images) && is_array($product->images)) {
+        foreach (array_slice($product->images, 0, 10) as $image) {
+            $images[] = base_url(product_image($image->filename));
+        }
+    }
+
+    $description = html_entity_decode((string) ($product->description ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $description = trim(preg_replace('/\s+/u', ' ', strip_tags($description)) ?? '');
+
+    $data = [
+        '@context' => 'https://schema.org/',
+        '@type'    => 'Product',
+        'name'     => trim(preg_replace('/\s+/u', ' ', (string) $product->name) ?? ''),
+        'sku'      => (string) ($product->sku ?? ''),
+        // Az SKU az Axelent gyártói cikkszáma (lásd GoogleMerchantFeed::SKU_IS_MPN)
+        'mpn'      => (string) ($product->sku ?? ''),
+        'brand'    => ['@type' => 'Brand', 'name' => 'Axelent'],
+        'offers'   => [
+            '@type'         => 'Offer',
+            'url'           => $url,
+            'priceCurrency' => 'HUF',
+            'price'         => number_format(round($effectivePrice), 0, '.', ''),
+            'itemCondition' => 'https://schema.org/NewCondition',
+            'availability'  => $availabilityMap[$product->state ?? ''] ?? 'https://schema.org/OutOfStock',
+            'seller'        => ['@type' => 'Organization', 'name' => 'JBX Trade Kft.'],
+        ],
+    ];
+    if (!empty($images)) {
+        $data['image'] = $images;
+    }
+    if ($description !== '') {
+        $data['description'] = mb_substr($description, 0, 5000, 'UTF-8');
+    }
+
+    $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG);
+
+    return '<script type="application/ld+json">' . $json . '</script>';
+}
+
+
+/**
  * product_price
  *
  * @param  mixed $product

@@ -137,4 +137,4 @@ window.JBX_INITIAL_VARIANT = <?php echo json_encode(
     JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
 ); ?>;
 </script>
-<?php endif; ?>
+<?php endif; ?><?php echo product_json_ld($product, current_url()); ?>
