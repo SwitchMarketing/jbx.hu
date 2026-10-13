@@ -102,6 +102,36 @@ function product_price_stock_block($product) {
 
 
 /**
+ * Rendelésre (backorder) tételek becsült szállítási ideje munkanapokban.
+ * A termékoldal ezt írja ki, a Google Merchant feed availability_date-je a felső határból számol.
+ */
+const PRODUCT_BACKORDER_MIN_WORKDAYS = 15;
+const PRODUCT_BACKORDER_MAX_WORKDAYS = 20;
+
+
+/**
+ * product_backorder_available_date
+ *
+ * Mai nap + PRODUCT_BACKORDER_MAX_WORKDAYS munkanap (hétfő–péntek, ünnepnapok nélkül).
+ *
+ * @return \DateTimeImmutable
+ */
+function product_backorder_available_date() {
+    // Az alapértelmezett időzónát a CI az App::$appTimezone-ból (Europe/Budapest) állítja be
+    $date = new \DateTimeImmutable('today');
+    $added = 0;
+    while ($added < PRODUCT_BACKORDER_MAX_WORKDAYS) {
+        $date = $date->modify('+1 day');
+        if ((int) $date->format('N') <= 5) {
+            $added++;
+        }
+    }
+
+    return $date;
+}
+
+
+/**
  * product_google_prices
  *
  * Bruttó HUF ár (és akciós ár) a nettó EUR árból, ahogy a Google Merchant
@@ -181,6 +211,9 @@ function product_json_ld($product, $url) {
             'seller'        => ['@type' => 'Organization', 'name' => 'JBX Trade Kft.'],
         ],
     ];
+    if (($product->state ?? '') === 'backorder') {
+        $data['offers']['availabilityStarts'] = product_backorder_available_date()->format('Y-m-d');
+    }
     if (!empty($images)) {
         $data['image'] = $images;
     }
@@ -396,7 +429,7 @@ function product_stock_label($product) {
         case 'backorder':
             $class = 'is-backorder';
             $label = 'Rendelésre';
-            $note  = 'Beszerzés alatt';
+            $note  = 'Szállítás ' . PRODUCT_BACKORDER_MIN_WORKDAYS . '–' . PRODUCT_BACKORDER_MAX_WORKDAYS . ' munkanap';
             break;
         case 'inquire':
             $class = 'is-inquire';
