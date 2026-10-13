@@ -103,6 +103,9 @@ class GoogleMerchantFeed extends BaseController
         }
         $this->disambiguateTitles($itemData);
 
+        // backorder esetén a GMC kötelezően kéri az availability_date-et (ISO 8601)
+        $backorderDate = product_backorder_available_date()->format('Y-m-d\TH:iO');
+
         $xml = new \XMLWriter();
         $xml->openMemory();
         $xml->setIndent(true);
@@ -125,7 +128,7 @@ class GoogleMerchantFeed extends BaseController
         ));
 
         foreach ($itemData as $data) {
-            $this->writeItem($xml, $data);
+            $this->writeItem($xml, $data, $backorderDate);
         }
 
         $xml->endElement();
@@ -137,7 +140,7 @@ class GoogleMerchantFeed extends BaseController
             ->setBody($xml->outputMemory());
     }
 
-    private function writeItem(\XMLWriter $xml, array $data): void
+    private function writeItem(\XMLWriter $xml, array $data, string $backorderDate): void
     {
         $xml->startElement('item');
         $xml->writeElement('g:id', $data['id']);
@@ -149,6 +152,9 @@ class GoogleMerchantFeed extends BaseController
             $xml->writeElement('g:additional_image_link', $url);
         }
         $xml->writeElement('g:availability', $data['availability']);
+        if ($data['availability'] === 'backorder') {
+            $xml->writeElement('g:availability_date', $backorderDate);
+        }
         $xml->writeElement('g:condition', 'new');
         $xml->writeElement('g:price', $data['price']);
         if ($data['sale_price'] !== null) {
