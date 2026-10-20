@@ -16,6 +16,7 @@ class ProductMasterDefaultAttributeModel extends Model
         'master_id',
         'attribute_id',
         'default_value',
+        'position',
     ];
 
     protected $useTimestamps = false;

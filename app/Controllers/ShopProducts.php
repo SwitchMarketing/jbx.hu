@@ -746,6 +746,7 @@ class ShopProducts extends BaseController
 						'id'     => $attrId,
 						'name'   => $attr->name,
 						'position' => isset($attr->position) ? (int) $attr->position : 0,
+						'master_position' => isset($attr->master_position) ? (int) $attr->master_position : null,
 						'values' => [],
 					];
 					$seenValues[$attrId] = [];
@@ -767,8 +768,22 @@ class ShopProducts extends BaseController
 			}
 		}
 
-		// Stabil sorrend: attribútum pozíció, majd név
+		// Stabil sorrend: termékenkénti pozíció (ha van), attribútum pozíció, majd név
 		uasort($options, static function(array $a, array $b): int {
+			$masterA = $a['master_position'] ?? null;
+			$masterB = $b['master_position'] ?? null;
+			if ($masterA !== null || $masterB !== null) {
+				if ($masterA === null) {
+					return 1;
+				}
+				if ($masterB === null) {
+					return -1;
+				}
+				if ($masterA !== $masterB) {
+					return $masterA <=> $masterB;
+				}
+			}
+
 			$positionA = (int) ($a['position'] ?? 0);
 			$positionB = (int) ($b['position'] ?? 0);
 
@@ -824,11 +839,14 @@ class ShopProducts extends BaseController
 
 		$db = \Config\Database::connect('shop');
 		return $db->query(
-			"SELECT vav.attribute_id, a.name, a.position, vav.value
+			"SELECT vav.attribute_id, a.name, a.position, pmda.position AS master_position, vav.value
 			FROM variant_attribute_values vav
 			JOIN attributes a ON a.id = vav.attribute_id
+			JOIN product_variants pv ON pv.id = vav.variant_id
+			LEFT JOIN product_master_default_attributes pmda
+				ON pmda.master_id = pv.master_id AND pmda.attribute_id = vav.attribute_id
 			WHERE vav.variant_id = ?
-			ORDER BY a.position ASC, a.name ASC, a.id ASC",
+			ORDER BY " . ProductVariantModel::ATTRIBUTE_ORDER_SQL,
 			[$variantId]
 		)->getResult();
 	}

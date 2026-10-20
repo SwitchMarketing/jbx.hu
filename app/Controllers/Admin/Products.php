@@ -85,10 +85,10 @@ class Products extends BaseResourceController
 
             $db = \Config\Database::connect('shop');
             $product->default_attributes = $db->table('product_master_default_attributes pmda')
-                ->select('pmda.attribute_id, a.name, pmda.default_value as value')
+                ->select('pmda.attribute_id, a.name, pmda.default_value as value, pmda.position')
                 ->join('attributes a', 'a.id = pmda.attribute_id', 'left')
                 ->where('pmda.master_id', (int) $id)
-                ->orderBy('a.name', 'ASC')
+                ->orderBy(ProductVariantModel::ATTRIBUTE_ORDER_SQL, '', false)
                 ->get()
                 ->getResult();
 
@@ -376,6 +376,13 @@ class Products extends BaseResourceController
             $db->transStart();
 
             $defaultModel = new ProductMasterDefaultAttributeModel();
+
+            // A termékenkénti sorrendet az admin felület nem küldi, ezért megőrizzük
+            $positions = [];
+            foreach ($defaultModel->where('master_id', $id)->findAll() as $existing) {
+                $positions[(int) $existing->attribute_id] = $existing->position;
+            }
+
             $defaultModel->where('master_id', $id)->delete();
 
             foreach ($attributes as $row) {
@@ -388,6 +395,9 @@ class Products extends BaseResourceController
                     'master_id' => $id,
                     'attribute_id' => $attributeId,
                     'default_value' => isset($row['value']) ? trim((string) $row['value']) : '',
+                    'position' => array_key_exists('position', $row)
+                        ? ($row['position'] === null || $row['position'] === '' ? null : (int) $row['position'])
+                        : ($positions[$attributeId] ?? null),
                 ]);
             }
 

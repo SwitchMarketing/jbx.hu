@@ -10,6 +10,13 @@ class ProductVariantModel extends Model
     public const STATE_BACKORDER = 'backorder';
     public const STATE_INQUIRE   = 'inquire';
     public const STATE_INACTIVE  = 'inactive';
+
+    /**
+     * Attribútumok megjelenítési sorrendje: termékenkénti sorrend (pmda.position),
+     * ha nincs megadva, akkor a globális attributes.position, majd név.
+     * Feltételezi az `a` (attributes) és `pmda` (product_master_default_attributes) aliasokat.
+     */
+    public const ATTRIBUTE_ORDER_SQL = '(pmda.position IS NULL) ASC, pmda.position ASC, a.position ASC, a.name ASC, a.id ASC';
     public const STATES          = [
         self::STATE_INSTOCK,
         self::STATE_BACKORDER,
@@ -53,12 +60,14 @@ class ProductVariantModel extends Model
             ->findAll();
 
         foreach ($variants as &$v) {
-            $sql = "SELECT vav.attribute_id, a.name, a.position, vav.value
+            $sql = "SELECT vav.attribute_id, a.name, a.position, pmda.position AS master_position, vav.value
                     FROM variant_attribute_values vav
                     JOIN attributes a ON vav.attribute_id = a.id
+                    LEFT JOIN product_master_default_attributes pmda
+                        ON pmda.master_id = ? AND pmda.attribute_id = vav.attribute_id
                 WHERE vav.variant_id = ?
-                ORDER BY a.position ASC, a.name ASC, a.id ASC";
-            $v->attributes = $db->query($sql, [$v->id])->getResult();
+                ORDER BY " . self::ATTRIBUTE_ORDER_SQL;
+            $v->attributes = $db->query($sql, [$masterId, $v->id])->getResult();
         }
         unset($v);
 
