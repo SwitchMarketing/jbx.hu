@@ -61,10 +61,13 @@ class ShopCart extends BaseController
 		$variantAttributes = [];
 		if (!empty($variantIds)) {
 			$db = \Config\Database::connect('shop');
-			$attributeRows = $db->table('variant_attribute_values')
-				->select('variant_attribute_values.variant_id, attributes.name, variant_attribute_values.value')
-				->join('attributes', 'attributes.id = variant_attribute_values.attribute_id', 'left')
-				->whereIn('variant_attribute_values.variant_id', $variantIds)
+			$attributeRows = $db->table('variant_attribute_values vav')
+				->select('vav.variant_id, a.name, vav.value')
+				->join('attributes a', 'a.id = vav.attribute_id', 'left')
+				->join('product_variants pv', 'pv.id = vav.variant_id', 'left')
+				->join('product_master_default_attributes pmda', 'pmda.master_id = pv.master_id AND pmda.attribute_id = vav.attribute_id', 'left')
+				->whereIn('vav.variant_id', $variantIds)
+				->orderBy(\App\Models\ProductVariantModel::ATTRIBUTE_ORDER_SQL, '', false)
 				->get()
 				->getResultArray();
 			

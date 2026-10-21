@@ -36,7 +36,7 @@ class GoogleMerchantFeed extends BaseController
 
     /** Méretet leíró attribútumok (normalizált név), a g:size összeállításához. */
     private const SIZE_ATTRIBUTES = [
-        'magassagxszelesseg', 'meret', 'magassag', 'szelesseg', 'hosszusag',
+        'magassagxszelesseg', 'meret', 'magassag', 'szelesseg', 'melyseg', 'hosszusag',
         'maxmagassag', 'maxszelesseg', 'maxnyilasszelesseg', 'minmagassag', 'minszelesseg', 'ccmm',
     ];
 
@@ -248,9 +248,10 @@ class GoogleMerchantFeed extends BaseController
         $rows = $db->table('variant_attribute_values vav')
             ->select('vav.variant_id, a.name AS attribute_name, vav.value')
             ->join('attributes a', 'a.id = vav.attribute_id', 'inner')
+            ->join('product_variants pv', 'pv.id = vav.variant_id', 'inner')
+            ->join('product_master_default_attributes pmda', 'pmda.master_id = pv.master_id AND pmda.attribute_id = vav.attribute_id', 'left')
             ->whereIn('vav.variant_id', $variantIds)
-            ->orderBy('a.position', 'ASC')
-            ->orderBy('a.id', 'ASC')
+            ->orderBy(ProductVariantModel::ATTRIBUTE_ORDER_SQL, '', false)
             ->get()
             ->getResult();
 

@@ -1230,12 +1230,14 @@ body.light-d {
     }
   }
 
+  // Az aktív opció a sárga gombok között sötét, sárga kerettel (mint a jelmagyarázatban)
   .option-pills {
     .option-pill {
       &.active {
-        background-color: $yellow;
+        background-color: #111;
         border-color: $yellow;
-        color: $black;
+        color: $yellow;
+        box-shadow: inset 0 0 0 1px $yellow;
       }
     }
   }
