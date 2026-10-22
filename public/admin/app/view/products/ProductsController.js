@@ -183,15 +183,15 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     buttons: {
                         edit: {
                             text: 'Szerkesztés',
-                            ui: 'confirm',
+                            ui: 'action',
+                            weight: 100,
                             handler: function () {
                                 dialog.destroy();
                                 this.onEditItem(grid, { record: record });
                             }.bind(this)
                         },
-                        ok: {
-                            text: 'Bezár',
-                            ui: 'decline',
+                        close: {
+                            text: 'Bezárás',
                             handler: function () {
                                 dialog.destroy();
                             }
@@ -278,13 +278,13 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                         },
                         {
                             xtype: 'component',
-                            style: 'max-height:260px;overflow:auto;border:1px solid #ddd;padding:8px;border-radius:4px;background:#fff;',
+                            style: 'max-height:260px;overflow:auto;border:1px solid var(--divider-color);padding:8px;border-radius:4px;background:var(--background-color);',
                             html: selected.map(function (r) {
                                 var n = Ext.String.htmlEncode(r.get('name') || ('#' + r.get('id')));
                                 var c = Ext.String.htmlEncode(r.get('category_path_names') || r.get('category_name') || '-');
-                                return '<div style="padding:4px 0;border-bottom:1px solid #f1f1f1;">' +
+                                return '<div style="padding:4px 0;border-bottom:1px solid var(--divider-color);">' +
                                     '<div style="font-weight:600;">' + n + '</div>' +
-                                    '<div style="font-size:12px;color:#666;">Jelenlegi: ' + c + '</div>' +
+                                    '<div style="font-size:12px;color:var(--highlight-color);">Jelenlegi: ' + c + '</div>' +
                                     '</div>';
                             }).join('')
                         }
@@ -294,6 +294,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     move: {
                         text: 'Áthelyezés',
                         ui: 'action',
+                        weight: 100,
                         handler: function () {
                             var form = dialog.lookup('bulkMoveForm');
                             if (!form.validate()) return;
@@ -434,6 +435,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     create: {
                         text: 'Létrehozás',
                         ui: 'action',
+                        weight: 100,
                         handler: function () {
                             var form = dialog.lookup('createForm');
                             if (!form.validate()) return;
@@ -477,6 +479,17 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
 
             dialog.show();
         });
+    },
+
+    /** Dupla kattintás a soron = szerkesztés (az ikon- és widget-oszlopok kivételével) */
+    onItemDoubleTap: function (grid, location) {
+        var column = location.column,
+            cell = location.cell;
+
+        if (!location.record || (column && column.isActionColumn) || (cell && cell.isWidgetCell)) {
+            return;
+        }
+        this.onEditItem(grid, { record: location.record });
     },
 
     onEditItem: function (grid, info) {
@@ -588,8 +601,8 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 items: [
                                     {
                                         xtype: 'component',
-                                        html: '<div style="font-size:12px;color:rgba(0,0,0,.54);padding:0 0 4px 0;">Jelenlegi kategória</div>' +
-                                              '<div style="font-size:13px;padding:6px 10px;background:#21465b;color:#fff;border-radius:4px;">' +
+                                        html: '<div style="font-size:12px;color:var(--highlight-color);padding:0 0 4px 0;">Jelenlegi kategória</div>' +
+                                              '<div style="font-size:13px;padding:6px 10px;background:var(--alt-background-color);color:var(--color);border-left:3px solid var(--base-color);border-radius:4px;">' +
                                               Ext.String.htmlEncode(currentCategoryPath) +
                                               '</div>'
                                     }
@@ -629,12 +642,12 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 items: [
                                     {
                                         xtype: 'component',
-                                        html: '<div style="font-size:12px;color:rgba(0,0,0,.54);padding:0 0 4px 0;">Leírás</div>'
+                                        html: '<div style="font-size:12px;color:var(--highlight-color);padding:0 0 4px 0;">Leírás</div>'
                                     },
                                     {
                                         xtype: 'component',
                                         cls: 'jbx-quill-wrap',
-                                        html: '<div class="jbx-quill-host" style="height:280px;background:#fff;"></div>'
+                                        html: '<div class="jbx-quill-host" style="height:280px;"></div>'
                                     }
                                 ],
                                 listeners: {
@@ -725,25 +738,20 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 } 
                             },
                             {
-                                width: 100,
-                                cell: {
-                                    tools: {
-                                        attributes: {
-                                            iconCls: 'x-fa fa-list',
-                                            tooltip: 'Jellemzők szerkesztése',
-                                            handler: function (grid, info) {
-                                                this.onEditVariantAttributes(info.record);
-                                            }.bind(this)
-                                        },
-                                        delete: {
-                                            iconCls: 'x-fa fa-trash',
-                                            tooltip: 'Variáció törlése',
-                                            handler: function (grid, info) {
-                                                this.onDeleteVariant(info.record, grid.getStore());
-                                            }.bind(this)
-                                        }
-                                    }
-                                }
+                                xtype: 'jbx-actioncolumn',
+                                action: 'list',
+                                tooltip: 'Jellemzők szerkesztése',
+                                handler: function (grid, info) {
+                                    this.onEditVariantAttributes(info.record);
+                                }.bind(this)
+                            },
+                            {
+                                xtype: 'jbx-actioncolumn',
+                                action: 'delete',
+                                tooltip: 'Variáció törlése',
+                                handler: function (grid, info) {
+                                    this.onDeleteVariant(info.record, grid.getStore());
+                                }.bind(this)
                             }
                         ],
                         plugins: {
@@ -808,7 +816,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                         if (!value) return '';
                                         var src = '/imgs/products/' + Ext.String.htmlEncode(value);
                                         return '<a href="' + src + '" target="_blank" ' +
-                                            'style="color:#1677ff;text-decoration:underline;" ' +
+                                            'style="color:var(--base-color);text-decoration:underline;" ' +
                                             'onclick="event.stopPropagation();">' +
                                             Ext.String.htmlEncode(value) + '</a>';
                                     }
@@ -817,18 +825,12 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             { text: 'ALT', dataIndex: 'alt', flex: 1, editable: true },
                             { text: 'Variant ID', dataIndex: 'variant_id', width: 100, editable: true },
                             {
-                                width: 60,
-                                cell: {
-                                    tools: {
-                                        delete: {
-                                            iconCls: 'x-fa fa-trash',
-                                            tooltip: 'Kep torlese',
-                                            handler: function (gridRef, info) {
-                                                this.onDeleteImage(info.record, gridRef.getStore());
-                                            }.bind(this)
-                                        }
-                                    }
-                                }
+                                xtype: 'jbx-actioncolumn',
+                                action: 'delete',
+                                tooltip: 'Kep torlese',
+                                handler: function (gridRef, info) {
+                                    this.onDeleteImage(info.record, gridRef.getStore());
+                                }.bind(this)
                             }
                         ],
                         plugins: {
@@ -853,7 +855,6 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             buttons: {
                 save: {
                     text: 'Főadatok Mentése',
-                    ui: 'confirm',
                     handler: function () {
                         var form = dialog.lookup('mainForm');
                         if (form.validate()) {
@@ -885,7 +886,6 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 },
                 close: {
                     text: 'Bezárás',
-                    ui: 'decline',
                     handler: function () {
                         dialog.destroy();
                     }
@@ -985,6 +985,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 create: {
                     text: 'Létrehozás',
                     ui: 'action',
+                    weight: 100,
                     handler: function () {
                         var form = dialog.lookup('variantForm');
                         if (!form.validate()) return;
@@ -1089,7 +1090,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             return;
         }
 
-        Ext.Msg.confirm(
+        Common.confirmDelete(
             'Megerősítés',
             'Biztosan törlöd a(z) "' + (variantRecord.get('sku') || variantRecord.get('id')) + '" variációt?',
             function (choice) {
@@ -1213,8 +1214,8 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                             dataIndex: 'matched',
                             renderer: function (v) {
                                 return v
-                                    ? '<span style="color:#2e7d32;">●</span>'
-                                    : '<span style="color:#c62828;">○</span>';
+                                    ? '<span style="color:var(--confirm-color);">●</span>'
+                                    : '<span style="color:var(--alert-color);">○</span>';
                             }
                         },
                         { text: 'Név', dataIndex: 'name', flex: 1 },
@@ -1235,6 +1236,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             buttons: {
                 preview: {
                     text: 'Előnézet',
+                    weight: 50,
                     iconCls: 'x-fa fa-eye',
                     handler: function () {
                         var pattern = dialog.lookup('patternField').getValue();
@@ -1349,16 +1351,11 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     },
                     { text: 'Érték', dataIndex: 'value', flex: 1, editable: true },
                     {
-                        width: 50,
-                        cell: {
-                            tools: {
-                                delete: {
-                                    iconCls: 'x-fa fa-trash',
-                                    handler: function (grid, info) {
-                                        grid.getStore().remove(info.record);
-                                    }
-                                }
-                            }
+                        xtype: 'jbx-actioncolumn',
+                        action: 'delete',
+                        tooltip: 'Sor törlése',
+                        handler: function (grid, info) {
+                            grid.getStore().remove(info.record);
                         }
                     }
                 ],
@@ -1382,7 +1379,6 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             buttons: {
                 save: {
                     text: 'Mentés',
-                    ui: 'confirm',
                     handler: function () {
                         var store = attrDialog.lookup('attrGrid').getStore();
                         var data = [];
@@ -1428,7 +1424,6 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 },
                 cancel: {
                     text: 'Mégse',
-                    ui: 'decline',
                     handler: function () {
                         attrDialog.destroy();
                     }
@@ -1486,16 +1481,11 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     },
                     { text: 'Ertek', dataIndex: 'value', flex: 1, editable: true },
                     {
-                        width: 50,
-                        cell: {
-                            tools: {
-                                delete: {
-                                    iconCls: 'x-fa fa-trash',
-                                    handler: function (grid, info) {
-                                        grid.getStore().remove(info.record);
-                                    }
-                                }
-                            }
+                        xtype: 'jbx-actioncolumn',
+                        action: 'delete',
+                        tooltip: 'Sor törlése',
+                        handler: function (grid, info) {
+                            grid.getStore().remove(info.record);
                         }
                     }
                 ],
@@ -1517,7 +1507,6 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
             buttons: {
                 save: {
                     text: 'Mentés',
-                    ui: 'confirm',
                     handler: function () {
                         var rows = [];
                         dialog.lookup('defaultAttrGrid').getStore().each(function (r) {
@@ -1558,7 +1547,6 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 },
                 cancel: {
                     text: 'Mégse',
-                    ui: 'decline',
                     handler: function () { dialog.destroy(); }
                 }
             }
@@ -1591,9 +1579,9 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                     {
                         xtype    : 'container',
                         reference: 'previewBox',
-                        html     : '<div style="width:100%;height:180px;background:#f5f5f5;border:1px dashed #ccc;' +
+                        html     : '<div style="width:100%;height:180px;background:var(--background-color);border:1px dashed var(--faded-color);' +
                                    'display:flex;align-items:center;justify-content:center;' +
-                                   'color:#aaa;font-size:13px;margin-bottom:12px;">' +
+                                   'color:var(--disabled-color);font-size:13px;margin-bottom:12px;">' +
                                    'Előnézet</div>'
                     },
                     {
@@ -1701,7 +1689,7 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
     },
 
     onDeleteImage: function(imageRecord, store) {
-        Ext.Msg.confirm('Megerosites', 'Torlod ezt a kepet?', function (choice) {
+        Common.confirmDelete('Megerosites', 'Torlod ezt a kepet?', function (choice) {
             if (choice !== 'yes') return;
 
             API.call({

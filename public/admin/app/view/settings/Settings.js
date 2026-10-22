@@ -5,7 +5,8 @@ Ext.define('JBXAdmin.view.settings.Settings', {
     controller: 'settingscontroller',
 
     requires: [
-        'JBXAdmin.store.SettingStore'
+        'JBXAdmin.store.SettingStore',
+        'JBXAdmin.widget.ActionColumn'
     ],
 
     title: 'Beallitasok',
@@ -20,24 +21,13 @@ Ext.define('JBXAdmin.view.settings.Settings', {
         { text: 'Ertek', dataIndex: 'setting_value', flex: 1 },
         { text: 'Tipus', dataIndex: 'data_type', width: 110 },
         { text: 'Leiras', dataIndex: 'description', flex: 1 },
-        {
-            width: 110,
-            cell: {
-                tools: {
-                    edit: {
-                        iconCls: 'x-fa fa-edit',
-                        tooltip: 'Szerkesztes',
-                        handler: 'onEditItem'
-                    },
-                    delete: {
-                        iconCls: 'x-fa fa-trash',
-                        tooltip: 'Torles',
-                        handler: 'onDeleteItem'
-                    }
-                }
-            }
-        }
+        { xtype: 'jbx-actioncolumn', action: 'edit', tooltip: 'Szerkesztes', handler: 'onEditItem' },
+        { xtype: 'jbx-actioncolumn', action: 'delete', tooltip: 'Torles', handler: 'onDeleteItem' }
     ],
+
+    listeners: {
+        childdoubletap: 'onItemDoubleTap'
+    },
 
     items: [{
         xtype: 'toolbar',

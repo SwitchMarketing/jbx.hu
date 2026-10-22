@@ -1,34 +1,142 @@
 /*
- *  This file can be used to set variables and supply global styling.  View specific 
+ *  This file can be used to set variables and supply global styling.  View specific
  *  styling should be located the view's corresponding scss file.
  */
 $enable-font-awesome: dynamic(true);
 $dark-mode: dynamic(true);
-$base-color-name: "cyan";
-$accent-color-name: "orange";
+$base-color-name: "yellow";
+$accent-color-name: "blue-grey";
 
+/** JBX márkaszínek (a publikus oldal _variables.scss-éhez igazítva) */
 $yellow: #f2d22f;
 $black: #030303;
 $grey: #667478;
-$blue: #20313d;
 
-/* Color Theme Swatches in Hex */
-$theme-color-1-hex: #244673;
-$theme-color-2-hex: #4E74A6;
-$theme-color-3-hex: #0A2740;
-$theme-color-4-hex: #728EA6;
-$theme-color-5-hex: #F2BF80;
+/**
+ * Admin paletta: "grafit + JBX sárga".
+ * Egyetlen, enyhén hideg árnyalatú semleges skála + a márka sárgája mint
+ * egyetlen kiemelőszín. A Material téma ezekből a dynamic() változókból
+ * generálja a --base-color, --background-color stb. CSS-változókat, így az
+ * inline (JS/HTML) stílusok is var(--...)-ral hivatkozhatnak rájuk.
+ */
 
-/* Color Theme Swatches in RGBA */
-$theme-color-1-rgba: rgba(35, 69, 114, 1);
-$theme-color-2-rgba: rgba(77, 115, 165, 1);
-$theme-color-3-rgba: rgba(10, 38, 63, 1);
-$theme-color-4-rgba: rgba(114, 141, 165, 1);
-$theme-color-5-rgba: rgba(242, 191, 128, 1);
+// Felület-rétegek (legsötétebbtől)
+$jbx-chrome-color: dynamic(#121518);   // fő fülsor, login háttér
+$background-color: dynamic(#1a1e22);   // tartalom, grid sorok
+$alt-background-color: dynamic(#20252a); // eszköztárak, címsorok
+$header-background-color: dynamic(#20252a);
+$hovered-background-color: dynamic(#262c32);
+$faded-color: dynamic(#3a424a);
+$divider-color: dynamic(#2e353c);
 
-/* Color Theme Swatches in HSLA */
-$theme-color-1-hsla: hsla(213, 52, 29, 1);
-$theme-color-2-hsla: hsla(213, 36, 47, 1);
-$theme-color-3-hsla: hsla(208, 72, 14, 1);
-$theme-color-4-hsla: hsla(208, 22, 54, 1);
-$theme-color-5-hsla: hsla(33, 81, 72, 1);
+// Szöveg
+$color: dynamic(#e6e9ec);
+$reverse-color: dynamic(#15181b);
+$highlight-color: dynamic(rgba(230, 233, 236, .62));
+$disabled-color: dynamic(rgba(230, 233, 236, .36));
+
+// Kiemelőszín: JBX sárga
+$base-color: dynamic($yellow);
+$base-highlight-color: dynamic(#f6df63);
+$base-light-color: dynamic(#fbf0b8);
+$base-dark-color: dynamic(#d4b51b);
+$base-pressed-color: dynamic(#b89c12);
+$base-focused-color: dynamic(#f4d94a);
+$base-invisible-color: dynamic(rgba($yellow, 0));
+$base-foreground-color: dynamic(#15181b);
+
+// Másodlagos: acélkék (a $grey márkaszín világosabb rokona)
+$accent-color: dynamic(#7fa7c4);
+$accent-light-color: dynamic(#c9dbe8);
+$accent-dark-color: dynamic(#5a86a6);
+$accent-pressed-color: dynamic(#55809e);
+$accent-invisible-color: dynamic(rgba(#7fa7c4, 0));
+$accent-foreground-color: dynamic(#15181b);
+
+// Állapotszínek (tompítva, hogy ne harapjanak a sötét háttéren)
+$confirm-color: dynamic(#5cb88a);
+$confirm-pressed-color: dynamic(#3f8f67);
+$alert-color: dynamic(#e26a60);
+$alert-pressed-color: dynamic(#b8473e);
+
+// Kijelölés: sárgával árnyalt grafit (szöveg marad világos).
+// A grid/list lánc alapból a $base-dark-color-ra fordulna (teli sárga sor),
+// ezért explicit is beállítjuk.
+$selected-background-color: dynamic(#38372a);
+$dataview-item-selected-background-color: dynamic(#38372a);
+$listitem-selected-background-color: dynamic(#38372a);
+$gridrow-selected-background-color: dynamic(#38372a);
+
+/**
+ * Gomb-hierarchia (lásd overrides/StandardButtons.js):
+ *  - ui 'action'     : fő művelet, teli sárga (téma alapértelmezés)
+ *  - ui nélkül       : másodlagos művelet, sárga szöveg
+ *  - ui 'jbx-cancel' : Mégse / Bezárás / Nem, semleges szöveg
+ *  - ui 'jbx-danger' : törlés megerősítése, teli piros
+ */
+.x-button-jbx-cancel {
+    color: $highlight-color;
+
+    .x-text-el,
+    .x-icon-el {
+        color: $highlight-color;
+    }
+
+    &.x-hovered {
+        .x-inner-el {
+            background-color: rgba(255, 255, 255, .06);
+        }
+
+        .x-text-el,
+        .x-icon-el {
+            color: $color;
+        }
+    }
+}
+
+.x-button-jbx-danger {
+    color: #fff;
+
+    .x-inner-el {
+        background-color: $alert-color;
+        border-color: $alert-color;
+    }
+
+    .x-text-el,
+    .x-icon-el {
+        color: #fff;
+    }
+
+    &.x-hovered .x-inner-el,
+    &.x-pressed .x-inner-el {
+        background-color: $alert-pressed-color;
+        border-color: $alert-pressed-color;
+    }
+}
+
+/** Kapcsoló: kikapcsolva semleges szürke gomb (lásd overrides/ToggleSlider.js) */
+.x-thumb-toggle-off {
+    background-color: #8b949c;
+}
+
+/** Toast: sötét kártya sárga csíkkal (a téma alapból fehér "reverse" hátteret adna) */
+.x-toast {
+    border: 1px solid $divider-color;
+    border-left: 3px solid $yellow;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .45);
+
+    .x-body-el,
+    .x-body-wrap-el {
+        background-color: $alt-background-color;
+    }
+
+    .x-innerhtml {
+        color: $color;
+    }
+}
+
+/** Dialógusokba renderelt HTML (pl. rendelés részletek) linkjei */
+.x-dialog a,
+.x-messagebox a {
+    color: $yellow;
+}

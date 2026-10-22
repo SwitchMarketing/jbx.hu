@@ -24,6 +24,17 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
         this.showFormDialog(null);
     },
 
+    /** Dupla kattintás a soron = szerkesztés (az ikon- és widget-oszlopok kivételével) */
+    onItemDoubleTap: function (grid, location) {
+        var column = location.column,
+            cell = location.cell;
+
+        if (!location.record || (column && column.isActionColumn) || (cell && cell.isWidgetCell)) {
+            return;
+        }
+        this.onEditItem(grid, { record: location.record });
+    },
+
     onEditItem: function (grid, info) {
         this.showFormDialog(info.record);
     },
@@ -36,7 +47,7 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
         var record = info.record;
         var store  = this.getView().getStore();
 
-        Ext.Msg.confirm(
+        Common.confirmDelete(
             'Törlés',
             'Biztosan törlöd ezt a kategóriát: "' + record.get('name') + '"?',
             function (choice) {
@@ -199,7 +210,7 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                                 xtype    : 'container',
                                 reference: 'imageLabel',
                                 flex     : 1,
-                                html     : '<span style="color:#666;">' +
+                                html     : '<span style="color:var(--highlight-color);">' +
                                     (currentImage ? Ext.String.htmlEncode(currentImage) : 'Nincs kép') +
                                     '</span>'
                             },
@@ -313,7 +324,7 @@ Ext.define('JBXAdmin.view.categories.CategoriesController', {
                 labelCmp.setHtml(
                     '<img src="' + previewObjectUrl + '" ' +
                     'style="max-height:80px;max-width:100%;display:block;margin:4px 0;" />' +
-                    '<span style="color:#666;font-size:11px;">' +
+                    '<span style="color:var(--highlight-color);font-size:11px;">' +
                     Ext.String.htmlEncode(file.name) + '</span>'
                 );
             }

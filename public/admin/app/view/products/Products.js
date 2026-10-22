@@ -9,7 +9,8 @@ Ext.define('JBXAdmin.view.products.Products', {
         'JBXAdmin.store.AttributeStore',
         'Ext.grid.plugin.PagingToolbar',
         'Ext.grid.cell.Widget',
-        'JBXAdmin.widget.StateToggle'
+        'JBXAdmin.widget.StateToggle',
+        'JBXAdmin.widget.ActionColumn'
     ],
 
     title: 'Termékek',
@@ -150,23 +151,11 @@ Ext.define('JBXAdmin.view.products.Products', {
             },
             platformConfig: { phone: { hidden: true } }
         },
-        {
-            width: 80,
-            hideable: false,
-            sortable: false,
-            align: 'center',
-            cell: {
-                tools: {
-                    view: {
-                        iconCls: 'x-fa fa-eye',
-                        handler: 'onViewItem'
-                    },
-                    edit: {
-                        iconCls: 'x-fa fa-edit',
-                        handler: 'onEditItem'
-                    }
-                }
-            }
-        }
-    ]
+        { xtype: 'jbx-actioncolumn', action: 'view', tooltip: 'Előnézet', handler: 'onViewItem' },
+        { xtype: 'jbx-actioncolumn', action: 'edit', tooltip: 'Szerkesztés', handler: 'onEditItem' }
+    ],
+
+    listeners: {
+        childdoubletap: 'onItemDoubleTap'
+    }
 });
