@@ -33,7 +33,10 @@ test('minden fejezetnek van .md fájlja, és nincs árva .md', async () => {
 test('képek: létező forgatókönyv, létező fájl', async () => {
     for (const { id } of await chapters()) {
         const md = await readFile(path.join(HELP, id + '.md'), 'utf8');
-        for (const [, img] of md.matchAll(/!\[[^\]]*\]\(img\/([\w-]+)\.png\)/g)) {
+        for (const [, target] of md.matchAll(/!\[[^\]]*\]\(([^)\s]*)\)/g)) {
+            const m = target.match(/^img\/([\w-]+)\.png$/);
+            assert.ok(m, `${id}.md: a kép célja nem img/<név>.png alakú: "${target}"`);
+            const img = m[1];
             assert.ok(SHOT_NAMES.has(img), `${id}.md: "${img}" nincs a scenarios.mjs-ben`);
             await access(path.join(HELP, 'img', img + '.png')).catch(() => {
                 assert.fail(`${id}.md: hiányzó kép img/${img}.png — futtasd: npm run manual:shots`);
@@ -47,7 +50,11 @@ test('fejezetek közti linkek létező fejezetre mutatnak', async () => {
     const ids = new Set(list.map((c) => c.id));
     for (const { id } of list) {
         const md = await readFile(path.join(HELP, id + '.md'), 'utf8');
-        for (const [, target] of md.matchAll(/\]\(([\w-]+)\.md(?:#[^)]*)?\)/g)) {
+        for (const [, href] of md.matchAll(/\]\(([^)\s]*\.md(?:#[^)\s]*)?)\)/g)) {
+            if (/^https?:/.test(href)) continue;
+            const m = href.match(/^([\w-]+)\.md(#.*)?$/);
+            assert.ok(m, `${id}.md: szabálytalan fejezet-link: "${href}"`);
+            const target = m[1];
             assert.ok(ids.has(target), `${id}.md: ismeretlen fejezet-link: ${target}.md`);
         }
     }

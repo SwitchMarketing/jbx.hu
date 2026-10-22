@@ -10,16 +10,27 @@ Ext.define('JBXAdmin.view.help.HelpController', {
 
         me.lookup('chapterBody').element.on('click', me.onBodyClick, me);
 
-        Ext.Ajax.request({ url: me.basePath + 'index.json', method: 'GET' }).then(function (response) {
-            var chapters = Ext.decode(response.responseText),
+        // statikus fájlok: fetch (nem Ext.Ajax), hogy a globális Ajax hiba-alert neszóljon közbe
+        me.fetchText('index.json').then(function (text) {
+            var chapters = Ext.decode(text),
                 list = me.lookup('chapterList');
 
             list.getStore().setData(chapters);
             if (chapters.length) {
                 list.select(0);
             }
-        }, function () {
+        }).catch(function () {
             me.showError('A súgó tartalomjegyzéke nem tölthető be.');
+        });
+    },
+
+    /** Szöveges fájl a súgó mappából; nem 2xx válasz hiba */
+    fetchText: function (file) {
+        return fetch(this.basePath + file, { cache: 'no-cache' }).then(function (response) {
+            if (!response.ok) {
+                throw new Error('HTTP ' + response.status);
+            }
+            return response.text();
         });
     },
 
@@ -35,10 +46,15 @@ Ext.define('JBXAdmin.view.help.HelpController', {
         var me = this,
             body = me.lookup('chapterBody');
 
-        Ext.Ajax.request({ url: me.basePath + id + '.md', method: 'GET' }).then(function (response) {
-            body.setHtml(me.renderMarkdown(response.responseText));
-            body.getScrollable().scrollTo(0, 0);
-        }, function () {
+        me.fetchText(id + '.md').then(function (text) {
+            var scroller;
+
+            body.setHtml(me.renderMarkdown(text));
+            scroller = body.getScrollable();
+            if (scroller) {
+                scroller.scrollTo(0, 0);
+            }
+        }).catch(function () {
             me.showError('A fejezet nem tölthető be.');
         });
     },
