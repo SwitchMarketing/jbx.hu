@@ -68,8 +68,12 @@ export function anonymizeOrder(order, id) {
     put(out, 'notes', ORDER_NOTES);
 
     for (const key of ['billing_address', 'delivery_address']) {
-        if (out[key] && typeof out[key] === 'object') {
-            out[key] = { ...out[key], address: p.address, zip: p.zip, state: p.city };
+        const value = out[key];
+
+        if (typeof value === 'string' && value) {
+            out[key] = `${p.zip} ${p.city}, ${p.address}`;
+        } else if (value && typeof value === 'object') {
+            out[key] = { ...value, address: p.address, zip: p.zip, state: p.city };
         }
     }
 
@@ -78,7 +82,14 @@ export function anonymizeOrder(order, id) {
 
 /** body: a BaseResourceController borítékja ({ success, message, data, total }) */
 export function anonymizeResponse(url, body) {
-    const match = new URL(url).pathname.match(/\/admin\/(leads|orders)(?:\/(\d+))?\/?$/);
+    const pathname = new URL(url).pathname;
+    const match = pathname.match(/\/admin\/(leads|orders)(?:\/(\d+))?\/?$/);
+
+    // Ismeretlen al-végpont (pl. /admin/leads/63/files) nem mehet át személyes adat nélkül:
+    // inkább hibát dobunk, mintsem kiszivárogtassuk az eredeti adatot.
+    if (!match && /\/admin\/(leads|orders)(?:\/.*)?$/.test(pathname)) {
+        throw new Error(`Ismeretlen személyes adatot tartalmazó végpont: ${pathname} — bővítsd az anonymize.mjs-t`);
+    }
 
     if (!match || !body || body.data == null) {
         return body;

@@ -87,3 +87,22 @@ test('anonymizeResponse: lista, részlet, és érintetlen egyéb végpont', () =
     const failed = { success: false, message: 'Hiba', data: null };
     assert.deepEqual(anonymizeResponse('http://localhost:3000/admin/leads/9', failed), failed);
 });
+
+test('ismeretlen leads/orders al-végpont hibát dob, a hasonló nevű útvonal nem', () => {
+    const body = { success: true, data: [lead] };
+    assert.throws(() => anonymizeResponse('http://localhost:3000/admin/leads/63/files', body), /Ismeretlen személyes adatot/);
+    assert.throws(() => anonymizeResponse('http://localhost:3000/admin/orders/export', body), /Ismeretlen személyes adatot/);
+    assert.deepEqual(anonymizeResponse('http://localhost:3000/admin/leadsx', body), body);
+});
+
+test('szöveges számlázási cím is cserélve, nem szivárog', () => {
+    const out = anonymizeOrder({ ...orderDetail, billing_address: 'Igazi u. 5., 1111 Igazváros' });
+    assertNoLeak(out);
+    assert.equal(out.billing_address, `${fakePerson(3).zip} ${fakePerson(3).city}, ${fakePerson(3).address}`);
+});
+
+test('rendelés lista válasz nem szivárogtat személyes adatot', () => {
+    const out = anonymizeResponse('http://localhost:3000/admin/orders', { success: true, data: [orderDetail], total: 1 });
+    assertNoLeak(out);
+    assert.equal(out.total, 1);
+});
