@@ -10,7 +10,11 @@ export function createHelpers(page) {
         async tab(xtype) {
             await page.evaluate((x) => {
                 const tabs = Ext.ComponentQuery.query('app-main')[0].lookup('mainTabPanel');
-                tabs.setActiveItem(tabs.down(x));
+                const item = tabs.down(x);
+                if (!item) {
+                    throw new Error('Nincs ilyen fül: ' + x);
+                }
+                tabs.setActiveItem(item);
             }, xtype);
             await page.waitForFunction((x) => {
                 const cmp = Ext.ComponentQuery.query(x)[0];

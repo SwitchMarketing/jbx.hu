@@ -1,7 +1,10 @@
 /**
  * Kezelői kézikönyv screenshotjainak generálása a futó lokális adminból.
  *
- *   ADMIN_USER=... ADMIN_PASS=... npm run manual:shots [-- képnév ...] [-- --selftest]
+ *   npm run manual:shots [-- képnév ...] [-- --selftest]
+ *
+ * A belépési adatok a gitignorált tools/manual/.env fájlból jönnek
+ * (ADMIN_USER, ADMIN_PASS, opcionálisan ADMIN_URL; minta: tools/manual/.env.example).
  *
  * - minden módosító API-kérés blokkolva (lib/guard.mjs)
  * - megkeresés / rendelés személyes adatai kitalált értékekre cserélve (lib/anonymize.mjs)
@@ -25,7 +28,7 @@ const only = args.filter((a) => !a.startsWith('--'));
 const selftest = args.includes('--selftest');
 
 if (!ADMIN_USER || !ADMIN_PASS) {
-    console.error('Hiányzik az ADMIN_USER és/vagy ADMIN_PASS környezeti változó.');
+    console.error('Hiányzik az ADMIN_USER és/vagy ADMIN_PASS — töltsd ki a tools/manual/.env fájlt (minta: tools/manual/.env.example).');
     process.exit(2);
 }
 
@@ -35,14 +38,20 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 const h = createHelpers(page);
 const blocked = [];
+const errors = [];
 const failures = [];
 let current = '(indítás)';
 
-await page.route('**/admin/**', async (route) => {
+await page.route('**/*', async (route) => {
     const req = route.request();
 
     // Fail closed: bármilyen hiba esetén a kérés blokkolva, feldolgozatlan válasz nem jut át.
     try {
+        // a browser-sync élő-újratöltő csatornája (socket.io long-poll) nem kell a fotózáshoz: csendben eldobjuk
+        if (new URL(req.url()).pathname.startsWith('/browser-sync/')) {
+            return await route.abort();
+        }
+
         if (!isAllowedRequest(req.method(), req.url())) {
             blocked.push({ scenario: current, method: req.method(), url: req.url() });
             console.warn(`  ! blokkolt kérés: ${req.method()} ${req.url()} (${current})`);
@@ -63,7 +72,7 @@ await page.route('**/admin/**', async (route) => {
         return await route.fulfill({ response, json: anonymizeResponse(req.url(), await response.json()) });
     } catch (e) {
         const message = String((e && e.message) || e).split('\n')[0];
-        blocked.push({ scenario: current, method: req.method(), url: req.url() });
+        errors.push({ scenario: current, method: req.method(), url: req.url(), message });
         console.warn(`  ! hiba a kérés feldolgozásakor, blokkolva: ${req.method()} ${req.url()} (${current}): ${message}`);
         return route.abort('blockedbyclient').catch(() => {});
     }
@@ -88,8 +97,12 @@ async function run(list) {
             continue;
         }
         current = scenario.name;
+        const errorsBefore = errors.length;
         try {
             const target = await scenario.run(page, h);
+            if (errors.length > errorsBefore) {
+                throw new Error(`feldolgozási hiba a kérésnél: ${errors[errorsBefore].method} ${errors[errorsBefore].url}`);
+            }
             await capture(target, path.join(OUT_DIR, scenario.name + '.png'));
             console.log(`  ✓ ${scenario.name}`);
         } catch (e) {
@@ -119,12 +132,11 @@ async function login() {
  *  akkor sem történne kár, ha az írásvédelem hibás lenne. */
 async function writeProtectionSelfTest() {
     current = '(önteszt)';
-    const before = blocked.length;
     await page.evaluate(() => new Promise((resolve) => {
         Ext.Ajax.request({ url: '/admin/settings/0', method: 'PUT', jsonData: { setting_value: 'x' }, callback: resolve });
     }));
     await h.closeDialogs();
-    if (blocked.length === before) {
+    if (!blocked.some((b) => b.scenario === current && b.method === 'PUT' && b.url.endsWith('/admin/settings/0'))) {
         throw new Error('Az írásvédelem NEM működik: a PUT kérés átment!');
     }
     console.log('  ✓ írásvédelem: a PUT kérés blokkolva');
@@ -153,7 +165,10 @@ try {
     await browser.close();
 }
 
-console.log(`\nKész. Hibás forgatókönyv: ${failures.length}, blokkolt kérés: ${blocked.length}`);
+console.log(`\nKész. Hibás forgatókönyv: ${failures.length}, blokkolt kérés: ${blocked.length}, feldolgozási hiba: ${errors.length}`);
+if (errors.length) {
+    exitCode = 1;
+}
 if (failures.length) {
     failures.forEach((f) => console.log(`  - ${f.name}: ${f.msg}`));
     exitCode = 1;
