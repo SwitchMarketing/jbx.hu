@@ -61,11 +61,25 @@ export function createHelpers(page) {
 
         async waitDialog(count = 1) {
             await page.waitForFunction(
-                (n) => Ext.ComponentQuery.query('dialog').filter((d) => d.isVisible()).length >= n,
+                (n) => {
+                    const v = Ext.ComponentQuery.query('dialog').filter((d) => d.isVisible());
+                    const top = v[v.length - 1];
+                    return v.length >= n && top.isPainted() && top.el.dom.getBoundingClientRect().height > 0;
+                },
                 count,
                 { timeout: 15000 }
             );
             await settle();
+            // valódi kattintás után a szülő dialógus fókuszba kerülve elé ugorhat a frissen nyitott
+            // beágyazottnak (Ext floated z-index: auto), ezért a legutolsót előre hozzuk
+            await page.evaluate(() => {
+                const v = Ext.ComponentQuery.query('dialog').filter((d) => d.isVisible());
+                const top = v[v.length - 1];
+                if (top && top.toFront) {
+                    top.toFront();
+                }
+            });
+            await settle(300);
         },
 
         async dialogTab(index) {
@@ -73,26 +87,21 @@ export function createHelpers(page) {
                 const dlg = Ext.ComponentQuery.query('dialog').filter((d) => d.isVisible()).pop();
                 dlg.down('tabpanel').setActiveItem(i);
             }, index);
-            await settle();
+            await settle(1000);
         },
 
-        /** A gomb kezelőjét közvetlenül hívja (nem egérkattintás: az a beágyazott dialógusokat
-         *  nem megbízhatóan jeleníti meg, és a rejtett gombokat is el lehet érni vele). */
+        /** Valódi egérkattintás a dialógus látható, aktív gombjára. */
         async clickButton(text) {
-            const ok = await page.evaluate((t) => {
+            const id = await page.evaluate((t) => {
                 const dlg = Ext.ComponentQuery.query('dialog').filter((d) => d.isVisible()).pop();
                 const scope = dlg || Ext.Viewport;
-                const btn = scope.query('button').find((b) => (b.getText() || '').trim() === t);
-                const fn = btn && btn.getHandler();
-                if (!fn) {
-                    return false;
-                }
-                fn.call((btn.getScope && btn.getScope()) || btn, btn);
-                return true;
+                const btn = scope.query('button').find((b) => b.isVisible() && !b.isDisabled() && (b.getText() || '').trim() === t);
+                return btn ? btn.el.dom.id : null;
             }, text);
-            if (!ok) {
-                throw new Error(`Nem található gomb: "${text}"`);
+            if (!id) {
+                throw new Error(`Nem található (látható, aktív) gomb: "${text}"`);
             }
+            await page.click('#' + id);
             await settle(300);
         },
 

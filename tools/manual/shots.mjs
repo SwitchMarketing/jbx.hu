@@ -100,6 +100,9 @@ async function capture(target, file) {
             const y1 = Math.min(window.innerHeight, Math.ceil(r.y + r.height + pad));
             return { x: x0, y: y0, width: x1 - x0, height: y1 - y0 };
         }, { kind: target.kind, query: target.query, pad: target.pad || 0 });
+        if (clip && (clip.width <= 0 || clip.height <= 0)) {
+            throw new Error('A kivágás mérete nulla vagy negatív');
+        }
         if (!clip) {
             throw new Error(target.kind === 'dialog' ? 'Nincs látható dialógus' : `Nincs ilyen komponens: ${target.query}`);
         }

@@ -134,16 +134,6 @@ export const scenarios = [
         }
     },
     {
-        name: 'jellemzok-kinyerese',
-        run: async (page, h) => {
-            await openProductEditor(h);
-            await h.dialogTab(1);
-            await h.clickButton('Jellemzők a névből');
-            await h.waitDialog(2);
-            return h.dialog();
-        }
-    },
-    {
         name: 'termek-kepek',
         run: async (page, h) => {
             await openProductEditor(h);
