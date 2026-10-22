@@ -76,17 +76,24 @@ export function createHelpers(page) {
             await settle();
         },
 
+        /** A gomb kezelőjét közvetlenül hívja (nem egérkattintás: az a beágyazott dialógusokat
+         *  nem megbízhatóan jeleníti meg, és a rejtett gombokat is el lehet érni vele). */
         async clickButton(text) {
-            const id = await page.evaluate((t) => {
+            const ok = await page.evaluate((t) => {
                 const dlg = Ext.ComponentQuery.query('dialog').filter((d) => d.isVisible()).pop();
                 const scope = dlg || Ext.Viewport;
-                const btn = scope.query('button').find((b) => b.isVisible() && (b.getText() || '').trim() === t);
-                return btn ? btn.el.dom.id : null;
+                const btn = scope.query('button').find((b) => (b.getText() || '').trim() === t);
+                const fn = btn && btn.getHandler();
+                if (!fn) {
+                    return false;
+                }
+                fn.call((btn.getScope && btn.getScope()) || btn, btn);
+                return true;
             }, text);
-            if (!id) {
+            if (!ok) {
                 throw new Error(`Nem található gomb: "${text}"`);
             }
-            await page.click('#' + id);
+            await settle(300);
         },
 
         async editFirstVariantAttributes() {
@@ -117,6 +124,10 @@ export function createHelpers(page) {
 
         dialog() {
             return { kind: 'dialog' };
+        },
+
+        component(query, pad = 24) {
+            return { kind: 'component', query, pad };
         }
     };
 }

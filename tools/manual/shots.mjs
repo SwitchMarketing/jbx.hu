@@ -79,12 +79,30 @@ await page.route('**/*', async (route) => {
 });
 
 async function capture(target, file) {
-    if (target && target.kind === 'dialog') {
-        const clip = await page.evaluate(() => {
-            const dlg = Ext.ComponentQuery.query('dialog').filter((d) => d.isVisible()).pop();
-            const r = dlg.el.dom.getBoundingClientRect();
-            return { x: r.x, y: r.y, width: r.width, height: r.height };
-        });
+    if (target && (target.kind === 'dialog' || target.kind === 'component')) {
+        const clip = await page.evaluate(({ kind, query, pad }) => {
+            let el;
+            if (kind === 'dialog') {
+                const dlg = Ext.ComponentQuery.query('dialog').filter((d) => d.isVisible()).pop();
+                el = dlg && dlg.el.dom;
+                pad = 0;
+            } else {
+                const cmp = Ext.ComponentQuery.query(query).filter((c) => c.isVisible())[0];
+                el = cmp && cmp.el.dom;
+            }
+            if (!el) {
+                return null;
+            }
+            const r = el.getBoundingClientRect();
+            const x0 = Math.max(0, Math.floor(r.x - pad));
+            const y0 = Math.max(0, Math.floor(r.y - pad));
+            const x1 = Math.min(window.innerWidth, Math.ceil(r.x + r.width + pad));
+            const y1 = Math.min(window.innerHeight, Math.ceil(r.y + r.height + pad));
+            return { x: x0, y: y0, width: x1 - x0, height: y1 - y0 };
+        }, { kind: target.kind, query: target.query, pad: target.pad || 0 });
+        if (!clip) {
+            throw new Error(target.kind === 'dialog' ? 'Nincs látható dialógus' : `Nincs ilyen komponens: ${target.query}`);
+        }
         await page.screenshot({ path: file, clip });
     } else {
         await page.screenshot({ path: file });
