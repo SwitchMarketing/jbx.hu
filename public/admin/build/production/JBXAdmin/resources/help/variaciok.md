@@ -58,8 +58,6 @@ Az **Alapert. jellemzok** (alapértelmezett jellemzők) gomb a termék szintjén
 
 ![Alapértelmezett jellemzők](img/alapertelmezett-jellemzok.png)
 
-Amit itt beállítasz:
-
-- **Új variációnál** ezek a típusok az alapértékükkel automatikusan rákerülnek az új variációra. A már meglévő variációkat ez nem változtatja meg.
+**Új variációnál** ezek a típusok az alapértékükkel automatikusan rákerülnek az új variációra. A már meglévő variációkat ez nem változtatja meg.
 
 > **Kiegészítendő:** Milyen jellemzőket szoktatok megadni az egyes terméktípusoknál (például X-Tray: magasság, szélesség, hosszúság, felületkezelés)? Van-e kötelező minimum jellemzőkészlet egy termékhez?

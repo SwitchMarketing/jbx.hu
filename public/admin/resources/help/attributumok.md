@@ -21,7 +21,7 @@ A táblázat oszlopai:
 
 A jellemzők egy variációnál a **Sorrend** szerint követik egymást: a kisebb szám kerül előrébb. A negatív szám is használható, ez a 0-nál is előrébb viszi az attribútumot. Ha több attribútumnak azonos a sorrendje, a nevük ábécésorrendje dönt. A listában a jelenlegi sorrend látszik, például a Hosszúság (-1), Mélység (-2), Szélesség (-3) és Magasság (-4) a 0 sorrendű attribútumok előtt áll.
 
-Ez a sorrend az alapértelmezett. Egy termék alapértelmezett jellemzőinél (lásd: [Variációk és jellemzők](variaciok.md)) a terméken belül más sorrend is beállítható, az a terméken belül erősebb ennél.
+Ez a sorrend az alapértelmezett. Néhány terméknek saját jellemző-sorrendje van, ami azon a terméken belül erősebb ennél; ez az admin felületen nem módosítható.
 
 > **Kiegészítendő:** Milyen sorrendben szeretnétek látni a jellemzőket (például méretek elöl, felületkezelés a végén)? Van-e rögzített sorrendi szabály?
 
