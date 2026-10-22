@@ -135,8 +135,8 @@ try {
     console.log(`Admin: ${ADMIN_URL}`);
     await page.goto(ADMIN_URL);
     await page.waitForFunction(() => window.Ext && Ext.ComponentQuery && Ext.ComponentQuery.query('login').length > 0, null, { timeout: 30000 });
-    // a browser-sync értesítője ne kerüljön a képekre
-    await page.addStyleTag({ content: '#__bs_notify__ { display: none !important; }' });
+    // a browser-sync értesítője és az Ext toastok ("Nincs bejelentkezve" stb.) ne kerüljenek a képekre
+    await page.addStyleTag({ content: '#__bs_notify__, .x-toast { display: none !important; }' });
     await page.waitForTimeout(800);
 
     await run(beforeLogin);
