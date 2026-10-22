@@ -1,0 +1,76 @@
+/** Súgó: fejezetlista + olvasható tartalom a grafit + sárga palettán */
+.jbx-help-nav {
+    border-right: 1px solid $divider-color;
+    background-color: $alt-background-color;
+}
+
+.jbx-help {
+
+    .x-innerhtml {
+        max-width: 880px;
+        padding: 24px 32px 48px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: $color;
+    }
+
+    h1 {
+        margin: 0 0 16px;
+        font-size: 24px;
+        color: #fff;
+    }
+
+    h2 {
+        margin: 28px 0 10px;
+        font-size: 18px;
+        color: $yellow;
+    }
+
+    h3 {
+        margin: 20px 0 8px;
+        font-size: 15px;
+    }
+
+    ol,
+    ul {
+        padding-left: 22px;
+    }
+
+    li {
+        margin: 4px 0;
+    }
+
+    a {
+        color: $yellow;
+    }
+
+    code {
+        padding: 1px 6px;
+        border-radius: 3px;
+        background: $hovered-background-color;
+        font-family: inherit;
+        font-weight: 600;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+        margin: 12px 0 20px;
+        border: 1px solid $divider-color;
+        border-radius: 6px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+        cursor: zoom-in;
+    }
+
+    blockquote {
+        margin: 16px 0;
+        padding: 10px 16px;
+        border-left: 3px solid $yellow;
+        background: $alt-background-color;
+        color: $highlight-color;
+    }
+
+    .jbx-help-error {
+        color: $alert-color;
+    }
+}
