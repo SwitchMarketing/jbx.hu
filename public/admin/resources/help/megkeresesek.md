@@ -18,7 +18,7 @@ A fül címében látod, hány megkeresés van összesen (például „Megkeres�
 
 1. Kattints a megkeresés sorára.
 2. Megnyílik egy ablak a teljes tartalommal: név, email, telefon, cég, székhely, adószám, üzenet, forrás és dátum.
-3. Az email címre kattintva elindul az email-küldés, a telefonszámra kattintva a hívás (ha az eszközöd támogatja).
+3. Az email címre kattintva megnyílik a levelezőprogram, új levéllel a beküldőnek.
 4. Ha a beküldő fájlt is csatolt, a **Fájlok** sorban a fájlnévre kattintva új lapon megnyílik vagy letölthető.
 5. Az **OK** gombbal zárd be az ablakot.
 

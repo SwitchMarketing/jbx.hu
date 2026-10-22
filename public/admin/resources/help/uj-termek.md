@@ -7,7 +7,7 @@
 1. Nyisd meg a **Termékek** fület, és kattints az **Új termék** gombra.
 2. Válaszd ki a **Kategóriát** (kötelező). Ha a listában előtte kategóriára szűrtél, az már ki van választva.
 3. Írd be a termék **Nevét** (kötelező).
-4. A **Slug** (kötelező) mezőt a rendszer automatikusan kitölti a névből, miközben gépelsz. Ha te magad átírod a slugot, onnantól már nem változtatja.
+4. A **Slug** (kötelező) mezőt a rendszer automatikusan kitölti a névből, miközben gépelsz. Ha te magad beírsz vagy átírsz valamit a slug mezőben, a rendszer abbahagyja a kitöltést; ha a slug mezőt kiüríted, újra a névből töltődik.
 5. Az **Egység** mezőbe a mértékegységet írhatod (például db, m, csomag). Nem kötelező.
 6. Az **Aktív** kapcsolóval döntheted el, hogy a termék látszódjon-e a weboldalon. Új termékeknél alapból ki van kapcsolva.
 7. Kattints a **Létrehozás** gombra. (A **Mégse** semmit nem hoz létre.)

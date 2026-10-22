@@ -61,6 +61,5 @@ Az **Alapert. jellemzok** (alapértelmezett jellemzők) gomb a termék szintjén
 Amit itt beállítasz:
 
 - **Új variációnál** ezek a típusok az alapértékükkel automatikusan rákerülnek az új variációra. A már meglévő variációkat ez nem változtatja meg.
-- A sorrend is innen jön: a jellemzők a termék variációin (és a weboldalon) az itt megadott sorrendben jelennek meg, ha van ilyen sorrend megadva; egyébként az Attribútumok fülön beállított sorrendben.
 
 > **Kiegészítendő:** Milyen jellemzőket szoktatok megadni az egyes terméktípusoknál (például X-Tray: magasság, szélesség, hosszúság, felületkezelés)? Van-e kötelező minimum jellemzőkészlet egy termékhez?
