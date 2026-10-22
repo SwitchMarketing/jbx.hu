@@ -51,6 +51,65 @@ class ProductVariantModel extends Model
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
+    // Callbacks
+    protected $beforeInsert = ['ensureSlug'];
+
+    /**
+     * Ha a beszúrandó variánsnak nincs slugja, generálunk egyet (név, ennek híján SKU alapján),
+     * különben a termékoldal URL-je nem állítható össze.
+     */
+    protected function ensureSlug(array $data): array
+    {
+        if (trim((string) ($data['data']['slug'] ?? '')) !== '') {
+            return $data;
+        }
+
+        $data['data']['slug'] = $this->generateUniqueSlug(
+            (int) ($data['data']['master_id'] ?? 0),
+            (string) ($data['data']['name'] ?? ''),
+            (string) ($data['data']['sku'] ?? '')
+        );
+
+        return $data;
+    }
+
+    /**
+     * Masteren belül egyedi slug (uq_product_variants_master_slug — a törölt sorokat is beleértve).
+     */
+    public function generateUniqueSlug(int $masterId, string $name, string $sku, ?int $excludeId = null): string
+    {
+        helper(['url', 'text']);
+
+        $source = trim($name) !== '' ? $name : $sku;
+        $base = url_title(convert_accented_characters($source), '-', true);
+        if ($base === '') {
+            $base = 'variant';
+        }
+
+        $slug = $base;
+        $i = 2;
+        while ($this->slugExists($masterId, $slug, $excludeId)) {
+            $slug = $base . '-' . $i;
+            $i++;
+        }
+
+        return $slug;
+    }
+
+    private function slugExists(int $masterId, string $slug, ?int $excludeId): bool
+    {
+        // külön builder, hogy ne zavarja a folyamatban lévő insert állapotát
+        $builder = $this->db->table($this->table)
+            ->where('master_id', $masterId)
+            ->where('slug', $slug);
+
+        if ($excludeId !== null) {
+            $builder->where('id !=', $excludeId);
+        }
+
+        return $builder->countAllResults() > 0;
+    }
+
     public function getWithAttributes($masterId)
     {
         $db = \Config\Database::connect('shop');
