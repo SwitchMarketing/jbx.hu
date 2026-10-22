@@ -54,7 +54,7 @@ class Images extends BaseResourceController
 
             $insert = [
                 'master_id' => $masterId,
-                'variant_id' => isset($data['variant_id']) && $data['variant_id'] !== '' ? (int) $data['variant_id'] : null,
+                'variant_id' => $this->resolveVariantId($data['variant_id'] ?? null, $masterId),
                 'filename' => $filename,
                 'alt' => isset($data['alt']) ? trim((string) $data['alt']) : null,
                 'position' => isset($data['position']) ? (int) $data['position'] : $nextPosition,
@@ -98,8 +98,12 @@ class Images extends BaseResourceController
             if (isset($data['position'])) {
                 $update['position'] = max(0, (int) $data['position']);
             }
-            if (isset($data['variant_id'])) {
-                $update['variant_id'] = $data['variant_id'] === '' ? null : (int) $data['variant_id'];
+            if (array_key_exists('variant_id', $data)) {
+                $image = $this->model->find($id);
+                if (!is_object($image)) {
+                    throw new Exception('Nincs ilyen rekord!');
+                }
+                $update['variant_id'] = $this->resolveVariantId($data['variant_id'], (int) $image->master_id);
             }
 
             if (empty($update)) {
@@ -185,6 +189,9 @@ class Images extends BaseResourceController
                 throw new Exception('Hiányzó master_id');
             }
 
+            // a fájl mentése előtt ellenőrizzük, hogy ne maradjon árva fájl
+            $variantId = $this->resolveVariantId($this->request->getPost('variant_id'), $masterId);
+
             $file = $this->request->getFile('image');
             if (!$file) {
                 throw new Exception('Nincs fájl a kérésben');
@@ -217,9 +224,6 @@ class Images extends BaseResourceController
             if (!file_exists($targetDir . '/' . $storedName)) {
                 throw new Exception('Fájl feltöltés sikertelen, a fájl nem létezik a célon.');
             }
-
-            $variantId = $this->request->getPost('variant_id');
-            $variantId = ($variantId === null || $variantId === '') ? null : (int) $variantId;
 
             $legacyProductId = null;
             if ($variantId) {
@@ -262,5 +266,27 @@ class Images extends BaseResourceController
         } finally {
             return $this->setResponse();
         }
+    }
+
+    /**
+     * A kép csak a saját termékének (nem törölt) variánsához köthető.
+     * Üres érték vagy 0 = minden variáció (NULL).
+     */
+    private function resolveVariantId($raw, int $masterId): ?int
+    {
+        if ($raw === null || $raw === '' || (int) $raw === 0) {
+            return null;
+        }
+
+        $variantId = (int) $raw;
+        $variant = (new ProductVariantModel())
+            ->where('master_id', $masterId)
+            ->find($variantId);
+
+        if (!$variant) {
+            throw new Exception('A megadott variáció (#' . $variantId . ') nem ehhez a termékhez tartozik.');
+        }
+
+        return $variantId;
     }
 }

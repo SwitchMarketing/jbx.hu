@@ -910,11 +910,24 @@ class ShopProducts extends BaseController
 
 		$builder->groupEnd();
 
-		return $builder
+		$images = $builder
 			->orderBy('position', 'ASC')
 			->orderBy('id', 'ASC')
 			->get()
 			->getResult();
+
+		// ha a variánshoz nem jut kép, a termék összes képét mutatjuk helykitöltő helyett
+		if (empty($images) && !empty($variantId) && $masterId > 0) {
+			$images = $db->table('images')
+				->select('filename')
+				->where('master_id', $masterId)
+				->orderBy('position', 'ASC')
+				->orderBy('id', 'ASC')
+				->get()
+				->getResult();
+		}
+
+		return $images;
 	}
 
 	/**

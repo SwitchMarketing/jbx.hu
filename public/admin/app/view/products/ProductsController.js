@@ -546,6 +546,12 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
 
         var currentCategoryPath = categoryPathById[productData.category_id] || productData.category_path_names || '-';
 
+        // A képekhez rendelhető variánsok (a Variációk fül store-jából frissül, lásd lent).
+        // 0 = minden variáns (a backend NULL-ként menti).
+        var variantOptionsStore = Ext.create('Ext.data.Store', {
+            fields: ['value', 'text']
+        });
+
         var dialog = Ext.create({
             xtype: 'dialog',
             title: 'Szerkesztés: ' + productData.name,
@@ -823,7 +829,26 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                                 }
                             },
                             { text: 'ALT', dataIndex: 'alt', flex: 1, editable: true },
-                            { text: 'Variant ID', dataIndex: 'variant_id', width: 100, editable: true },
+                            {
+                                text: 'Variáció',
+                                dataIndex: 'variant_id',
+                                width: 260,
+                                editable: true,
+                                renderer: function (v) {
+                                    if (!v) return 'Minden variáció';
+                                    var option = variantOptionsStore.findRecord('value', parseInt(v, 10), 0, false, false, true);
+                                    return option ? option.get('text') : '⚠ Nem létező variáció (#' + v + ')';
+                                },
+                                editor: {
+                                    xtype: 'selectfield',
+                                    queryMode: 'local',
+                                    autoComplete: false,
+                                    clearable: false,
+                                    store: variantOptionsStore,
+                                    displayField: 'text',
+                                    valueField: 'value'
+                                }
+                            },
                             {
                                 xtype: 'jbx-actioncolumn',
                                 action: 'delete',
@@ -892,6 +917,23 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 }
             }
         });
+
+        // a képek variáció-választója mindig a Variációk fül aktuális tartalmát kövesse
+        var variantsStore = dialog.lookup('variantsGrid').getStore();
+        var syncVariantOptions = function () {
+            var options = [{ value: 0, text: 'Minden variáció' }];
+            variantsStore.each(function (rec) {
+                if (!rec.get('id')) return;
+                options.push({
+                    value: parseInt(rec.get('id'), 10),
+                    text: rec.get('sku') + (rec.get('name') ? ' – ' + rec.get('name') : '')
+                });
+            });
+            variantOptionsStore.loadData(options);
+        };
+        syncVariantOptions();
+        variantsStore.on({ datachanged: syncVariantOptions, update: syncVariantOptions });
+        dialog.on('destroy', function () { variantOptionsStore.destroy(); });
 
         dialog.show();
     },
@@ -1676,13 +1718,14 @@ Ext.define('JBXAdmin.view.products.ProductsController', {
                 filename: imageRecord.get('filename'),
                 alt: imageRecord.get('alt'),
                 position: imageRecord.get('position'),
-                variant_id: imageRecord.get('variant_id')
+                variant_id: imageRecord.get('variant_id') || ''
             }
         }).then(function (response) {
             if (response.success) {
                 imageRecord.commit();
                 Ext.toast('Kep mentve');
             } else {
+                imageRecord.reject();
                 Ext.Msg.alert('Hiba', response.message);
             }
         });
