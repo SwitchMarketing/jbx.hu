@@ -4,5 +4,10 @@
     { "id": "megrendelesek", "title": "Megrendelések kezelése" },
     { "id": "uj-termek", "title": "Új termék felvétele" },
     { "id": "termek-szerkesztese", "title": "Termék szerkesztése" },
-    { "id": "variaciok", "title": "Variációk és jellemzők" }
+    { "id": "variaciok", "title": "Variációk és jellemzők" },
+    { "id": "termekkepek", "title": "Termékképek" },
+    { "id": "termekek-athelyezese", "title": "Több termék áthelyezése" },
+    { "id": "kategoriak", "title": "Kategóriák" },
+    { "id": "attributumok", "title": "Attribútumok" },
+    { "id": "beallitasok", "title": "Beállítások" }
 ]

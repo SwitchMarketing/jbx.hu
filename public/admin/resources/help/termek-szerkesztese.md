@@ -14,6 +14,7 @@ A lista tetején kereshetsz és szűrhetsz:
 - **Szűrés kategóriára:** válassz egy kategóriát, és csak a hozzá tartozó termékek látszanak.
 - **Szűrés variáció-állapotra:** azokat a termékeket mutatja, amelyeknek van legalább egy Raktáron / Rendelésre / Ajánlatkérés / Inaktív állapotú variációja.
 - A szűrők egymással kombinálhatók; a keresés vagy szűrés után a lista az első oldalról indul.
+- **Kijelöltek áthelyezése:** a listában kijelölt termékeket egyszerre egy másik kategóriába teszi. Lépések: [Több termék áthelyezése](termekek-athelyezese.md).
 
 ## Hogyan kapcsolok ki vagy be egy terméket?
 
@@ -28,7 +29,7 @@ A kék **szem** ikonra kattintva megnyílik a termék összefoglalója: név, ka
 ## Hogyan szerkesztem a termék alapadatait?
 
 1. Kattints a sárga **ceruza** ikonra a sor végén, vagy kattints duplán a termék sorára (az ikonokon és az Állapot oszlopon kívül bárhol).
-2. A szerkesztő ablakban három fül van: **Alapadatok**, **Variációk** és **Kepek** (Képek). Az Alapadatok fülön módosítható:
+2. A szerkesztő ablakban három fül van: **Alapadatok**, **Variációk** és **Kepek** (Képek; a képekről lásd: [Termékképek](termekkepek.md)). Az Alapadatok fülön módosítható:
    - **Név** és **Slug** (kötelezők),
    - **Jelenlegi kategória**: csak tájékoztató, itt nem írható,
    - **Kategória áthelyezése**: válassz másik kategóriát, ha a terméket át kell tenni (kötelező),

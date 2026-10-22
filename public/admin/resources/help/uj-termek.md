@@ -14,7 +14,7 @@
 
 ![Új termék ablak](img/uj-termek-dialog.png)
 
-A létrehozás után a termék szerkesztő ablaka automatikusan megnyílik, hogy rögtön felvehesd a variációkat és a többi adatot. Erről itt olvashatsz: [Variációk és jellemzők](variaciok.md) és [Termék szerkesztése](termek-szerkesztese.md).
+A létrehozás után a termék szerkesztő ablaka automatikusan megnyílik, hogy rögtön felvehesd a variációkat és a többi adatot. Erről itt olvashatsz: [Variációk és jellemzők](variaciok.md), [Termékképek](termekkepek.md) és [Termék szerkesztése](termek-szerkesztese.md).
 
 ## Mi az a slug?
 

@@ -22,9 +22,9 @@ a **Kilépés** gomb kijelentkeztet (előtte rákérdez, hogy biztosan ki akarsz
 - **Megkeresések:** a weboldalon keresztül érkezett ajánlatkérések listája. Részletek: [Megkeresések kezelése](megkeresesek.md).
 - **Megrendelések:** a webshopban leadott rendelések listája. Részletek: [Megrendelések kezelése](megrendelesek.md).
 - **Termékek:** a webshop termékei. Új termék felvétele: [Új termék felvétele](uj-termek.md); meglévő módosítása: [Termék szerkesztése](termek-szerkesztese.md); a konkrét, rendelhető változatok kezelése: [Variációk és jellemzők](variaciok.md).
-- **Kategóriák:** a termékkategóriák fája, amelybe a termékek tartoznak.
-- **Attribútumok:** a jellemzők típusainak listája (például „Szélesség”).
-- **Beállítások:** az oldal kulcs–érték beállításai.
+- **Kategóriák:** a termékkategóriák fája, amelybe a termékek tartoznak. Részletek: [Kategóriák](kategoriak.md).
+- **Attribútumok:** a jellemzők típusainak listája (például „Szélesség”). Részletek: [Attribútumok](attributumok.md).
+- **Beállítások:** az oldal kulcs–érték beállításai. Részletek: [Beállítások](beallitasok.md).
 - **Súgó:** ez a kézikönyv.
 
 ## Ikonok a táblázatokban
