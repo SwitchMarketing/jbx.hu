@@ -104,3 +104,8 @@ CLAUDE.md
 # TMP Files
 #-------------------------
 _tmp_/
+# Playwright MCP képernyőképek / naplók (ügyféladatot tartalmazhatnak)
+.playwright-mcp/
+
+# Súgó screenshot-szkript belépési adatai
+tools/manual/.env

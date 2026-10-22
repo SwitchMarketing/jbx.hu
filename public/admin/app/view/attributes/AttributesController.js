@@ -29,6 +29,17 @@ Ext.define('JBXAdmin.view.attributes.AttributesController', {
         }.bind(this));
     },
 
+    /** Dupla kattintás a soron = szerkesztés (az ikon- és widget-oszlopok kivételével) */
+    onItemDoubleTap: function (grid, location) {
+        var column = location.column,
+            cell = location.cell;
+
+        if (!location.record || (column && column.isActionColumn) || (cell && cell.isWidgetCell)) {
+            return;
+        }
+        this.onEditItem(grid, { record: location.record });
+    },
+
     onEditItem: function(grid, info) {
         var record = info.record;
         var store  = this.getView().getStore();
@@ -93,7 +104,7 @@ Ext.define('JBXAdmin.view.attributes.AttributesController', {
 
     onDeleteItem: function(grid, info) {
         var record = info.record;
-        Ext.Msg.confirm('Törlés', 'Biztosan törlöd ezt az attribútumot?', function (choice) {
+        Common.confirmDelete('Törlés', 'Biztosan törlöd ezt az attribútumot?', function (choice) {
             if (choice === 'yes') {
                 API.call({
                     url: 'attributes/' + record.get('id'),

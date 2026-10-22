@@ -1,0 +1,197 @@
+/**
+ * Kezelői kézikönyv screenshotjainak generálása a futó lokális adminból.
+ *
+ *   npm run manual:shots [-- képnév ...] [-- --selftest]
+ *
+ * A belépési adatok a gitignorált tools/manual/.env fájlból jönnek
+ * (ADMIN_USER, ADMIN_PASS, opcionálisan ADMIN_URL; minta: tools/manual/.env.example).
+ *
+ * - minden módosító API-kérés blokkolva (lib/guard.mjs)
+ * - megkeresés / rendelés személyes adatai kitalált értékekre cserélve (lib/anonymize.mjs)
+ */
+import { chromium } from 'playwright';
+import { mkdir } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { isAllowedRequest } from './lib/guard.mjs';
+import { anonymizeResponse } from './lib/anonymize.mjs';
+import { createHelpers } from './lib/helpers.mjs';
+import { beforeLogin, scenarios } from './scenarios.mjs';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const OUT_DIR = path.join(ROOT, 'public/admin/resources/help/img');
+const ADMIN_URL = process.env.ADMIN_URL || 'http://localhost:3000/admin/';
+const { ADMIN_USER, ADMIN_PASS } = process.env;
+
+const args = process.argv.slice(2);
+const only = args.filter((a) => !a.startsWith('--'));
+const selftest = args.includes('--selftest');
+
+if (!ADMIN_USER || !ADMIN_PASS) {
+    console.error('Hiányzik az ADMIN_USER és/vagy ADMIN_PASS — töltsd ki a tools/manual/.env fájlt (minta: tools/manual/.env.example).');
+    process.exit(2);
+}
+
+await mkdir(OUT_DIR, { recursive: true });
+
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+const h = createHelpers(page);
+const blocked = [];
+const errors = [];
+const failures = [];
+let current = '(indítás)';
+
+await page.route('**/*', async (route) => {
+    const req = route.request();
+
+    // Fail closed: bármilyen hiba esetén a kérés blokkolva, feldolgozatlan válasz nem jut át.
+    try {
+        // a browser-sync élő-újratöltő csatornája (socket.io long-poll) nem kell a fotózáshoz: csendben eldobjuk
+        if (new URL(req.url()).pathname.startsWith('/browser-sync/')) {
+            return await route.abort();
+        }
+
+        if (!isAllowedRequest(req.method(), req.url())) {
+            blocked.push({ scenario: current, method: req.method(), url: req.url() });
+            console.warn(`  ! blokkolt kérés: ${req.method()} ${req.url()} (${current})`);
+            return await route.abort('blockedbyclient');
+        }
+
+        const isApiRead = req.method() === 'GET' && ['xhr', 'fetch'].includes(req.resourceType());
+        if (!isApiRead) {
+            return await route.continue();
+        }
+
+        const response = await route.fetch();
+        const type = response.headers()['content-type'] || '';
+        if (!type.includes('json')) {
+            return await route.fulfill({ response });
+        }
+
+        return await route.fulfill({ response, json: anonymizeResponse(req.url(), await response.json()) });
+    } catch (e) {
+        const message = String((e && e.message) || e).split('\n')[0];
+        errors.push({ scenario: current, method: req.method(), url: req.url(), message });
+        console.warn(`  ! hiba a kérés feldolgozásakor, blokkolva: ${req.method()} ${req.url()} (${current}): ${message}`);
+        return route.abort('blockedbyclient').catch(() => {});
+    }
+});
+
+async function capture(target, file) {
+    if (target && (target.kind === 'dialog' || target.kind === 'component')) {
+        const clip = await page.evaluate(({ kind, query, pad }) => {
+            let el;
+            if (kind === 'dialog') {
+                const dlg = Ext.ComponentQuery.query('dialog').filter((d) => d.isVisible()).pop();
+                el = dlg && dlg.el.dom;
+                pad = 0;
+            } else {
+                const cmp = Ext.ComponentQuery.query(query).filter((c) => c.isVisible())[0];
+                el = cmp && cmp.el.dom;
+            }
+            if (!el) {
+                return null;
+            }
+            const r = el.getBoundingClientRect();
+            const x0 = Math.max(0, Math.floor(r.x - pad));
+            const y0 = Math.max(0, Math.floor(r.y - pad));
+            const x1 = Math.min(window.innerWidth, Math.ceil(r.x + r.width + pad));
+            const y1 = Math.min(window.innerHeight, Math.ceil(r.y + r.height + pad));
+            return { x: x0, y: y0, width: x1 - x0, height: y1 - y0 };
+        }, { kind: target.kind, query: target.query, pad: target.pad || 0 });
+        if (clip && (clip.width <= 0 || clip.height <= 0)) {
+            throw new Error('A kivágás mérete nulla vagy negatív');
+        }
+        if (!clip) {
+            throw new Error(target.kind === 'dialog' ? 'Nincs látható dialógus' : `Nincs ilyen komponens: ${target.query}`);
+        }
+        await page.screenshot({ path: file, clip });
+    } else {
+        await page.screenshot({ path: file });
+    }
+}
+
+async function run(list) {
+    for (const scenario of list) {
+        if (only.length && !only.includes(scenario.name)) {
+            continue;
+        }
+        current = scenario.name;
+        const errorsBefore = errors.length;
+        try {
+            const target = await scenario.run(page, h);
+            if (errors.length > errorsBefore) {
+                throw new Error(`feldolgozási hiba a kérésnél: ${errors[errorsBefore].method} ${errors[errorsBefore].url}`);
+            }
+            await capture(target, path.join(OUT_DIR, scenario.name + '.png'));
+            console.log(`  ✓ ${scenario.name}`);
+        } catch (e) {
+            const msg = String(e.message || e).split('\n')[0];
+            failures.push({ name: scenario.name, msg });
+            console.error(`  ✗ ${scenario.name}: ${msg}`);
+        } finally {
+            await h.closeDialogs().catch(() => {});
+        }
+    }
+}
+
+async function login() {
+    current = '(belépés)';
+    await page.locator('input[name="uname"]').pressSequentially(ADMIN_USER);
+    await page.locator('input[name="upass"]').pressSequentially(ADMIN_PASS);
+    await page.locator('input[name="upass"]').press('Enter');
+    try {
+        await page.waitForFunction(() => Ext.ComponentQuery.query('app-main').length > 0, null, { timeout: 15000 });
+    } catch (e) {
+        throw new Error('Sikertelen belépés (hibás felhasználónév/jelszó, vagy nem fut az admin).');
+    }
+    await page.waitForTimeout(1500);
+}
+
+/** A fotózás alatt egy módosító kérésnek el kell akadnia. A settings/0 nem létezik, így
+ *  akkor sem történne kár, ha az írásvédelem hibás lenne. */
+async function writeProtectionSelfTest() {
+    current = '(önteszt)';
+    await page.evaluate(() => new Promise((resolve) => {
+        Ext.Ajax.request({ url: '/admin/settings/0', method: 'PUT', jsonData: { setting_value: 'x' }, callback: resolve });
+    }));
+    await h.closeDialogs();
+    if (!blocked.some((b) => b.scenario === current && b.method === 'PUT' && b.url.endsWith('/admin/settings/0'))) {
+        throw new Error('Az írásvédelem NEM működik: a PUT kérés átment!');
+    }
+    console.log('  ✓ írásvédelem: a PUT kérés blokkolva');
+}
+
+let exitCode = 0;
+try {
+    console.log(`Admin: ${ADMIN_URL}`);
+    await page.goto(ADMIN_URL);
+    await page.waitForFunction(() => window.Ext && Ext.ComponentQuery && Ext.ComponentQuery.query('login').length > 0, null, { timeout: 30000 });
+    // a browser-sync értesítője és az Ext toastok ("Nincs bejelentkezve" stb.) ne kerüljenek a képekre
+    await page.addStyleTag({ content: '#__bs_notify__, .x-toast { display: none !important; }' });
+    await page.waitForTimeout(800);
+
+    await run(beforeLogin);
+    await login();
+    await run(scenarios);
+
+    if (selftest) {
+        await writeProtectionSelfTest();
+    }
+} catch (e) {
+    console.error(`HIBA: ${e.message}`);
+    exitCode = 1;
+} finally {
+    await browser.close();
+}
+
+console.log(`\nKész. Hibás forgatókönyv: ${failures.length}, blokkolt kérés: ${blocked.length}, feldolgozási hiba: ${errors.length}`);
+if (errors.length) {
+    exitCode = 1;
+}
+if (failures.length) {
+    failures.forEach((f) => console.log(`  - ${f.name}: ${f.msg}`));
+    exitCode = 1;
+}
+process.exit(exitCode);

@@ -5,7 +5,8 @@ Ext.define('JBXAdmin.view.attributes.Attributes', {
     controller: 'attributescontroller',
 
     requires: [
-        'JBXAdmin.store.AttributeStore'
+        'JBXAdmin.store.AttributeStore',
+        'JBXAdmin.widget.ActionColumn'
     ],
 
     title: 'Attribútumok',
@@ -18,24 +19,13 @@ Ext.define('JBXAdmin.view.attributes.Attributes', {
         { text: 'ID', dataIndex: 'id', width: 80 },
         { text: 'Sorrend', dataIndex: 'position', width: 100 },
         { text: 'Név', dataIndex: 'name', flex: 1 },
-        {
-            width: 110,
-            cell: {
-                tools: {
-                    edit: {
-                        iconCls: 'x-fa fa-edit',
-                        tooltip: 'Átnevezés',
-                        handler: 'onEditItem'
-                    },
-                    delete: {
-                        iconCls: 'x-fa fa-trash',
-                        tooltip: 'Törlés',
-                        handler: 'onDeleteItem'
-                    }
-                }
-            }
-        }
+        { xtype: 'jbx-actioncolumn', action: 'edit', tooltip: 'Átnevezés', handler: 'onEditItem' },
+        { xtype: 'jbx-actioncolumn', action: 'delete', tooltip: 'Törlés', handler: 'onDeleteItem' }
     ],
+
+    listeners: {
+        childdoubletap: 'onItemDoubleTap'
+    },
 
     items: [{
         xtype: 'toolbar',

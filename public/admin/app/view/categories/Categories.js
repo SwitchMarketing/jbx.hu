@@ -5,7 +5,8 @@ Ext.define('JBXAdmin.view.categories.Categories', {
     controller: 'categoriescontroller',
 
     requires: [
-        'JBXAdmin.store.CategoryStore'
+        'JBXAdmin.store.CategoryStore',
+        'JBXAdmin.widget.ActionColumn'
     ],
 
     title: 'Kategóriák',
@@ -38,11 +39,11 @@ Ext.define('JBXAdmin.view.categories.Categories', {
                 xtype: 'gridcell',
                 encodeHtml: false,
                 renderer: function (value) {
-                    if (!value) return '<span style="color:#999;">Nincs kép</span>';
+                    if (!value) return '<span style="color:var(--disabled-color);">Nincs kép</span>';
                     var src = '/imgs/products/' + Ext.String.htmlEncode(value);
                     return '<a href="' + src + '" target="_blank" onclick="event.stopPropagation();" ' +
-                        'style="display:flex;align-items:center;gap:8px;color:#1677ff;text-decoration:none;">' +
-                        '<img src="' + src + '" style="width:36px;height:36px;object-fit:cover;border-radius:4px;border:1px solid #ddd;" />' +
+                        'style="display:flex;align-items:center;gap:8px;color:var(--base-color);text-decoration:none;">' +
+                        '<img src="' + src + '" style="width:36px;height:36px;object-fit:cover;border-radius:4px;border:1px solid var(--divider-color);" />' +
                         // '<span style="text-decoration:underline;">' + Ext.String.htmlEncode(value) + '</span>' +
                         '</a>';
                 }
@@ -65,31 +66,14 @@ Ext.define('JBXAdmin.view.categories.Categories', {
             align : 'center',
             dataIndex: 'order'
         },
-        {
-            width: 110,
-            hideable: false,
-            sortable: false,
-            cell: {
-                tools: {
-                    edit: {
-                        iconCls: 'x-fa fa-edit',
-                        tooltip: 'Szerkesztés',
-                        handler: 'onEditItem'
-                    },
-                    image: {
-                        iconCls: 'x-fa fa-image',
-                        tooltip: 'Borítókép feltöltése',
-                        handler: 'onUploadImageItem'
-                    },
-                    delete: {
-                        iconCls: 'x-fa fa-trash',
-                        tooltip: 'Törlés',
-                        handler: 'onDeleteItem'
-                    }
-                }
-            }
-        }
+        { xtype: 'jbx-actioncolumn', action: 'edit', tooltip: 'Szerkesztés', handler: 'onEditItem' },
+        { xtype: 'jbx-actioncolumn', action: 'image', tooltip: 'Borítókép feltöltése', handler: 'onUploadImageItem' },
+        { xtype: 'jbx-actioncolumn', action: 'delete', tooltip: 'Törlés', handler: 'onDeleteItem' }
     ],
+
+    listeners: {
+        childdoubletap: 'onItemDoubleTap'
+    },
 
     items: [{
         xtype: 'toolbar',

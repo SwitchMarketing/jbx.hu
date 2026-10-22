@@ -1,24 +1,40 @@
 .loginview {
 
-    $bg-login: $blue;
-
-
     .x-formpanel-body-el {
 
-        background-color: $bg-login;
+        background-color: $jbx-chrome-color;
 
-        .x-container {
+        .x-form-fieldset {
 
-            border: 1px solid $yellow;
-            border-radius: 5px;
-            background-color: $black;
-    
+            border: 1px solid $divider-color;
+            border-top: 3px solid $yellow;
+            border-radius: 6px;
+            background-color: $alt-background-color;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .45);
+
             .x-title {
                 padding: 10px;
+                color: $color;
+                font-weight: 600;
             }
-    
+
         }
 
-    }    
+        /** Letiltott állapotban is látszódjon a gomb felirata */
+        .x-button.x-disabled {
+            opacity: 1;
+
+            .x-inner-el {
+                background-color: $faded-color;
+                border-color: $faded-color;
+            }
+
+            .x-text-el,
+            .x-icon-el {
+                color: $disabled-color;
+            }
+        }
+
+    }
 
 }

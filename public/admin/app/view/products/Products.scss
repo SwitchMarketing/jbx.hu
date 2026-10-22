@@ -17,16 +17,16 @@
 }
 
 .jbx-state-active.x-button {
-    color: #28a745 !important;
+    color: $confirm-color !important;
     .x-icon-el {
-        color: #28a745 !important;
+        color: $confirm-color !important;
     }
 }
 
 .jbx-state-inactive.x-button {
-    color: #adb5bd !important;
+    color: $disabled-color !important;
     .x-icon-el {
-        color: #adb5bd !important;
+        color: $disabled-color !important;
     }
 }
 
@@ -34,28 +34,4 @@
     padding: 10px;
 }
 
-.variants-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background: #fff;
-}
-
-.variants-table th, .variants-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-.variants-table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-}
-
-.variants-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.variants-table tr:hover {
-    background-color: #f1f1f1;
-}
+/* A .variants-table stílusa az index.html-ben, a .jbx-paper alatt él. */

@@ -11,6 +11,8 @@
     <!-- Quill HTML editor -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <!-- Markdown (súgó) — helyi másolat, marked@12.0.2 -->
+    <script src="resources/lib/marked.min.js"></script>
 
     <!-- The line below must be kept intact for Sencha Cmd to build your application -->
     <script id="microloader" data-app="671471b1-c45b-44d9-8555-ea0161df3883" type="text/javascript">var Ext=Ext||{};Ext.manifest=Ext.manifest||'app.json';Ext=Ext||{};
@@ -97,7 +99,7 @@ rst.error=!0;return rst}};return Microloader}();Ext.manifest=Ext.manifest||'boot
         }
     
         body {
-            background-color: rgba(0, 0, 0, .6);
+            background-color: #121518;
         }
     
         #splash {
@@ -105,7 +107,7 @@ rst.error=!0;return rst}};return Microloader}();Ext.manifest=Ext.manifest||'boot
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: rgba(0,0,0,.7);
+            background: #121518;
             z-index: 999999;
         }
     
@@ -125,7 +127,7 @@ rst.error=!0;return rst}};return Microloader}();Ext.manifest=Ext.manifest||'boot
             position: absolute;
             width: 100%;
             height: 100%;
-            color: #fed;
+            color: #e6e9ec;
             text-align: center;
             font-family: sans-serif;
             font-size: 10px;
@@ -141,8 +143,8 @@ rst.error=!0;return rst}};return Microloader}();Ext.manifest=Ext.manifest||'boot
             height: 64px;
             margin: 8px;
             border-radius: 50%;
-            border: 2px solid #fed;
-            border-color: #fed transparent #fed transparent;
+            border: 2px solid #f2d22f;
+            border-color: #f2d22f transparent #f2d22f transparent;
             animation: lds-dual-ring 1.2s linear infinite;
         }
         @keyframes lds-dual-ring {
@@ -154,73 +156,78 @@ rst.error=!0;return rst}};return Microloader}();Ext.manifest=Ext.manifest||'boot
             }
         }
 
-        /* ---- Quill editor: dark theme ---- */
+        /* ---- Quill editor: sötét téma (a Material CSS-változóira kötve) ---- */
         .jbx-quill-wrap .ql-toolbar.ql-snow {
-            background: #21465b;
-            border: 1px solid #2d5876;
+            background: var(--alt-background-color, #20252a);
+            border: 1px solid var(--divider-color, #2e353c);
             border-bottom: 0;
+            border-radius: 4px 4px 0 0;
         }
-        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-stroke { stroke: #cfd8dc; }
-        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-fill   { fill: #cfd8dc; }
-        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label { color: #cfd8dc; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-stroke { stroke: #b9c1c8; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-fill   { fill: #b9c1c8; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label { color: #b9c1c8; }
         .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label::before,
-        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-item::before { color: #cfd8dc; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-item::before { color: #b9c1c8; }
         .jbx-quill-wrap .ql-toolbar.ql-snow button:hover .ql-stroke,
         .jbx-quill-wrap .ql-toolbar.ql-snow button.ql-active .ql-stroke,
         .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label:hover,
-        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label.ql-active { stroke: #8ecaff; color: #8ecaff; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow .ql-picker-label.ql-active { stroke: var(--base-color, #f2d22f); color: var(--base-color, #f2d22f); }
         .jbx-quill-wrap .ql-toolbar.ql-snow button:hover .ql-fill,
-        .jbx-quill-wrap .ql-toolbar.ql-snow button.ql-active .ql-fill { fill: #8ecaff; }
+        .jbx-quill-wrap .ql-toolbar.ql-snow button.ql-active .ql-fill { fill: var(--base-color, #f2d22f); }
         .jbx-quill-wrap .ql-container.ql-snow {
-            background: #1a2833;
-            border: 1px solid #2d5876;
+            background: var(--background-color, #1a1e22);
+            border: 1px solid var(--divider-color, #2e353c);
+            border-radius: 0 0 4px 4px;
         }
         .jbx-quill-wrap .ql-editor {
-            background: #1a2833;
-            color: #e8e8e8;
+            background: var(--background-color, #1a1e22);
+            color: var(--color, #e6e9ec);
             min-height: 200px;
         }
-        .jbx-quill-wrap .ql-editor a { color: #8ecaff; }
+        .jbx-quill-wrap .ql-editor a { color: var(--base-color, #f2d22f); }
         .jbx-quill-wrap .ql-editor blockquote {
-            border-left-color: #2d5876;
-            color: #b0bec5;
+            border-left-color: var(--faded-color, #3a424a);
+            color: var(--highlight-color, rgba(230,233,236,.62));
         }
         .jbx-quill-wrap .ql-editor code,
         .jbx-quill-wrap .ql-editor pre {
-            background: #0f1a22;
-            color: #e0f2ff;
+            background: #121518;
+            color: var(--color, #e6e9ec);
         }
-        .jbx-quill-wrap .ql-editor.ql-blank::before { color: #7a8a95; font-style: italic; }
+        .jbx-quill-wrap .ql-editor.ql-blank::before { color: var(--disabled-color, rgba(230,233,236,.36)); font-style: italic; }
         .jbx-quill-wrap .ql-snow .ql-picker-options {
-            background: #1a2833;
-            color: #e8e8e8;
-            border: 1px solid #2d5876;
+            background: var(--alt-background-color, #20252a);
+            color: var(--color, #e6e9ec);
+            border: 1px solid var(--divider-color, #2e353c);
         }
         .jbx-quill-wrap .ql-snow .ql-tooltip {
-            background: #21465b;
-            color: #e8e8e8;
-            border: 1px solid #2d5876;
+            background: var(--alt-background-color, #20252a);
+            color: var(--color, #e6e9ec);
+            border: 1px solid var(--divider-color, #2e353c);
             box-shadow: 0 2px 8px rgba(0,0,0,.4);
         }
         .jbx-quill-wrap .ql-snow .ql-tooltip input[type=text] {
-            background: #1a2833;
-            color: #e8e8e8;
-            border: 1px solid #2d5876;
+            background: var(--background-color, #1a1e22);
+            color: var(--color, #e6e9ec);
+            border: 1px solid var(--divider-color, #2e353c);
         }
-        .jbx-quill-wrap .ql-snow .ql-tooltip a { color: #8ecaff; }
+        .jbx-quill-wrap .ql-snow .ql-tooltip a { color: var(--base-color, #f2d22f); }
 
-        /* Edit-in-progress row highlight */
+        /* Szerkesztés alatt álló sor kiemelése */
         .x-gridrow.jbx-editing-row,
         .x-gridrow.jbx-editing-row .x-gridcell,
         .x-listitem.jbx-editing-row {
-            background-color: #21465b !important;
+            background-color: var(--selected-background-color, #38372a) !important;
             color: #fff !important;
         }
+        .x-gridrow.jbx-editing-row {
+            box-shadow: inset 3px 0 0 var(--base-color, #f2d22f);
+        }
 
-        /* ---- Product preview card + variants table (theme-aware) ---- */
+        /* ---- Termék előnézet kártya + variáns táblázat (az admin mindig sötét) ---- */
         .jbx-paper {
-            background: #fff;
-            color: #222;
+            background: var(--alt-background-color, #20252a);
+            color: var(--color, #e6e9ec);
             padding: 16px 20px;
             border-radius: 4px;
         }
@@ -231,7 +238,8 @@ rst.error=!0;return rst}};return Microloader}();Ext.manifest=Ext.manifest||'boot
         }
         .jbx-paper table.lead td {
             padding: 6px 8px;
-            border-bottom: 1px solid #eee;
+            color: var(--color, #e6e9ec);
+            border-bottom: 1px solid var(--divider-color, #2e353c);
             vertical-align: top;
         }
         .jbx-paper .variants-table {
@@ -241,68 +249,46 @@ rst.error=!0;return rst}};return Microloader}();Ext.manifest=Ext.manifest||'boot
         }
         .jbx-paper .variants-table th,
         .jbx-paper .variants-table td {
-            border: 1px solid #ddd;
+            background: var(--background-color, #1a1e22);
+            color: var(--color, #e6e9ec);
+            border: 1px solid var(--divider-color, #2e353c);
             padding: 8px 10px;
             text-align: left;
         }
         .jbx-paper .variants-table thead th {
-            background: #f5f5f5;
+            background: var(--header-background-color, #20252a);
+            color: #fff;
             font-weight: 600;
         }
+        .jbx-paper .variants-table tbody tr:nth-child(even) td {
+            background: var(--alt-background-color, #20252a);
+        }
 
-        @media (prefers-color-scheme: dark) {
-            .jbx-paper {
-                background: #2b2b2b;
-                color: #e0e0e0;
-            }
-            .jbx-paper table.lead td {
-                color: #e0e0e0;
-                border-bottom-color: #3a3a3a;
-            }
-            .jbx-paper .variants-table {
-                background: #2b2b2b;
-                color: #e0e0e0;
-            }
-            .jbx-paper .variants-table th,
-            .jbx-paper .variants-table td {
-                background: #2b2b2b;
-                color: #e0e0e0;
-                border-color: #3a3a3a;
-            }
-            .jbx-paper .variants-table thead th {
-                background: #1f1f1f;
-                color: #fff;
-            }
-            .jbx-paper .variants-table tbody tr:nth-child(even) td {
-                background: #323232;
-            }
-
-            /* ExtJS grid opted-in via userCls */
-            .jbx-themed-grid,
-            .jbx-themed-grid .x-gridrow,
-            .jbx-themed-grid .x-gridcell {
-                background-color: #2b2b2b !important;
-                color: #e0e0e0 !important;
-            }
-            .jbx-themed-grid .x-gridcell {
-                border-color: #3a3a3a !important;
-            }
-            .jbx-themed-grid .x-gridrow.x-selected,
-            .jbx-themed-grid .x-gridrow.x-selected .x-gridcell {
-                background-color: #3a3a3a !important;
-            }
-            .jbx-themed-grid .x-headercontainer,
-            .jbx-themed-grid .x-column-header,
-            .jbx-themed-grid .x-column-header .x-text-el {
-                background-color: #1f1f1f !important;
-                color: #e0e0e0 !important;
-                border-color: #3a3a3a !important;
-            }
-            .jbx-themed-grid input,
-            .jbx-themed-grid .x-input-el {
-                background-color: #1f1f1f !important;
-                color: #e0e0e0 !important;
-            }
+        /* userCls-sel bekapcsolt ExtJS grid */
+        .jbx-themed-grid,
+        .jbx-themed-grid .x-gridrow,
+        .jbx-themed-grid .x-gridcell {
+            background-color: var(--background-color, #1a1e22) !important;
+            color: var(--color, #e6e9ec) !important;
+        }
+        .jbx-themed-grid .x-gridcell {
+            border-color: var(--divider-color, #2e353c) !important;
+        }
+        .jbx-themed-grid .x-gridrow.x-selected,
+        .jbx-themed-grid .x-gridrow.x-selected .x-gridcell {
+            background-color: var(--selected-background-color, #38372a) !important;
+        }
+        .jbx-themed-grid .x-headercontainer,
+        .jbx-themed-grid .x-column-header,
+        .jbx-themed-grid .x-column-header .x-text-el {
+            background-color: var(--header-background-color, #20252a) !important;
+            color: var(--color, #e6e9ec) !important;
+            border-color: var(--divider-color, #2e353c) !important;
+        }
+        .jbx-themed-grid input,
+        .jbx-themed-grid .x-input-el {
+            background-color: #121518 !important;
+            color: var(--color, #e6e9ec) !important;
         }
     </style>
 </head>

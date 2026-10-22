@@ -16,11 +16,11 @@ table.lead {
         td {
 
             padding: 5px 3px;
-            border-bottom: 1px solid #525252;
+            border-bottom: 1px solid $divider-color;
             vertical-align: top;
 
             a {
-                color: #00bcd4;
+                color: $yellow;
             }
 
             &:first-child {

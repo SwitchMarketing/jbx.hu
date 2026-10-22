@@ -21,7 +21,8 @@ Ext.define('JBXAdmin.view.main.Main', {
         'JBXAdmin.view.products.Products',
         'JBXAdmin.view.categories.Categories',
         'JBXAdmin.view.attributes.Attributes',
-        'JBXAdmin.view.settings.Settings'
+        'JBXAdmin.view.settings.Settings',
+        'JBXAdmin.view.help.Help'
     ],
 
     layout : 'fit',
@@ -59,6 +60,10 @@ Ext.define('JBXAdmin.view.main.Main', {
                 {
                     xtype: 'app-settings',
                     iconCls: 'x-fa fa-cog'
+                },
+                {
+                    xtype: 'app-help',
+                    iconCls: 'x-fa fa-question-circle'
                 }
             ]
         },

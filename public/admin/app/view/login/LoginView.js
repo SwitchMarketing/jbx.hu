@@ -74,7 +74,7 @@ Ext.define('JBXAdmin.view.login.LoginView', {
                             iconAlign       : 'left',
                             iconCls         : 'x-fa fa-unlock',
                             flex            : 1,
-                            ui              : 'confirm',
+                            ui              : 'action',
                             handler         : 'onLoginTap',
                             disabled        : true
                         }
