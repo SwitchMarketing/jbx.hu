@@ -30,6 +30,7 @@ class BuildPage {
             'devicetype'   => ($agent->isMobile())                                      ? 'mobile'              : 'desktop',
             'googleVerify' => getenv('GOOGLE_SITE_VERIFICATION') ?? '',
             'gtmId'        => getenv('GTM_ID') ?? '',
+            'gtagId'       => getenv('GTAG_ID') ?? '',
             'gmapApiKey'   => getenv('GMAP_API_KEY') ?? '',
             'fbVerify'     => getenv('FB_DOMAIN_VERIFICATION') ?? '',
             'fbPixel'      => getenv('FB_PIXEL_ID') ?? '',
