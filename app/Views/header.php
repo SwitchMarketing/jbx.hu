@@ -30,6 +30,7 @@
 <?php echo view('inc/consent-head') ?>
 <?php echo view('inc/consent-default') ?>
 <?php echo view('inc/gtm-head') ?>
+<?php echo view('inc/gtag-head') ?>
 <?php echo view('inc/fbpixel-head') ?>
 </head>
 <body class="<?=$section,' ',$devicetype?>">
